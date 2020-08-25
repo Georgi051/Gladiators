@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Set;
 
 
+@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
