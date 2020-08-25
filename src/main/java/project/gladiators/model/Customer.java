@@ -26,7 +26,7 @@ public class Customer extends User{
     @OneToOne
     private NutritionGoal nutritionGoal;
 */
-    @OneToMany(mappedBy = "author"
+    @OneToMany(mappedBy = "customer"
             ,cascade = CascadeType.ALL
             ,orphanRemoval = true
             ,fetch = FetchType.EAGER)
@@ -43,8 +43,6 @@ public class Customer extends User{
 
     @OneToOne
     private ProgressChart progressChart;
-    @Override
-    public Set<Role> getAuthorities() {
-        return super.getAuthorities();
-    }
+
+
 }

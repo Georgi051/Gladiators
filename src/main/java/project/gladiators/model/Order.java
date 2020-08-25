@@ -21,7 +21,7 @@ public class Order extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id")
-    private Customer author;
+    private Customer customer;
 
 
     private LocalDateTime madeOn;

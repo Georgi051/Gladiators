@@ -23,5 +23,5 @@ public class Article extends BaseEntity {
     private LocalDateTime addedOn;
 
     @ManyToOne
-    private Customer author;
+    private Customer customer;
 }
