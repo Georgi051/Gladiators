@@ -38,6 +38,5 @@ public class Customer extends BaseEntity{
     @OneToOne
     private User user;
 
-//    @ManyToOne
-//    private TrainingPlan trainingPlan;
+
 }

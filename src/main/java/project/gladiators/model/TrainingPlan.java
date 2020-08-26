@@ -28,6 +28,7 @@ public class TrainingPlan extends BaseEntity{
     @ManyToMany(cascade = CascadeType.MERGE,
     fetch = FetchType.EAGER)
     private List<Exercise> exercises;
+
     @OneToMany
     private Set<Customer> customers;
 
