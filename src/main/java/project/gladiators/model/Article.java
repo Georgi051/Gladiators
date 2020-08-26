@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class Article extends BaseEntity {
-
     
     @Column
     private String title;
