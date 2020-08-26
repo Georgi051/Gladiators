@@ -8,6 +8,7 @@ import project.gladiators.model.enums.TrainingPlanType;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "training_plans")
@@ -27,5 +28,7 @@ public class TrainingPlan extends BaseEntity{
     @ManyToMany(cascade = CascadeType.MERGE,
     fetch = FetchType.EAGER)
     private List<Exercise> exercises;
+    @OneToMany
+    private Set<Customer> customers;
 
 }

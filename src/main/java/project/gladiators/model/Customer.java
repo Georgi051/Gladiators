@@ -15,17 +15,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Customer extends User{
+public class Customer extends BaseEntity{
 
-
-  /*  @Column(name = "body_goal")
-    @OneToOne
-    private BodyGoal bodyGoal;
-
-    @Column(name = "nutrition_goal")
-    @OneToOne
-    private NutritionGoal nutritionGoal;
-*/
     @OneToMany(mappedBy = "customer"
             ,cascade = CascadeType.ALL
             ,orphanRemoval = true
@@ -44,5 +35,9 @@ public class Customer extends User{
     @OneToOne
     private ProgressChart progressChart;
 
+    @OneToOne
+    private User user;
 
+//    @ManyToOne
+//    private TrainingPlan trainingPlan;
 }

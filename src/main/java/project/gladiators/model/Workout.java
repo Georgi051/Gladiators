@@ -10,19 +10,17 @@ import java.util.List;
 
 
 @Entity
-@Table
+@Table(name = "workouts")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Workout extends BaseEntity {
 
-
     @ManyToMany
     private List<Exercise> exercises;
 
 
-    @ManyToOne
-    private Customer author;
 
+    @Column
     private LocalDateTime registeredOn;
 }

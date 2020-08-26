@@ -18,10 +18,12 @@ public class Logger extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Action action;
 
+    @Column
     private String description;
 
+    @Column(name = "made_on")
     private LocalDateTime madeOn;
 
     @ManyToOne
-    private Customer customer;
+    private User user;
 }

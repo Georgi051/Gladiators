@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
@@ -16,11 +13,12 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Trainer extends User{
+public class Trainer extends BaseEntity{
 
     @Column(name = "years_of_experience", nullable = false)
     private int yearsOfExperience;
 
+    @Column
     private String description;
 
     @OneToMany
@@ -28,5 +26,9 @@ public class Trainer extends User{
 
     @OneToMany
     private List<TrainingPlan> trainingPlans;
+
+
+    @OneToOne
+    private User user;
 
 }

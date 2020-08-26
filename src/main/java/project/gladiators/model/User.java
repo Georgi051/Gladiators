@@ -13,7 +13,8 @@ import java.util.Collection;
 import java.util.Set;
 
 
-@MappedSuperclass
+@Entity
+@Table(name= "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -46,6 +47,9 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "age", nullable = false)
     private int age;
+
+    @Column
+    private boolean isTrainer = false;
 
     @ManyToMany
     @JoinTable(name = "users_roles"

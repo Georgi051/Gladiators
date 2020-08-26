@@ -15,18 +15,19 @@ import java.util.List;
 @NoArgsConstructor
 public class Product extends BaseEntity {
 
+    @Column
     private String name;
 
+    @Column(name = "manufacturer_name")
     private String manufacturerName;
 
+    @Column
     private BigDecimal price;
 
     @OneToMany
     List<Review> reviews;
 
+    @Column
     String description;
-
-
-
 
 }

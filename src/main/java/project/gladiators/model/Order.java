@@ -20,10 +20,12 @@ public class Order extends BaseEntity {
     private List<Product> products;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
     private Customer customer;
 
+    @ManyToOne
+    private Trainer trainer;
 
+    @Column
     private LocalDateTime madeOn;
 
 }
