@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head}">
+
+</head>
+
+<body id="page-top">
+   <th:block th:insert="~{fragments/nav/nav-unauthenticated}">
+
+   </th:block>
+    <header class="masthead" >
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in"><span>Welcome To Gladiators!</span></div>
+                <div class="intro-heading text-uppercase"><span>Where your dreams come real</span></div><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" role="button" href="#services">More</a></div>
+        </div>
+    </header>
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading">Our Services</h2>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4"><span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i></span>
+                    <h4 class="section-heading">Shop</h4>
+                    <p class="text-muted">In our shop you can find the best products that will help you reach your goals</p>
+                </div>
+                <div class="col-md-4"><span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fas fa-dumbbell fa-stack-1x fa-inverse"></i></span>
+                    <h4 class="section-heading">Exclusive training programs</h4>
+                    <p class="text-muted">We have training programs that will maximize your results whatever you want to build muscle/lose fat</p>
+                </div>
+                <div class="col-md-4"><span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fas fa-chalkboard-teacher fa-stack-1x fa-inverse"></i></span>
+                    <h4 class="section-heading">Personalized trainers</h4>
+                    <p class="text-muted">You can get help from our trainers to get maximum of your efforts</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 60px;">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading" style="font-family: ABeeZee, sans-serif;font-weight: 700;">And many more...</h2>
+                    <h3 class="text-muted section-subheading"></h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="portfolio" class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading">Check them</h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" data-toggle="modal" th:href="@{/shop}">
+                        <div class="portfolio-hover">
+                           
+                        </div><img class="img-fluid" th:src="@{/img/pexels-artem-beliaikin-1115600.jpg}"></a>
+                    <div class="portfolio-caption">
+                        <h4>Shop</h4>
+                        <p class="text-muted">Our shop</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" data-toggle="modal" th:href="@{/programs}">
+                        <div class="portfolio-hover">
+                        </div><img class="img-fluid" th:src="@{/img/pexels-victor-freitas-841130.jpg}"></a>
+                    <div class="portfolio-caption">
+                        <h4>Training programs</h4>
+                        <p class="text-muted">Our training programs</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" data-toggle="modal" th:href="@{/trainers}">
+                        <div class="portfolio-hover">
+                          
+                        </div><img class="img-fluid" th:src="@{/img/pexels-anush-gorak-1431282.jpg}"></a>
+                    <div class="portfolio-caption">
+                        <h4>Trainers</h4>
+                        <p class="text-muted">Our trainers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div>
+        <div class="header-blue" style="filter: blur(0px);opacity: 1;">
+            <div class="container hero">
+                <div class="row">
+                    <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
+                        <h1>Our mission is your best version</h1>
+                        <p>We believe that everyone needs to develop and&nbsp; to be&nbsp; better version of himself</p><a class="btn btn-light btn-lg action-button" href="#">Start now..</a></div>
+                    <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
+                        <div class="female-draw"><img th:src="@{/img/297354.png}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <th:block th:insert="~{fragments/footer/footer-unauthenticated}">
+
+   </th:block>
+
+<th:block th:insert="~{fragments/scripts}">
+
+</th:block>
+</body>
+
+</html>

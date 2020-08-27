@@ -1,11 +1,12 @@
 <html lang="en"
       xmlns:th="https://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" type="text/css" href="/css/reset-css.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+<head th:insert="~{fragments/head}">
+
 </head>
 <body>
+
+<th:block th:insert="~{fragments/nav/nav-unauthenticated}"></th:block>
+
 <div class="container-fluid">
 
     <main class="mt-3">
@@ -28,5 +29,9 @@
     </main>
 
 </div>
+
+    <th:block th:insert="~{fragments/footer/footer-unauthenticated}">
+
+    </th:block>
 </body>
 </html>
