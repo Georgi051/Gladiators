@@ -1,4 +1,4 @@
-package project.gladiators.model;
+package project.gladiators.model.entities;
 
 
 import lombok.AllArgsConstructor;

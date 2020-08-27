@@ -1,15 +1,13 @@
-package project.gladiators.model;
+package project.gladiators.model.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.gladiators.model.enums.Gender;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Set;
 
 
@@ -45,7 +43,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "gender", updatable = false)
     private Gender gender;
 
-    @Column(name = "age", nullable = false)
+    @Column(name = "age")
     private int age;
 
     @Column
