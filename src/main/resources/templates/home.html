@@ -2,7 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
-    <th:block th:include="~{fragments/head}"></th:block>
+    <link rel="stylesheet" type="text/css" href="/css/reset-css.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 <div class="jumbotron text-center">
@@ -23,13 +25,16 @@
         <div class="col-sm-4">
             <!-- TRAINING PLAN -->
             <article>
-                <h3>Your Training plan<br />
+                <h3>Your Training plan<br/>
                     <small>some training plan</small>
-                    <img src="https://softsmart.co.za/wp-content/uploads/2018/06/image-not-found-1038x576.jpg" weight="120px" height="120px">
+                    <img src="https://softsmart.co.za/wp-content/uploads/2018/06/image-not-found-1038x576.jpg"
+                         weight="120px" height="120px">
                 </h3>
-                <br><hr>
+                <br>
+                <hr>
                 <div class="text-center">
-                    <a class="btn btn-success" href="#" data-toggle="modal"><i class="glyphicon glyphicon-eye-open"></i>Activate now</a>
+                    <a class="btn btn-success" href="#" data-toggle="modal"><i class="glyphicon glyphicon-eye-open"></i>Activate
+                        now</a>
                 </div>
             </article>
         </div>
@@ -44,7 +49,7 @@
                     <h3>Progress chart</h3>
                     <div class="input-container">
                         <div class="row">
-                <span class="req-input" >
+                <span class="req-input">
                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your weight"> </span>
                     <input type="text" data-min-length="8" placeholder="Weight">
                 </span>
@@ -99,12 +104,12 @@
         <div class="form-container col-sm-3" data-form-container>
             <h3>BMI Calculator</h3>
             <form name="bmiForm">
-                Weight(kg): <input type="text" name="weight" size="10"><br />
-                Height(cm): <input type="text" name="height" size="10"><br />
-                <input class="btn-primary" type="button" value="Calculate BMI" onClick="bmiCalculator()"><br />
-                BMI: <input type="text" name="bmi" size="10"><br />
-                Means: <input type="text" name="meaning" size="25"><br />
-                <input class="btn-primary"type="reset" value="Reset" />
+                Weight(kg): <input type="text" name="weight" size="10"><br/>
+                Height(cm): <input type="text" name="height" size="10"><br/>
+                <input class="btn-primary" type="button" value="Calculate BMI" onClick="bmiCalculator()"><br/>
+                BMI: <input type="text" name="bmi" size="10"><br/>
+                Means: <input type="text" name="meaning" size="25"><br/>
+                <input class="btn-primary" type="reset" value="Reset"/>
             </form>
         </div>
         <!-- END BMI CALCULATOR -->
