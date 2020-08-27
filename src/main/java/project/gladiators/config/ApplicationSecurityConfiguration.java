@@ -1,5 +1,6 @@
 package project.gladiators.config;
 
+import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +25,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/", "/users/login", "/users/register").anonymous()
                 .antMatchers("/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
-             .and()
+                .and()
                 .formLogin()
                 .loginPage("/users/login").permitAll()
                 .usernameParameter("username")
@@ -34,7 +36,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .logoutSuccessUrl("/").permitAll()
              .and()
                 .exceptionHandling()
-                .accessDeniedPage("/");
+                .accessDeniedPage("/")
+                ;
     }
 
     private CsrfTokenRepository csrfTokenRepository() {

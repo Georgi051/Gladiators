@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Home</title>
+    <th:block th:include="~{fragments/head}"></th:block>
 </head>
 <body>
-$END$
+<div class="jumbotron text-center">
+    <h1>About Us</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Praesent malesuada est suscipit metus tempor, ac ullamcorper turpis pulvinar.
+        Nullam vitae suscipit turpis. Sed mauris eros, fermentum eget cursus ac,
+        ultricies eget sem. Cras congue, diam eget dapibus rutrum, justo nisi rhoncus ante,
+        ac finibus nulla ex ac libero. Suspendisse ac nisi porta, placerat eros eu, maximus erat.
+        Praesent eleifend sollicitudin mauris, non volutpat velit elementum rhoncus.
+        Aenean sit amet enim id magna dapibus finibus. Vivamus mollis ante at quam luctus rutrum sed eget odio.
+        Nulla sed vestibulum velit, tempor sagittis enim.
+    </p>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <!-- TRAINING PLAN -->
+            <article>
+                <h3>Your Training plan<br />
+                    <small>some training plan</small>
+                    <img src="https://softsmart.co.za/wp-content/uploads/2018/06/image-not-found-1038x576.jpg" weight="120px" height="120px">
+                </h3>
+                <br><hr>
+                <div class="text-center">
+                    <a class="btn btn-success" href="#" data-toggle="modal"><i class="glyphicon glyphicon-eye-open"></i>Activate now</a>
+                </div>
+            </article>
+        </div>
+
+        <!-- END TRAINING PLAN -->
+
+        <!-- PROGRESS CHART -->
+        <div class="col-sm-4">
+
+            <form>
+                <div id="contact-form" class="form-container" data-form-container>
+                    <h3>Progress chart</h3>
+                    <div class="input-container">
+                        <div class="row">
+                <span class="req-input" >
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your weight"> </span>
+                    <input type="text" data-min-length="8" placeholder="Weight">
+                </span>
+                        </div>
+                        <div class="row">
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your height"> </span>
+                    <input type="text" placeholder="Height">
+                </span>
+                        </div>
+                        <div class="row">
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your BMI"> </span>
+                    <input type="text" placeholder="BMI">
+                </span>
+                        </div>
+                        <div class="row">
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your chest"> </span>
+                    <input type="text" placeholder="Chest">
+                </span>
+                        </div>
+                        <div class="row">
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your waist"> </span>
+                    <input type="text" placeholder="Waist">
+                </span>
+                        </div>
+                        <div class="row">
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your biceps"> </span>
+                    <input type="text" placeholder="Biceps">
+                </span>
+                        </div>
+                        <div class="row">
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your thigh"> </span>
+                    <input type="text" placeholder="Thigh">
+                </span>
+                        </div>
+                        <div class="row submit-row">
+                            <button type="button" class="btn btn-block submit-form">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- END PROGRESS CHART -->
+
+
+        <!-- BMI CALCULATOR -->
+        <div class="form-container col-sm-3" data-form-container>
+            <h3>BMI Calculator</h3>
+            <form name="bmiForm">
+                Weight(kg): <input type="text" name="weight" size="10"><br />
+                Height(cm): <input type="text" name="height" size="10"><br />
+                <input class="btn-primary" type="button" value="Calculate BMI" onClick="bmiCalculator()"><br />
+                BMI: <input type="text" name="bmi" size="10"><br />
+                Means: <input type="text" name="meaning" size="25"><br />
+                <input class="btn-primary"type="reset" value="Reset" />
+            </form>
+        </div>
+        <!-- END BMI CALCULATOR -->
+    </div>
+</div>
+
 </body>
 </html>

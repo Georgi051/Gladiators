@@ -49,7 +49,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column
     private boolean isTrainer = false;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles"
             ,joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id")
             ,inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
