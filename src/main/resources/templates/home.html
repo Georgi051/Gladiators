@@ -104,11 +104,23 @@
         <div class="form-container col-sm-3" data-form-container>
             <h3>BMI Calculator</h3>
             <form name="bmiForm">
-                Weight(kg): <input type="text" name="weight" size="10"><br/>
-                Height(cm): <input type="text" name="height" size="10"><br/>
-                <input class="btn-primary" type="button" value="Calculate BMI" onClick="bmiCalculator()"><br/>
-                BMI: <input type="text" name="bmi" size="10"><br/>
-                Means: <input type="text" name="meaning" size="25"><br/>
+                 <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your weight"> </span>
+                    <input type="text" name="weight" placeholder="Weight">
+                </span>
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your height"> </span>
+                    <input type="text" name="height" placeholder="Height">
+                </span>
+                <input class="btn-primary" type="button" value="Calculate BMI" th:onclick="bmiCalculator()"><br/>
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your BMI"> </span>
+                    <input type="text" name="bmi" placeholder="BMI">
+                </span>
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your result"> </span>
+                    <input type="text" name="meaning" placeholder="Result">
+                </span>
                 <input class="btn-primary" type="reset" value="Reset"/>
             </form>
         </div>
@@ -116,8 +128,8 @@
     </div>
 </div>
 <th:block th:insert="~{fragments/footer/footer-unauthenticated}">
-
 </th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
 
 </body>
 </html>

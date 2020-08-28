@@ -10,7 +10,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView login() {
+    public ModelAndView getHome() {
         return super.view("home");
     }
 }

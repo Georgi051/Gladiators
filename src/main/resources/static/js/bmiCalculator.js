@@ -1,5 +1,5 @@
 function bmiCalculator() {
-    var weight = document.bmiForm.weight.value;
+    let weight = document.bmiForm.weight.value;
     var height = document.bmiForm.height.value;
     if(weight > 0 && height > 0){ 
     var finalBmi = weight/(height/100*height/100);

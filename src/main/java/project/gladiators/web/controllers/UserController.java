@@ -11,6 +11,8 @@ import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/users")
 public class UserController extends BaseController {
@@ -44,4 +46,5 @@ public class UserController extends BaseController {
     public ModelAndView login() {
         return super.view("login");
     }
+
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container"><a class="navbar-brand" href="/">Gladiators</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse"
              id="navcol-1">
@@ -8,6 +8,10 @@
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}">Trainers</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/articles}">Articles</a></li>
                 <!--                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>-->
-            </ul><span class="navbar-text actions"> <a class="login" th:href="@{/users/login}">Log In</a><a class="btn btn-light action-button" role="button" th:href="@{/users/register}">Register</a></span></div>
+            </ul>
+            <span class="navbar-text actions">
+                <a class="login" th:href="@{/users/login}">Log In</a>
+            <a class="btn btn-light action-button" role="button" th:href="@{/users/register}">Register</a>
+            </span></div>
     </div>
 </nav>

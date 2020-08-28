@@ -24,7 +24,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/users/login", "/users/register").anonymous()
-                .antMatchers("/css/**", "/js/**","/img/**","/font/**").permitAll()
+                .antMatchers("/css/**", "/js/**","/font/**","/img/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -32,13 +32,12 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")
-             .and()
+                .and()
                 .logout()
                 .logoutSuccessUrl("/").permitAll()
-             .and()
+                .and()
                 .exceptionHandling()
-                .accessDeniedPage("/")
-                ;
+                .accessDeniedPage("/");
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
