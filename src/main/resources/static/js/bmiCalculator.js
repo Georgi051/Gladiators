@@ -10,8 +10,11 @@ function bmiCalculator() {
     if(finalBmi > 18.5 && finalBmi < 25){
     document.bmiForm.meaning.value = "You are healthy.";
     }
-    if(finalBmi > 25){
+    if(finalBmi > 25 && finalBmi < 30){
     document.bmiForm.meaning.value = "You have overweight.";
+    }
+    if (finalBmi >= 30){
+        document.bmiForm.meaning.value = "You are obese.";
     }
     }
     else{
