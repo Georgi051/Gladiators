@@ -1,0 +1,50 @@
+<th:block xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" >
+        <div class="container"><a class="navbar-brand" th:href="@{/}">Gladiators</a>
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                    class="navbar-toggler-icon"></span></button>
+            <div  class="collapse navbar-collapse"
+                 id="navcol-1">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}" th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}">Shop</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}">Trainers</a>
+                    </li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/articles}">Articles</a>
+                    </li>
+                    <!--                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>-->
+                </ul>
+
+
+                <div sec:authorize="isAuthenticated()" class="dropdown  border rounded" style="margin-right: 30px;">
+                    <a
+                            class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
+                            sec:authentication="name"></a>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" role="presentation"
+                           th:href="@{/users/profile/{id}(id=${#authentication.getPrincipal().getUsername()})}">Profile</a>
+                        <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item" role="presentation"
+                           th:href="@{/admin/user-roles}">Admin Panel</a></div>
+                </div>
+
+
+                <span class="navbar-text actions">
+                    <th:block sec:authorize="isAnonymous()">
+                                <a class="login" th:href="@{/users/login}">Log In</a>
+                                <a class="btn btn-light action-button" role="button" th:href="@{/users/register}">Register</a>
+                    </th:block>
+
+                    <th:block sec:authorize="isAuthenticated()">
+                        <form th:method="post" th:action="@{/users/logout}">
+                        <button class="btn btn-light action-button" role="button" type="submit">Logout</button>
+                        </form>
+                    </th:block>
+
+            </span>
+            </div>
+        </div>
+    </nav>
+</th:block>
