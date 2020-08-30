@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head th:insert="~{fragments/head}">
+
+</head>
+
+<body>
+<th:block th:insert="~{fragments/nav}"></th:block>
+
+<div class="article-list">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Latest Articles</h2>
+            <p class="text-center">Our latest articles. </p>
+        </div>
+        <div class="row articles">
+            <div class="col-sm-6 col-md-4 item" th:each="article:${articles}">
+                <a th:href="@{/articles/{id}(id=${article.id})}">
+                    <img class="img-fluid" th:src="${article.imageUrl}">
+                </a>
+                <h3 th:text="${article.title}" class="name"></h3>
+                <p th:text="${#strings.substring(article.description,0,30)+'...'}" class="description"></p>
+                <p class="text-center" th:text="${#temporals.format(article.addedOn, 'dd-MM-yyyy HH:mm:ss')}"></p>
+                <a
+                        class="action" th:href="@{/articles/{id}(id=${article.id})}"><i class="fa fa-arrow-circle-right"></i></a>
+                <a class="btn btn-primary rounded-pill w-25 " type="button"
+                th:href="@{/articles/delete/{id}(id=${article.id})}" sec:authorize="hasAnyRole('ROOT','ADMIN','MODERATOR')"
+                >Delete</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+    <th:block th:insert="~{fragments/footer}">
+
+    </th:block>
+
+    <th:block th:insert="~{fragments/scripts}">
+
+    </th:block>
+</body>
+
+
+</html>

@@ -1,5 +1,6 @@
 package project.gladiators.model.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Article extends BaseEntity {
 
     @Column
@@ -25,6 +27,9 @@ public class Article extends BaseEntity {
 
     @Column(name = "added_on")
     private LocalDateTime addedOn;
+
+    @Column
+    private String imageUrl;
 
     @ManyToOne
     private User user;
