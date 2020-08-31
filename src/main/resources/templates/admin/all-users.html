@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:insert="~{fragments/nav}">
+    </th:block>
+</header>
+
+<main class="container mt-4">
+    <hr class="hr-2 bg-dark w-100 flex-row">
+
+    <div class="table-responsive">
+        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">All users</span></h1>
+        <hr class="hr-2 bg-dark w-100 flex-row">
+
+
+        <table class="table table-hover w-100 mx-auto flex-row"
+               th:each="u : ${users}" th:object="${u}">
+            <form
+                  th:action="@{/users/all/(id = ${u.id})}" th:method="post" >
+
+                <thead >
+                <tr class="row mx-auto">
+                    <th class="col-md-4 text-center font-weight-bold">Username</th>
+                    <th class="col-md-3 text-center font-weight-bold">Email</th>
+                    <th class="col-md-5 text-center font-weight-bold">Change role</th>
+                </tr>
+
+                <tr class="row mx-auto">
+                    <th class="col-md-4 text-center font-weight-bold" th:text="${u.username}"></th>
+                    <th class="col-md-3 text-center font-weight-bold" th:text="${u.email}"></th>
+                    <th class="col-md-3 text-center font-weight-bold" >
+                        <select class="browser-default custom-select" id="role" name="role">
+                            <option value="">SELECT ROLE</option>
+                            <option value="ROLE_USER">USER</option>
+                            <option value="ROLE_MODERATOR">MODERATOR</option>
+                            <option value="ROLE_ADMIN">ADMIN</option>
+
+                        </select>
+                    </th>
+                    <th class="col-md-2 text-center font-weight-bold" >
+                    <button type="submit" class="btn-group-vertical mb-3">Change</button>
+                    </th>
+
+                </tr>
+
+            </form>
+            </tbody>
+        </table>
+
+
+    </div>
+</main>
+
+
+<th:block th:insert="~{fragments/footer}">
+ </th:block>
+ <th:block th:insert="~{fragments/scripts}"></th:block>
+</body>
+</html>
