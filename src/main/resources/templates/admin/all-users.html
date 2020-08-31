@@ -13,7 +13,7 @@
     <hr class="hr-2 bg-dark w-100 flex-row">
 
     <div class="table-responsive">
-        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">All users</span></h1>
+        <h1 class="text-center mt-2"><span class="badge badge-info">All users</span></h1>
         <hr class="hr-2 bg-dark w-100 flex-row">
 
 
@@ -24,15 +24,16 @@
 
                 <thead >
                 <tr class="row mx-auto">
-                    <th class="col-md-4 text-center font-weight-bold">Username</th>
-                    <th class="col-md-3 text-center font-weight-bold">Email</th>
-                    <th class="col-md-5 text-center font-weight-bold">Change role</th>
+                    <th class="col-md-3 text-center font-weight-bold">Username</th>
+                    <th class="col-md-2 text-center font-weight-bold">Email</th>
+                    <th class="col-md-4 text-center font-weight-bold">Change role</th>
+                    <th class="col-md-3 text-center font-weight-bold">BAN</th>
                 </tr>
 
                 <tr class="row mx-auto">
-                    <th class="col-md-4 text-center font-weight-bold" th:text="${u.username}"></th>
-                    <th class="col-md-3 text-center font-weight-bold" th:text="${u.email}"></th>
-                    <th class="col-md-3 text-center font-weight-bold" >
+                    <th class="col-md-3 text-center font-weight-bold" th:text="${u.username}"></th>
+                    <th class="col-md-2 text-center font-weight-bold" th:text="${u.email}"></th>
+                    <th class="col-md-2 text-center font-weight-bold" >
                         <select class="browser-default custom-select" id="role" name="role">
                             <option value="">SELECT ROLE</option>
                             <option value="ROLE_USER">USER</option>
@@ -42,7 +43,10 @@
                         </select>
                     </th>
                     <th class="col-md-2 text-center font-weight-bold" >
-                    <button type="submit" class="btn-group-vertical mb-3">Change</button>
+                       <button type="submit" class="btn-group-vertical mb-3 btn-success">Change</button>
+                    </th>
+                    <th class="col-md-3 text-center font-weight-bold" >
+                        <a th:href="@{/users/ban/(id = ${u.id})}" class="btn-group-vertical action-button mb-3 btn-danger">BAN</a>
                     </th>
 
                 </tr>
@@ -55,9 +59,9 @@
     </div>
 </main>
 
-
 <th:block th:insert="~{fragments/footer}">
  </th:block>
  <th:block th:insert="~{fragments/scripts}"></th:block>
+
 </body>
 </html>

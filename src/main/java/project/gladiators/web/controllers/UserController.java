@@ -86,4 +86,16 @@ public class UserController extends BaseController {
                 .getAllUsers());
         return view("admin/all-users", modelAndView);
     }
+
+    @GetMapping("/ban")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView banUser(@RequestParam("id") String id,
+                                ModelAndView modelAndView){
+
+        this.userService
+                .banUser(id);
+
+        modelAndView.addObject("users", this.userService.getAllUsers());
+        return view("admin/all-users", modelAndView);
+    }
 }

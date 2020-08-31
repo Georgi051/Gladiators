@@ -30,6 +30,7 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository.saveAndFlush(new Role("ROLE_USER"));
         this.roleRepository.saveAndFlush(new Role("ROLE_TRAINER"));
         this.roleRepository.saveAndFlush(new Role("ROLE_CUSTOMER"));
+        this.roleRepository.saveAndFlush(new Role("ROLE_BANNED"));
     }
 
     @Override

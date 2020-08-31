@@ -15,4 +15,6 @@ public interface UserService  extends UserDetailsService {
     UserServiceModel findById(String id);
 
     void addRoleToUser(UserServiceModel userServiceModel, RoleServiceModel roleServiceModel);
+
+    void banUser(String id);
 }

@@ -21,6 +21,7 @@
                 <label for="password" class="font-weight-bold">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password..." name="password">
             </div>
+
             <th:block th:if="${param.error}">
                 <span style="color: #a71004">Wrong username or password!</span>
             </th:block>
