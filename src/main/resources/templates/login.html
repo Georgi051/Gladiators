@@ -21,12 +21,18 @@
                 <label for="password" class="font-weight-bold">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password..." name="password">
             </div>
+            <th:block th:if="${param.error}">
+                <span style="color: #a71004">Wrong username or password!</span>
+            </th:block>
             <hr class="hr-2 bg-dark">
             <div class="button-holder d-flex justify-content-center">
                 <button type="submit" class="btn btn-dark">Login</button>
             </div>
+
         </form>
+
     </main>
+
 
 </div>
 

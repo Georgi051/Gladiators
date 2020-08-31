@@ -27,7 +27,7 @@
                         <a class="dropdown-item" role="presentation"
                            th:href="@{/users/profile/{id}(id=${#authentication.getPrincipal().getUsername()})}">Profile</a>
                         <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item" role="presentation"
-                           th:href="@{/admin/user-roles}">Admin Panel</a></div>
+                           th:href="@{/users/all}">Admin Panel</a></div>
                 </div>
 
 

@@ -64,7 +64,7 @@ public class UserController extends BaseController {
         return "admin/all-users";
     }
 
-    @PostMapping("/all-users")
+    @PostMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView changeUserRole(@RequestParam("id") String id,
                                        ModelAndView modelAndView,
