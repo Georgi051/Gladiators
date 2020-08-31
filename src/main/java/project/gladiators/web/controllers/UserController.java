@@ -4,11 +4,14 @@ package project.gladiators.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 
 import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import javax.servlet.http.HttpSession;
@@ -47,4 +50,40 @@ public class UserController extends BaseController {
         return super.view("login");
     }
 
+    @GetMapping("/logout")
+    public ModelAndView logout(HttpSession httpSession){
+        httpSession.invalidate();
+        return view("index");
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String getAllUsers(Model model){
+
+        model.addAttribute("users", this.userService.getAllUsers());
+        return "admin/all-users";
+    }
+
+    @PostMapping("/all-users")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView changeUserRole(@RequestParam("id") String id,
+                                       ModelAndView modelAndView,
+                                       RoleChangeBindingModel roleChangeBindingModel){
+
+        UserServiceModel user = this.userService
+                .findById(id);
+
+        RoleServiceModel role = new RoleServiceModel();
+        role.setAuthority(roleChangeBindingModel.getRole());
+
+
+
+        if(role.getAuthority() != null){
+            this.userService.addRoleToUser(user, role);
+        }
+
+        modelAndView.addObject("users", this.userService
+                .getAllUsers());
+        return view("admin/all-users", modelAndView);
+    }
 }

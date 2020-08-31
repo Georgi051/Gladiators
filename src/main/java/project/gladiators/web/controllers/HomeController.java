@@ -8,9 +8,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController extends BaseController{
 
+
+    @GetMapping("/")
+    @PreAuthorize("isAnonymous()")
+    public ModelAndView index( ModelAndView modelAndView) {
+        return view("index", modelAndView);
+
+    }
+
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView getHome() {
         return super.view("home");
     }
+
+
 }

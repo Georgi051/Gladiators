@@ -7,13 +7,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
+import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
 import project.gladiators.repository.UserRepository;
 import project.gladiators.service.RoleService;
+import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.service.UserService;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -57,8 +61,65 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserServiceModel> getAllUsers() {
+        List<UserServiceModel> users = this.userRepository
+                .findAll()
+                .stream()
+                .map(user -> {
+                    UserServiceModel userServiceModel =
+                    this.modelMapper
+                            .map(user, UserServiceModel.class);
+                    return userServiceModel;
+                }).collect(Collectors.toList());
+
+        return users;
+    }
+
+    @Override
+    public UserServiceModel findById(String id) {
+
+        User user = this.userRepository.findById(id).orElse(null);
+      return this.modelMapper
+              .map(user, UserServiceModel.class);
+    }
+
+    @Override
+    public void addRoleToUser(UserServiceModel userServiceModel, RoleServiceModel roleServiceModel) {
+        User user = this.userRepository
+                .findUserByUsername(userServiceModel.getUsername()).orElse(null);
+        RoleServiceModel role = this.roleService
+                .findByAuthority(roleServiceModel.getAuthority());
+        if (user != null) {
+            user.getAuthorities().clear();
+            switch (role.getAuthority()) {
+                case "ROLE_USER":
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                    break;
+                case "ROLE_MODERATOR":
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                    break;
+                case "ROLE_ADMIN":
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                    break;
+            }
+            this.userRepository.save(user);
+        }
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return this.userRepository.findUserByUsername(s)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
+
+
 }
