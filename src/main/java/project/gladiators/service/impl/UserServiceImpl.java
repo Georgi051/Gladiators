@@ -6,10 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
 import project.gladiators.repository.UserRepository;
+import project.gladiators.service.MuscleService;
 import project.gladiators.service.RoleService;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
@@ -24,26 +26,29 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final MuscleService muscleService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, MuscleService muscleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.muscleService = muscleService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
     @Override
-    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser) {
+    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser, MuscleDto[] muscles) {
         if (!regUser.getPassword().equals(regUser.getConfirmPassword())) {
             return null;
         }
 
         if (this.userRepository.count() == 0) {
             this.roleService.seedRoleInDb();
+            this.muscleService.seedMuscles(muscles);
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ROOT")));
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ADMIN")));

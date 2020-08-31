@@ -1,0 +1,179 @@
+[       
+        {
+		"name": "Back(Teres Minor)"
+	},
+        {
+		"name": "Back(Teres Major)"
+	}, 
+        {
+		"name": "Back(Trapezius)"
+	},
+        {
+		"name": "Back(Rhomboid Major)"
+	},
+        {
+		"name": "Back(Latissimus Dorsi)"
+	},
+        {
+		"name": "Back(Erector Spinae)"
+	},
+        {
+		"name": "Back(Infraspinatus)"
+	},
+        {
+		"name": "Back(Thoracolumbar Fascia)"
+	},
+        {
+		"name": "Triceps(Brachii Lateral Head)"	
+	},
+        {
+		"name": "Triceps(Brachii Long Head)"
+	},
+        {
+		"name": "Triceps(Brachii Medial Head)"
+	},
+        {
+		"name": "Neck(Omohyoid)"
+	},
+        {
+		"name": "Neck(Sternohyoid)"
+	},
+        {
+		"name": "Neck(Sternocleidomastoid)"
+	},
+        {
+		"name": "Biceps(Brachialis)"
+	},
+        {
+		"name": "Biceps(Brachii Long head)"	
+	},
+        {
+		"name": "Biceps(Brachii Short Head)"
+	},
+        {
+		"name": "Chest(Pectoralis Major)"
+	},
+        {
+		"name": "Chest(Pectoralis Minor)"
+	},
+        {
+		"name": "Shoulders(Deltoid Anterior Head)"
+	},
+        {
+		"name": "Shoulders(Deltoid Middle Head)"
+	},
+        {
+		"name": "Shoulders(Deltoid Posterior Head)"
+	},
+        {
+		"name": "Glutetes(Gluteus Medius)"
+	},
+        {
+		"name": "Glutetes(Gluteus Maximus)"
+	},
+        {
+		"name": "Hamstrings(Iliotibial Band)"
+	},
+        {
+		"name": "Hamstrings(Biceps Femoris)"
+	},
+        {
+		"name": "Hamstrings(Adductor Magnus)"
+	},
+        {
+		"name": "Hamstrings(Semitendinosus)"
+	},
+        {
+                "name": "Hamstrings(Gracilis)"
+	},
+	{
+		"name": "Hamstrings(Semimembranosus)"	
+	},
+	{	
+	        "name": "Calves(Soleus)"
+	},
+	{	
+	        "name": "Calves(Gastrocnemius)"
+	},
+        {	
+	        "name": "Calves(Peroneus Brevis)"
+	},
+        {	
+	        "name": "Calves(Flexor Hallucis Longus)"
+	},
+        {	
+	        "name": "Calves(Peroneus Longus)"
+	},
+	{	
+	        "name": "Calves(Extensor Digitorum Longus)"
+	},
+	{	
+	        "name": "Calves(Tibialis Anterior)"
+	},
+	{	
+	        "name": "Abs(Serratus Anterior)"
+	},
+	{	
+	        "name": "Abs(External Oblique)"
+	},
+	{	
+	        "name": "Abs(Rectus Abdominis)"
+	},
+	{	
+	        "name": "Abs(Tendinous Inscriptions)"
+	},
+	{	
+	        "name": "Thighs(Sartorius)"
+	},
+	{	
+	        "name": "Thighs(Pectineus)"
+	},
+	{	
+	        "name": "Thighs(Adductor)"
+	},
+	{	
+	        "name": "Thighs(Longus)"
+	},
+	{	
+	        "name": "Thighs(Gracilis)"
+	},
+	{	
+	        "name": "Thighs(Tensor Fasciae Latae)"
+	},
+	{	
+	        "name": "Thighs(Vastus Medialis)"
+	},
+	{	
+	        "name": "Thighs(Vastus Lateralis)"
+	},
+	{	
+	        "name": "Thighs(Rectus Femoris)"
+	},
+	{	
+	        "name": "Forearms(Brachioradialis)"
+	},
+	{	
+	        "name": "Forearms(Extensor Carpi Ulnaris)"
+	},
+	{	
+	        "name": "Forearms(Flexor Carpi Ulnaris)"
+	},
+	{	
+	        "name": "Forearms(Abductor Pollicis Longus)"
+	},
+	{	
+	        "name": "Forearms(Flexor Carpi Radialis)"
+	},
+	{	
+	        "name": "Forearms(Extensor Pollicis Longus)"
+	},
+	{	
+	        "name": "Forearms(Extensor Pollicis Brevis)"
+	},
+	{	
+	        "name": "Forearms(Palmaris Longus)"
+	},
+	{	
+	        "name": "Forearms(Pronator Teres)"
+	}
+]
