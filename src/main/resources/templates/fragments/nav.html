@@ -6,7 +6,7 @@
         <div class="container"><a class="navbar-brand" th:href="@{/}">Gladiators</a>
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
                     class="navbar-toggler-icon"></span></button>
-            <div  class="collapse navbar-collapse"
+            <span  class="collapse navbar-collapse"
                  id="navcol-1">
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}" th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
@@ -17,7 +17,11 @@
                     </li>
                     <!--                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>-->
                 </ul>
+            </span>
 
+                <th:div sec:authorize="!hasRole('ROLE_CUSTOMER') && isAuthenticated()">
+                  <a class="nav-link" th:href="@{/customers/registration}">Customer registration</a>
+                </th:div>
 
                 <div sec:authorize="isAuthenticated()" class="dropdown  border rounded" style="margin-right: 30px;">
                     <a
@@ -42,8 +46,7 @@
                         <button class="btn btn-light action-button" role="button" type="submit">Logout</button>
                         </form>
                     </th:block>
-
-            </span>
+                </span>
             </div>
         </div>
     </nav>
