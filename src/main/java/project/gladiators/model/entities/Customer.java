@@ -31,11 +31,10 @@ public class Customer extends BaseEntity{
     @Column
     private double BMI;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private ProgressChart progressChart;
 
     @OneToOne
     private User user;
-
 
 }

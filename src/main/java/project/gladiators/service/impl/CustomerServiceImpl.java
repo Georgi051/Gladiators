@@ -1,0 +1,43 @@
+package project.gladiators.service.impl;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import project.gladiators.model.entities.Customer;
+import project.gladiators.model.entities.ProgressChart;
+import project.gladiators.model.entities.User;
+import project.gladiators.repository.CustomerRepository;
+import project.gladiators.service.CustomerService;
+import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.CustomerServiceModel;
+
+import java.time.LocalDate;
+
+@Service
+public class CustomerServiceImpl implements CustomerService {
+    private final CustomerRepository customerRepository;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public CustomerServiceImpl(CustomerRepository customerRepository, UserService userService, ModelMapper modelMapper) {
+        this.customerRepository = customerRepository;
+        this.userService = userService;
+        this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public void registerCustomer(CustomerServiceModel customerServiceModel, User user) {
+        if (this.customerRepository.findCustomerByUser(user) == null){
+            Customer customer = this.modelMapper.map(customerServiceModel,Customer.class);
+            customer.setUser(user);
+            customer.setProgressChart(new ProgressChart());
+            customer.getProgressChart().setBMI(customer.getBMI());
+            customer.getProgressChart().setProgressDate(LocalDate.now());
+            customer.getProgressChart().setHeight(customer.getHeight());
+            customer.getProgressChart().setWeight(customer.getWeight());
+            this.userService.addCustomerRoleToUser(user);
+            customerRepository.saveAndFlush(customer);
+        }
+    }
+}

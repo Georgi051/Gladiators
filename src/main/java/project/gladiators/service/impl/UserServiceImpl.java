@@ -6,17 +6,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
 import project.gladiators.repository.UserRepository;
+import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.MuscleService;
 import project.gladiators.service.RoleService;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.service.UserService;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -27,14 +30,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final MuscleService muscleService;
+    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, MuscleService muscleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, MuscleService muscleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.muscleService = muscleService;
+        this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -88,7 +93,6 @@ public class UserServiceImpl implements UserService {
       return this.modelMapper
               .map(user, UserServiceModel.class);
     }
-
     @Override
     public void addRoleToUser(UserServiceModel userServiceModel, RoleServiceModel roleServiceModel) {
         User user = this.userRepository
@@ -122,6 +126,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void addCustomerRoleToUser(User user) {
+        user.getAuthorities().add(this.modelMapper
+                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+        this.userRepository.save(user);
+    }
+
+    @Override
     public void banUser(String id) {
         User user = this.userRepository.findById(id).orElse(null);
         user.getAuthorities().clear();
@@ -130,6 +141,14 @@ public class UserServiceImpl implements UserService {
         .map(role, Role.class));
         this.userRepository.save(user);
 
+    }
+
+    @Override
+    public void setImageUrl(String username, MultipartFile imageUrl) throws IOException {
+        User userByUsername = this.userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        userByUsername.setImageUrl(this.cloudinaryService.uploadImage(imageUrl));
+        this.userRepository.save(userByUsername);
     }
 
     @Override
