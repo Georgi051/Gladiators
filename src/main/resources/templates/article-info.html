@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head}">
+
+</head>
+
+<body>
+<th:block th:insert="~{fragments/nav}">
+
+</th:block>
+    <div class="article-clean">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+                    <div class="intro">
+                        <h1 class="text-center" th:text="${article.title}"></h1>
+                        <p class="text-center"><span class="by">by</span>
+                            <a th:text="${article.userUsername}"></a>
+                            <span th:text="${#temporals.format(article.addedOn, 'dd-MM-yyyy HH:mm:ss')}" class="date"></span>
+                        </p>
+                        <img class="img-fluid" th:src="${article.imageUrl}">
+                    </div>
+                    <div class="text">
+                        <p th:text="${article.description}"></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<th:block th:insert="~{fragments/footer}">
+
+</th:block>
+
+   <th:block th:insert="~{fragments/scripts}">
+
+   </th:block>
+</body>
+
+</html>

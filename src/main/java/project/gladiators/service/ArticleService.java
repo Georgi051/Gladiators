@@ -7,4 +7,6 @@ import java.util.List;
 public interface ArticleService {
 
     List<ArticleServiceModel> getAllArticles();
+
+    ArticleServiceModel findArticleById(String id);
 }
