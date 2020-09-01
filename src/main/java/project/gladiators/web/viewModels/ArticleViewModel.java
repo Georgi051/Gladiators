@@ -19,4 +19,6 @@ public class ArticleViewModel  extends BaseViewModel{
     private LocalDateTime addedOn;
 
     private String imageUrl;
+
+    private String userUsername;
 }

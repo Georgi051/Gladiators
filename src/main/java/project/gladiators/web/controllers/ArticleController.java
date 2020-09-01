@@ -34,10 +34,9 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("{id}")
-    @ResponseBody
-    public String getSpecificArticle(@PathVariable String id){
-
-        return String.format("<h1>Info %s</h1>",id);
+    public ModelAndView getSpecificArticle(@PathVariable String id){
+        ArticleViewModel article=this.modelMapper.map(this.articleService.findArticleById(id),ArticleViewModel.class);
+        return super.view("article-info",new ModelAndView().addObject("article",article));
     }
 
     @GetMapping("/delete/{id}")
