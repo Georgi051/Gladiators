@@ -46,8 +46,7 @@ public class CustomerController extends BaseController{
     public ModelAndView confirmRegistration(@ModelAttribute CustomerRegisterBindingModel customer,Principal principal) throws IOException {
         //TODO : Метода за снимката
 //        this.userService.setImageUrl(principal.getName(),customer.getImageUrl());
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        this.customerService.registerCustomer(this.modelMapper.map(customer,CustomerServiceModel.class),user);
+        this.customerService.registerCustomer(this.modelMapper.map(customer,CustomerServiceModel.class));
         return super.redirect("/home");
     }
 }

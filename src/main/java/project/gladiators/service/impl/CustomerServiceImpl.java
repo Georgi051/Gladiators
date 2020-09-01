@@ -2,6 +2,7 @@ package project.gladiators.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import project.gladiators.model.entities.Customer;
 import project.gladiators.model.entities.ProgressChart;
@@ -27,7 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void registerCustomer(CustomerServiceModel customerServiceModel, User user) {
+    public void registerCustomer(CustomerServiceModel customerServiceModel) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (this.customerRepository.findCustomerByUser(user) == null){
             Customer customer = this.modelMapper.map(customerServiceModel,Customer.class);
             customer.setUser(user);
