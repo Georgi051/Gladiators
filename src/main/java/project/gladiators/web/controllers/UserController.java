@@ -66,46 +66,6 @@ public class UserController extends BaseController {
         return view("index");
     }
 
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getAllUsers(Model model){
-
-        model.addAttribute("users", this.userService.getAllUsers());
-        return "admin/all-users";
-    }
-
-    @PostMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView changeUserRole(@RequestParam("id") String id,
-                                       ModelAndView modelAndView,
-                                       RoleChangeBindingModel roleChangeBindingModel){
-
-        UserServiceModel user = this.userService
-                .findById(id);
-
-        RoleServiceModel role = new RoleServiceModel();
-        role.setAuthority(roleChangeBindingModel.getRole());
 
 
-
-        if(role.getAuthority() != null){
-            this.userService.addRoleToUser(user, role);
-        }
-
-        modelAndView.addObject("users", this.userService
-                .getAllUsers());
-        return view("admin/all-users", modelAndView);
-    }
-
-    @GetMapping("/ban")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView banUser(@RequestParam("id") String id,
-                                ModelAndView modelAndView){
-
-        this.userService
-                .banUser(id);
-
-        modelAndView.addObject("users", this.userService.getAllUsers());
-        return view("admin/all-users", modelAndView);
-    }
 }

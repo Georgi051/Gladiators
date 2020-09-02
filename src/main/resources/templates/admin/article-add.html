@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-admin-panel}">
+
+</th:block>
+
+<div class="container mt-5">
+    <form th:object="${article}" th:action="@{/admin/article-add}" th:method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input th:field="*{title}" type="text" class="form-control" id="title" placeholder="Enter title">
+            <small class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input  th:field="*{description}" type="text" class="form-control" id="description" placeholder="Enter content">
+            <small class="text-danger" th:errors="*{description}"></small>
+        </div>
+        <div class="form-group">
+            <label>Upload article image</label>
+            <input  th:field="*{image}" type="file" class="form-control" id="imageFile">
+            <small class="text-danger" th:errors="*{image}"></small>
+        </div>
+
+        <button type="submit" class="btn btn-primary ">Submit</button>
+    </form>
+</div>
+
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

@@ -10,10 +10,10 @@
                  id="navcol-1">
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}" th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}">Shop</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}">Trainers</a>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}" th:classappend="${#httpServletRequest.getRequestURI()=='/shop'?'active':''}">Shop</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}" th:classappend="${#httpServletRequest.getRequestURI()=='/trainers'?'active':''}">Trainers</a>
                     </li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/articles}">Articles</a>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/articles}" th:classappend="${#httpServletRequest.getRequestURI()=='/articles'?'active':''}">Articles</a>
                     </li>
                     <!--                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>-->
                 </ul>
@@ -30,8 +30,8 @@
                     <div class="dropdown-menu" role="menu">
                         <a class="dropdown-item" role="presentation"
                            th:href="@{/users/profile/{id}(id=${#authentication.getPrincipal().getUsername()})}">Profile</a>
-                        <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item" role="presentation"
-                           th:href="@{/users/all}">Admin Panel</a></div>
+                        <a sec:authorize="hasAnyRole('ROOT','ADMIN','MODERATOR')" class="dropdown-item" role="presentation"
+                           th:href="@{/admin/user-management}">Admin Panel</a></div>
                 </div>
 
 

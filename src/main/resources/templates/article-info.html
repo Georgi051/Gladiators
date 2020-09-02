@@ -16,10 +16,10 @@
                     <div class="intro">
                         <h1 class="text-center" th:text="${article.title}"></h1>
                         <p class="text-center"><span class="by">by</span>
-                            <a th:text="${article.userUsername}"></a>
+                            <a th:text="${article.userServiceModelUsername}"></a>
                             <span th:text="${#temporals.format(article.addedOn, 'dd-MM-yyyy HH:mm:ss')}" class="date"></span>
                         </p>
-                        <img class="img-fluid" th:src="${article.imageUrl}">
+                        <img style="width: 240px ;height: 160px" class="img-fluid" th:src="${article.imageUrl}">
                     </div>
                     <div class="text">
                         <p th:text="${article.description}"></p>

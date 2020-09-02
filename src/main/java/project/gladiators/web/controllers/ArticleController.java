@@ -41,8 +41,8 @@ public class ArticleController extends BaseController {
 
     @GetMapping("/delete/{id}")
     @ResponseBody
-    public String deleteSpecificArticle(@PathVariable String id){
-
-        return String.format("<h1>Delete  %s</h1>",id);
+    public ModelAndView deleteSpecificArticle(@PathVariable String id){
+        articleService.deleteById(id);
+        return super.redirect("/articles");
     }
 }

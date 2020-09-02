@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 <head>
     <th:block th:insert="~{fragments/head}"></th:block>
 </head>
 <body>
-<header>
-    <th:block th:insert="~{fragments/nav}">
-    </th:block>
-</header>
+
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-admin-panel}">
+
+</th:block>
 
 <main class="container mt-4">
     <hr class="hr-2 bg-dark w-100 flex-row">
 
-    <div class="table-responsive">
+    <div class="row align-items-center" sec:authorize="!hasAnyRole('ROOT','ADMIN')">
+        <div class="col-12 alert alert-danger text-center">
+            You are not allowed to view this page!
+        </div>
+
+    </div>
+
+    <div class="table-responsive" sec:authorize="hasAnyRole('ROOT','ADMIN')">
         <h1 class="text-center mt-2"><span class="badge badge-info">All users</span></h1>
         <hr class="hr-2 bg-dark w-100 flex-row">
 
@@ -20,9 +31,9 @@
         <table class="table table-hover w-100 mx-auto flex-row"
                th:each="u : ${users}" th:object="${u}">
             <form
-                  th:action="@{/users/all/(id = ${u.id})}" th:method="post" >
+                    th:action="@{/admin/user-management/change(id = ${u.id})}" th:method="post">
 
-                <thead >
+                <thead>
                 <tr class="row mx-auto">
                     <th class="col-md-3 text-center font-weight-bold">Username</th>
                     <th class="col-md-2 text-center font-weight-bold">Email</th>
@@ -33,7 +44,7 @@
                 <tr class="row mx-auto">
                     <th class="col-md-3 text-center font-weight-bold" th:text="${u.username}"></th>
                     <th class="col-md-2 text-center font-weight-bold" th:text="${u.email}"></th>
-                    <th class="col-md-2 text-center font-weight-bold" >
+                    <th class="col-md-2 text-center font-weight-bold">
                         <select class="browser-default custom-select" id="role" name="role">
                             <option value="">SELECT ROLE</option>
                             <option value="ROLE_USER">USER</option>
@@ -42,11 +53,12 @@
 
                         </select>
                     </th>
-                    <th class="col-md-2 text-center font-weight-bold" >
-                       <button type="submit" class="btn-group-vertical mb-3 btn-success">Change</button>
+                    <th class="col-md-2 text-center font-weight-bold">
+                        <button type="submit" class="btn-group-vertical mb-3 btn-success">Change</button>
                     </th>
-                    <th class="col-md-3 text-center font-weight-bold" >
-                        <a th:href="@{/users/ban/(id = ${u.id})}" class="btn-group-vertical action-button mb-3 btn-danger">BAN</a>
+                    <th class="col-md-3 text-center font-weight-bold">
+                        <a th:href="@{/admin/user-management/ban/(id = ${u.id})}"
+                           class="btn-group-vertical action-button mb-3 btn-danger">BAN</a>
                     </th>
 
                 </tr>
@@ -60,8 +72,8 @@
 </main>
 
 <th:block th:insert="~{fragments/footer}">
- </th:block>
- <th:block th:insert="~{fragments/scripts}"></th:block>
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
 
 </body>
 </html>

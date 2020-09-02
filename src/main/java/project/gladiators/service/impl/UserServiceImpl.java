@@ -197,6 +197,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserServiceModel findUserByUsername(String username) {
+
+        return this.modelMapper.map(userRepository.findUserByUsername(username).get(),UserServiceModel.class);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return this.userRepository.findUserByUsername(s)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));

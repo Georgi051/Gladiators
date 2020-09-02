@@ -9,4 +9,8 @@ public interface ArticleService {
     List<ArticleServiceModel> getAllArticles();
 
     ArticleServiceModel findArticleById(String id);
+
+    void deleteById(String id);
+
+    ArticleServiceModel registerArticle(ArticleServiceModel articleServiceModel,String username);
 }

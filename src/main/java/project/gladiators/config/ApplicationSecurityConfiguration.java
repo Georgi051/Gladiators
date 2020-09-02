@@ -27,6 +27,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/articles","/articles/*").permitAll()
                 .antMatchers("/", "/users/login", "/users/register").anonymous()
                 .antMatchers("/articles/delete/**").hasAnyRole("MODERATOR","ROOT")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN","ROOT","MODERATOR")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
