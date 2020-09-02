@@ -43,7 +43,7 @@ public class CustomerController extends BaseController{
 
     @PostMapping("/registration")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView confirmRegistration(@ModelAttribute CustomerRegisterBindingModel customer){
+    public ModelAndView confirmRegistration(@ModelAttribute CustomerRegisterBindingModel customer) throws IOException {
         this.customerService.registerCustomer(this.modelMapper.map(customer,CustomerServiceModel.class),customer.getImageUrl());
         return super.redirect("/home");
     }

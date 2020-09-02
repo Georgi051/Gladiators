@@ -1,5 +1,6 @@
 package project.gladiators.service.impl;
 
+import com.cloudinary.Cloudinary;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -79,8 +80,8 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(user -> {
                     UserServiceModel userServiceModel =
-                    this.modelMapper
-                            .map(user, UserServiceModel.class);
+                            this.modelMapper
+                                    .map(user, UserServiceModel.class);
                     return userServiceModel;
                 }).collect(Collectors.toList());
 
@@ -91,9 +92,10 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel findById(String id) {
 
         User user = this.userRepository.findById(id).orElse(null);
-      return this.modelMapper
-              .map(user, UserServiceModel.class);
+        return this.modelMapper
+                .map(user, UserServiceModel.class);
     }
+
     @Override
     public void addRoleToUser(UserServiceModel userServiceModel, RoleServiceModel roleServiceModel) {
         User user = this.userRepository
@@ -127,18 +129,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUserAnotherData(User user, String firstName, String lastName, int age, String gender , MultipartFile image) {
+    public void addUserAnotherData(User user, String firstName, String lastName, int age, String gender, MultipartFile image) throws IOException {
         user.getAuthorities().add(this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setAge(age);
         user.setGender(Gender.valueOf(gender));
 
-        try {
+        if (image.isEmpty()) {
+            Cloudinary cloudinary = new Cloudinary();
+            String defaultImg = cloudinary.url().cloudName("gladiators")
+                    .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1598903172/profile_quok32.jpg");
+            String saveDefImg = defaultImg.substring(10, 91);
+            user.setImageUrl(saveDefImg);
+        } else {
             user.setImageUrl(this.cloudinaryService.uploadImage(image));
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
         this.userRepository.saveAndFlush(user);
     }
 
@@ -148,7 +155,7 @@ public class UserServiceImpl implements UserService {
         user.getAuthorities().clear();
         RoleServiceModel role = this.roleService.findByAuthority("ROLE_BANNED");
         user.getAuthorities().add(this.modelMapper
-        .map(role, Role.class));
+                .map(role, Role.class));
         this.userRepository.save(user);
 
     }

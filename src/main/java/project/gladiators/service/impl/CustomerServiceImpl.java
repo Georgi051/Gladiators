@@ -13,6 +13,7 @@ import project.gladiators.service.CustomerService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 @Service
@@ -29,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void registerCustomer(CustomerServiceModel customerServiceModel, MultipartFile imageUrl) {
+    public void registerCustomer(CustomerServiceModel customerServiceModel, MultipartFile imageUrl) throws IOException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (this.customerRepository.findCustomerByUser(user) == null){
             Customer customer = this.modelMapper.map(customerServiceModel,Customer.class);
@@ -40,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.getProgressChart().setHeight(customer.getHeight());
             customer.getProgressChart().setWeight(customer.getWeight());
             this.userService.addUserAnotherData(user,customerServiceModel.getFirstName(),customerServiceModel.getLastName(),
-                    customerServiceModel.getAge(),customerServiceModel.getGender(),imageUrl);
+            customerServiceModel.getAge(),customerServiceModel.getGender(),imageUrl);
             this.customerRepository.saveAndFlush(customer);
         }
     }
