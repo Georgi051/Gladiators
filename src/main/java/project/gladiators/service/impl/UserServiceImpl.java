@@ -103,8 +103,43 @@ public class UserServiceImpl implements UserService {
         RoleServiceModel role = this.roleService
                 .findByAuthority(roleServiceModel.getAuthority());
         if (user != null) {
+            boolean isCustomer = false;
+            for (Role authority : user.getAuthorities()) {
+                if (authority.getAuthority().equals("ROLE_CUSTOMER")) {
+                    isCustomer = true;
+                    break;
+                }
+            }
             user.getAuthorities().clear();
-            switch (role.getAuthority()) {
+            if(isCustomer){
+                switch (role.getAuthority()) {
+                    case "ROLE_USER":
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                        .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                        break;
+                    case "ROLE_MODERATOR":
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                        break;
+                    case "ROLE_ADMIN":
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                        break;
+                }
+            }else{
+                switch (role.getAuthority()) {
                 case "ROLE_USER":
                     user.getAuthorities().add(this.modelMapper
                             .map(roleService.findByAuthority("ROLE_USER"), Role.class));
@@ -123,6 +158,7 @@ public class UserServiceImpl implements UserService {
                     user.getAuthorities().add(this.modelMapper
                             .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
                     break;
+            }
             }
             this.userRepository.save(user);
         }
