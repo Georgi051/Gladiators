@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MuscleDto {
+
     @Expose
     private String name;
 }

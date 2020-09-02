@@ -40,7 +40,7 @@ public class User extends BaseEntity implements UserDetails {
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", updatable = false)
+    @Column(name = "gender")
     private Gender gender;
 
     @Column(name = "age")

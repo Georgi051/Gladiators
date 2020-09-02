@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
             user.setImageUrl(this.cloudinaryService.uploadImage(image));
         }
 
-        this.userRepository.saveAndFlush(user);
+        this.userRepository.save(user);
     }
 
     @Override
