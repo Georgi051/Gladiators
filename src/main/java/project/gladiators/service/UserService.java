@@ -22,8 +22,6 @@ public interface UserService  extends UserDetailsService {
 
     void banUser(String id);
 
-    void setImageUrl(String username, MultipartFile imageUrl) throws IOException;
-
-    void addCustomerRoleToUser(User user);
+    void addUserAnotherData(User user, String firstName, String lastName, int age, String gender , MultipartFile image);
 
 }

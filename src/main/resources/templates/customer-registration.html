@@ -15,7 +15,7 @@
 
         <div class="col-sm-4">
 
-            <form th:action="@{/customers/registration}" th:method="post">
+            <form th:action="@{/customers/registration}" th:method="post" enctype="multipart/form-data">
                 <div id="contact-form" class="form-container" data-form-container>
                     <h3>Registration</h3>
                     <div class="input-container">
@@ -31,6 +31,14 @@
                     <span class="input-status" data-toggle="tooltip" data-placement="top"
                           title="Your last name"> </span>
                     <input type="text" placeholder="Last name" name="lastName">
+                </span>
+                        </div>
+
+                        <div class="row">
+                <span class="req-input">
+                    <span class="input-status" data-toggle="tooltip" data-placement="top"
+                          title="Your age"> </span>
+                    <input type="text" placeholder="Age" name="age">
                 </span>
                         </div>
 
@@ -67,7 +75,6 @@
                             </td>
                         </tr>
 
-                        <!-- TODO: Тук е снимката -->
                         <div class="row">
                          <input type="file" id="add-image" name="imageUrl">
                         </div>

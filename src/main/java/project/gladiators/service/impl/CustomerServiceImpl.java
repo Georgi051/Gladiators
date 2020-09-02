@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.entities.Customer;
 import project.gladiators.model.entities.ProgressChart;
 import project.gladiators.model.entities.User;
@@ -28,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void registerCustomer(CustomerServiceModel customerServiceModel) {
+    public void registerCustomer(CustomerServiceModel customerServiceModel, MultipartFile imageUrl) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (this.customerRepository.findCustomerByUser(user) == null){
             Customer customer = this.modelMapper.map(customerServiceModel,Customer.class);
@@ -38,8 +39,9 @@ public class CustomerServiceImpl implements CustomerService {
             customer.getProgressChart().setProgressDate(LocalDate.now());
             customer.getProgressChart().setHeight(customer.getHeight());
             customer.getProgressChart().setWeight(customer.getWeight());
-            this.userService.addCustomerRoleToUser(user);
-            customerRepository.saveAndFlush(customer);
+            this.userService.addUserAnotherData(user,customerServiceModel.getFirstName(),customerServiceModel.getLastName(),
+                    customerServiceModel.getAge(),customerServiceModel.getGender(),imageUrl);
+            this.customerRepository.saveAndFlush(customer);
         }
     }
 }

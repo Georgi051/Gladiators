@@ -11,6 +11,7 @@ public class CustomerServiceModel {
     private String firstName;
     private String lastName;
     private String gender;
+    private int age;
     private double weight;
     private double height;
     private double BMI;

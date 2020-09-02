@@ -11,6 +11,7 @@ import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
+import project.gladiators.model.enums.Gender;
 import project.gladiators.repository.UserRepository;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.MuscleService;
@@ -126,10 +127,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addCustomerRoleToUser(User user) {
-        user.getAuthorities().add(this.modelMapper
-                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
-        this.userRepository.save(user);
+    public void addUserAnotherData(User user, String firstName, String lastName, int age, String gender , MultipartFile image) {
+        user.getAuthorities().add(this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setAge(age);
+        user.setGender(Gender.valueOf(gender));
+
+        try {
+            user.setImageUrl(this.cloudinaryService.uploadImage(image));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -141,14 +151,6 @@ public class UserServiceImpl implements UserService {
         .map(role, Role.class));
         this.userRepository.save(user);
 
-    }
-
-    @Override
-    public void setImageUrl(String username, MultipartFile imageUrl) throws IOException {
-        User userByUsername = this.userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        userByUsername.setImageUrl(this.cloudinaryService.uploadImage(imageUrl));
-        this.userRepository.save(userByUsername);
     }
 
     @Override

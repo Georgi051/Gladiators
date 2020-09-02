@@ -12,9 +12,9 @@ public class CustomerRegisterBindingModel {
     private String firstName;
     private String lastName;
     private String gender;
+    private int age;
     private double weight;
     private double height;
     private double BMI;
-    //TODO Ако се направи imageUrl String не гърми
-//    private MultipartFile imageUrl;
+    private MultipartFile imageUrl;
 }
