@@ -90,8 +90,6 @@ public class UserController extends BaseController {
         RoleServiceModel role = new RoleServiceModel();
         role.setAuthority(roleChangeBindingModel.getRole());
 
-
-
         if(role.getAuthority() != null){
             this.userService.addRoleToUser(user, role);
         }

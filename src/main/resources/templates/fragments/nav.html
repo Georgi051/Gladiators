@@ -29,15 +29,9 @@
                             sec:authentication="name"></a>
                     <div class="dropdown-menu" role="menu">
                         <a class="dropdown-item" role="presentation"
-<<<<<<< HEAD
-                           th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
-                        <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item" role="presentation"
-                           th:href="@{/users/all}">Admin Panel</a></div>
-=======
                            th:href="@{/users/profile/{id}(id=${#authentication.getPrincipal().getUsername()})}">Profile</a>
                         <a sec:authorize="hasAnyRole('ROOT','ADMIN','MODERATOR')" class="dropdown-item" role="presentation"
                            th:href="@{/admin/user-management}">Admin Panel</a></div>
->>>>>>> ec224be37d6058d20d281d1ee86724671c254411
                 </div>
 
 
