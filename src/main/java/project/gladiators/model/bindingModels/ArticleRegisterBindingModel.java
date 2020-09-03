@@ -17,7 +17,7 @@ public class ArticleRegisterBindingModel {
     @Size(min = 8,max = 80,message = "The title must be between 8 and 40 characters!")
     private String title;
 
-    @Size(min = 50, max = 20000, message = "The description must be between 50 and 2000 characters!")
+    @Size(min = 50, max = 2000, message = "The description must be between 50 and 2000 characters!")
     private String description;
 
     @NotNull
