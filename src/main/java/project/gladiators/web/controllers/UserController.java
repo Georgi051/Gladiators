@@ -12,9 +12,13 @@ import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 
+import project.gladiators.model.entities.User;
+import project.gladiators.model.enums.Gender;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.web.viewModels.ArticleViewModel;
+import project.gladiators.web.viewModels.UserViewModel;
 
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
@@ -107,5 +111,18 @@ public class UserController extends BaseController {
 
         modelAndView.addObject("users", this.userService.getAllUsers());
         return view("admin/all-users", modelAndView);
+    }
+
+    @GetMapping("/")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView userProfile(@RequestParam("id") String id){
+
+        User userTest = this.modelMapper
+        .map(this.userService.findById(id), User.class);
+
+        UserViewModel user = this.modelMapper.map
+                (userTest, UserViewModel.class);
+        return super.view("user/profile-page",
+                new ModelAndView().addObject("user", user));
     }
 }
