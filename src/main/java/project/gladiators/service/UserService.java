@@ -22,6 +22,8 @@ public interface UserService  extends UserDetailsService {
 
     void banUser(String id);
 
+    UserServiceModel findUserByUsername(String username);
+
     void addUserAnotherData(User user, String firstName, String lastName, int age, String gender , MultipartFile image) throws IOException;
 
 }

@@ -70,26 +70,9 @@ public class UserController extends BaseController {
         return view("index");
     }
 
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getAllUsers(Model model){
 
-        model.addAttribute("users", this.userService.getAllUsers());
-        return "admin/all-users";
-    }
 
-    @PostMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView changeUserRole(@RequestParam("id") String id,
-                                       ModelAndView modelAndView,
-                                       RoleChangeBindingModel roleChangeBindingModel){
-
-        UserServiceModel user = this.userService
-                .findById(id);
-
-        RoleServiceModel role = new RoleServiceModel();
-        role.setAuthority(roleChangeBindingModel.getRole());
-
+<<<<<<< HEAD
 
 
         if(role.getAuthority() != null){
@@ -125,4 +108,6 @@ public class UserController extends BaseController {
         return super.view("user/profile-page",
                 new ModelAndView().addObject("user", user));
     }
+=======
+>>>>>>> ec224be37d6058d20d281d1ee86724671c254411
 }

@@ -20,5 +20,5 @@ public class ArticleViewModel  extends BaseViewModel{
 
     private String imageUrl;
 
-    private String userUsername;
+    private String userServiceModelUsername;
 }

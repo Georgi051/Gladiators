@@ -23,5 +23,5 @@ public class ArticleServiceModel extends BaseServiceModel {
     private String imageUrl;
 
 
-    private User user;
+    private UserServiceModel  userServiceModel;
 }
