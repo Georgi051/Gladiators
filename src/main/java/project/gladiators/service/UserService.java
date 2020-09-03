@@ -26,4 +26,7 @@ public interface UserService  extends UserDetailsService {
 
     void addUserAnotherData(User user, String firstName, String lastName, int age, String gender , MultipartFile image) throws IOException;
 
+    void editUserProfile(UserServiceModel userServiceModel);
+
+    void changeUserPassword(UserServiceModel userServiceModel, String oldPassword);
 }

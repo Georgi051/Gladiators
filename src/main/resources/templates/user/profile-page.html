@@ -36,9 +36,8 @@
 
        <div class="col">
            <span class="text-center">
-
-
-         <a th:href="@{/users/edit/(id = ${user.id})}" th:method="post" class="btn btn-primary rounded-pill w-25 mt-2">Edit</a>
+         <a th:href="@{/users/edit/(id = ${user.id})}" th:method="post" class="btn btn-primary rounded-pill w-25 mt-2">Edit Details</a>
+               <a th:href="@{/users/changePassword/(id = ${user.id})}" th:method="post" class="btn btn-primary rounded-pill w-25 mt-2">Change password</a>
        </span>
        </div>
    </div>

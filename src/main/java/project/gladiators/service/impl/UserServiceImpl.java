@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
@@ -183,6 +184,32 @@ public class UserServiceImpl implements UserService {
         }
 
         this.userRepository.save(user);
+    }
+
+    @Override
+    public void editUserProfile(UserServiceModel userServiceModel) {
+        User user = userRepository.findUserByUsername(userServiceModel.getUsername())
+                .orElse(null);
+        if(user != null){
+            user.setFirstName(userServiceModel.getFirstName());
+            user.setLastName(userServiceModel.getLastName());
+            this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        }
+    }
+
+    @Override
+    public void changeUserPassword(UserServiceModel userServiceModel, String oldPassword) {
+        User user = userRepository.findUserByUsername(userServiceModel.getUsername())
+                .orElse(null);
+        if(user != null){
+            if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+                throw new UserNotFoundException("Incorrect old password!");
+            }
+            ;
+            user.setPassword(bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
+            user.setEmail(userServiceModel.getEmail());
+            this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        }
     }
 
     @Override
