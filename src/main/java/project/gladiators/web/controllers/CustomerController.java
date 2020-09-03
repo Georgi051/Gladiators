@@ -38,7 +38,7 @@ public class CustomerController extends BaseController{
     @GetMapping("/registration")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView registration() {
-        return super.view("customer-registration");
+        return super.view("customer/customer-registration");
     }
 
     @PostMapping("/registration")

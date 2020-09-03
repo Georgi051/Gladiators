@@ -3,27 +3,30 @@ package project.gladiators.model.bindingModels;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class CustomerRegisterBindingModel {
-    @NotNull(message = "Please add your first name")
+    @Length(min = 1,message = "Please add your first name")
     private String firstName;
-    @NotNull(message = "Please add your last name")
+    @Length(min = 1,message = "Please add your last name")
     private String lastName;
-    @NotNull(message = "Please add your gender")
+    @Length(min = 1,message = "Please add your gender")
     private String gender;
-    @NotNull(message = "Please add your age")
+    @Length(min = 1,message = "Please add your age")
     private int age;
-    @NotNull(message = "Please add your weight")
+    @Length(min = 1,message = "Please add your weight")
+    @Min(value = 30 ,message = "Your weight is incorrect")
     private double weight;
-    @NotNull(message = "Please аdd your height")
+    @Length(min = 1,message = "Please аdd your height")
+    @Min(value = 57,message = "Your height is incorrect")
     private double height;
-    @NotNull(message = "You need to add your BMI data, please do this with our BMI calculator")
+    @Length(min = 1,message = "You need to add your BMI data, please do this with our BMI calculator")
     private double BMI;
     private MultipartFile imageUrl;
 }

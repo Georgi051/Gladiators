@@ -1,9 +1,10 @@
 package project.gladiators.model.bindingModels;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
@@ -12,8 +13,8 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserRegisterBindingModel {
 
+    @Length(min = 1,message = "Please add your username")
     private String username;
-
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@~$%^&*-]).{8,}\\S+$"
     ,message = "Password should be with one upper case, one lower case, one digit[0-9], \n" +
             "   one special character[#?!@$%~^&*-] and the minimum length should be 8.")
