@@ -14,9 +14,13 @@ import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 
+import project.gladiators.model.entities.User;
+import project.gladiators.model.enums.Gender;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.web.viewModels.ArticleViewModel;
+import project.gladiators.web.viewModels.UserViewModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -80,6 +84,57 @@ public class UserController extends BaseController {
         return view("index");
     }
 
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String getAllUsers(Model model){
 
+        model.addAttribute("users", this.userService.getAllUsers());
+        return "admin/all-users";
+    }
 
+    @PostMapping("/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView changeUserRole(@RequestParam("id") String id,
+                                       ModelAndView modelAndView,
+                                       RoleChangeBindingModel roleChangeBindingModel){
+
+        UserServiceModel user = this.userService
+                .findById(id);
+
+        RoleServiceModel role = new RoleServiceModel();
+        role.setAuthority(roleChangeBindingModel.getRole());
+
+        if(role.getAuthority() != null){
+            this.userService.addRoleToUser(user, role);
+        }
+
+        modelAndView.addObject("users", this.userService
+                .getAllUsers());
+        return view("admin/all-users", modelAndView);
+    }
+
+    @GetMapping("/ban")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView banUser(@RequestParam("id") String id,
+                                ModelAndView modelAndView){
+
+        this.userService
+                .banUser(id);
+
+        modelAndView.addObject("users", this.userService.getAllUsers());
+        return view("admin/all-users", modelAndView);
+    }
+
+    @GetMapping("/")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView userProfile(@RequestParam("id") String id){
+
+        User userTest = this.modelMapper
+        .map(this.userService.findById(id), User.class);
+
+        UserViewModel user = this.modelMapper.map
+                (userTest, UserViewModel.class);
+        return super.view("user/profile-page",
+                new ModelAndView().addObject("user", user));
+    }
 }

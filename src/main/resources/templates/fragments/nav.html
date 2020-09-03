@@ -29,7 +29,7 @@
                             sec:authentication="name"></a>
                     <div class="dropdown-menu" role="menu">
                         <a class="dropdown-item" role="presentation"
-                           th:href="@{/users/profile/{id}(id=${#authentication.getPrincipal().getUsername()})}">Profile</a>
+                           th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
                         <a sec:authorize="hasAnyRole('ROOT','ADMIN','MODERATOR')" class="dropdown-item" role="presentation"
                            th:href="@{/admin/user-management}">Admin Panel</a></div>
                 </div>

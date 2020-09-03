@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/head}">
+
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}"></th:block>
+   <div class="container text-center">
+        <div class="row">
+           <div class="col">
+              <h1 class="text-center" th:text="${user.username}"></h1>
+              <img class="img-fluid" th:src="${user.imageUrl}">
+              </div>
+
+        </div>
+       <div class="col">
+           <span="text-center">Registered on:</h5>
+           <span th:text="${#temporals.format(user.registeredOn, 'dd-MM-yyyy HH:mm:ss')}" class="date text-center"></span>
+       </div>
+       <div class="col">
+           <h5 class="text-center">Full name:</h5>
+           <h6 th:text="|${user.firstName} ${user.LastName}|" class="text-center"></h6>
+       </div>
+       <div class="col">
+           <h5 class="text-center">Age:</h5>
+           <h6 th:text="${user.age}" class="text-center"></h6>
+       </div>
+       <div class="col">
+           <h5 class="text-center">Email:</h5>
+           <h6 th:text="${user.email}" class="text-center"></h6>
+       </div>
+       <div class="col">
+           <h5 class="text-center">Gender:</h5>
+           <h6 th:text="${user.gender}" class="text-center"></h6>
+       </div>
+
+       <div class="col">
+           <span class="text-center">
+
+
+         <a th:href="@{/users/edit/(id = ${user.id})}" th:method="post" class="btn btn-primary rounded-pill w-25 mt-2">Edit</a>
+       </span>
+       </div>
+   </div>
+
+
+
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+<th:block th:insert="~{fragments/scripts}"></th:block>
+</body>
+</html>

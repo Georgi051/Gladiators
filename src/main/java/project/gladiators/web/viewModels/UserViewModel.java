@@ -1,28 +1,24 @@
-package project.gladiators.service.serviceModels;
+package project.gladiators.web.viewModels;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.gladiators.model.enums.Gender;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserServiceModel extends BaseServiceModel{
+public class UserViewModel extends BaseViewModel{
+
     private String username;
+    private String imageUrl;
     private String firstName;
     private String lastName;
     private LocalDateTime registeredOn;
-    private String imageUrl;
-    private Gender gender;
-    private String password;
-    private String email;
     private int age;
-    private Set<RoleServiceModel> authorities;
-
+    private String gender;
+    private String email;
 }
