@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import project.gladiators.model.enums.Gender;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -43,8 +44,8 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
 
     @Column
     private boolean isTrainer = false;

@@ -25,6 +25,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.time.LocalDate;
+import java.time.Period;
 
 import static project.gladiators.constants.GlobalConstants.MUSCLES_FILE_PATH;
 
@@ -130,6 +132,8 @@ public class UserController extends BaseController {
 
         UserViewModel user = this.modelMapper.map
                 (userTest, UserViewModel.class);
+        int age = Period.between(userTest.getDateOfBirth(), LocalDate.now()).getYears();
+        user.setAge(age);
         return super.view("user/profile-page",
                 new ModelAndView().addObject("user", user));
     }

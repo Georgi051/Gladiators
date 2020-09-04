@@ -52,7 +52,8 @@ public class CustomerController extends BaseController{
 
     @PostMapping("/registration")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ModelAndView confirmRegistration(@Valid @ModelAttribute(name = "customer") CustomerRegisterBindingModel customer
+    public ModelAndView confirmRegistration(@Valid @ModelAttribute(name = "customer")
+                                                        CustomerRegisterBindingModel customer
             , BindingResult bindingResult, ModelAndView modelAndView) throws IOException {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("customer", customer);
@@ -75,7 +76,8 @@ public class CustomerController extends BaseController{
 
     @PostMapping("/progressChart/edit")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
-    public ModelAndView editProgressChart(ProgressChartEditBindingModel progressChartEditBindingModel,
+    public ModelAndView editProgressChart(@Valid @ModelAttribute("progressChartEditBindingModel")
+                                                      ProgressChartEditBindingModel progressChartEditBindingModel,
                                           BindingResult bindingResult,
                                           ModelAndView modelAndView,
                                           Principal principal){
@@ -83,7 +85,7 @@ public class CustomerController extends BaseController{
         if(bindingResult.hasErrors()){
             modelAndView.addObject("progressChartEditBindingModel", progressChartEditBindingModel);
             modelAndView.addObject("org.springframework.validation.BindingResult.progressChartEditBindingModel", bindingResult);
-            return super.redirect("/customers/progressChart/edit");
+            return super.view("/user/edit-progressChart", modelAndView);
         }
 
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());

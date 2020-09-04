@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.getProgressChart().setBMI(bmi);
             customer.setBMI(bmi);
             this.userService.addUserAnotherData(user,customerServiceModel.getFirstName(),customerServiceModel.getLastName(),
-            customerServiceModel.getAge(),customerServiceModel.getGender(),imageUrl);
+            customerServiceModel.getDateOfBirth(),customerServiceModel.getGender(),imageUrl);
             this.customerRepository.saveAndFlush(customer);
         }
     }

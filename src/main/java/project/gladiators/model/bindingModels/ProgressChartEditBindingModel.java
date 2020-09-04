@@ -12,9 +12,9 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor
 public class ProgressChartEditBindingModel {
 
-    @Positive(message = "Please enter valid weight")
+    @Min(value = 30, message = "Please enter valid weight")
     private double weight;
-    @Positive(message = "Please enter valid height")
+    @Min(value = 57, message = "Please enter valid height")
     private double height;
     @Positive(message = "Please enter valid BMI")
     private double BMI;

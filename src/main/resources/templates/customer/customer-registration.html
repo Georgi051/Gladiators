@@ -25,10 +25,10 @@
                 <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Your last name...">
                 <small id="lastNameCheck" th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></small>
             </div>
-            <div class="form-group" th:classappend="${#fields.hasErrors('age')}? 'text-danger'">
-                <label for="age" class="font-weight-bold">Age</label>
-                <input type="text" th:field="*{age}" class="form-control" id="age" placeholder="Your age...">
-                <small id="ageCheck" th:each="error : ${#fields.errors('age')}" th:text="${error}"></small>
+            <div class="form-group" th:classappend="${#fields.hasErrors('dateOfBirth')}? 'text-danger'">
+                <label for="dateOfBirth" class="font-weight-bold">Date of birth</label>
+                <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth" placeholder="Date of birth...">
+                <small id="ageCheck" th:each="error : ${#fields.errors('dateOfBirth')}" th:text="${error}"></small>
             </div>
             <div class="form-group" th:classappend="${#fields.hasErrors('weight')}? 'text-danger'">
                 <label for="weight" class="font-weight-bold">Weight</label>

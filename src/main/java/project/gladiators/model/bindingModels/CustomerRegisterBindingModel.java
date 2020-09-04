@@ -4,9 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,8 +23,10 @@ public class CustomerRegisterBindingModel {
     private String lastName;
     @Length(min = 1,message = "Please add your gender")
     private String gender;
-    @Min(value = 1,message = "Please add your age")
-    private int age;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Past(message = "Please enter valid date")
+    @NotNull(message = "Date cannot be null")
+    private LocalDate dateOfBirth;
     @Min(value = 30 ,message = "Your weight is incorrect")
     private double weight;
     @Min(value = 57,message = "Your height is incorrect")

@@ -9,6 +9,7 @@ import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserService  extends UserDetailsService {
@@ -24,7 +25,7 @@ public interface UserService  extends UserDetailsService {
 
     UserServiceModel findUserByUsername(String username);
 
-    void addUserAnotherData(User user, String firstName, String lastName, int age, String gender , MultipartFile image) throws IOException;
+    void addUserAnotherData(User user, String firstName, String lastName, LocalDate dateOfBirth, String gender , MultipartFile image) throws IOException;
 
     void editUserProfile(UserServiceModel userServiceModel);
 

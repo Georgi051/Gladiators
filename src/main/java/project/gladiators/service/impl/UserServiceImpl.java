@@ -23,6 +23,7 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.service.UserService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -166,11 +167,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUserAnotherData(User user, String firstName, String lastName, int age, String gender, MultipartFile image) throws IOException {
+    public void addUserAnotherData(User user, String firstName, String lastName, LocalDate dateOfBirth, String gender, MultipartFile image) throws IOException {
         user.getAuthorities().add(this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setAge(age);
+        user.setDateOfBirth(dateOfBirth);
         user.setGender(Gender.valueOf(gender));
 
         if (image.isEmpty()) {
