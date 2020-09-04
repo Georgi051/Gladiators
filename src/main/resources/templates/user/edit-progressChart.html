@@ -1,0 +1,80 @@
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org">
+<head th:insert="~{fragments/head}">
+
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+
+</th:block>
+<div class="container-fluid">
+    <main class="mt-3">
+        <h1 class="text-center text-dark">Edit Progress Chart</h1>
+        <hr class="hr-2 bg-dark w-25">
+        <form class="form w-25 mx-auto" th:object="${progressChartEditBindingModel}"
+              th:action="@{/customers/progressChart/edit/}" th:method="post">
+            <div class="form-group">
+                <label for="weight" class="font-weight-bold">Weight</label>
+                <input type="number" class="form-control" id="weight"
+                       placeholder="Your weight..." name="weight">
+                <th:block th:if="${#fields.hasErrors('weight')}">
+                    <small th:errors="*{weight}" class="text-danger"></small>
+                </th:block>
+            </div>
+            <div class="form-group">
+                <label for="height" class="font-weight-bold">Height</label>
+                <input type="number" class="form-control" id="height" placeholder="Your height..." name="height">
+                <th:block th:if="${#fields.hasErrors('height')}">
+                    <small th:errors="*{height}" class="text-danger"></small>
+                </th:block>
+            </div>
+            <div class="form-group">
+                <label for="BMI" class="font-weight-bold">BMI</label>
+                <input type="number" class="form-control" id="BMI" placeholder="BMI..." name="BMI">
+                <th:block th:if="${#fields.hasErrors('BMI')}">
+                    <small th:errors="*{BMI}" class="text-danger"></small>
+                </th:block>
+            </div>
+            <div class="form-group">
+                <label for="chest" class="font-weight-bold">Chest</label>
+                <input type="number" placeholder="Your chest..." class="form-control" id="chest" name="chest">
+                <th:block th:if="${#fields.hasErrors('chest')}">
+                    <small th:errors="*{chest}" class="text-danger"></small>
+                </th:block>
+            </div>
+            <div class="form-group">
+                <label for="waist" class="font-weight-bold">Waist</label>
+                <input type="number" placeholder="Your waist..." class="form-control" id="waist" name="waist">
+                <th:block th:if="${#fields.hasErrors('waist')}">
+                    <small th:errors="*{waist}" class="text-danger"></small>
+                </th:block>
+            </div>
+            <div class="form-group">
+                <label for="biceps" class="font-weight-bold">Biceps</label>
+                <input type="number" placeholder="Your biceps..." class="form-control" id="biceps" name="biceps">
+                <th:block th:if="${#fields.hasErrors('biceps')}">
+                    <small th:errors="*{biceps}" class="text-danger"></small>
+                </th:block>
+            </div>
+            <div class="form-group">
+                <label for="thigh" class="font-weight-bold">Thigh</label>
+                <input th:field="*{thigh}" placeholder="Your thigh..." th:errorclass="bg-warning" type="number" step="0.01" class="form-control" id="thigh" name="thigh"/>
+                <small th:each="e : ${#fields.errors('thigh')}" th:text="${e}" class="text-error"></small>
+            </div>
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-dark">Edit</button>
+            </div>
+        </form>
+
+    </main>
+
+
+</div>
+
+<th:block th:insert="~{fragments/footer}">
+
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+</body>
+</html>

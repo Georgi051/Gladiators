@@ -17,6 +17,7 @@ import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 
 import project.gladiators.model.entities.User;
 import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.web.viewModels.UserViewModel;
@@ -199,4 +200,5 @@ public class UserController extends BaseController {
         modelAndView.addObject("user", userServiceModel);
         return super.redirect(String.format("/users/?id=%s", id));
     }
+
 }

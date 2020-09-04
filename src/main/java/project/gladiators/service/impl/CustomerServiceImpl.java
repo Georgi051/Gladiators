@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.model.bindingModels.ProgressChartEditBindingModel;
 import project.gladiators.model.entities.Customer;
 import project.gladiators.model.entities.ProgressChart;
 import project.gladiators.model.entities.User;
@@ -12,6 +13,7 @@ import project.gladiators.repository.CustomerRepository;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -44,5 +46,36 @@ public class CustomerServiceImpl implements CustomerService {
             customerServiceModel.getAge(),customerServiceModel.getGender(),imageUrl);
             this.customerRepository.saveAndFlush(customer);
         }
+    }
+
+    @Override
+    public CustomerServiceModel findCustomerByUser(UserServiceModel user) {
+        CustomerServiceModel customer = this.modelMapper
+        .map(this.customerRepository
+                .findCustomerByUser(this.modelMapper
+                .map(user, User.class)), CustomerServiceModel.class);
+        return customer;
+
+    }
+
+    @Override
+    public CustomerServiceModel findCustomerById(String id) {
+        return this.modelMapper
+                .map(this.customerRepository.findById(id), CustomerServiceModel.class);
+    }
+
+    @Override
+    public void editProgressChart(CustomerServiceModel customer, ProgressChartEditBindingModel progressChartEditBindingModel) {
+
+        Customer customerEntity = this.customerRepository.findById(customer.getId())
+                .orElse(null);
+        customerEntity.getProgressChart().setWeight(progressChartEditBindingModel.getWeight());
+        customerEntity.getProgressChart().setHeight(progressChartEditBindingModel.getHeight());
+        customerEntity.getProgressChart().setBMI(progressChartEditBindingModel.getBMI());
+        customerEntity.getProgressChart().setBiceps(progressChartEditBindingModel.getBiceps());
+        customerEntity.getProgressChart().setChest(progressChartEditBindingModel.getChest());
+        customerEntity.getProgressChart().setWaist(progressChartEditBindingModel.getWaist());
+        customerEntity.getProgressChart().setThigh(progressChartEditBindingModel.getThigh());
+        this.customerRepository.saveAndFlush(customerEntity);
     }
 }
