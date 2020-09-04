@@ -10,16 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.exceptions.UserNotFoundException;
+import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 
 import project.gladiators.model.entities.User;
-import project.gladiators.model.enums.Gender;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
-import project.gladiators.web.viewModels.ArticleViewModel;
 import project.gladiators.web.viewModels.UserViewModel;
 
 import javax.servlet.http.HttpSession;
@@ -136,5 +136,79 @@ public class UserController extends BaseController {
                 (userTest, UserViewModel.class);
         return super.view("user/profile-page",
                 new ModelAndView().addObject("user", user));
+    }
+
+    @GetMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView editUser(@RequestParam("id") String id,
+                                 ModelAndView modelAndView,
+                                 @ModelAttribute(name = "userEditBindingModel")
+                                         UserEditBindingModel userEditBindingModel) throws UserNotFoundException {
+        UserServiceModel userServiceModel = this.userService.findById(id);
+        userEditBindingModel = modelMapper.map(userServiceModel, UserEditBindingModel.class);
+        modelAndView.addObject("user", userServiceModel);
+        modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+        modelAndView.setViewName("user/edit-user");
+        return modelAndView;
+    }
+
+
+    @PostMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView editProfile(@RequestParam("id") String id,
+                                    @Valid @ModelAttribute(name = "userEditBindingModel")
+                                                UserEditBindingModel userEditBindingModel,
+                                    BindingResult bindingResult,
+                                    ModelAndView modelAndView){
+        if(bindingResult.hasErrors()){
+            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+            return view("user/edit-user", modelAndView);
+        }
+
+        UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
+
+        this.userService.editUserProfile(userServiceModel);
+
+        modelAndView.addObject("user", userServiceModel);
+        return super.redirect(String.format("/users/?id=%s", id));
+    }
+
+    @GetMapping("/changePassword")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView getChangePassword(@RequestParam("id") String id,
+                                 ModelAndView modelAndView,
+                                 @ModelAttribute(name = "userEditBindingModel")
+                                         UserEditBindingModel userEditBindingModel) throws UserNotFoundException {
+        UserServiceModel userServiceModel = this.userService.findById(id);
+        userEditBindingModel = modelMapper.map(userServiceModel, UserEditBindingModel.class);
+        userEditBindingModel.setOldPassword(null);
+        modelAndView.addObject("user", userServiceModel);
+        modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+        modelAndView.setViewName("user/change-password");
+        return modelAndView;
+    }
+
+
+    @PostMapping("/changePassword")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView changePassword(@RequestParam("id") String id,
+                                    @Valid @ModelAttribute(name = "userEditBindingModel")
+                                            UserEditBindingModel userEditBindingModel,
+                                    BindingResult bindingResult,
+                                    ModelAndView modelAndView){
+        if(bindingResult.hasErrors()){
+            userEditBindingModel.setOldPassword(null);
+            userEditBindingModel.setPassword(null);
+            userEditBindingModel.setConfirmPassword(null);
+            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+            return view("user/edit-user", modelAndView);
+        }
+
+        UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
+
+        this.userService.changeUserPassword(userServiceModel, userEditBindingModel.getOldPassword());
+
+        modelAndView.addObject("user", userServiceModel);
+        return super.redirect(String.format("/users/?id=%s", id));
     }
 }
