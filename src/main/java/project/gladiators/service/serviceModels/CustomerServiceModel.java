@@ -14,6 +14,5 @@ public class CustomerServiceModel {
     private int age;
     private double weight;
     private double height;
-    private double BMI;
     private String imageUrl;
 }

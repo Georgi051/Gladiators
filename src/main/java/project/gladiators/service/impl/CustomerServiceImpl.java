@@ -14,6 +14,7 @@ import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 @Service
@@ -36,10 +37,12 @@ public class CustomerServiceImpl implements CustomerService {
             Customer customer = this.modelMapper.map(customerServiceModel,Customer.class);
             customer.setUser(user);
             customer.setProgressChart(new ProgressChart());
-            customer.getProgressChart().setBMI(customer.getBMI());
             customer.getProgressChart().setProgressDate(LocalDate.now());
             customer.getProgressChart().setHeight(customer.getHeight());
             customer.getProgressChart().setWeight(customer.getWeight());
+            double bmi = customer.getWeight()/Math.pow(customer.getHeight()/100,2);
+            customer.getProgressChart().setBMI(bmi);
+            customer.setBMI(bmi);
             this.userService.addUserAnotherData(user,customerServiceModel.getFirstName(),customerServiceModel.getLastName(),
             customerServiceModel.getAge(),customerServiceModel.getGender(),imageUrl);
             this.customerRepository.saveAndFlush(customer);

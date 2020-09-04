@@ -9,111 +9,54 @@
 
 </th:block>
 
-<div class="container">
-    <div class="row" >
+<div class="container-fluid">
+    <main class="mt-3">
+        <h1 class="text-center text-dark">Customer Registration</h1>
+        <hr class="hr-2 bg-dark w-25">
+        <form class="form w-25 mx-auto" th:object="${customer}"
+              th:action="@{/customers/registration}" th:method="post" enctype="multipart/form-data">
+            <div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'text-danger'">
+                <label for="firstName" class="font-weight-bold">First name</label>
+                <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="Your first name...">
+                <small id="firstNameCheck" th:each="error : ${#fields.errors('firstName')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'text-danger'">
+                <label for="lastName" class="font-weight-bold">Last name</label>
+                <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Your last name...">
+                <small id="lastNameCheck" th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('age')}? 'text-danger'">
+                <label for="age" class="font-weight-bold">Age</label>
+                <input type="text" th:field="*{age}" class="form-control" id="age" placeholder="Your age...">
+                <small id="ageCheck" th:each="error : ${#fields.errors('age')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('weight')}? 'text-danger'">
+                <label for="weight" class="font-weight-bold">Weight</label>
+                <input type="text" th:field="*{weight}" class="form-control" id="weight" placeholder="Your weight...">
+                <small id="weightCheck" th:each="error : ${#fields.errors('weight')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('height')}? 'text-danger'">
+                <label for="height" class="font-weight-bold">Height</label>
+                <input type="text" th:field="*{height}" class="form-control" id="height" placeholder="Your height...">
+                <small id="heightCheck" th:each="error : ${#fields.errors('height')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold">Gender</label>
+                <input type="radio" name="gender" th:value="MALE" />male
+                <input type="radio" name="gender" th:value="FEMALE" />female
+            </div>
+            <div class="form-group">
+                <label for="add-product-image" class="font-weight-bold">Image</label>
+                <input type="file" class="form-control-file" id="add-product-image" name="imageUrl">
+            </div>
 
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-dark">Edit</button>
+            </div>
+        </form>
 
-        <div class="col-sm-4">
-
-            <form th:action="@{/customers/registration}" th:method="post" enctype="multipart/form-data">
-                <div id="contact-form" class="form-container" data-form-container>
-                    <h3>Registration</h3>
-                    <div class="input-container">
-                        <div class="row">
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top"
-                          title="Your first name"> </span>
-                    <input type="text" placeholder="First name" name="firstName">
-                </span>
-                        </div>
-                        <div class="row">
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top"
-                          title="Your last name"> </span>
-                    <input type="text" placeholder="Last name" name="lastName">
-                </span>
-                        </div>
-
-                        <div class="row">
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top"
-                          title="Your age"> </span>
-                    <input type="text" placeholder="Age" name="age">
-                </span>
-                        </div>
-
-                        <div class="row">
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top"
-                          title="Your weight"> </span>
-                    <input type="text" placeholder="Weight" name="weight">
-                </span>
-                        </div>
-
-                        <div class="row">
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top"
-                          title="Your height"> </span>
-                    <input type="text" placeholder="Height" name="height">
-                </span>
-                        </div>
-
-                        <div class="row">
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your BMI"> </span>
-                    <input type="text" placeholder="BMI" name="BMI">
-                </span>
-                        </div>
-
-                        <tr>
-                            <td>Gender</td>
-                            <td>
-                                <input type="radio" name="gender" th:value="MALE" />
-                                <label th:text="male" />
-                                <input type="radio" name="gender" th:value="FEMALE" />
-                                <label th:text="female" />
-                            </td>
-                        </tr>
-
-                        <div class="row">
-                         <input type="file" id="add-image" name="imageUrl">
-                        </div>
-
-                        <div class="row submit-row">
-                            <button type="submit" class="btn btn-block submit-form">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-
-        <!-- BMI CALCULATOR -->
-        <div class="form-container col-sm-3" data-form-container>
-            <h3>BMI Calculator</h3>
-            <form name="bmiForm">
-                 <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your weight"> </span>
-                    <input type="text" name="weight" placeholder="Weight">
-                </span>
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your height"> </span>
-                    <input type="text" name="height" placeholder="Height">
-                </span>
-                <input class="btn-primary" type="button" value="Calculate BMI" th:onclick="bmiCalculator()"><br/>
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your BMI"> </span>
-                    <input type="text" name="bmi" placeholder="BMI">
-                </span>
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your result"> </span>
-                    <input type="text" name="meaning" placeholder="Result">
-                </span>
-                <input class="btn-primary" type="reset" value="Reset"/>
-            </form>
-        </div>
-        <!-- END BMI CALCULATOR -->
-    </div>
+    </main>
 </div>
 <th:block th:insert="~{fragments/footer}"></th:block>
 <th:block th:insert="~{fragments/scripts}"></th:block>
