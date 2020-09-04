@@ -58,7 +58,7 @@
             </div>
             <div class="form-group">
                 <label for="thigh" class="font-weight-bold">Thigh</label>
-                <input th:field="*{thigh}" placeholder="Your thigh..." th:errorclass="bg-warning" type="number" step="0.01" class="form-control" id="thigh" name="thigh"/>
+                <input th:field="*{thigh}" placeholder="Your thigh..." th:errorclass="bg-warning" type="number" class="form-control" id="thigh" name="thigh"/>
                 <small th:each="e : ${#fields.errors('thigh')}" th:text="${e}" class="text-error"></small>
             </div>
             <hr class="hr-2 bg-dark">
