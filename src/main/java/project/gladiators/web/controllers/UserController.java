@@ -132,8 +132,12 @@ public class UserController extends BaseController {
 
         UserViewModel user = this.modelMapper.map
                 (userTest, UserViewModel.class);
-        int age = Period.between(userTest.getDateOfBirth(), LocalDate.now()).getYears();
-        user.setAge(age);
+        if(userTest.getDateOfBirth() != null){
+            int age = Period.between(userTest.getDateOfBirth(), LocalDate.now()).getYears();
+            user.setAge(age);
+        }else{
+            user.setAge(0);
+        }
         return super.view("user/profile-page",
                 new ModelAndView().addObject("user", user));
     }
