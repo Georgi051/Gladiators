@@ -15,10 +15,7 @@ public class CustomerServiceModel extends BaseServiceModel{
     private int age;
     private double weight;
     private double height;
-<<<<<<< HEAD
     private double BMI;
     private ProgressChart progressChart;
-=======
->>>>>>> 122c163d9240bdb34871757e91a2a5487885bd05
     private String imageUrl;
 }

@@ -4,6 +4,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.model.entities.ProgressChart;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
@@ -34,10 +35,12 @@ public class HomeController extends BaseController{
     public ModelAndView getHome(Principal principal, ModelAndView modelAndView) {
         UserServiceModel user =
                 this.userService.findUserByUsername(principal.getName());
-        if(customerService.findCustomerById(user.getId()) != null){
+        if(customerService.findCustomerByUser(user) != null){
             CustomerServiceModel customer =
                     this.customerService.findCustomerByUser(user);
             modelAndView.addObject("progressChart", customer.getProgressChart());
+        }else{
+            modelAndView.addObject("progressChart", new ProgressChart());
         }
         return super.view("home", modelAndView);
     }

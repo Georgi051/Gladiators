@@ -6,12 +6,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.model.bindingModels.CustomerRegisterBindingModel;
 import project.gladiators.model.bindingModels.ProgressChartEditBindingModel;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.model.bindingModels.CustomerRegisterBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
->>>>>>> 122c163d9240bdb34871757e91a2a5487885bd05
 import project.gladiators.model.entities.User;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.UserService;

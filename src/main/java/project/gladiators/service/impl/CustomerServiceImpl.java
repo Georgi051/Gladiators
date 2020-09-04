@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.exceptions.CustomerNotFoundException;
 import project.gladiators.model.bindingModels.ProgressChartEditBindingModel;
 import project.gladiators.model.entities.Customer;
 import project.gladiators.model.entities.ProgressChart;
@@ -53,11 +54,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerServiceModel findCustomerByUser(UserServiceModel user) {
-        CustomerServiceModel customer = this.modelMapper
-        .map(this.customerRepository
+        Customer customer = this.customerRepository
                 .findCustomerByUser(this.modelMapper
-                .map(user, User.class)), CustomerServiceModel.class);
-        return customer;
+                .map(user, User.class));
+
+        if(customer != null){
+            return this.modelMapper
+                    .map(customer, CustomerServiceModel.class);
+        }else {
+            return null;
+        }
+
 
     }
 
