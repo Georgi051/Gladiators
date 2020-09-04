@@ -10,11 +10,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.exceptions.UserNotFoundException;
-import project.gladiators.model.bindingModels.UserEditBindingModel;
-import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
+import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
-
+import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.entities.User;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
@@ -44,15 +43,23 @@ public class UserController extends BaseController {
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView register() {
-        return super.view("register");
+    public ModelAndView register(@ModelAttribute(name = "model") UserRegisterBindingModel model, ModelAndView modelAndView) {
+        modelAndView.addObject("model", model);
+        return super.view("register",modelAndView);
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerConfirm(@ModelAttribute UserRegisterBindingModel model) throws FileNotFoundException {
+    public ModelAndView registerConfirm(@Valid @ModelAttribute(name = "model") UserRegisterBindingModel model
+            , BindingResult bindingResult,ModelAndView modelAndView) throws FileNotFoundException {
         MuscleDto[] muscles =
                 this.gson.fromJson(new FileReader(MUSCLES_FILE_PATH), MuscleDto[].class);
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("model", model);
+            return super.view("register", modelAndView);
+        }
+
         UserServiceModel userServiceModel =
                 this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class), model,muscles);
         if (userServiceModel == null) {
