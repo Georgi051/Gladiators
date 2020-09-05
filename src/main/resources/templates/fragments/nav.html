@@ -26,12 +26,18 @@
                 <div sec:authorize="isAuthenticated()" class="dropdown  border rounded" style="margin-right: 30px;">
                     <a
                             class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
-                            sec:authentication="name"></a>
+                            sec:authentication="name">
+
+                    </a>
                     <div class="dropdown-menu" role="menu">
                         <a class="dropdown-item" role="presentation"
                            th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
                         <a sec:authorize="hasAnyRole('ROOT','ADMIN','MODERATOR')" class="dropdown-item" role="presentation"
-                           th:href="@{/admin/user-management}">Admin Panel</a></div>
+                           th:href="@{/admin/user-management}">Admin Panel</a>
+                        <a sec:authorize="hasRole('TRAINER')" class="dropdown-item" role="presentation"
+                           th:href="@{/trainer/add-plan}">Trainer Panel</a>
+                    </div>
+
                 </div>
 
 

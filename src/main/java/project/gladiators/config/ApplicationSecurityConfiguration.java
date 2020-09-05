@@ -38,6 +38,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .and()
                 .logout()
                 .logoutUrl("/users/logout")
+                .invalidateHttpSession(true)
                 .logoutSuccessUrl("/").permitAll()
                 .and()
                 .exceptionHandling()

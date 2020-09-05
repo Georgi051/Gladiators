@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-admin-panel}">
+
+</th:block>
+
+
+
+
+
+<div class="container">
+
+    <div class="row align-items-center mt-5" sec:authorize="!hasAnyRole('ROOT','ADMIN')">
+        <div class="col-12 alert alert-danger text-center">
+            You are not allowed to view this page!
+        </div>
+
+    </div>
+
+    <div class="row align-items-center mt-5" th:if="${statusMessage}">
+        <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+             th:text="${statusMessage}">
+
+        </div>
+
+    </div>
+
+
+    <div class="row login-form" sec:authorize="hasAnyRole('ADMIN','ROOT')">
+        <div class="col-md-4 offset-md-4">
+            <h2 class="text-center form-heading">Trainers manager</h2>
+            <form th:action="@{/admin/trainer-manager}"  th:method="post" class="custom-form">
+                <div class="form-group">
+                        <select class="form-control" name="username" >
+                            <option th:each="user:${users}" th:text="${user}" th:value="${user}"></option>
+                        </select>
+
+                </div>
+
+                <div class="form-check" th:each="option:${T(project.gladiators.model.enums.Action).values()}" >
+                    <input class="form-check-input" type="radio" name="option" id="formCheck-6" th:text="${option}" th:value="${option}">
+                </div>
+                <button class="btn btn-light btn-block submit-button" type="submit">Change</button></form>
+        </div>
+    </div>
+
+
+</div>
+
+
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+</body>
+</html>

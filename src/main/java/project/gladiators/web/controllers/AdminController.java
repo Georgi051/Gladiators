@@ -17,6 +17,7 @@ import project.gladiators.service.serviceModels.ArticleServiceModel;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
@@ -124,7 +125,7 @@ public class AdminController extends BaseController {
 
     @PostMapping("/trainer-manager")
     public ModelAndView addTrainer(@RequestParam String username, @RequestParam("option") Action action,
-                                   ModelAndView modelAndView, RedirectAttributes redirectAttributes
+                                   RedirectAttributes redirectAttributes
                                    ) {
 
         try {
@@ -139,6 +140,8 @@ public class AdminController extends BaseController {
             redirectAttributes.addFlashAttribute("statusCode","error");
 
         }
+
+
 
 
         return super.redirect("/admin/trainer-manager");

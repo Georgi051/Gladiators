@@ -77,11 +77,7 @@ public class UserController extends BaseController {
         return super.view("login");
     }
 
-    @GetMapping("/logout")
-    public ModelAndView logout(HttpSession httpSession){
-        httpSession.invalidate();
-        return view("index");
-    }
+
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
