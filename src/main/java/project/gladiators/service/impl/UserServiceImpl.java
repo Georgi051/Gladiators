@@ -227,6 +227,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     private void setProfilePicture(MultipartFile image, User user) throws IOException {
         if (image.isEmpty()) {
             Cloudinary cloudinary = new Cloudinary();

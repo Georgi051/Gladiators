@@ -32,4 +32,5 @@ public interface UserService  extends UserDetailsService {
     void changeUserPassword(UserServiceModel userServiceModel, String oldPassword);
 
     void changeProfilePicture(UserServiceModel userServiceModel, MultipartFile image) throws IOException;
+
 }
