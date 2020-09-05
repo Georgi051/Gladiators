@@ -226,6 +226,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(UserServiceModel userServiceModel) {
+        User editedUser = this.modelMapper.map(userServiceModel, User.class);
+        userRepository.save(editedUser);
+    }
+
+    @Override
     public void banUser(String id) {
         User user = this.userRepository.findById(id).orElse(null);
         user.getAuthorities().clear();

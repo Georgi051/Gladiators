@@ -30,4 +30,6 @@ public interface UserService  extends UserDetailsService {
     void editUserProfile(UserServiceModel userServiceModel);
 
     void changeUserPassword(UserServiceModel userServiceModel, String oldPassword);
+
+    void updateUser(UserServiceModel userServiceModel);
 }
