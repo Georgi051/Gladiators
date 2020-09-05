@@ -3,6 +3,11 @@ package project.gladiators.service.impl;
 import com.cloudinary.Cloudinary;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +30,7 @@ import project.gladiators.service.UserService;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -168,6 +174,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUserAnotherData(User user, String firstName, String lastName, LocalDate dateOfBirth, String gender, MultipartFile image) throws IOException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+        updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal()
+                , auth.getCredentials(), updatedAuthorities);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
         user.getAuthorities().add(this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -198,7 +211,6 @@ public class UserServiceImpl implements UserService {
             if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
                 throw new UserNotFoundException("Incorrect old password!");
             }
-            ;
             user.setPassword(bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
             user.setEmail(userServiceModel.getEmail());
             this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
