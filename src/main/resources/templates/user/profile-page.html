@@ -14,6 +14,11 @@
 
         </div>
        <div class="col">
+           <span class="text-center">
+         <a th:href="@{/users/changePicture/(id = ${user.id})}" th:method="post" class="btn btn-primary rounded-pill w-25 mt-2">Change profile picture</a>
+       </span>
+       </div>
+       <div class="col">
            <span class="text-center">Registered on:</span>
            <span th:text="${#temporals.format(user.registeredOn, 'dd-MM-yyyy HH:mm:ss')}" class="date text-center"></span>
        </div>

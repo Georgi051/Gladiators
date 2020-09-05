@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.service.ArticleService;
+import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.ArticleServiceModel;
+import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.web.viewModels.ArticleViewModel;
 
 import java.util.Arrays;
@@ -35,7 +38,9 @@ public class ArticleController extends BaseController {
 
     @GetMapping("{id}")
     public ModelAndView getSpecificArticle(@PathVariable String id){
-        ArticleViewModel article=this.modelMapper.map(this.articleService.findArticleById(id),ArticleViewModel.class);
+        ArticleServiceModel articleServiceModel = articleService.findArticleById(id);
+        ArticleViewModel article=this.modelMapper.map(articleServiceModel, ArticleViewModel.class);
+        article.setUserServiceModelUsername(articleServiceModel.getUserServiceModel().getUsername());
         return super.view("article-info",new ModelAndView().addObject("article",article));
     }
 

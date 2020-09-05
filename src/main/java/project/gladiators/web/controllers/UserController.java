@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -211,6 +212,37 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
 
         this.userService.changeUserPassword(userServiceModel, userEditBindingModel.getOldPassword());
+
+        modelAndView.addObject("user", userServiceModel);
+        return super.redirect(String.format("/users/?id=%s", id));
+    }
+
+    @GetMapping("/changePicture")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView changePicture(@ModelAttribute(name = "userEditBindingModel")
+                                                   UserEditBindingModel userEditBindingModel,
+                                       ModelAndView modelAndView
+                                ) throws UserNotFoundException {
+        modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+        return super.view("user/change-profilePicture", modelAndView);
+    }
+
+
+    @PostMapping("/changePicture")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView changeProfilePicture(@RequestParam("id") String id,
+                                    @Valid @ModelAttribute(name = "userEditBindingModel")
+                                            UserEditBindingModel userEditBindingModel,
+                                    BindingResult bindingResult,
+                                    ModelAndView modelAndView) throws IOException {
+        if(bindingResult.hasErrors()){
+            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+            return view("user/change-profilePicture", modelAndView);
+        }
+
+        UserServiceModel userServiceModel = this.userService.findById(id);
+
+        this.userService.changeProfilePicture(userServiceModel, userEditBindingModel.getImageUrl());
 
         modelAndView.addObject("user", userServiceModel);
         return super.redirect(String.format("/users/?id=%s", id));

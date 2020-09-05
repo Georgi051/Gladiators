@@ -187,15 +187,7 @@ public class UserServiceImpl implements UserService {
         user.setDateOfBirth(dateOfBirth);
         user.setGender(Gender.valueOf(gender));
 
-        if (image.isEmpty()) {
-            Cloudinary cloudinary = new Cloudinary();
-            String defaultImg = cloudinary.url().cloudName("gladiators")
-                    .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1598903172/profile_quok32.jpg");
-            String saveDefImg = defaultImg.substring(10, 91);
-            user.setImageUrl(saveDefImg);
-        } else {
-            user.setImageUrl(this.cloudinaryService.uploadImage(image));
-        }
+        setProfilePicture(image, user);
 
         this.userRepository.save(user);
     }
@@ -229,6 +221,30 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserServiceModel userServiceModel) {
         User editedUser = this.modelMapper.map(userServiceModel, User.class);
         userRepository.save(editedUser);
+    }
+
+    @Override
+    public void changeProfilePicture(UserServiceModel userServiceModel, MultipartFile image) throws IOException {
+        User user = userRepository.findUserByUsername(userServiceModel.getUsername())
+                .orElse(null);
+        if(user != null){
+            setProfilePicture(image, user);
+            this.userRepository.saveAndFlush(user);
+        }
+    }
+
+
+
+    private void setProfilePicture(MultipartFile image, User user) throws IOException {
+        if (image.isEmpty()) {
+            Cloudinary cloudinary = new Cloudinary();
+            String defaultImg = cloudinary.url().cloudName("gladiators")
+                    .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1598903172/profile_quok32.jpg");
+            String saveDefImg = defaultImg.substring(10, 91);
+            user.setImageUrl(saveDefImg);
+        } else {
+            user.setImageUrl(this.cloudinaryService.uploadImage(image));
+        }
     }
 
     @Override
