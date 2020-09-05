@@ -16,8 +16,8 @@ public class ProgressChartEditBindingModel {
     private double weight;
     @Min(value = 57, message = "Please enter valid height")
     private double height;
-    @Positive(message = "Please enter valid BMI")
-    private double BMI;
+  /*  @Positive(message = "Please enter valid BMI")
+    private double BMI;*/
     @Positive(message = "Please enter valid chest")
     private double chest;
     @Positive(message = "Please enter valid waist")

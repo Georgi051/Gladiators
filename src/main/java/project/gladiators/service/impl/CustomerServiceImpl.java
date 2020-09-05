@@ -80,7 +80,8 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElse(null);
         customerEntity.getProgressChart().setWeight(progressChartEditBindingModel.getWeight());
         customerEntity.getProgressChart().setHeight(progressChartEditBindingModel.getHeight());
-        customerEntity.getProgressChart().setBMI(progressChartEditBindingModel.getBMI());
+        double bmi = customerEntity.getProgressChart().getWeight()/Math.pow(customerEntity.getProgressChart().getHeight()/100,2);
+        customerEntity.getProgressChart().setBMI(bmi);
         customerEntity.getProgressChart().setBiceps(progressChartEditBindingModel.getBiceps());
         customerEntity.getProgressChart().setChest(progressChartEditBindingModel.getChest());
         customerEntity.getProgressChart().setWaist(progressChartEditBindingModel.getWaist());
