@@ -20,14 +20,9 @@
             </div>
             <div class="form-group">
                 <label for="height" class="font-weight-bold">Height</label>
-                <input th:field="*{height}" placeholder="Your height..." th:errorclass="bg-warning" type="number" class="form-control" id="height" name="height"/>
+                <input th:field="*{height}" th:value="*{height}" placeholder="Your height..." th:errorclass="bg-warning" type="number" class="form-control" id="height" name="height"/>
                 <small th:each="e : ${#fields.errors('height')}" th:text="${e}" class="text-danger"></small>
             </div>
-        <!--    <div class="form-group">
-                <label for="BMI" class="font-weight-bold">BMI</label>
-                <input th:field="*{BMI}" placeholder="Your BMI..." th:errorclass="bg-warning" type="number" class="form-control" id="BMI" name="BMI"/>
-                <small th:each="e : ${#fields.errors('BMI')}" th:text="${e}" class="text-danger"></small>
-            </div>-->
             <div class="form-group">
                 <label for="chest" class="font-weight-bold">Chest</label>
                 <input th:field="*{chest}" placeholder="Your chest..." th:errorclass="bg-warning" type="number" class="form-control" id="chest" name="chest"/>
