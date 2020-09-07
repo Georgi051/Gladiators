@@ -26,6 +26,12 @@ public class Exercise extends BaseEntity {
     @ManyToMany
     private List<Muscle> muscles;
 
+    @Column
+    private int duration;
+
+    @Column
+    private int setQuantity;
+
     @Column(name = "image_url")
     private String imageUrl;
 }

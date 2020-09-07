@@ -27,6 +27,7 @@ public class UserServiceModel extends BaseServiceModel{
     private String password;
     private String email;
     private LocalDate dateOfBirth;
+    private boolean isTrainer;
     private Set<RoleServiceModel> authorities;
 
 

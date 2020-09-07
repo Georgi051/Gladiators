@@ -20,5 +20,11 @@ public class Workout extends BaseEntity {
     private List<Exercise> exercises;
 
     @Column
+    private String name;
+
+    @Column
+    private int duration;
+
+    @Column
     private LocalDateTime registeredOn;
 }

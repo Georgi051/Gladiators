@@ -84,16 +84,16 @@
 		"name": "Hamstrings(Semitendinosus)"
 	},
         {
-                "name": "Hamstrings(Gracilis)"
+		"name": "Hamstrings(Gracilis)"
 	},
 	{
 		"name": "Hamstrings(Semimembranosus)"	
 	},
 	{	
-	        "name": "Calves(Soleus)"
+	    "name": "Calves(Soleus)"
 	},
 	{	
-	        "name": "Calves(Gastrocnemius)"
+	    "name": "Calves(Gastrocnemius)"
 	},
         {	
 	        "name": "Calves(Peroneus Brevis)"

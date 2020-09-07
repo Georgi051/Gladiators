@@ -227,12 +227,12 @@ public class UserServiceImpl implements UserService {
     public void changeProfilePicture(UserServiceModel userServiceModel, MultipartFile image) throws IOException {
         User user = userRepository.findUserByUsername(userServiceModel.getUsername())
                 .orElse(null);
-        if(user != null){
+
+        if(user != null) {
             setProfilePicture(image, user);
-            this.userRepository.saveAndFlush(user);
+            this.userRepository.save(user);
         }
     }
-
 
 
     private void setProfilePicture(MultipartFile image, User user) throws IOException {
@@ -242,12 +242,12 @@ public class UserServiceImpl implements UserService {
             String saveDefImg;
             if(user.getGender().equals(Gender.MALE)){
                  defaultImg = cloudinary.url().cloudName("gladiators")
-                        .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1598903172/profile_quok32.jpg");
-                 saveDefImg = defaultImg.substring(10, 91);
+                        .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1599468350/profile-pictures/profile_quok32_qsbjk2.jpg");
+                 saveDefImg = defaultImg.substring(10, 115);
             }else{
                 defaultImg = cloudinary.url().cloudName("gladiators")
-                        .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1599422883/girlDefaultPic_o9foxm.jpg");
-                saveDefImg = defaultImg.substring(10, 98);
+                        .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1599468317/profile-pictures/girlDefaultPic_o9foxm_uiss3t.jpg");
+                saveDefImg = defaultImg.substring(10, 122);
             }
             user.setImageUrl(saveDefImg);
         } else {
