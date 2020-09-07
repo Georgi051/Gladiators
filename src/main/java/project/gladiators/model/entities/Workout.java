@@ -19,8 +19,6 @@ public class Workout extends BaseEntity {
     @ManyToMany
     private List<Exercise> exercises;
 
-
-
     @Column
     private LocalDateTime registeredOn;
 }

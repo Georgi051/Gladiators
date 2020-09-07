@@ -20,14 +20,13 @@ public class TrainingPlan extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "training_plan_type")
     private TrainingPlanType trainingPlanType;
-
     @Enumerated(EnumType.STRING)
     @Column
     private Difficulty difficulty;
 
     @ManyToMany(cascade = CascadeType.MERGE,
     fetch = FetchType.EAGER)
-    private List<Exercise> exercises;
+    private List<Workout> workouts;
 
     @OneToMany
     private Set<Customer> customers;
