@@ -16,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Workout extends BaseEntity {
 
-    @ManyToMany
-    private List<Exercise> exercises;
+    @OneToMany
+    private List<WorkoutExerciseInfo> exerciseInfos;
 
     @Column
     private String name;

@@ -59,9 +59,12 @@
         {
 		"name": "Shoulders(Deltoid Anterior Head)"
 	},
+
         {
-		"name": "Shoulders(Deltoid Middle Head)"
+		"name": "Shoulders(Deltoid Middle Head)",
+
 	},
+
         {
 		"name": "Shoulders(Deltoid Posterior Head)"
 	},
