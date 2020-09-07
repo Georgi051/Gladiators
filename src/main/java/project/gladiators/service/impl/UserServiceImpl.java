@@ -238,9 +238,17 @@ public class UserServiceImpl implements UserService {
     private void setProfilePicture(MultipartFile image, User user) throws IOException {
         if (image.isEmpty()) {
             Cloudinary cloudinary = new Cloudinary();
-            String defaultImg = cloudinary.url().cloudName("gladiators")
-                    .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1598903172/profile_quok32.jpg");
-            String saveDefImg = defaultImg.substring(10, 91);
+            String defaultImg;
+            String saveDefImg;
+            if(user.getGender().equals(Gender.MALE)){
+                 defaultImg = cloudinary.url().cloudName("gladiators")
+                        .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1598903172/profile_quok32.jpg");
+                 saveDefImg = defaultImg.substring(10, 91);
+            }else{
+                defaultImg = cloudinary.url().cloudName("gladiators")
+                        .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1599422883/girlDefaultPic_o9foxm.jpg");
+                saveDefImg = defaultImg.substring(10, 98);
+            }
             user.setImageUrl(saveDefImg);
         } else {
             user.setImageUrl(this.cloudinaryService.uploadImage(image));
