@@ -14,18 +14,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.exceptions.UserNotFoundException;
+import project.gladiators.model.dtos.ExerciseDto;
 import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
 import project.gladiators.model.enums.Gender;
 import project.gladiators.repository.UserRepository;
-import project.gladiators.service.CloudinaryService;
-import project.gladiators.service.MuscleService;
-import project.gladiators.service.RoleService;
+import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
-import project.gladiators.service.UserService;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -40,15 +38,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final MuscleService muscleService;
+    private final ExerciseService exerciseService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, MuscleService muscleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, MuscleService muscleService, ExerciseService exerciseService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.muscleService = muscleService;
+        this.exerciseService = exerciseService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser, MuscleDto[] muscles) {
+    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser, MuscleDto[] muscles, ExerciseDto[] exercises) {
         if (!regUser.getPassword().equals(regUser.getConfirmPassword())) {
             return null;
         }
@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
         if (this.userRepository.count() == 0) {
             this.roleService.seedRoleInDb();
             this.muscleService.seedMuscles(muscles);
+            this.exerciseService.seedExercise(exercises);
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ROOT")));
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ADMIN")));

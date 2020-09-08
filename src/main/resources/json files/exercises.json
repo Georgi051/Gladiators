@@ -1,0 +1,12 @@
+[
+  {
+    "name": "SQUAT",
+    "description": "Constant representing a squat. This is an exercise in which the body weight is pushed up with the legs from a position with knees bent at a 90 degree angle.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599550267/exercises/squat_hpcgcr.jpg"
+  },
+  {
+    "name": "PLANK",
+    "description": "Constant representing a plank. This is an isometric exercise in which the body weight is supported by the arms and feet, and the upper body and legs are kept straightened and rigid, facing down, in a plank position.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599550259/exercises/plank_lh4o20.jpg"
+  }
+]

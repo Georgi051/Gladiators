@@ -20,13 +20,11 @@ public class Exercise extends BaseEntity {
     @Column
     private String name;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToMany
     private List<Muscle> muscles;
-
-
 
     @Column(name = "image_url")
     private String imageUrl;
