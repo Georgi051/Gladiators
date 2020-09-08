@@ -23,7 +23,7 @@
                   <a class="nav-link" th:href="@{/customers/registration}">Customer registration</a>
                 </th:div>
 
-                <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER')" class="dropdown  border rounded" style="margin-right: 30px;">
+                <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER')" class="dropdown  border rounded" style="margin-right: 30px;">
                     <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
                             sec:authentication="name">
                     </a>
