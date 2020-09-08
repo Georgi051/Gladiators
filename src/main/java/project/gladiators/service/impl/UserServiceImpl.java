@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
@@ -221,6 +222,17 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserServiceModel userServiceModel) {
         User editedUser = this.modelMapper.map(userServiceModel, User.class);
         userRepository.save(editedUser);
+    }
+
+    @Override
+    public void updateTrainingStatus(String username) {
+        User user=this.userRepository.findUserByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+
+        //todo add remove trainer status
+        user.setTrainer(true);
+
+        userRepository.save(user);
     }
 
     @Override
