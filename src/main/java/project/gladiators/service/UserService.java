@@ -36,4 +36,6 @@ public interface UserService  extends UserDetailsService {
 
 
     void updateUser(UserServiceModel userServiceModel);
+
+    void updateTrainingStatus(String username);
 }

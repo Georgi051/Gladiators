@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
+import project.gladiators.exceptions.TrainerNotFoundException;
 import project.gladiators.model.entities.Trainer;
 import project.gladiators.model.enums.Action;
 import project.gladiators.repository.TrainerRepository;
@@ -59,7 +60,17 @@ public class TrainerServiceImpl implements TrainerService {
 
         userService.updateUser(userServiceModel);
 
+    }
 
+    @Override
+    public void confirmTrainer(TrainerServiceModel trainerServiceModel, String username) {
+            Trainer trainer=this.trainerRepository.findTrainerByUser_Username(username).
+                    orElseThrow(()->new TrainerNotFoundException(ExceptionMessages.TRAINER_NOT_FOUND));
+
+            trainer.setDescription(trainerServiceModel.getDescription());
+            trainer.setYearsOfExperience(trainerServiceModel.getYearsOfExperience());
+            trainerRepository.save(trainer);
+            userService.updateTrainingStatus(username);
 
     }
 }

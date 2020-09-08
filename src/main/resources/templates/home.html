@@ -12,6 +12,11 @@
 <th:block sec:authorize="hasRole('ROLE_BANNED')">
     <h5 class="text-danger text-lg-center">You are banned! You can stay only on this page!</h5>
 </th:block>
+
+<div class="col-12 alert alert-warning  text-center" th:if="${isTrainer==false}">
+    You are registered as a trainer!
+    Please fill the  <a th:href="@{/trainers/confirmation}">form</a> to continue
+</div>
 <div class="jumbotron text-center">
     <h1>About Us</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
