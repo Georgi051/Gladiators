@@ -9,6 +9,7 @@ import project.gladiators.repository.ExerciseRepository;
 import project.gladiators.service.ExerciseService;
 import project.gladiators.service.serviceModels.ExerciseServiceModel;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +36,8 @@ public class ExerciseServiceImpl implements ExerciseService {
             exercise.setName(exerciseDto.getName());
             exercise.setDescription(exerciseDto.getDescription());
             exercise.setImageUrl(exerciseDto.getImageUrl());
-            exercise.setMuscles(null);
+            exercise.setMuscles(new ArrayList<>());
+            exercise.getMuscles().addAll(exerciseDto.getMuscles());
             this.exerciseRepository.saveAndFlush(exercise);
         });
     }

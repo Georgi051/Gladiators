@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -23,7 +20,7 @@ public class Exercise extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Muscle> muscles;
 
     @Column(name = "image_url")

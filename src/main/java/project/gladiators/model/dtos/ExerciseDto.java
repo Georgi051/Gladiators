@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.gladiators.model.entities.Muscle;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,4 +18,6 @@ public class ExerciseDto {
     private String description;
     @Expose
     private String imageUrl;
+    @Expose
+    private Set<Muscle> muscles;
 }
