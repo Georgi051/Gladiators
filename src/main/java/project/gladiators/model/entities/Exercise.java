@@ -20,7 +20,7 @@ public class Exercise extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private List<Muscle> muscles;
 
     @Column(name = "image_url")

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-trainer-panel}">
+
+</th:block>
+
+<div class="container mt-5">
+    <form th:object="${exercise}" th:action="@{/trainers/add-exercise}" th:method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter name">
+            <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input  th:field="*{description}" type="text" class="form-control" id="description" placeholder="Enter content">
+            <small class="text-danger" th:errors="*{description}"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="muscles">Muscles</label>
+            <select multiple class="form-control" th:field="*{muscles}" id="muscles">
+                <option class="form-check" th:each="muscle : ${muscles}" th:value="${muscle.id}" th:text="${muscle.name}">
+            </select>
+            <small id="capitalsHelp" th:each="error : ${#fields.errors('muscles')}" th:text="${error}"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="imageUrl">Upload exercise image</label>
+            <input  th:field="*{imageUrl}" type="file" class="form-control" id="imageUrl">
+            <small class="text-danger" th:errors="*{imageUrl}"></small>
+        </div>
+
+        <button type="submit" class="btn btn-primary ">Submit</button>
+    </form>
+</div>
+
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

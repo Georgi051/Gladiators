@@ -1,0 +1,8 @@
+<th:block xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+
+    <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item"><a class="nav-link" th:href="@{/trainer/exercise-add}" th:classappend="${#httpServletRequest.getRequestURI() == '/trainer/exercise-add'?'active':''}" >Add exercise</a></li>
+
+    </ul>
+</th:block>

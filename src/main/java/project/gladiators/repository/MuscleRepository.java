@@ -6,4 +6,5 @@ import project.gladiators.model.entities.Muscle;
 
 @Repository
 public interface MuscleRepository extends JpaRepository<Muscle,String> {
+    Muscle findByName(String name);
 }

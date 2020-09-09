@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface ExerciseService {
     void seedExercise(ExerciseDto[] muscles);
+
     List<ExerciseServiceModel> findAll();
+
+    void addExercise(ExerciseServiceModel exerciseServiceModel);
 }
