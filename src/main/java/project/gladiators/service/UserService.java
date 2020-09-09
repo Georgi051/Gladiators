@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
+import project.gladiators.model.dtos.WorkoutDto;
 import project.gladiators.model.entities.User;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface UserService  extends UserDetailsService {
-    UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel model, MuscleDto[] muscles);
+    UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel model, MuscleDto[] muscles, WorkoutDto[] workouts);
 
     List<UserServiceModel> getAllUsers();
 
