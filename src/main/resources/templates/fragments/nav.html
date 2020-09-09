@@ -23,19 +23,17 @@
                   <a class="nav-link" th:href="@{/customers/registration}">Customer registration</a>
                 </th:div>
 
-                <div sec:authorize="isAuthenticated()" class="dropdown  border rounded" style="margin-right: 30px;">
-                    <a
-                            class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
+                <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER')" class="dropdown  border rounded" style="margin-right: 30px;">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
                             sec:authentication="name">
-
                     </a>
                     <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" role="presentation"
+                        <a  class="dropdown-item" role="presentation"
                            th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
                         <a sec:authorize="hasAnyRole('ROOT','ADMIN','MODERATOR')" class="dropdown-item" role="presentation"
                            th:href="@{/admin/user-management}">Admin Panel</a>
                         <a sec:authorize="hasRole('TRAINER')" class="dropdown-item" role="presentation"
-                           th:href="@{/trainer/add-plan}">Trainer Panel</a>
+                           th:href="@{/trainers/add-plan}">Trainer Panel</a>
                     </div>
 
                 </div>

@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.exceptions.UserNotFoundException;
+import project.gladiators.model.dtos.ExerciseDto;
 import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.dtos.WorkoutDto;
@@ -38,16 +40,19 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final MuscleService muscleService;
+    private final ExerciseService exerciseService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final WorkoutService workoutService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, MuscleService muscleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, WorkoutService workoutService) {
+    public UserServiceImpl(UserRepository userRepository, WorkoutService workoutService, RoleService roleService, MuscleService muscleService, ExerciseService exerciseService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.muscleService = muscleService;
+        this.exerciseService = exerciseService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -56,7 +61,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser, MuscleDto[] muscles, WorkoutDto[] workouts) {
+    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser, MuscleDto[] muscles, WorkoutDto[] workouts, ExerciseDto[] exercises) {
+
         if (!regUser.getPassword().equals(regUser.getConfirmPassword())) {
             return null;
         }
@@ -64,7 +70,11 @@ public class UserServiceImpl implements UserService {
         if (this.userRepository.count() == 0) {
             this.roleService.seedRoleInDb();
             this.muscleService.seedMuscles(muscles);
+
             this.workoutService.seedWorkouts(workouts);
+
+            this.exerciseService.seedExercise(exercises);
+
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ROOT")));
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ADMIN")));
@@ -222,6 +232,17 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserServiceModel userServiceModel) {
         User editedUser = this.modelMapper.map(userServiceModel, User.class);
         userRepository.save(editedUser);
+    }
+
+    @Override
+    public void updateTrainingStatus(String username) {
+        User user=this.userRepository.findUserByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+
+        //todo add remove trainer status
+        user.setTrainer(true);
+
+        userRepository.save(user);
     }
 
     @Override

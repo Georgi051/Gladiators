@@ -1,0 +1,243 @@
+[
+  {
+    "name": "SQUAT",
+    "description": "Constant representing a squat. This is an exercise in which the body weight is pushed up with the legs from a position with knees bent at a 90 degree angle.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599550267/exercises/squat_hpcgcr.jpg",
+    "muscles": [
+      {
+        "name": "Hamstrings(Iliotibial Band)"
+      },
+      {
+        "name": "Hamstrings(Biceps Femoris)"
+      },
+      {
+        "name": "Hamstrings(Adductor Magnus)"
+      },
+      {
+        "name": "Hamstrings(Semitendinosus)"
+      },
+      {
+        "name": "Hamstrings(Gracilis)"
+      },
+      {
+        "name": "Hamstrings(Semimembranosus)"
+      },
+      {
+        "name": "Hamstrings(Semimembranosus)"
+      },
+      {
+        "name": "Calves(Gastrocnemius)"
+      },
+      {
+        "name": "Calves(Peroneus Brevis)"
+      },
+      {
+        "name": "Calves(Flexor Hallucis Longus)"
+      },
+      {
+        "name": "Calves(Peroneus Longus)"
+      },
+      {
+        "name": "Calves(Extensor Digitorum Longus)"
+      },
+      {
+        "name": "Calves(Tibialis Anterior)"
+      },
+      {
+        "name": "Glutetes(Gluteus Medius)"
+      },
+      {
+        "name": "Glutetes(Gluteus Maximus)"
+      }
+    ]
+  },
+  {
+    "name": "PLANK",
+    "description": "Constant representing a plank. This is an isometric exercise in which the body weight is supported by the arms and feet, and the upper body and legs are kept straightened and rigid, facing down, in a plank position.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599550259/exercises/plank_lh4o20.jpg",
+    "muscles": [
+      {
+        "name": "Shoulders(Deltoid Posterior Head)"
+      },
+      {
+        "name": "Back(Rhomboid Major)"
+      },
+      {
+        "name": "Triceps(Brachii Lateral Head)"
+      },
+      {
+        "name": "Triceps(Brachii Long Head)"
+      },
+      {
+        "name": "Triceps(Brachii Medial Head)"
+      },
+      {
+        "name": "Biceps(Brachialis)"
+      },
+      {
+        "name": "Biceps(Brachii Long head)"
+      },
+      {
+        "name": "Biceps(Brachii Short Head)"
+      },
+      {
+        "name": "Abs(External Oblique)"
+      },
+      {
+        "name": "Thighs(Rectus Femoris)"
+      },
+      {
+        "name": "Calves(Tibialis Anterior)"
+      },
+      {
+        "name": "Thighs(Tensor Fasciae Latae)"
+      }
+    ]
+  },
+  {
+    "name": "BICEPS_CURL",
+    "description": "Constant representing a bicep curl. This is an exercise in which weight is pulled using the biceps muscle in a curling movement of the elbow.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599573241/exercises/biceps_curl_gq39fu.jpg",
+    "muscles": [
+      {
+        "name": "Biceps(Brachii Long head)"
+      },
+      {
+        "name": "Biceps(Brachii Short Head)"
+      },
+      {
+        "name": "Biceps(Brachialis)"
+      }
+    ]
+  },
+  {
+    "name": "BENCH_PRESS",
+    "description": "Constant representing a bench press. This is an exercise in which the weight is pressed upwards from a lying position on a bench.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599573486/exercises/bench_press_uxgqkk.jpg",
+    "muscles": [
+      {
+        "name": "Biceps(Brachii Long head)"
+      },
+      {
+        "name": "Biceps(Brachii Short Head)"
+      },
+      {
+        "name": "Biceps(Brachialis)"
+      },
+      {
+        "name": "Triceps(Brachii Lateral Head)"
+      },
+      {
+        "name": "Triceps(Brachii Long Head)"
+      },
+      {
+        "name": "Triceps(Brachii Medial Head)"
+      },
+      {
+        "name": "Back(Teres Major)"
+      },
+      {
+        "name": "Back(Latissimus Dorsi)"
+      },
+      {
+        "name": "Shoulders(Deltoid Posterior Head)"
+      },
+      {
+        "name": "Abs(Serratus Anterior)"
+      },
+      {
+        "name": "Forearms(Flexor Carpi Ulnaris)"
+      },
+      {
+        "name": "Forearms(Palmaris Longus)"
+      },
+      {
+        "name": "Forearms(Pronator Teres)"
+      },
+      {
+        "name": "Chest(Pectoralis Major)"
+      }
+    ]
+  },
+  {
+    "name": "DEADLIFT",
+    "description": "Constant representing a deadlift. This is an exercie in which weight is pulled up by extending the hips and knee.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599574095/exercises/deadlift_oi3msb.jpg",
+    "muscles": [
+      {
+        "name": "Hamstrings(Biceps Femoris)"
+      },
+      {
+        "name": "Calves(Tibialis Anterior)"
+      },
+      {
+        "name": "Hamstrings(Semitendinosus)"
+      },
+      {
+        "name": "Hamstrings(Semimembranosus)"
+      },
+      {
+        "name": "Glutetes(Gluteus Maximus)"
+      }
+    ]
+  },
+  {
+    "name": "LEG_CURL",
+    "description": "Constant representing a leg curl. This is an exercise in which weight is pulled up with the legs by curling the knees.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599574519/exercises/leg_curl_qhqd2e.jpg",
+    "muscles": [
+      {
+        "name": "Calves(Gastrocnemius)"
+      },
+      {
+        "name": "Thighs(Gracilis)"
+      },
+      {
+        "name": "Hamstrings(Biceps Femoris)"
+      },
+      {
+        "name": "Hamstrings(Semimembranosus)"
+      },
+      {
+        "name": "Hamstrings(Semitendinosus)"
+      }
+    ]
+  },
+  {
+    "name": "TRICEPS_EXTENSION",
+    "description": "Constant representing a triceps extension. This is an exercise in which weight is pressed overhead by extending the elbows.",
+    "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599574951/exercises/triceps_extension_wttxtp.jpg",
+    "muscles": [
+      {
+        "name": "Biceps(Brachialis)"
+      },
+      {
+        "name": "Biceps(Brachii Long head)"
+      },
+      {
+        "name": "Biceps(Brachii Short Head)"
+      },
+      {
+        "name": "Triceps(Brachii Lateral Head)"
+      },
+      {
+        "name": "Triceps(Brachii Long Head)"
+      },
+      {
+        "name": "Triceps(Brachii Medial Head)"
+      },
+      {
+        "name": "Shoulders(Deltoid Anterior Head)"
+      },
+      {
+        "name": "Shoulders(Deltoid Middle Head)"
+      },
+      {
+        "name": "Shoulders(Deltoid Posterior Head)"
+      },
+      {
+        "name": "Forearms(Flexor Carpi Radialis)"
+      }
+    ]
+  }
+]
