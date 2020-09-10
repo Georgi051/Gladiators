@@ -34,7 +34,7 @@
             <select multiple class="form-control" th:field="*{muscles}" id="muscles">
                 <option class="form-check" th:each="muscle : ${muscles}" th:value="${muscle.id}" th:text="${muscle.name}">
             </select>
-            <small id="capitalsHelp" th:each="error : ${#fields.errors('muscles')}" th:text="${error}"></small>
+            <small class="text-danger" th:each="error : ${#fields.errors('muscles')}" th:text="${error}"></small>
         </div>
 
         <div class="form-group">
