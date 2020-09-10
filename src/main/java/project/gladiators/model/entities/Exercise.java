@@ -23,6 +23,6 @@ public class Exercise extends BaseEntity {
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private List<Muscle> muscles;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url",columnDefinition = "TEXT")
     private String imageUrl;
 }
