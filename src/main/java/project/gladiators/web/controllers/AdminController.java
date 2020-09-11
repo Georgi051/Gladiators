@@ -99,7 +99,8 @@ public class AdminController extends BaseController {
     }
 
     @PostMapping("/article-add")
-    public ModelAndView addArticle(@Valid @ModelAttribute("article") ArticleRegisterBindingModel articleRegisterBindingModel, BindingResult result, Principal principal) throws IOException {
+    public ModelAndView addArticle(@Valid @ModelAttribute("article") ArticleRegisterBindingModel articleRegisterBindingModel, BindingResult result, Principal principal
+            , RedirectAttributes redirectAttributes) throws IOException {
 
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
@@ -107,12 +108,14 @@ public class AdminController extends BaseController {
             modelAndView.addObject("org.springframework.validation.BindingResult.article", result);
             return super.view("/admin/article-add", modelAndView);
         }
-        String imageUrl = articleRegisterBindingModel.getImage().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" : cloudinaryService.uploadImage(articleRegisterBindingModel.getImage());
+        String imageUrl = articleRegisterBindingModel.getImage().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg"
+                : this.cloudinaryService.uploadImageToCurrentFolder(articleRegisterBindingModel.getImage(), "articles");
         ArticleServiceModel articleServiceModel = modelMapper.map(articleRegisterBindingModel, ArticleServiceModel.class);
         articleServiceModel.setImageUrl(imageUrl);
 
         articleService.registerArticle(articleServiceModel, principal.getName());
-
+        redirectAttributes.addFlashAttribute("statusMessage", "You created article successful");
+        redirectAttributes.addFlashAttribute("statusCode", "successful");
         return super.redirect("/admin/article-add");
     }
 
@@ -126,18 +129,18 @@ public class AdminController extends BaseController {
     @PostMapping("/trainer-manager")
     public ModelAndView addTrainer(@RequestParam String username, @RequestParam("option") Action action,
                                    RedirectAttributes redirectAttributes
-                                   ) {
+    ) {
 
         try {
             trainerService.changeTrainerStatus(username, action);
-            String resultAction=Action.valueOf("CREATE").equals(action)?"created":"removed";
+            String resultAction = Action.valueOf("CREATE").equals(action) ? "created" : "removed";
 
-            redirectAttributes.addFlashAttribute("statusMessage",String.format("You %s trainer successful",resultAction));
-            redirectAttributes.addFlashAttribute("statusCode","successful");
+            redirectAttributes.addFlashAttribute("statusMessage", String.format("You %s trainer successful", resultAction));
+            redirectAttributes.addFlashAttribute("statusCode", "successful");
 
         } catch (InvalidChangeTrainerStatusException ex) {
             redirectAttributes.addFlashAttribute("statusMessage", ex.getMessage());
-            redirectAttributes.addFlashAttribute("statusCode","error");
+            redirectAttributes.addFlashAttribute("statusCode", "error");
 
         }
 

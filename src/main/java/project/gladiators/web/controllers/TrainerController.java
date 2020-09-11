@@ -89,20 +89,18 @@ public class TrainerController extends BaseController {
         }
         String image = exerciseEditBindingModel.getImageUrl().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" :
                 this.cloudinaryService.uploadImageToCurrentFolder(exerciseEditBindingModel.getImageUrl(), "exercises");
-        ExerciseServiceModel exerciseServiceModel = this.modelMapper.map(exerciseEditBindingModel,ExerciseServiceModel.class);
+        ExerciseServiceModel exerciseServiceModel = this.modelMapper.map(exerciseEditBindingModel, ExerciseServiceModel.class);
         exerciseServiceModel.setImageUrl(image);
         this.exerciseService.addExercise(exerciseServiceModel);
 
-            redirectAttributes.addFlashAttribute("statusMessage","You created exercise successful");
-            redirectAttributes.addFlashAttribute("statusCode","successful");
-
+        redirectAttributes.addFlashAttribute("statusMessage", "You created exercise successful");
+        redirectAttributes.addFlashAttribute("statusCode", "successful");
 
         return super.redirect("/trainers/add-exercise");
-
     }
 
     @GetMapping("/add-workout")
-    public ModelAndView addWorkout(ModelAndView modelAndView){
+    public ModelAndView addWorkout(ModelAndView modelAndView) {
 
         modelAndView.addObject("workout", new WorkoutAddBindingModel());
         modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
@@ -113,12 +111,12 @@ public class TrainerController extends BaseController {
 
     @PostMapping("/add-workout")
     public ModelAndView addWorkout(@Valid @ModelAttribute("workout")
-                                   WorkoutAddBindingModel workoutAddBindingModel,
+                                           WorkoutAddBindingModel workoutAddBindingModel,
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView,
-                                   RedirectAttributes redirectAttributes){
+                                   RedirectAttributes redirectAttributes) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             modelAndView.addObject("workout", workoutAddBindingModel);
             modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
                     .sorted(Comparator.comparing(ExerciseServiceModel::getName))
@@ -132,13 +130,10 @@ public class TrainerController extends BaseController {
 
         this.workoutService.addWorkout(workoutServiceModel);
 
-        redirectAttributes.addFlashAttribute("statusMessage","You created workout successful");
-        redirectAttributes.addFlashAttribute("statusCode","successful");
+        redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
+        redirectAttributes.addFlashAttribute("statusCode", "successful");
 
         return super.redirect("/trainers/add-workout");
-
     }
-
-
 
 }

@@ -15,6 +15,13 @@
 </th:block>
 
 <div class="container mt-5">
+
+    <div class="row align-items-center mt-5" th:if="${statusMessage}">
+        <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+             th:text="${statusMessage}">
+        </div>
+    </div>
+    <h2 class="text-center form-heading">Add article</h2>
     <form th:object="${article}" th:action="@{/admin/article-add}" th:method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Title</label>

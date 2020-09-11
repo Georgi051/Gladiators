@@ -269,7 +269,7 @@ public class UserServiceImpl implements UserService {
             }
             user.setImageUrl(saveDefImg);
         } else {
-            user.setImageUrl(this.cloudinaryService.uploadImage(image));
+            user.setImageUrl(this.cloudinaryService.uploadImageToCurrentFolder(image, "profile-pictures"));
         }
     }
 

@@ -22,7 +22,7 @@ public class Article extends BaseEntity {
     @Column
     private String title;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "added_on")
