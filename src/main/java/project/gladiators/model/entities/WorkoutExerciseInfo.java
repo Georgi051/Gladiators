@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,5 +31,9 @@ public class WorkoutExerciseInfo extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "workout_id",referencedColumnName = "id")
     private Workout workout;
+
+
+    @Column
+    private LocalDateTime registeredOn;
 
 }

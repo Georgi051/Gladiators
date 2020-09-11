@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -16,15 +17,13 @@ import java.util.List;
 @NoArgsConstructor
 public class Workout extends BaseEntity {
 
-    @OneToMany
-    private List<WorkoutExerciseInfo> exerciseInfos;
-
     @Column
     private String name;
 
     @Column
     private int duration;
 
-    @Column
-    private LocalDateTime registeredOn;
+    @OneToMany
+    private Set<Exercise> exercises;
+
 }

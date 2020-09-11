@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-trainer-panel}">
+
+</th:block>
+
+<div class="container mt-5">
+
+    <h1 class="text-center text-dark">Add Workout</h1>
+    <form th:object="${workout}" th:action="@{/trainers/add-workout}" th:method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter name">
+            <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Duration</label>
+            <input  th:field="*{duration}" type="text" class="form-control" id="duration" placeholder="Enter duration">
+            <small class="text-danger" th:errors="*{duration}"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="exercises">Exercises</label>
+            <select multiple class="form-control" th:field="*{exercises}" id="exercises">
+                <option class="form-check" th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.name}">
+            </select>
+            <small class="text-danger" th:each="error : ${#fields.errors('exercises')}" th:text="${error}"></small>
+        </div>
+
+        <button type="submit" class="btn btn-primary ">Submit</button>
+    </form>
+</div>
+
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

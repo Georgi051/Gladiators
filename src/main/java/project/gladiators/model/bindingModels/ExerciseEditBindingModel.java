@@ -15,6 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class ExerciseEditBindingModel {
+
     @Size(min = 3, message = "Exercise name must be at least 3 characters")
     private String name;
     @Size(min = 30, max = 1000, message = "The description must be between 30 and 1000 characters!")

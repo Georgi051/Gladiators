@@ -8,7 +8,8 @@ import project.gladiators.service.ExerciseService;
 
 @Controller
 @RequestMapping("/exercises")
-public class ExerciseController extends BaseController{
+public class ExerciseController extends BaseController {
+
     private final ExerciseService exerciseService;
     private final ModelMapper modelMapper;
 

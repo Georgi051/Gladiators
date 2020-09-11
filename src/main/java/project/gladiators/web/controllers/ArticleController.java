@@ -41,7 +41,7 @@ public class ArticleController extends BaseController {
         ArticleServiceModel articleServiceModel = articleService.findArticleById(id);
         ArticleViewModel article=this.modelMapper.map(articleServiceModel, ArticleViewModel.class);
         article.setUserServiceModelUsername(articleServiceModel.getUserServiceModel().getUsername());
-        return super.view("article-info",new ModelAndView().addObject("article",article));
+        return super.view("article-info", new ModelAndView().addObject("article",article));
     }
 
     @GetMapping("/delete/{id}")

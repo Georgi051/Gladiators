@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
-import project.gladiators.service.CloudinaryService;
-import project.gladiators.service.ExerciseService;
-import project.gladiators.service.MuscleService;
-import project.gladiators.service.TrainerService;
+import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
+import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.ExerciseServiceModel;
 import project.gladiators.service.serviceModels.MuscleServiceModel;
 import project.gladiators.service.serviceModels.TrainerServiceModel;
+import project.gladiators.service.serviceModels.WorkoutServiceModel;
+import project.gladiators.web.viewModels.ExerciseViewModel;
 import project.gladiators.web.viewModels.MuscleViewModel;
 
 import javax.validation.Valid;
@@ -32,14 +32,16 @@ public class TrainerController extends BaseController {
     private final TrainerService trainerService;
     private final ExerciseService exerciseService;
     private final MuscleService muscleService;
+    private final WorkoutService workoutService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, WorkoutService workoutService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.trainerService = trainerService;
         this.exerciseService = exerciseService;
         this.muscleService = muscleService;
+        this.workoutService = workoutService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
@@ -74,6 +76,10 @@ public class TrainerController extends BaseController {
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("exercise", exerciseEditBindingModel);
+            modelAndView.addObject("muscles", this.muscleService.findAll().stream()
+                    .sorted(Comparator.comparing(MuscleServiceModel::getName))
+                    .map(muscleServiceModel -> this.modelMapper.map(muscleServiceModel, MuscleViewModel.class))
+                    .collect(Collectors.toList()));
             modelAndView.addObject("org.springframework.validation.BindingResult.exercise", result);
             return super.view("/trainer/exercise-add", modelAndView);
         }
@@ -82,7 +88,42 @@ public class TrainerController extends BaseController {
         exerciseServiceModel.setImageUrl(imageUrl);
         this.exerciseService.addExercise(exerciseServiceModel);
         return super.redirect("/trainers/add-exercise");
+
     }
+
+    @GetMapping("/add-workout")
+    public ModelAndView addWorkout(ModelAndView modelAndView){
+
+        modelAndView.addObject("workout", new WorkoutAddBindingModel());
+        modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
+                .sorted(Comparator.comparing(ExerciseServiceModel::getName))
+                .collect(Collectors.toList()));
+        return super.view("/trainer/workout-add", modelAndView);
+    }
+
+    @PostMapping("/add-workout")
+    public ModelAndView addWorkout(@Valid @ModelAttribute("workout")
+                                   WorkoutAddBindingModel workoutAddBindingModel,
+                                   BindingResult bindingResult,
+                                   ModelAndView modelAndView){
+
+        if(bindingResult.hasErrors()){
+            modelAndView.addObject("workout", workoutAddBindingModel);
+            modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
+                    .sorted(Comparator.comparing(ExerciseServiceModel::getName))
+                    .collect(Collectors.toList()));
+            return super.view("/trainer/workout-add", modelAndView);
+        }
+
+        WorkoutServiceModel workoutServiceModel = this.modelMapper
+                .map(workoutAddBindingModel, WorkoutServiceModel.class);
+
+        this.workoutService.addWorkout(workoutServiceModel);
+
+        return super.redirect("/trainers/add-workout");
+
+    }
+
 
 
 }
