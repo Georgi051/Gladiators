@@ -83,9 +83,10 @@ public class TrainerController extends BaseController {
             modelAndView.addObject("org.springframework.validation.BindingResult.exercise", result);
             return super.view("/trainer/exercise-add", modelAndView);
         }
-        String imageUrl = exerciseEditBindingModel.getImageUrl().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" : cloudinaryService.uploadImage(exerciseEditBindingModel.getImageUrl());
+//        String imageUrl = exerciseEditBindingModel.getImageUrl().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" : cloudinaryService.uploadImage(exerciseEditBindingModel.getImageUrl());
+        String image = this.cloudinaryService.uploadImageToCurrentFolder(exerciseEditBindingModel.getImageUrl(), "exercises");
         ExerciseServiceModel exerciseServiceModel = this.modelMapper.map(exerciseEditBindingModel,ExerciseServiceModel.class);
-        exerciseServiceModel.setImageUrl(imageUrl);
+        exerciseServiceModel.setImageUrl(image);
         this.exerciseService.addExercise(exerciseServiceModel);
         return super.redirect("/trainers/add-exercise");
 

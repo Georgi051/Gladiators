@@ -141,9 +141,6 @@ public class AdminController extends BaseController {
 
         }
 
-
-
-
         return super.redirect("/admin/trainer-manager");
     }
 }
