@@ -14,11 +14,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class ExerciseEditBindingModel {
-<<<<<<< HEAD
 
     @Size(min = 3, message = "Exercise name must be at least 3 characters")
-=======
->>>>>>> 4121e233db39790a8f9356d17cc03daebd1f1432
     private String name;
     private String description;
     @NotNull
