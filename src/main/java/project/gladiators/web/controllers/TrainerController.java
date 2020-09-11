@@ -131,7 +131,7 @@ public class TrainerController extends BaseController {
                 .map(workoutAddBindingModel, WorkoutServiceModel.class);
 
         this.workoutService.addWorkout(workoutServiceModel);
-        
+
         redirectAttributes.addFlashAttribute("statusMessage","You created workout successful");
         redirectAttributes.addFlashAttribute("statusCode","successful");
 

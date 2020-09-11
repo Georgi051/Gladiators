@@ -34,15 +34,12 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     @Override
     public String uploadImageToCurrentFolder(MultipartFile multipartFile ,String folderName) throws IOException {
         String file = multipartFile.getOriginalFilename();
-        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "gladiators",
-                "api_key", "684325993973637",
-                "api_secret", "9edm3c-2ELERduoX-43PYo8sw_M"));
+      
         File toUpload = File.createTempFile("temp-file",multipartFile.getOriginalFilename());
         multipartFile.transferTo(toUpload);
         Map params = ObjectUtils.asMap("public_id", folderName+"/"+file);
 
-     return cloudinary.uploader().upload(toUpload, params ).get("url").toString();
+     return cloudinary.uploader().upload(toUpload, params).get("url").toString();
 
 
     }
