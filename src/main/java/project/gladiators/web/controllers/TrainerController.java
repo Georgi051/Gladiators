@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
 import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
@@ -46,6 +47,7 @@ public class TrainerController extends BaseController {
 
     @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
     @GetMapping("/confirmation")
+    @PageTitle("Trainer confirmation")
     public ModelAndView confirm(ModelAndView mav) {
         mav.addObject("trainer", new TrainerRegisterBindingModel());
         return super.view("/trainer/trainer-confirm", mav);
@@ -71,6 +73,7 @@ public class TrainerController extends BaseController {
     }
 
     @GetMapping("/add-exercise")
+    @PageTitle("Add exercise")
     public ModelAndView addExercise(ModelAndView modelAndView) {
         modelAndView.addObject("exercise", new ExerciseEditBindingModel());
         modelAndView.addObject("muscles", this.muscleService.findAll().stream()
@@ -106,6 +109,7 @@ public class TrainerController extends BaseController {
     }
 
     @GetMapping("/add-workout")
+    @PageTitle("Add workout")
     public ModelAndView addWorkout(ModelAndView modelAndView) {
 
         modelAndView.addObject("workout", new WorkoutAddBindingModel());

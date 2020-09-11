@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.annotations.PageTitle;
 import project.gladiators.service.ArticleService;
-import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.ArticleServiceModel;
-import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.web.viewModels.ArticleViewModel;
 
 import java.util.Arrays;
@@ -31,12 +30,14 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping
+    @PageTitle("All articles")
     public ModelAndView getAllArticles() {
         List<ArticleViewModel> articles = Arrays.asList(this.modelMapper.map(articleService.getAllArticles(), ArticleViewModel[].class));
         return super.view("articles", new ModelAndView().addObject("articles",articles));
     }
 
     @GetMapping("{id}")
+
     public ModelAndView getSpecificArticle(@PathVariable String id){
         ArticleServiceModel articleServiceModel = articleService.findArticleById(id);
         ArticleViewModel article=this.modelMapper.map(articleServiceModel, ArticleViewModel.class);

@@ -4,6 +4,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.entities.ProgressChart;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.UserService;
@@ -25,6 +26,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("/")
     @PreAuthorize("isAnonymous()")
+    @PageTitle("Welcome")
     public ModelAndView index( ModelAndView modelAndView) {
         return view("index", modelAndView);
 
@@ -32,6 +34,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Home")
     public ModelAndView getHome(Principal principal, ModelAndView modelAndView) {
         UserServiceModel user =
                 this.userService.findUserByUsername(principal.getName());

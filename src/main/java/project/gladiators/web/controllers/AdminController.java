@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.model.bindingModels.ArticleRegisterBindingModel;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
@@ -17,7 +18,6 @@ import project.gladiators.service.serviceModels.ArticleServiceModel;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
@@ -47,6 +47,7 @@ public class AdminController extends BaseController {
 
 
     @GetMapping("/user-management")
+    @PageTitle("User management")
     public ModelAndView userRoles() {
 
 
@@ -76,6 +77,7 @@ public class AdminController extends BaseController {
         return view("/admin/user-management", modelAndView);
     }
 
+
     @GetMapping("/user-management/ban")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ROOT')")
     public ModelAndView banUser(@RequestParam("id") String id,
@@ -90,6 +92,7 @@ public class AdminController extends BaseController {
 
 
     @GetMapping("/article-add")
+    @PageTitle("Add article")
     public ModelAndView addArticle(ModelAndView modelAndView) {
 
         modelAndView.addObject("article", new ArticleRegisterBindingModel());
@@ -120,6 +123,7 @@ public class AdminController extends BaseController {
     }
 
     @GetMapping("/trainer-manager")
+    @PageTitle("Trainer manager")
     public ModelAndView addTrainer(ModelAndView modelAndView) {
         List<String> users = userService.getAllUsers().stream().map(e -> e.getUsername()).collect(Collectors.toList());
         modelAndView.addObject("users", users);
