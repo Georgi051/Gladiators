@@ -10,18 +10,53 @@
     <main class="mt-3">
         <h2 class="text-center text-dark">Trainer confirmation</h2>
         <hr class="hr-2 bg-dark w-25">
-        <form class="form w-25 mx-auto" th:object="${trainer}"
-              th:action="@{/trainers/confirmation}" th:method="post" >
+        <form class="form w-25 mx-auto" th:object="${trainer}" enctype="multipart/form-data"
+              th:action="@{/trainers/confirmation}" th:method="post">
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'text-danger'">
+                <label for="firstName" class="font-weight-bold">First name</label>
+                <input type="text" th:field="*{firstName}" class="form-control" id="firstName"
+                       placeholder="Your first name...">
+                <small id="firstNameCheck" th:each="error : ${#fields.errors('firstName')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'text-danger'">
+                <label for="lastName" class="font-weight-bold">Last name</label>
+                <input type="text" th:field="*{lastName}" class="form-control" id="lastName"
+                       placeholder="Your last name...">
+                <small id="lastNameCheck" th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('dateOfBirth')}? 'text-danger'">
+                <label for="dateOfBirth" class="font-weight-bold">Date of birth</label>
+                <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
+                       placeholder="Date of birth...">
+                <small id="ageCheck" th:each="error : ${#fields.errors('dateOfBirth')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label class="font-weight-bold">Gender</label>
+                <input type="radio" name="gender" th:value="MALE"/>male
+                <input type="radio" name="gender" th:value="FEMALE"/>female
+            </div>
+            <div class="form-group">
+                <label for="add-product-image" class="font-weight-bold">Image</label>
+                <input type="file" class="form-control-file" id="add-product-image" name="imageUrl">
+            </div>
+
+
             <div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'text-danger'">
                 <label for="description" class="font-weight-bold">Description</label>
-                <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description...">
-                <small id="descriptionErrors" th:each="error : ${#fields.errors('description')}" th:text="${error}"></small>
+                <input type="text" th:field="*{description}" class="form-control" id="description"
+                       placeholder="Description...">
+                <small id="descriptionErrors" th:each="error : ${#fields.errors('description')}"
+                       th:text="${error}"></small>
             </div>
 
             <div class="form-group" th:classappend="${#fields.hasErrors('yearsOfExperience')}? 'text-danger'">
                 <label for="yearsOfExperience" class="font-weight-bold">Years of experience</label>
-                <input type="text" th:field="*{yearsOfExperience}" class="form-control" id="yearsOfExperience" placeholder="Your years of experience...">
-                <small id="yearsOfExperienceErrors" th:each="error : ${#fields.errors('yearsOfExperience')}" th:text="${error}"></small>
+                <input type="text" th:field="*{yearsOfExperience}" class="form-control" id="yearsOfExperience"
+                       placeholder="Your years of experience...">
+                <small id="yearsOfExperienceErrors" th:each="error : ${#fields.errors('yearsOfExperience')}"
+                       th:text="${error}"></small>
             </div>
 
 

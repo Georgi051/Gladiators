@@ -3,6 +3,7 @@ package project.gladiators.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.exceptions.TrainerNotFoundException;
@@ -16,7 +17,7 @@ import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
-import java.util.Objects;
+import java.io.IOException;
 
 @Service
 public class TrainerServiceImpl implements TrainerService {
@@ -35,26 +36,30 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public void changeTrainerStatus(String username, Action action) {
-        UserServiceModel userServiceModel=userService.findUserByUsername(username);
-        RoleServiceModel role=roleService.findByAuthority("ROLE_TRAINER");
+        UserServiceModel userServiceModel = userService.findUserByUsername(username);
+        RoleServiceModel trainerConfirmed = this.roleService.findByAuthority("ROLE_TRAINER_CONFIRMED");
+        RoleServiceModel trainerUnconfirmed = this.roleService.findByAuthority("ROLE_TRAINER_UNCONFIRMED");
 
-        if(Action.valueOf("CREATE").equals(action)){
-            if(userServiceModel.getAuthorities().contains(role)){
+        if (Action.valueOf("CREATE").equals(action)) {
+            if (userServiceModel.getAuthorities().contains(trainerConfirmed)
+                    || userServiceModel.getAuthorities().contains(trainerUnconfirmed)) {
                 throw new InvalidChangeTrainerStatusException(ExceptionMessages.USER_ALREADY_TRAINER);
             }
-            userServiceModel.getAuthorities().add(role);
+            userServiceModel.getAuthorities().add(trainerUnconfirmed);
 
-            TrainerServiceModel trainerServiceModel=new TrainerServiceModel();
+            TrainerServiceModel trainerServiceModel = new TrainerServiceModel();
             trainerServiceModel.setUserServiceModel(userServiceModel);
 
-            Trainer trainer=this.modelMapper.map(trainerServiceModel,Trainer.class);
+            Trainer trainer = this.modelMapper.map(trainerServiceModel, Trainer.class);
             trainerRepository.save(trainer);
 
-        }else{
-            if(!userServiceModel.getAuthorities().contains(role)){
+        } else {
+            if (!(userServiceModel.getAuthorities().contains(trainerConfirmed)
+                    || userServiceModel.getAuthorities().contains(trainerUnconfirmed))) {
                 throw new InvalidChangeTrainerStatusException(ExceptionMessages.USER_NOT_TRAINER);
             }
-            userServiceModel.getAuthorities().remove(role);
+            userServiceModel.getAuthorities().remove(trainerConfirmed);
+            userServiceModel.getAuthorities().remove(trainerUnconfirmed);
             trainerRepository.deleteTrainerByUser_Id(userServiceModel.getId());
         }
 
@@ -63,14 +68,19 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public void confirmTrainer(TrainerServiceModel trainerServiceModel, String username) {
-            Trainer trainer=this.trainerRepository.findTrainerByUser_Username(username).
-                    orElseThrow(()->new TrainerNotFoundException(ExceptionMessages.TRAINER_NOT_FOUND));
+    public void confirmTrainer(TrainerServiceModel trainerServiceModel, UserServiceModel userServiceModel, String username, MultipartFile profilePicture) throws IOException {
 
-            trainer.setDescription(trainerServiceModel.getDescription());
-            trainer.setYearsOfExperience(trainerServiceModel.getYearsOfExperience());
-            trainerRepository.save(trainer);
-            userService.updateTrainingStatus(username);
+        Trainer trainer = this.trainerRepository.findTrainerByUser_Username(username).
+                orElseThrow(() -> new TrainerNotFoundException(ExceptionMessages.TRAINER_NOT_FOUND));
+
+        trainer.setDescription(trainerServiceModel.getDescription());
+        trainer.setYearsOfExperience(trainerServiceModel.getYearsOfExperience());
+
+        trainerRepository.save(trainer);
+
+
+        userService.confirmTrainer(username, userServiceModel, profilePicture);
+
 
     }
 }

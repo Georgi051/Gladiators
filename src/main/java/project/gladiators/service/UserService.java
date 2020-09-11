@@ -2,9 +2,9 @@ package project.gladiators.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.dtos.ExerciseDto;
 import project.gladiators.model.dtos.MuscleDto;
-import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.User;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
@@ -39,5 +39,5 @@ public interface UserService  extends UserDetailsService {
 
     void updateUser(UserServiceModel userServiceModel);
 
-    void updateTrainingStatus(String username);
+    void confirmTrainer(String username, UserServiceModel userServiceModel, MultipartFile profilePicture) throws IOException;
 }

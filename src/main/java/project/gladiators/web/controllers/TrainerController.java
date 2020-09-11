@@ -2,6 +2,7 @@ package project.gladiators.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,17 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
 import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
-import project.gladiators.model.enums.Action;
 import project.gladiators.service.*;
-import project.gladiators.service.serviceModels.ExerciseServiceModel;
-import project.gladiators.service.serviceModels.MuscleServiceModel;
-import project.gladiators.service.serviceModels.TrainerServiceModel;
-import project.gladiators.service.serviceModels.WorkoutServiceModel;
-import project.gladiators.web.viewModels.ExerciseViewModel;
+import project.gladiators.service.serviceModels.*;
 import project.gladiators.web.viewModels.MuscleViewModel;
 
 import javax.validation.Valid;
@@ -49,18 +44,29 @@ public class TrainerController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
+    @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
     @GetMapping("/confirmation")
     public ModelAndView confirm(ModelAndView mav) {
         mav.addObject("trainer", new TrainerRegisterBindingModel());
         return super.view("/trainer/trainer-confirm", mav);
     }
 
+    @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
     @PostMapping("/confirmation")
-    public ModelAndView confirm(@Valid TrainerRegisterBindingModel trainerRegisterBindingModel
+    public ModelAndView confirm(@Valid @ModelAttribute("trainer") TrainerRegisterBindingModel trainerRegisterBindingModel
             , BindingResult bindingResult
-            , Principal principal) {
+            , Principal principal, ModelAndView modelAndView) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("org.springframework.validation.BindingResult.trainer", bindingResult);
+
+            return super.view("/trainer/trainer-confirm", modelAndView);
+        }
+
         TrainerServiceModel trainerServiceModel = this.modelMapper.map(trainerRegisterBindingModel, TrainerServiceModel.class);
-        trainerService.confirmTrainer(trainerServiceModel, principal.getName());
+
+        UserServiceModel userServiceModel = this.modelMapper.map(trainerRegisterBindingModel, UserServiceModel.class);
+        trainerService.confirmTrainer(trainerServiceModel, userServiceModel, principal.getName(), trainerRegisterBindingModel.getImageUrl());
         return super.redirect("/home");
     }
 

@@ -1,13 +1,10 @@
 package project.gladiators.service.serviceModels;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.gladiators.model.enums.Gender;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -27,7 +24,6 @@ public class UserServiceModel extends BaseServiceModel{
     private String password;
     private String email;
     private LocalDate dateOfBirth;
-    private boolean isTrainer;
     private Set<RoleServiceModel> authorities;
 
 

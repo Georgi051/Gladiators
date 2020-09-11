@@ -28,7 +28,8 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
         this.roleRepository.saveAndFlush(new Role("ROLE_MODERATOR"));
         this.roleRepository.saveAndFlush(new Role("ROLE_USER"));
-        this.roleRepository.saveAndFlush(new Role("ROLE_TRAINER"));
+        this.roleRepository.saveAndFlush(new Role("ROLE_TRAINER_CONFIRMED"));
+        this.roleRepository.saveAndFlush(new Role("ROLE_TRAINER_UNCONFIRMED"));
         this.roleRepository.saveAndFlush(new Role("ROLE_CUSTOMER"));
         this.roleRepository.saveAndFlush(new Role("ROLE_BANNED"));
     }

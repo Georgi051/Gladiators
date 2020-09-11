@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.exceptions.UserNotFoundException;
+import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.dtos.ExerciseDto;
 import project.gladiators.model.dtos.MuscleDto;
-import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
 import project.gladiators.model.enums.Gender;
@@ -189,14 +189,20 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(newAuth);
 
         user.getAuthorities().add(this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+
+
+        setUserCredentials(user, firstName, lastName, dateOfBirth, gender, image);
+
+        this.userRepository.save(user);
+    }
+
+    private void setUserCredentials(User user, String firstName, String lastName, LocalDate dateOfBirth, String gender, MultipartFile image) throws IOException {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setDateOfBirth(dateOfBirth);
         user.setGender(Gender.valueOf(gender));
 
         setProfilePicture(image, user);
-
-        this.userRepository.save(user);
     }
 
     @Override
@@ -231,12 +237,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateTrainingStatus(String username) {
-        User user=this.userRepository.findUserByUsername(username)
-                .orElseThrow(()->new UsernameNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+    public void confirmTrainer(String username, UserServiceModel userServiceModel, MultipartFile profilePicture) throws IOException {
+        Role trainerConfirmed = this.modelMapper.map(roleService.findByAuthority("ROLE_TRAINER_CONFIRMED"), Role.class);
+        Role trainerUnconfirmed = this.modelMapper.map(roleService.findByAuthority("ROLE_TRAINER_UNCONFIRMED"), Role.class);
+        User user = this.userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(ExceptionMessages.USER_NOT_FOUND));
 
-        //todo add remove trainer status
-        user.setTrainer(true);
+        user.getAuthorities().add(trainerConfirmed);
+        user.getAuthorities().remove(trainerUnconfirmed);
+
+        setUserCredentials(user, userServiceModel.getFirstName(), userServiceModel.getLastName(), userServiceModel.getDateOfBirth(), userServiceModel.getGender().name(), profilePicture);
+
 
         userRepository.save(user);
     }

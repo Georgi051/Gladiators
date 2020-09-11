@@ -36,7 +36,7 @@ public class HomeController extends BaseController{
         UserServiceModel user =
                 this.userService.findUserByUsername(principal.getName());
 
-        modelAndView.addObject("isTrainer",user.isTrainer());
+
         if(customerService.findCustomerByUser(user) != null){
             CustomerServiceModel customer =
                     this.customerService.findCustomerByUser(user);
