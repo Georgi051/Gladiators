@@ -23,7 +23,7 @@ public class Workout extends BaseEntity {
     @Column
     private int duration;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Set<Exercise> exercises;
 
 }

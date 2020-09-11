@@ -17,6 +17,13 @@
 <div class="container mt-5">
 
     <h1 class="text-center text-dark">Add Workout</h1>
+    <div class="row align-items-center mt-5" th:if="${statusMessage}">
+        <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+             th:text="${statusMessage}">
+
+        </div>
+
+    </div>
     <form th:object="${workout}" th:action="@{/trainers/add-workout}" th:method="post" enctype="multipart/form-data">
 
         <div class="form-group">

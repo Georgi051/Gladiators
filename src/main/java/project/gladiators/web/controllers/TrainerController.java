@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
 import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
+import project.gladiators.model.enums.Action;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.ExerciseServiceModel;
 import project.gladiators.service.serviceModels.MuscleServiceModel;
@@ -72,7 +75,8 @@ public class TrainerController extends BaseController {
     }
 
     @PostMapping("/add-exercise")
-    public ModelAndView addExercise(@Valid @ModelAttribute(name = "exercise") ExerciseEditBindingModel exerciseEditBindingModel, BindingResult result) throws IOException {
+    public ModelAndView addExercise(@Valid @ModelAttribute(name = "exercise") ExerciseEditBindingModel exerciseEditBindingModel, BindingResult result,
+                                    RedirectAttributes redirectAttributes) throws IOException {
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("exercise", exerciseEditBindingModel);
@@ -83,11 +87,16 @@ public class TrainerController extends BaseController {
             modelAndView.addObject("org.springframework.validation.BindingResult.exercise", result);
             return super.view("/trainer/exercise-add", modelAndView);
         }
-//        String imageUrl = exerciseEditBindingModel.getImageUrl().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" : cloudinaryService.uploadImage(exerciseEditBindingModel.getImageUrl());
-        String image = this.cloudinaryService.uploadImageToCurrentFolder(exerciseEditBindingModel.getImageUrl(), "exercises");
+        String image = exerciseEditBindingModel.getImageUrl().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" :
+                this.cloudinaryService.uploadImageToCurrentFolder(exerciseEditBindingModel.getImageUrl(), "exercises");
         ExerciseServiceModel exerciseServiceModel = this.modelMapper.map(exerciseEditBindingModel,ExerciseServiceModel.class);
         exerciseServiceModel.setImageUrl(image);
         this.exerciseService.addExercise(exerciseServiceModel);
+
+            redirectAttributes.addFlashAttribute("statusMessage","You created exercise successful");
+            redirectAttributes.addFlashAttribute("statusCode","successful");
+
+
         return super.redirect("/trainers/add-exercise");
 
     }
@@ -106,13 +115,15 @@ public class TrainerController extends BaseController {
     public ModelAndView addWorkout(@Valid @ModelAttribute("workout")
                                    WorkoutAddBindingModel workoutAddBindingModel,
                                    BindingResult bindingResult,
-                                   ModelAndView modelAndView){
+                                   ModelAndView modelAndView,
+                                   RedirectAttributes redirectAttributes){
 
         if(bindingResult.hasErrors()){
             modelAndView.addObject("workout", workoutAddBindingModel);
             modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
                     .sorted(Comparator.comparing(ExerciseServiceModel::getName))
                     .collect(Collectors.toList()));
+
             return super.view("/trainer/workout-add", modelAndView);
         }
 
@@ -120,6 +131,10 @@ public class TrainerController extends BaseController {
                 .map(workoutAddBindingModel, WorkoutServiceModel.class);
 
         this.workoutService.addWorkout(workoutServiceModel);
+
+
+        redirectAttributes.addFlashAttribute("statusMessage","You created workout successful");
+        redirectAttributes.addFlashAttribute("statusCode","successful");
 
         return super.redirect("/trainers/add-workout");
 

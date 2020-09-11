@@ -42,7 +42,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         multipartFile.transferTo(toUpload);
         Map params = ObjectUtils.asMap("public_id", folderName+"/"+file);
 
-     return cloudinary.uploader().upload(toUpload, params ).toString();
+     return cloudinary.uploader().upload(toUpload, params ).get("url").toString();
 
     }
 }
