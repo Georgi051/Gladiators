@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-trainer-panel}">
+
+</th:block>
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-dark">Add workouts</h2>
+    <form th:object="${trainingPlan}" th:action="@{/workouts/add-workout-training-plan}" th:method="post">
+
+        <h6>Hello world!</h6>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

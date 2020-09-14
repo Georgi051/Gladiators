@@ -181,18 +181,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUserAnotherData(User user, String firstName, String lastName, LocalDate dateOfBirth, String gender, MultipartFile image) throws IOException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
-        updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal()
-                , auth.getCredentials(), updatedAuthorities);
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        Role customer = this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class);
 
-        user.getAuthorities().add(this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
-
-
+        sessionDynamicRoleChange(customer,null);
+        user.getAuthorities().add(customer);
         setUserCredentials(user, firstName, lastName, dateOfBirth, gender, image);
-
         this.userRepository.save(user);
     }
 
@@ -243,13 +236,28 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(ExceptionMessages.USER_NOT_FOUND));
 
+        sessionDynamicRoleChange(trainerConfirmed ,trainerUnconfirmed);
         user.getAuthorities().add(trainerConfirmed);
         user.getAuthorities().remove(trainerUnconfirmed);
 
         setUserCredentials(user, userServiceModel.getFirstName(), userServiceModel.getLastName(), userServiceModel.getDateOfBirth(), userServiceModel.getGender().name(), profilePicture);
-
-
         userRepository.save(user);
+    }
+
+    private void sessionDynamicRoleChange(Role addRole, Role removeRole) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+        if (addRole != null && removeRole != null){
+            updatedAuthorities.add(addRole);
+            updatedAuthorities.remove(removeRole);
+        }else if (addRole != null){
+            updatedAuthorities.add(addRole);
+        }else if (removeRole != null){
+            updatedAuthorities.remove(removeRole);
+        }
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal()
+                , auth.getCredentials(), updatedAuthorities);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 
     @Override
@@ -262,7 +270,6 @@ public class UserServiceImpl implements UserService {
             this.userRepository.save(user);
         }
     }
-
 
     private void setProfilePicture(MultipartFile image, User user) throws IOException {
         if (image.isEmpty()) {
@@ -306,6 +313,5 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findUserByUsername(s)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-
 
 }

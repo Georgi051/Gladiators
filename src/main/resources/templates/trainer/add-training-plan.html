@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-trainer-panel}">
+
+</th:block>
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-dark">Add training plan</h2>
+    <form th:object="${trainingPlan}" th:action="@{/trainers/add-training-plan}" th:method="post">
+
+        <div class="form-group">
+            <label for="trainingPlanType" class="font-weight-bold">Training plan type</label>
+            <select class="form-control" name="trainingPlanType" id="trainingPlanType">
+                <option th:each="trainingPlanType:${trainingPlanTypes}" th:text="${trainingPlanType}" th:value="${trainingPlanType}" ></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="startedOn" class="font-weight-bold">Training plan started date</label>
+            <input type="date" th:field="*{startedOn}" class="form-control" id="startedOn" name="startedOn">
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Next</button>
+    </form>
+</div>
+
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

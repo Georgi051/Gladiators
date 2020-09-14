@@ -12,7 +12,9 @@ import java.util.Set;
 public class WorkoutServiceModel extends BaseServiceModel{
 
     private String name;
+
     private int duration;
-    private Set<ExerciseServiceModel> exercises;
+
+    private Set<WorkoutExerciseInfoServiceModel> workoutExerciseInfo;
 
 }

@@ -3,10 +3,10 @@ package project.gladiators.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.gladiators.model.enums.Difficulty;
 import project.gladiators.model.enums.TrainingPlanType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -20,9 +20,9 @@ public class TrainingPlan extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "training_plan_type")
     private TrainingPlanType trainingPlanType;
-    @Enumerated(EnumType.STRING)
-    @Column
-    private Difficulty difficulty;
+
+    @Column(name = "started_on")
+    private LocalDate startedOn;
 
     @ManyToMany(cascade = CascadeType.MERGE,
     fetch = FetchType.EAGER)

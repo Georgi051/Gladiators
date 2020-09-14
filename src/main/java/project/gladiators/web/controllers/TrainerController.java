@@ -14,15 +14,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
+import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
+import project.gladiators.model.enums.TrainingPlanType;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.*;
 import project.gladiators.web.viewModels.MuscleViewModel;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -138,12 +142,45 @@ public class TrainerController extends BaseController {
         WorkoutServiceModel workoutServiceModel = this.modelMapper
                 .map(workoutAddBindingModel, WorkoutServiceModel.class);
 
-        this.workoutService.addWorkout(workoutServiceModel);
+        this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
 
         redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
 
         return super.redirect("/trainers/add-workout");
+    }
+
+    @GetMapping("/add-training-plan")
+    @PageTitle("Add training plan")
+    public ModelAndView addTrainingPlan(ModelAndView modelAndView) {
+
+        modelAndView.addObject("trainingPlan", new TrainingPlanBindingModel());
+        modelAndView.addObject("workouts", this.workoutService.findAll().stream()
+                .sorted(Comparator.comparing(WorkoutServiceModel::getName))
+                .collect(Collectors.toList()));
+        modelAndView.addObject("trainingPlanTypes", List.of(TrainingPlanType.values()));
+        return super.view("/trainer/add-training-plan", modelAndView);
+    }
+
+    @PostMapping("/add-training-plan")
+    public ModelAndView addTrainingPlan(@Valid @ModelAttribute("trainingPlan")
+                                           TrainingPlanBindingModel trainingPlan,
+                                   BindingResult bindingResult,
+                                   ModelAndView modelAndView,
+                                   HttpSession session
+            ) {
+
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.addObject("workout", workoutAddBindingModel);
+//            modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
+//                    .sorted(Comparator.comparing(ExerciseServiceModel::getName))
+//                    .collect(Collectors.toList()));
+//
+//            return super.view("/trainer/add-training-plan", modelAndView);
+//        }
+
+        session.setAttribute("trainingPlan",trainingPlan);
+        return super.redirect("/workouts/add-workout-training-plan");
     }
 
 }

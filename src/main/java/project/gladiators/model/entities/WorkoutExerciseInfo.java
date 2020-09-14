@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class WorkoutExerciseInfo extends BaseEntity {
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private Exercise exercise;
 
     @Column
@@ -26,12 +26,6 @@ public class WorkoutExerciseInfo extends BaseEntity {
 
     @Column
     private int restTime;
-
-
-    @ManyToOne
-    @JoinColumn(name = "workout_id",referencedColumnName = "id")
-    private Workout workout;
-
 
     @Column
     private LocalDateTime registeredOn;

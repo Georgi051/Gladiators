@@ -3,7 +3,6 @@ package project.gladiators.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.gladiators.model.enums.Difficulty;
 import project.gladiators.model.enums.TrainingPlanType;
 
 import javax.persistence.*;
