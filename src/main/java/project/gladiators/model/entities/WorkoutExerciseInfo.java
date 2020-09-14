@@ -27,7 +27,5 @@ public class WorkoutExerciseInfo extends BaseEntity {
     @Column
     private int restTime;
 
-    @Column
-    private LocalDateTime registeredOn;
 
 }

@@ -38,8 +38,9 @@ public class WorkoutController extends BaseController{
                 .sorted(Comparator.comparing(WorkoutServiceModel::getName))
                 .collect(Collectors.toList()));
         TrainingPlanBindingModel trainingPlan = (TrainingPlanBindingModel) session.getAttribute("trainingPlan");
-        int a = 5;
-        return super.view("/trainer/add-training-plan", modelAndView);
+
+        modelAndView.addObject("trainingPlan", trainingPlan);
+        return super.view("/trainer/add-workout-training-plan", modelAndView);
     }
 
 }

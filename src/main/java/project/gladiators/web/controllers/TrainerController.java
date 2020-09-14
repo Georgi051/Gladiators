@@ -16,6 +16,7 @@ import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
+import project.gladiators.model.enums.DayOfWeek;
 import project.gladiators.model.enums.TrainingPlanType;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.*;
@@ -120,6 +121,7 @@ public class TrainerController extends BaseController {
         modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
                 .sorted(Comparator.comparing(ExerciseServiceModel::getName))
                 .collect(Collectors.toList()));
+        modelAndView.addObject("daysOfWeek", DayOfWeek.values());
         return super.view("/trainer/workout-add", modelAndView);
     }
 
@@ -135,6 +137,7 @@ public class TrainerController extends BaseController {
             modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
                     .sorted(Comparator.comparing(ExerciseServiceModel::getName))
                     .collect(Collectors.toList()));
+            modelAndView.addObject("daysOfWeek", DayOfWeek.values());
 
             return super.view("/trainer/workout-add", modelAndView);
         }
