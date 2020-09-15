@@ -17,14 +17,16 @@ public class TitleInterceptor extends HandlerInterceptorAdapter {
                            HttpServletResponse response,
                            Object handler, ModelAndView modelAndView) throws Exception {
 
-        if (modelAndView != null && !modelAndView.getModel().containsKey("title")) {
+        if (handler instanceof HandlerMethod) {
+            if (modelAndView != null && !modelAndView.getModel().containsKey("title")) {
 
-            PageTitle pageTitle = ((HandlerMethod) handler).getMethodAnnotation(PageTitle.class);
-            if (pageTitle != null) {
-                modelAndView.addObject("title", String.format("%s - Gladiators", pageTitle.value()));
+                PageTitle pageTitle = ((HandlerMethod) handler).getMethodAnnotation(PageTitle.class);
+                if (pageTitle != null) {
+                    modelAndView.addObject("title", String.format("%s - Gladiators", pageTitle.value()));
+                }
+
             }
-
-
         }
+
     }
 }

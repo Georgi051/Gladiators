@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,6 +57,7 @@ public class UserServiceImpl implements UserService {
         this.workoutService = workoutService;
     }
 
+        //todo security context holder refresh
 
     @Override
     public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser, MuscleDto[] muscles, ExerciseDto[] exercises) {
@@ -228,6 +228,7 @@ public class UserServiceImpl implements UserService {
         User editedUser = this.modelMapper.map(userServiceModel, User.class);
         userRepository.save(editedUser);
     }
+
 
     @Override
     public void confirmTrainer(String username, UserServiceModel userServiceModel, MultipartFile profilePicture) throws IOException {

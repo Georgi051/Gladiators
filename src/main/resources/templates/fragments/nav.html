@@ -2,21 +2,25 @@
           xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
-    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" >
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
         <div class="container"><a class="navbar-brand" th:href="@{/}">Gladiators</a>
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
                     class="navbar-toggler-icon"></span></button>
-            <span  class="collapse navbar-collapse"
-                 id="navcol-1">
+            <span class="collapse navbar-collapse"
+                  id="navcol-1">
                 <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}" th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}" th:classappend="${#httpServletRequest.getRequestURI()=='/shop'?'active':''}">Shop</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}" th:classappend="${#httpServletRequest.getRequestURI()=='/trainers'?'active':''}">Trainers</a>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}"
+                                                                th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}"
+                                                                th:classappend="${#httpServletRequest.getRequestURI()=='/shop'?'active':''}">Shop</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}"
+                                                                th:classappend="${#httpServletRequest.getRequestURI()=='/trainers'?'active':''}">Trainers</a>
                     </li>
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/articles}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/articles'?'active':''}">Articles</a>
                     </li>
-                    <!--                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>-->
+                                        <li class="nav-item" role="presentation"><a class="nav-link"
+                                                                                    th:href="@{/about}">About Us</a></li>
                 </ul>
             </span>
 
@@ -39,10 +43,10 @@
                        th:href="@{/trainers/add-exercise}">Trainer Panel</a>
                 </div>
 
-                </div>
+            </div>
 
 
-                <span class="navbar-text actions">
+            <span class="navbar-text actions">
                     <th:block sec:authorize="isAnonymous()">
                                 <a class="login" th:href="@{/users/login}">Log In</a>
                                 <a class="btn btn-light action-button" role="button" th:href="@{/users/register}">Register</a>
@@ -54,7 +58,7 @@
                         </form>
                     </th:block>
                 </span>
-            </div>
+        </div>
         </div>
     </nav>
 </th:block>

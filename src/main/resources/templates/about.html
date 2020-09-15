@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head}">
+
+</head>
+
+<body id="page-top">
+<th:block th:insert="~{fragments/nav}">
+
+</th:block>
+<header class="about">
+    <div class="container">
+        <div class="intro-text">
+            <div class="intro-lead-in"><span>About us</span>
+            </div>
+            <div class="intro-heading text-uppercase"><span>Our team</span>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+<section id="team" class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="team-member"><img class="rounded-circle mx-auto" th:src="@{../static/img/49874855.jpg}">
+                    <h4>Valeri Stoqnov</h4>
+                    <p class="text-muted">Full stack Developer</p>
+                    <ul class="list-inline social-buttons">
+                        <li class="list-inline-item"><a href="https://github.com/Valeri12580"><i
+                                class="fa fa-github"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.facebook.com/valeri.stoqnov.587/"><i
+                                class="fa fa-facebook"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.instagram.com/valeri.st_/"><i
+                                class="fa fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="team-member"><img class="rounded-circle mx-auto" src="">
+                    <h4>Nikolai Georgiev</h4>
+                    <p class="text-muted">text text text</p>
+                    <ul class="list-inline social-buttons">
+                        <li class="list-inline-item"><a href="https://github.com/NikolayG92"><i
+                                class="fa fa-github"></i></a></li>
+                        <!--                            <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>-->
+                        <!--                            <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="team-member"><img class="rounded-circle mx-auto" src="">
+                    <h4>Georgi Petrov</h4>
+                    <p class="text-muted">text text text</p>
+                    <ul class="list-inline social-buttons">
+                        <li class="list-inline-item"><a href="https://github.com/Georgi051"><i class="fa fa-github"></i></a>
+                        </li>
+                        <!--                            <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>-->
+                        <!--                            <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block th:insert="~{fragments/footer}">
+
+</th:block>
+
+<th:block th:insert="~{fragments/scripts}">
+
+</th:block>
+</body>
+
+</html>
