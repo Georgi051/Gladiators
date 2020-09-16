@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import project.gladiators.model.entities.Exercise;
 import project.gladiators.model.entities.Workout;
 import project.gladiators.model.entities.WorkoutExerciseInfo;
-import project.gladiators.repository.WorkoutExerciseInfoRepository;
 import project.gladiators.repository.WorkoutRepository;
 import project.gladiators.service.WorkoutExerciseInfoService;
 import project.gladiators.service.WorkoutService;

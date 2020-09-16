@@ -131,7 +131,6 @@ public class TrainerController extends BaseController {
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView,
                                    RedirectAttributes redirectAttributes) {
-
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("workout", workoutAddBindingModel);
             modelAndView.addObject("exercises", this.exerciseService.findAll().stream()

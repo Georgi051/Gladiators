@@ -22,7 +22,7 @@ public class WorkoutExerciseInfo extends BaseEntity {
     private int sets;
 
     @Column
-    private int repeats;
+    private String repeats;
 
     @Column
     private int restTime;

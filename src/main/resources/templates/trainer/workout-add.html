@@ -41,14 +41,42 @@
         </div>
 
         <div class="form-group">
-            <label for="exercises">Exercises</label>
-            <select multiple class="form-control" th:field="*{exercises}" id="exercises">
-                <option class="form-check" th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.name}">
-            </select>
-            <small class="text-danger" th:each="error : ${#fields.errors('exercises')}" th:text="${error}"></small>
+            <table class="table bg-blur">
+                <thead>
+                <tr>
+                    <th scope="col" class="font-weight-bold">exercise name</th>
+                    <th scope="col">sets</th>
+                    <th scope="col">repeats</th>
+                    <th scope="col">rest time</th>
+                </tr>
+                </thead>
+                <tbody>
+                   <div th:each="exercise : ${exercises}" >
+                <tr>
+                    <td>
+                    <select  th:field="*{exercises}" id="exercises">
+                        <option class="form-check" th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.name}">
+                    </select>
+                    </td>
+                    <td>
+                        <input type="number" class="w-40" name="sets" placeholder="0" min="1" max="6">
+                    </td>
+                    <td>
+                        <input type="text" class="w-25" name="repeats" placeholder="Add  repeats">
+                    </td>
+                    <td>
+                        <input type="number" class="w-40" name="restTime" placeholder="0" min="1" max="5">
+                    </td>
+               </tr>
+                </div>
+
+                </tbody>
+           </table>
         </div>
 
-        <button type="submit" class="btn btn-primary ">Submit</button>
+        <div class="row d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary ">Submit</button>
+        </div>
     </form>
 </div>
 
