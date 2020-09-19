@@ -3,14 +3,10 @@ package project.gladiators.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.gladiators.model.dtos.MuscleDto;
-import project.gladiators.model.entities.Muscle;
 import project.gladiators.repository.MuscleRepository;
 import project.gladiators.service.MuscleService;
-import project.gladiators.service.serviceModels.ExerciseServiceModel;
 import project.gladiators.service.serviceModels.MuscleServiceModel;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,19 +21,6 @@ public class MuscleServiceImpl implements MuscleService {
         this.modelMapper = modelMapper;
     }
 
-
-    @Override
-    public void seedMuscles(MuscleDto[] muscles) {
-        if (this.muscleRepository.count() != 0){
-            return;
-        }
-
-        Arrays.stream(muscles).forEach(muscle -> {
-            Muscle muscleToSave = new Muscle();
-            muscleToSave.setName(muscle.getName());
-            this.muscleRepository.saveAndFlush(muscleToSave);
-        });
-    }
 
     @Override
     public List<MuscleServiceModel> findAll() {

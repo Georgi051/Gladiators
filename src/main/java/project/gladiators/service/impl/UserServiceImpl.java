@@ -15,8 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
-import project.gladiators.model.dtos.ExerciseDto;
-import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
 import project.gladiators.model.enums.Gender;
@@ -60,16 +58,15 @@ public class UserServiceImpl implements UserService {
         //todo security context holder refresh
 
     @Override
-    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser, MuscleDto[] muscles, ExerciseDto[] exercises) {
+    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser) {
 
         if (!regUser.getPassword().equals(regUser.getConfirmPassword())) {
             return null;
         }
 
         if (this.userRepository.count() == 0) {
-            this.roleService.seedRoleInDb();
-            this.muscleService.seedMuscles(muscles);
-            this.exerciseService.seedExercise(exercises);
+
+//            this.exerciseService.seedExercise(exercises);
 
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ROOT")));
