@@ -33,15 +33,18 @@
             <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
         </div>
 
-        <div class="form-group">
+ <!--       <div class="form-group">
             <label for="dayOfWeek" class="font-weight-bold">Day of week</label>
             <select class="form-control" name="dayOfWeek" id="dayOfWeek">
                 <option th:each="dayOfWeek:${daysOfWeek}" th:text="${dayOfWeek}" th:value="${dayOfWeek}"></option>
             </select>
         </div>
-
+-->
+        <div class="row d-flex justify-content-center">
+            <input type="button" value="Add Exercise" class="btn btn-primary" th:onclick="createRowForExercise()">
+        </div>
         <div class="form-group">
-            <table class="table bg-blur">
+            <table class="table bg-blur" id="tbl">
                 <thead>
                 <tr>
                     <th scope="col" class="font-weight-bold">exercise name</th>
@@ -50,27 +53,7 @@
                     <th scope="col">rest time</th>
                 </tr>
                 </thead>
-                <tbody>
-                   <div th:each="exercise : ${exercises}" >
-                <tr>
-                    <td>
-                    <select  th:field="*{exercises}" id="exercises">
-                        <option class="form-check" th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.name}">
-                    </select>
-                    </td>
-                    <td>
-                        <input type="number" class="w-40" name="sets" placeholder="0" min="1" max="6">
-                    </td>
-                    <td>
-                        <input type="text" class="w-25" name="repeats" placeholder="Add  repeats">
-                    </td>
-                    <td>
-                        <input type="number" class="w-40" name="restTime" placeholder="0" min="1" max="5">
-                    </td>
-               </tr>
-                </div>
 
-                </tbody>
            </table>
         </div>
 
@@ -83,6 +66,7 @@
 <th:block th:insert="~{fragments/footer}">
 </th:block>
 <th:block th:insert="~{fragments/scripts}"></th:block>
+<script src="/static/js/createRowForExercise.js"></script>
 
 </body>
 </html>

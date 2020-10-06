@@ -11,7 +11,7 @@ public class WorkoutExerciseInfoServiceModel extends BaseServiceModel{
 
     private ExerciseServiceModel exercise;
     private int sets;
-    private int repeats;
+    private String repeats;
     private int restTime;
     private WorkoutServiceModel workout;
 }

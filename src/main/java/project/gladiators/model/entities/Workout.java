@@ -5,9 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 
@@ -24,9 +23,8 @@ public class Workout extends BaseEntity {
     @Column
     private int duration;
 
-    @Enumerated(EnumType.STRING)
-    @Column
-    private DayOfWeek dayOfWeek;
+    @ManyToOne
+    private TrainingPlanWorkoutInfo trainingPlanWorkoutInfo;
 
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Set<WorkoutExerciseInfo> workoutExerciseInfos;

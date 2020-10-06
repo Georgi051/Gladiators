@@ -18,19 +18,13 @@
     NOT WORKING FOR NOW You are registered as a trainer!
     Please fill the <a th:href="@{/trainers/confirmation}">form</a> to continue
 </div>
-<div class="jumbotron text-center">
-    <h1>About Us</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Praesent malesuada est suscipit metus tempor, ac ullamcorper turpis pulvinar.
-        Nullam vitae suscipit turpis. Sed mauris eros, fermentum eget cursus ac,
-        ultricies eget sem. Cras congue, diam eget dapibus rutrum, justo nisi rhoncus ante,
-        ac finibus nulla ex ac libero. Suspendisse ac nisi porta, placerat eros eu, maximus erat.
-        Praesent eleifend sollicitudin mauris, non volutpat velit elementum rhoncus.
-        Aenean sit amet enim id magna dapibus finibus. Vivamus mollis ante at quam luctus rutrum sed eget odio.
-        Nulla sed vestibulum velit, tempor sagittis enim.
-    </p>
-</div>
+<div class="row align-items-center mt-5" th:if="${statusMessage}">
+    <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+         th:text="${statusMessage}">
 
+    </div>
+
+</div>
 <div class="container">
     <div class="row">
         <div class="col-sm-4">

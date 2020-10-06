@@ -3,8 +3,9 @@ package project.gladiators.service.serviceModels;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.gladiators.model.enums.DayOfWeek;
 
+import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -18,6 +19,6 @@ public class WorkoutServiceModel extends BaseServiceModel{
 
     private DayOfWeek dayOfWeek;
 
-    private Set<WorkoutExerciseInfoServiceModel> workoutExerciseInfo;
+    private List<WorkoutExerciseInfoServiceModel> workoutExerciseInfo;
 
 }

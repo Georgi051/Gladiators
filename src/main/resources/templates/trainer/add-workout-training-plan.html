@@ -17,41 +17,126 @@
 <div class="container mt-5">
 
     <h2 class="text-center text-dark">Add workouts</h2>
+    <div class="row align-items-center mt-5" th:if="${statusMessage}">
+        <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+             th:text="${statusMessage}">
+
+        </div>
+
+    </div>
     <div class="album py-5 bg-light">
-        <div class="container">
+        <form th:object="${trainingPlanBindingModel}" th:action="@{/workouts/add-workout-training-plan}" th:method="post">
+
+        <div class="container" >
 
             <div class="row">
-                <div class="col-md-4" th:each="day:${T(project.gladiators.model.enums.DayOfWeek).values()}">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body bg-info">
-                            <h4 style="color: white" th:text="${day.name()}">Monday</h4>
-                            <div class="d-flex justify-content-between align-items-center">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" id="MONDAY" th:value="MONDAY">
+                        <div class="card-body bg-info" id="mondayWorkoutAdd">
+                            <h4 style="color: white">Monday</h4>
+                            <div class="d-flex justify-content-between align-items-center" >
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-primary">Create new workout
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary">Add existing one
-                                    </button>
+                                    <a href="/trainers/add-workout" th:method="get" type="button" class="btn btn-sm btn-outline-primary">Create new workout</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary" th:onclick="getWorkouts('MONDAY')" id="mondayAddBtn" th:value="btn">Add existing one</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="row d-flex justify-content-center">
                 <div class="col-md-4">
-                    <button class="btn btn-primary">Create training plan</button>
+                    <div class="card mb-4 shadow-sm" id="TUESDAY" th:value="TUESDAY">
+                        <div class="card-body bg-info" id="tuesdayWorkoutAdd">
+                            <h4 style="color: white">Tuesday</h4>
+                            <div class="d-flex justify-content-between align-items-center" >
+                                <div class="btn-group">
+                                    <a href="/trainers/add-workout" th:method="get" type="button" class="btn btn-sm btn-outline-primary">Create new workout</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary" th:onclick="getWorkouts('TUESDAY')" id="tuesdayAddBtn" th:value="btn">Add existing one</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" id="WEDNESDAY" th:value="WEDNESDAY">
+                        <div class="card-body bg-info" id="wednesdayWorkoutAdd">
+                            <h4 style="color: white">Wednesday</h4>
+                            <div class="d-flex justify-content-between align-items-center" >
+                                <div class="btn-group">
+                                    <a href="/trainers/add-workout" th:method="get" type="button" class="btn btn-sm btn-outline-primary">Create new workout</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary" th:onclick="getWorkouts('WEDNESDAY')" id="wednesdayAddBtn">Add existing one</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" id="THURSDAY" th:value="THURSDAY">
+                        <div class="card-body bg-info" id="thursdayWorkoutAdd">
+                            <h4 style="color: white">Thursday</h4>
+                            <div class="d-flex justify-content-between align-items-center" >
+                                <div class="btn-group">
+                                    <a href="/trainers/add-workout" th:method="get" type="button" class="btn btn-sm btn-outline-primary">Create new workout</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary" th:onclick="getWorkouts('THURSDAY')" id="thursdayAddBtn">Add existing one</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" id="FRIDAY" th:value="FRIDAY">
+                        <div class="card-body bg-info" id="fridayWorkoutAdd">
+                            <h4 style="color: white">Friday</h4>
+                            <div class="d-flex justify-content-between align-items-center" >
+                                <div class="btn-group">
+                                    <a href="/trainers/add-workout" th:method="get" type="button" class="btn btn-sm btn-outline-primary">Create new workout</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary" th:onclick="getWorkouts('FRIDAY')" id="fridayAddBtn">Add existing one</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" id="SATURDAY" th:value="SATURDAY">
+                        <div class="card-body bg-info" id="saturdayWorkoutAdd">
+                            <h4 style="color: white">Saturday</h4>
+                            <div class="d-flex justify-content-between align-items-center" >
+                                <div class="btn-group">
+                                    <a href="/trainers/add-workout" th:method="get" type="button" class="btn btn-sm btn-outline-primary">Create new workout</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary" th:onclick="getWorkouts('SATURDAY')" id="saturdayAddBtn">Add existing one</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" id="SUNDAY" th:value="SUNDAY">
+                        <div class="card-body bg-info" id="sundayWorkoutAdd">
+                            <h4 style="color: white">Sunday</h4>
+                            <div class="d-flex justify-content-between align-items-center" >
+                                <div class="btn-group">
+                                    <a href="/trainers/add-workout" th:method="get" type="button" class="btn btn-sm btn-outline-primary">Create new workout</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary" th:onclick="getWorkouts('SUNDAY')" id="sundayAddBtn">Add existing one</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+
                 </div>
 
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-4">
+                        <button disabled type="submit" id="createTrainingPlan" class="btn btn-primary">Create training plan</button>
+                    </div>
+                </div>
+
+        </form>
             </div>
 
         </div>
+
     </div>
-
-</div>
-
-</div>
 </div>
 
 <th:block th:insert="~{fragments/footer}">

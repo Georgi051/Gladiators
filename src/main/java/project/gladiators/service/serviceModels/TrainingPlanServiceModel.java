@@ -3,10 +3,12 @@ package project.gladiators.service.serviceModels;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.gladiators.model.entities.TrainingPlanWorkoutInfo;
 import project.gladiators.model.entities.Workout;
 import project.gladiators.model.enums.TrainingPlanType;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,5 +19,5 @@ public class TrainingPlanServiceModel extends BaseServiceModel{
 
     private LocalDate startedOn;
 
-    private List<WorkoutServiceModel> workouts;
+    private List<TrainingPlanWorkoutInfo> workouts = new ArrayList<>();
 }
