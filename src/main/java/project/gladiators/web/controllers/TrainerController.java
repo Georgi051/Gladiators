@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
+import project.gladiators.exceptions.TrainerNotFoundException;
 import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
@@ -20,6 +21,7 @@ import project.gladiators.model.enums.TrainingPlanType;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.*;
 import project.gladiators.web.viewModels.MuscleViewModel;
+import project.gladiators.web.viewModels.TrainerViewModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -49,6 +51,25 @@ public class TrainerController extends BaseController {
         this.workoutService = workoutService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
+    }
+
+
+    @PreAuthorize("permitAll()")
+    @GetMapping
+    @PageTitle("All trainers")
+    public ModelAndView getAlTrainers(ModelAndView modelAndView) {
+
+        List<TrainerViewModel> trainers;
+        try {
+            trainers = List.of(this.modelMapper
+                    .map(trainerService.findAll(), TrainerViewModel[].class));
+            modelAndView.addObject("trainers", trainers);
+        } catch (TrainerNotFoundException ex) {
+            modelAndView.addObject("error", ex.getMessage());
+        }
+
+
+        return super.view("/trainer/all-trainers", modelAndView);
     }
 
     @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")

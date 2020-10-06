@@ -1,5 +1,6 @@
 package project.gladiators.model.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Trainer extends BaseEntity{
 
     @Column(name = "years_of_experience", nullable = false)

@@ -14,8 +14,6 @@ import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
-import project.gladiators.model.dtos.ExerciseDto;
-import project.gladiators.model.dtos.MuscleDto;
 import project.gladiators.model.entities.User;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.RoleServiceModel;
@@ -24,13 +22,10 @@ import project.gladiators.web.viewModels.UserViewModel;
 
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 
-import static project.gladiators.constants.GlobalConstants.EXERCISES_FILE_PATH;
-import static project.gladiators.constants.GlobalConstants.MUSCLES_FILE_PATH;
 
 @Controller
 @RequestMapping("/users")
@@ -58,11 +53,7 @@ public class UserController extends BaseController {
     public ModelAndView registerConfirm(@Valid @ModelAttribute(name = "model") UserRegisterBindingModel model
             , BindingResult bindingResult,ModelAndView modelAndView) throws FileNotFoundException {
 
-        MuscleDto[] muscles =
-                this.gson.fromJson(new FileReader(MUSCLES_FILE_PATH), MuscleDto[].class);
 
-        ExerciseDto[] exercises =
-                    this.gson.fromJson(new FileReader(EXERCISES_FILE_PATH), ExerciseDto[].class);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("model", model);
@@ -70,7 +61,7 @@ public class UserController extends BaseController {
         }
 
         UserServiceModel userServiceModel =
-                this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class), model,muscles, exercises);
+                this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class), model);
 
 
         if (userServiceModel == null) {

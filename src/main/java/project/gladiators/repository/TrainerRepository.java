@@ -15,4 +15,6 @@ public interface TrainerRepository extends JpaRepository<Trainer,String> {
 
     @Transactional
     Optional<Trainer>findTrainerByUser_Username(String username);
+
+
 }

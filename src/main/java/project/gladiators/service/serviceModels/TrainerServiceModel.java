@@ -26,5 +26,5 @@ public class TrainerServiceModel extends BaseServiceModel {
     private List<TrainingPlan> trainingPlans;
 
 
-    private UserServiceModel userServiceModel;
+    private UserServiceModel user;
 }
