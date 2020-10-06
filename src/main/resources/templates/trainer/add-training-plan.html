@@ -18,14 +18,14 @@
 
     <h2 class="text-center text-dark">Add training plan</h2>
 
-    <div class="form-group">
-        <label for="trainingPlanType" class="font-weight-bold">Training plan type</label>
-        <select class="form-control" name="trainingPlanType" id="trainingPlanType">
-            <option th:each="trainingPlanType:${trainingPlanTypes}" th:text="${trainingPlanType}" th:value="${trainingPlanType}" ></option>
-        </select>
-    </div>
     <form th:object="${trainingPlan}" th:action="@{/trainers/add-training-plan}" th:method="post">
 
+        <div class="form-group">
+            <label for="trainingPlanType" class="font-weight-bold">Training plan type</label>
+            <select class="form-control" name="trainingPlanType" id="trainingPlanType">
+                <option th:each="trainingPlanType:${trainingPlanTypes}" th:text="${trainingPlanType}" th:value="${trainingPlanType}" ></option>
+            </select>
+        </div>
 
         <div class="form-group">
             <label for="startedOn" class="font-weight-bold">Training plan started date</label>

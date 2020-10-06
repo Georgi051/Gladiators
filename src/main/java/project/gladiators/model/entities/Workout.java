@@ -23,9 +23,6 @@ public class Workout extends BaseEntity {
     @Column
     private int duration;
 
-    @ManyToOne
-    private TrainingPlanWorkoutInfo trainingPlanWorkoutInfo;
-
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Set<WorkoutExerciseInfo> workoutExerciseInfos;
 

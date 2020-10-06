@@ -19,7 +19,6 @@ public class TrainingPlanWorkoutInfo extends BaseEntity{
      @OneToOne
      Workout workout;
 
-
      @Column
      @Enumerated(EnumType.STRING)
      DayOfWeek dayOfWeek;

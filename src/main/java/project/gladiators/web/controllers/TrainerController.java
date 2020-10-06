@@ -166,14 +166,26 @@ public class TrainerController extends BaseController {
 
         WorkoutServiceModel workoutServiceModel = this.modelMapper
                 .map(workoutAddBindingModel, WorkoutServiceModel.class);
-        List<WorkoutExerciseInfoServiceModel> workoutExerciseModels = addWorkoutExerciseInfoParams(workoutAddBindingModel);
-        workoutServiceModel.setWorkoutExerciseInfo(workoutExerciseModels);
+
+            List<WorkoutExerciseInfoServiceModel> workoutExerciseModels = addWorkoutExerciseInfoParams(workoutAddBindingModel);
+            workoutServiceModel.setWorkoutExerciseInfo(workoutExerciseModels);
+
+
 
         if(session.getAttribute("trainingPlan") != null){
             TrainingPlanBindingModel trainingPlan = (TrainingPlanBindingModel) session.getAttribute("trainingPlan");
 
             this.workoutService.addWorkoutToTrainingPlan(workoutServiceModel, workoutAddBindingModel.getExercises(), trainingPlan);
-            return super.redirect("/workouts/add-workout-training-plan");
+
+            modelAndView.addObject("workouts", this.workoutService.findAll().stream()
+                    .sorted(Comparator.comparing(WorkoutServiceModel::getName))
+                    .collect(Collectors.toList()));
+
+            modelAndView.addObject("trainingPlan", trainingPlan);
+            this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
+            redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
+            redirectAttributes.addFlashAttribute("statusCode", "successful");
+            return super.view("/trainer/add-workout-training-plan", modelAndView);
         }
 
         this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
