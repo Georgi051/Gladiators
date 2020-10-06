@@ -67,6 +67,7 @@ public class WorkoutController extends BaseController{
         redirectAttributes.addFlashAttribute("statusCode", "successful");
 
         return super.redirect("/");
+        
     }
 
 }
