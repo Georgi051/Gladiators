@@ -7,6 +7,7 @@ import project.gladiators.model.enums.Gender;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -47,7 +48,6 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-
 
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles"

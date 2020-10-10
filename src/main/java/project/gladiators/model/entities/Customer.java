@@ -16,12 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Customer extends BaseEntity{
 
-    @OneToMany(mappedBy = "customer"
-            ,cascade = CascadeType.ALL
-            ,orphanRemoval = true
-            ,fetch = FetchType.EAGER)
-    private List<Order> orders;
-
     @Column
     private double weight;
 

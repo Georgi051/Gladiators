@@ -20,10 +20,7 @@ public class Order extends BaseEntity {
     private List<Product> products;
 
     @ManyToOne
-    private Customer customer;
-
-    @ManyToOne
-    private Trainer trainer;
+    private User user;
 
     @Column
     private LocalDateTime madeOn;

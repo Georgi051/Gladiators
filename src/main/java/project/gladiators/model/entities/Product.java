@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -32,5 +33,8 @@ public class Product extends BaseEntity {
 
     @Column
     private String imageUrl;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Category> categories;
 
 }
