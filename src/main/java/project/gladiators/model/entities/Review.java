@@ -16,7 +16,7 @@ public class Review extends BaseEntity {
     @Column
     private String title;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column

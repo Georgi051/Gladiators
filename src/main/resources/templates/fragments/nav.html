@@ -42,7 +42,7 @@
                        th:href="@{/admin/user-management}">Admin Panel</a>
                     <a sec:authorize="hasAnyRole('ROOT','MODERATOR')" class="dropdown-item"
                        role="presentation"
-                       th:href="@{/moderators/article-add}">Moderator Panel</a>
+                       th:href="@{/articles/article-add}">Moderator Panel</a>
                     <a sec:authorize="hasRole('TRAINER_CONFIRMED')" class="dropdown-item" role="presentation"
                        th:href="@{/trainers/add-exercise}">Trainer Panel</a>
                 </div>

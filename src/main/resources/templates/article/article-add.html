@@ -22,7 +22,7 @@
         </div>
     </div>
     <h2 class="text-center form-heading">Add article</h2>
-    <form th:object="${article}" th:action="@{/moderators/article-add}" th:method="post" enctype="multipart/form-data">
+    <form th:object="${article}" th:action="@{/articles/article-add}" th:method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Title</label>
             <input th:field="*{title}" type="text" class="form-control" id="title" placeholder="Enter title">

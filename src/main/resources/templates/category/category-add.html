@@ -19,7 +19,7 @@
              th:text="${statusMessage}">
         </div>
     </div>
-    <form th:object="${category}" id="add-category-form" class="form w-25 mx-auto" th:action="@{/moderators/category-add}" th:method="post">
+    <form th:object="${category}" id="add-category-form" class="form w-25 mx-auto" th:action="@{/categories/category-add}" th:method="post">
         <div class="form-group">
             <label for="add-category-name">Name</label>
             <input type="text" th:field="*{name}" class="form-control text-center" id="add-category-name" name="name">

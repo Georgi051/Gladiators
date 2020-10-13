@@ -27,7 +27,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/articles", "/articles/*", "/about", "/trainers").permitAll()
                 .antMatchers("/", "/users/login", "/users/register").anonymous()
                 .antMatchers("/articles/delete/**").hasAnyRole("MODERATOR", "ROOT")
-                .antMatchers("/moderators/**").hasAnyRole("MODERATOR","ROOT")
+                .antMatchers("/products/**").hasAnyRole("MODERATOR","ROOT")
                 .antMatchers("/categories/**").hasAnyRole("MODERATOR", "ROOT")
                 .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
                 .antMatchers("/trainers/confirmation").hasRole("TRAINER_UNCONFIRMED")

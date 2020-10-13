@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.CategoryBindingModel;
 import project.gladiators.service.CategoryService;
@@ -25,6 +26,30 @@ public class CategoryController extends BaseController {
     public CategoryController(CategoryService categoryService, ModelMapper modelMapper) {
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
+    }
+
+    @GetMapping("/category-add")
+    @PageTitle("Add category")
+    public ModelAndView addCategory(ModelAndView modelAndView) {
+        modelAndView.addObject("category",new CategoryBindingModel());
+        return super.view("/category/category-add",modelAndView);
+    }
+
+    @PostMapping("/category-add")
+    public ModelAndView addCategory(@Valid  @ModelAttribute(name = "category")CategoryBindingModel categoryBindingModel,
+                                    BindingResult result,
+                                    RedirectAttributes redirectAttributes,
+                                    ModelAndView modelAndView) {
+        if (result.hasErrors()){
+            modelAndView.addObject("category",categoryBindingModel);
+            return super.view("/category/category-add", modelAndView);
+        }
+
+        this.categoryService.seedCategoryInDb(this.modelMapper.map(categoryBindingModel, CategoryServiceModel.class));
+
+        redirectAttributes.addFlashAttribute("statusMessage", "You created category successfully");
+        redirectAttributes.addFlashAttribute("statusCode", "successful");
+        return super.redirect("/categories/all");
     }
 
     @GetMapping("/all")
