@@ -1,0 +1,10 @@
+<th:block xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+
+    <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item"><a class="nav-link" th:href="@{/moderators/article-add}" th:classappend="${#httpServletRequest.getRequestURI() == '/moderator/article-add'?'active':''}">Add article</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/moderators/category-add}" th:classappend="${#httpServletRequest.getRequestURI() == '/moderator/category-add'?'active':''}">Add category</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/categories/all}" th:classappend="${#httpServletRequest.getRequestURI() == '/all-categories'?'active':''}">All categories</a></li>
+
+    </ul>
+</th:block>

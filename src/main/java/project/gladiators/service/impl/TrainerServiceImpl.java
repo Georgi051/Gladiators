@@ -81,9 +81,7 @@ public class TrainerServiceImpl implements TrainerService {
 
         trainerRepository.save(trainer);
 
-
         userService.confirmTrainer(username, userServiceModel, profilePicture);
-
 
     }
 

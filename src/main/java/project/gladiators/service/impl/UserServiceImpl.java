@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -112,8 +113,7 @@ public class UserServiceImpl implements UserService {
     public void addRoleToUser(UserServiceModel userServiceModel, RoleServiceModel roleServiceModel) {
         User user = this.userRepository
                 .findUserByUsername(userServiceModel.getUsername()).orElse(null);
-        RoleServiceModel role = this.roleService
-                .findByAuthority(roleServiceModel.getAuthority());
+
         if (user != null) {
             boolean isCustomer = false;
             for (Role authority : user.getAuthorities()) {
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
             }
             user.getAuthorities().clear();
             if(isCustomer){
-                switch (role.getAuthority()) {
+                switch (roleServiceModel.getAuthority()) {
                     case "ROLE_USER":
                         user.getAuthorities().add(this.modelMapper
                                 .map(roleService.findByAuthority("ROLE_USER"), Role.class));
@@ -143,15 +143,23 @@ public class UserServiceImpl implements UserService {
                         user.getAuthorities().add(this.modelMapper
                                 .map(roleService.findByAuthority("ROLE_USER"), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                                .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                        break;
+                    case "ROLE_ADMIN_AND_MODERATOR":
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
                         user.getAuthorities().add(this.modelMapper
                                 .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
                         user.getAuthorities().add(this.modelMapper
                                 .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
                         break;
                 }
             }else{
-                switch (role.getAuthority()) {
+                switch (roleServiceModel.getAuthority()) {
                 case "ROLE_USER":
                     user.getAuthorities().add(this.modelMapper
                             .map(roleService.findByAuthority("ROLE_USER"), Role.class));
@@ -166,10 +174,16 @@ public class UserServiceImpl implements UserService {
                     user.getAuthorities().add(this.modelMapper
                             .map(roleService.findByAuthority("ROLE_USER"), Role.class));
                     user.getAuthorities().add(this.modelMapper
-                            .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
-                    user.getAuthorities().add(this.modelMapper
                             .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
                     break;
+                    case "ROLE_ADMIN_AND_MODERATOR":
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                        user.getAuthorities().add(this.modelMapper
+                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                        break;
             }
             }
             this.userRepository.save(user);

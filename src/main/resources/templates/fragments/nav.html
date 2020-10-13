@@ -37,9 +37,12 @@
                 <div class="dropdown-menu" role="menu">
                     <a class="dropdown-item" role="presentation"
                        th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
-                    <a sec:authorize="hasAnyRole('ROOT','ADMIN','MODERATOR')" class="dropdown-item"
+                    <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item"
                        role="presentation"
                        th:href="@{/admin/user-management}">Admin Panel</a>
+                    <a sec:authorize="hasAnyRole('ROOT','MODERATOR')" class="dropdown-item"
+                       role="presentation"
+                       th:href="@{/moderators/article-add}">Moderator Panel</a>
                     <a sec:authorize="hasRole('TRAINER_CONFIRMED')" class="dropdown-item" role="presentation"
                        th:href="@{/trainers/add-exercise}">Trainer Panel</a>
                 </div>

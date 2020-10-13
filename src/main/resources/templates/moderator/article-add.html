@@ -10,7 +10,7 @@
 <th:block th:insert="~{fragments/nav}">
 </th:block>
 
-<th:block th:insert="~{fragments/nav-admin-panel}">
+<th:block th:insert="~{fragments/nav-moderator-panel}">
 
 </th:block>
 
@@ -22,7 +22,7 @@
         </div>
     </div>
     <h2 class="text-center form-heading">Add article</h2>
-    <form th:object="${article}" th:action="@{/admin/article-add}" th:method="post" enctype="multipart/form-data">
+    <form th:object="${article}" th:action="@{/moderators/article-add}" th:method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Title</label>
             <input th:field="*{title}" type="text" class="form-control" id="title" placeholder="Enter title">
@@ -39,12 +39,11 @@
             <small class="text-danger" th:errors="*{image}"></small>
         </div>
 
-        <button type="submit" class="btn btn-primary ">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
-<th:block th:insert="~{fragments/footer}">
-</th:block>
+<th:block th:insert="~{fragments/footer}"></th:block>
 <th:block th:insert="~{fragments/scripts}"></th:block>
 
 </body>
