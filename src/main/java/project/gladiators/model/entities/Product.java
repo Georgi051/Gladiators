@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -16,23 +17,29 @@ import java.util.Set;
 @NoArgsConstructor
 public class Product extends BaseEntity {
 
-    @Column
+    @Column(name = "product_name",nullable = false)
     private String name;
 
-    @Column(name = "manufacturer_name")
+    @Column(name = "manufacturer_name",nullable = false)
     private String manufacturerName;
 
-    @Column
+    @Column(nullable = false)
     private BigDecimal price;
 
-    @OneToMany
-    List<Review> reviews;
+    @Column()
+    private Integer quantity;
 
-    @Column
-    String description;
+    @Column(name = "buying_counter",nullable = false)
+    private Integer buyingCounter;
 
-    @Column
+    @Column(nullable = false)
+    private String description;
+
+    @Column(name = "image_url")
     private String imageUrl;
+
+    @OneToMany
+    private List<Review> reviews;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Category> categories;

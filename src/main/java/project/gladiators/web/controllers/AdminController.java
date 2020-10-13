@@ -2,8 +2,6 @@ package project.gladiators.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +13,10 @@ import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.enums.Action;
-import project.gladiators.service.RoleService;
 import project.gladiators.service.TrainerService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
-
 
 import java.security.Principal;
 import java.util.List;

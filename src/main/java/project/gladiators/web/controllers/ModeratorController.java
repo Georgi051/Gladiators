@@ -2,7 +2,6 @@ package project.gladiators.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +18,10 @@ import project.gladiators.service.CategoryService;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.serviceModels.ArticleServiceModel;
 import project.gladiators.service.serviceModels.CategoryServiceModel;
-import project.gladiators.web.viewModels.CategoryViewModel;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/moderators")

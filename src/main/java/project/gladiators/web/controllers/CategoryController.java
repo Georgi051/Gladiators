@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.CategoryBindingModel;
 import project.gladiators.service.CategoryService;
@@ -33,7 +32,7 @@ public class CategoryController extends BaseController {
     public ModelAndView allCategories(ModelAndView modelAndView) {
         modelAndView.addObject("categories", this.categoryService.allCategories().stream()
                 .map(c -> this.modelMapper.map(c, CategoryViewModel.class)).collect(Collectors.toList()));
-        return super.view("all-categories", modelAndView);
+        return super.view("/category/all-categories", modelAndView);
     }
 
     @GetMapping("edit/{id}")
@@ -41,7 +40,7 @@ public class CategoryController extends BaseController {
         modelAndView.addObject("category",
                 this.modelMapper.map(this.categoryService.findCategory(id), CategoryViewModel.class));
         modelAndView.addObject("categoryId",id);
-        return super.view("edit-category", modelAndView);
+        return super.view("/category/edit-category", modelAndView);
     }
 
     @PostMapping("edit/{id}")
@@ -51,7 +50,7 @@ public class CategoryController extends BaseController {
         if (result.hasErrors()){
             modelAndView.addObject("categoryId",id);
             modelAndView.addObject("category", category);
-            return super.view("edit-category", modelAndView);
+            return super.view("/category/edit-category", modelAndView);
         }
 
         this.categoryService.editCategory(id, this.modelMapper.map(category, CategoryServiceModel.class));
@@ -62,7 +61,7 @@ public class CategoryController extends BaseController {
     public ModelAndView deleteCategory(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("category",
                 this.modelMapper.map(this.categoryService.findCategory(id), CategoryViewModel.class));
-        return super.view("delete-category", modelAndView);
+        return super.view("/category/delete-category", modelAndView);
     }
 
     @PostMapping("delete/{id}")
