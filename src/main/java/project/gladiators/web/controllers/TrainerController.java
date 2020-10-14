@@ -137,7 +137,7 @@ public class TrainerController extends BaseController {
 
     @GetMapping("/add-workout")
     @PageTitle("Add workout")
-    public ModelAndView addWorkout(ModelAndView modelAndView, HttpSession session) {
+    public ModelAndView addWorkout(ModelAndView modelAndView) {
 
         modelAndView.addObject("workout", new WorkoutAddBindingModel());
         modelAndView.addObject("exercises", this.exerciseService.findAll().stream()

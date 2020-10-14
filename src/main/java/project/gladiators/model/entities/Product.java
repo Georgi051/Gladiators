@@ -17,22 +17,22 @@ import java.util.Set;
 @NoArgsConstructor
 public class Product extends BaseEntity {
 
-    @Column(name = "product_name",nullable = false)
+    @Column()
     private String name;
 
-    @Column(name = "manufacturer_name",nullable = false)
+    @Column(name = "manufacturer_name")
     private String manufacturerName;
 
-    @Column(nullable = false)
+    @Column()
     private BigDecimal price;
 
     @Column()
     private Integer quantity;
 
-    @Column(name = "buying_counter",nullable = false)
+    @Column(name = "buying_counter")
     private Integer buyingCounter;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "image_url")

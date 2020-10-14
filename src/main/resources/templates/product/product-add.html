@@ -1,0 +1,71 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+<th:block th:insert="~{fragments/nav-moderator-panel}">
+</th:block>
+<div class="container mt-5">
+
+        <h2 class="text-center text-dark">Add Product</h2>
+        <form th:object="${product}" class="form w-25 mx-auto" th:action="@{/products/add}" th:method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="add-product-name">Name</label>
+                <input th:field="*{name}" type="text" class="form-control text-center" id="add-product-name">
+                <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="add-manufacture-name">Manufacturer name</label>
+                <input th:field="*{manufacturerName}" type="text" class="form-control text-center" id="add-manufacture-name">
+                <small class="text-danger" th:if="${#fields.hasErrors('manufacturerName')}" th:errors="*{manufacturerName}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="add-product-description">Description</label>
+                <textarea th:field="*{description}" id="add-product-description" cols="41" rows="5" placeholder="Enter content"></textarea>
+                <small class="text-danger" th:errors="*{description}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="add-quantity">Quantity</label>
+                <input th:field="*{quantity}" type="number" class="form-control text-center" id="add-quantity">
+                <small class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="add-product-price">Price</label>
+                <input th:field="*{price}" type="number" step="any" class="form-control text-center" id="add-product-price">
+                <small class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+
+            </div>
+
+            <div class="form-group">
+                <label for="categories">Categories</label>
+                <select multiple class="form-control" th:field="*{categories}" id="categories">
+                    <option class="form-check" th:each="category : ${categories}" th:value="${category.id}"
+                            th:text="${category.name}">
+                </select>
+                <small class="text-danger" th:each="error : ${#fields.errors('categories')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="add-product-image">Upload product image</label>
+                <input th:field="*{image}"  type="file" class="form-control-file" id="add-product-image">
+                <small class="text-danger" th:errors="*{image}"></small>
+            </div>
+
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </div>
+        </form>
+
+    <th:block th:insert="~{fragments/footer}">
+    </th:block>
+    <th:block th:insert="~{fragments/scripts}"></th:block>
+</div>
+</body>
+</html>

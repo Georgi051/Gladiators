@@ -1,0 +1,60 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+<div class="container mt-5">
+
+        <div class="jumbotron bg-light">
+            <h2 class="text-center text-dark">Details</h2>
+            <hr class="hr-2 bg-dark w-25">
+            <div class="text-center">
+                <img th:src="${product.imageUrl}" width="225" height="225" alt="Product">
+            </div>
+            <div class="row">
+                <div class="col col-md-12 text-center mt-3">
+                    <h4 th:text="'Name: ' + ${product.name}"></h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-12 text-center mt-3">
+                    <h6 th:text="'Manufacturer name: ' + ${product.manufacturerName}"></h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-12 text-center mt-3">
+                    <h6 th:text="'Quantity: ' + ${product.quantity}"></h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-12 text-center mt-3">
+                    <h6 th:text="'Number purchased: ' + ${product.buyingCounter}"></h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-12 text-center mt-3">
+                    <h6 th:text="'Desciption: ' + ${product.description}"></h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-12 text-center mt-5">
+                    <h4 th:text="'Price: ' + ${product.price}"></h4>
+                </div>
+            </div>
+            <hr class="hr-2 bg-dark w-25">
+        </div>
+
+    <th:block th:insert="~{fragments/footer}">
+    </th:block>
+    <th:block th:insert="~{fragments/scripts}"></th:block>
+</div>
+</body>
+</html>
