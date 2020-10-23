@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.entities.Category;
+import project.gladiators.model.entities.SubCategory;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -29,7 +30,6 @@ public class ProductEditBindingModel {
     private BigDecimal price;
     @NotNull
     private MultipartFile image;
-    @NotEmpty(message = "You must select one or more category.")
-    private Set<Category> categories;
-
+    @NotNull(message = "You must select sub-category.")
+    private SubCategory subCategories;
 }

@@ -41,7 +41,7 @@ public class Product extends BaseEntity {
     @OneToMany
     private List<Review> reviews;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Category> categories;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private SubCategory subCategory;
 
 }

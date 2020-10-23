@@ -369,7 +369,7 @@
 .footer-basic {
     padding: 40px 0;
     background-color: #ffffff;
-    color: #4b4c4d;
+    color: black;
 }
 
 .footer-basic ul {
@@ -1087,6 +1087,15 @@ div.radio {
     background-image: url("/img/about-img.jpg");
 }
 
+#shop {
+    background-image: url("https://res.cloudinary.com/gladiators/image/upload/v1603450581/GLADIATORS_ftv8nd.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+}
 
 
 

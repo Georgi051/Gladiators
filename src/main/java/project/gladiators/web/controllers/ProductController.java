@@ -10,19 +10,19 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.ProductEditBindingModel;
-import project.gladiators.model.entities.Category;
 import project.gladiators.service.CategoryService;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.ProductService;
+import project.gladiators.service.SubCategoryService;
 import project.gladiators.service.serviceModels.CategoryServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.web.viewModels.ProductViewModel;
 import project.gladiators.web.viewModels.CategoryViewModel;
+import project.gladiators.web.viewModels.SubCategoryViewModel;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,13 +30,15 @@ import java.util.stream.Collectors;
 public class ProductController extends BaseController{
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final SubCategoryService subCategoryService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, CategoryService categoryService, SubCategoryService subCategoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.subCategoryService = subCategoryService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
@@ -45,10 +47,10 @@ public class ProductController extends BaseController{
     @PageTitle("Add product")
     public ModelAndView addProduct(ModelAndView modelAndView) {
         modelAndView.addObject("product", new ProductEditBindingModel());
-        modelAndView.addObject("categories", this.categoryService.allCategories().stream()
-                .sorted(Comparator.comparing(CategoryServiceModel::getName))
-                .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
+        modelAndView.addObject("subCategories", this.subCategoryService.allSubCategories().stream()
+                .map(subCategoryServiceModel -> this.modelMapper.map(subCategoryServiceModel, SubCategoryViewModel.class))
                 .collect(Collectors.toList()));
+
         return super.view("/product/product-add",modelAndView);
     }
 
@@ -58,9 +60,8 @@ public class ProductController extends BaseController{
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("product", productBindingModel);
-            modelAndView.addObject("categories", this.categoryService.allCategories().stream()
-                    .sorted(Comparator.comparing(CategoryServiceModel::getName))
-                    .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
+            modelAndView.addObject("subCategories", this.subCategoryService.allSubCategories().stream()
+                    .map(subCategoryServiceModel -> this.modelMapper.map(subCategoryServiceModel, SubCategoryViewModel.class))
                     .collect(Collectors.toList()));
             return super.view("/product/product-add", modelAndView);
         }

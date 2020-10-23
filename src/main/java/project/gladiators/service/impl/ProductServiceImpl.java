@@ -4,27 +4,24 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.exceptions.ProductNotFoundException;
-import project.gladiators.model.entities.Category;
 import project.gladiators.model.entities.Product;
 import project.gladiators.repository.ProductRepository;
-import project.gladiators.service.CategoryService;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
+
+import static project.gladiators.constants.ExceptionMessages.PRODUCT_NOT_FOUND;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
-        this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
@@ -49,13 +46,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceModel findProductById(String id) {
         return this.productRepository.findById(id)
                 .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
-                .orElseThrow(() -> new ProductNotFoundException(String.format("Product with ID %s not found", id)));
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
     }
 
     @Override
     public void editProduct(String id, ProductServiceModel model) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(String.format("Product with ID %s not found", id)));
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
         product.setName(model.getName());
         product.setPrice(model.getPrice());
         product.setDescription(model.getDescription());
@@ -69,14 +66,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(String id) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(String.format("Product with ID %s not found", id)));
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
         this.productRepository.delete(product);
     }
 
     @Override
     public List<ProductServiceModel> findAllByCategory(String category) {
         return this.productRepository.findAll().stream()
-                .filter(p -> p.getCategories().stream().anyMatch(c -> c.getName().equals(category)))
+                .filter(p -> p.getSubCategory().getProducts().stream().anyMatch(c -> c.getName().equals(category)))
                 .map(p -> this.modelMapper.map(p,ProductServiceModel.class))
                 .collect(Collectors.toList());
     }

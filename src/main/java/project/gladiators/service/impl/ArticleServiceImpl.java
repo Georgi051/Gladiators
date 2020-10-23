@@ -34,17 +34,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleServiceModel> getAllArticles() {
-        return Arrays.asList(this.modelMapper.map(articleRepository.findAll(),ArticleServiceModel[].class));
+        return Arrays.asList(this.modelMapper.map(articleRepository.findAll(), ArticleServiceModel[].class));
     }
 
     @Override
     public ArticleServiceModel findArticleById(String id) {
-        Article article=this.articleRepository.findById(id)
-                .orElseThrow(()->new ArticleNotFoundException(ExceptionMessages.ARTICLE_NOT_FOUND));
+        Article article = this.articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleNotFoundException(ExceptionMessages.ARTICLE_NOT_FOUND));
         ArticleServiceModel articleServiceModel = this.modelMapper
                 .map(article, ArticleServiceModel.class);
         articleServiceModel.setUserServiceModel(this.modelMapper
-        .map(article.getUser(), UserServiceModel.class));
+                .map(article.getUser(), UserServiceModel.class));
         return articleServiceModel;
     }
 
@@ -59,6 +59,6 @@ public class ArticleServiceImpl implements ArticleService {
         articleServiceModel.setUserServiceModel(user);
         articleServiceModel.setAddedOn(LocalDateTime.now());
         Article article = articleRepository.save(this.modelMapper.map(articleServiceModel, Article.class));
-        return this.modelMapper.map(article,ArticleServiceModel.class);
+        return this.modelMapper.map(article, ArticleServiceModel.class);
     }
 }
