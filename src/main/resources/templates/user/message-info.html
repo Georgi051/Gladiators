@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head}">
+
+</head>
+
+<body id="page-top">
+<th:block th:insert="~{fragments/nav}">
+
+</th:block>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <!-- Star form compose mail -->
+            <form class="form-horizontal" th:object="${message}">
+                <div class="panel mail-wrapper rounded shadow">
+                    <div class="panel-heading">
+                        <div class="pull-left">
+                            <h3 class="panel-title">Message</h3>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-sub-heading inner-all">
+                        <div class="pull-left">
+                            <h3 class="lead no-margin" th:text="*{title}"></h3>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-sub-heading inner-all">
+                        <div class="row">
+                            <div class="col-md-8 col-sm-8 col-xs-7">
+                                <img th:src="${message.imageOfSender}" class="img-circle senden-img">
+                                <span th:text="${message.messageFrom}"></span>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-5">
+                                <p class="pull-right" th:text="${#temporals.format(message.timeSent, 'dd-MM-yyyy HH:mm:ss')}"></p>
+                            </div>
+                        </div>
+                    </div><!-- /.panel-sub-heading -->
+                    <div class="panel-body">
+                        <div class="view-mail">
+                            <p th:text="*{message}"></p>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        <div class="pull-right">
+                            <a th:href="@{/messages/reply/(id = *{idOfSender})}" class="btn btn-success btn-sm"><i class="fa fa-reply"></i> Reply</a>
+                            <a th:href="@{/messages/delete/(id = *{id})}" class="btn btn-danger btn-sm tooltips" data-container="body" data-original-title="Trash" data-toggle="tooltip" data-placement="top" title=""><i class="fa fa-trash-o"></i></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<th:block th:insert="~{fragments/footer}">
+
+</th:block>
+
+<th:block th:insert="~{fragments/scripts}">
+
+</th:block>
+</body>
+
+</html>
