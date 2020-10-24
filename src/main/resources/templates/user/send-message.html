@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head}">
+
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}"></th:block>
+<h2 class="text-center top border-bottom">Send message</h2>
+<section class="form-container" style="margin-bottom: 8px; background: white; color: black">
+    <form th:object="${user}">
+        <div class="message-form">
+            <h5 th:text="${user.firstName + ' ' + user.lastName}"></h5>
+            <img th:src="${user.imageUrl}">
+        </div>
+    </form>
+
+    <form th:object="${sendMessageBindingModel}" th:action="@{/messages/reply/(id = *{messageTo})}" th:method="post" >
+        <div class="message-form">
+            <label for="title" class="text-slategray">Title</label>
+            <input th:field="*{title}" style="width: 30%; border: 1px solid black;"
+                   type="text" id="title" placeholder="Enter your title here...">
+
+            <small class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+        </div>
+        <div class="message-form">
+            <label for="message" class="text-slategray">Message</label>
+            <textarea th:field="*{message}" type="text" style="width: 30%; height:160px; border: 1px solid black !important;" id="message" placeholder="Enter your message here...">
+                 </textarea>
+            <small class="text-danger" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></small>
+
+        </div>
+        <button type="submit" class="btn btn-primary btn-message">Send message</button>
+    </form>
+</section>
+</body>
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+</html>

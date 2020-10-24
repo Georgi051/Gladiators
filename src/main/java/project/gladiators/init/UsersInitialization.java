@@ -58,7 +58,7 @@ public class UsersInitialization implements CommandLineRunner {
             User trainerUnconfirmed = new User("trainer_unconfirmed",
                     null, null, LocalDateTime.now()
                     , passwordEncoder.encode("1234"), "trainer_unc@abv.bg", null
-                    , null, null, Set.of(roleUser, roleTrainerUnconfirmed));
+                    , null, null,Set.of(roleUser, roleTrainerUnconfirmed));
 
             User trainerConfirmed = new User("trainer_confirmed",
                     "trainerConfirmedFirstName", "trainerConfirmedLastName", LocalDateTime.now()

@@ -98,4 +98,13 @@ public class TrainerServiceImpl implements TrainerService {
         }
         return List.of(this.modelMapper.map(trainers, TrainerServiceModel[].class));
     }
+
+    @Override
+    public TrainerServiceModel findById(String id) {
+
+        Trainer trainer = this.trainerRepository.findById(id).orElse(null);
+        TrainerServiceModel trainerServiceModel = this.modelMapper
+                .map(trainer, TrainerServiceModel.class);
+        return trainerServiceModel;
+    }
 }

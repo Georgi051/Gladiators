@@ -15,4 +15,5 @@ public interface CustomerService {
     CustomerServiceModel findCustomerById(String id);
 
     void editProgressChart(CustomerServiceModel customer, ProgressChartEditBindingModel progressChartEditBindingModel);
+
 }

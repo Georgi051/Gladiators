@@ -36,6 +36,8 @@
                 </a>
                 <div class="dropdown-menu" role="menu">
                     <a class="dropdown-item" role="presentation"
+                    th:href="@{/users/inbox/(id=${#authentication.getPrincipal().getId()})}">Inbox</a>
+                    <a class="dropdown-item" role="presentation"
                        th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
                     <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item"
                        role="presentation"

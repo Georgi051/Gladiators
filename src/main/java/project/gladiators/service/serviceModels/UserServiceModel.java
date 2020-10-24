@@ -7,6 +7,7 @@ import project.gladiators.model.enums.Gender;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ public class UserServiceModel extends BaseServiceModel{
     private String password;
     private String email;
     private LocalDate dateOfBirth;
+    private List<MessageServiceModel> messages;
     private Set<RoleServiceModel> authorities;
 
 

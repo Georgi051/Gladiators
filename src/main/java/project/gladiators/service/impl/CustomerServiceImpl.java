@@ -7,17 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.bindingModels.ProgressChartEditBindingModel;
 import project.gladiators.model.entities.Customer;
+import project.gladiators.model.entities.Message;
 import project.gladiators.model.entities.ProgressChart;
 import project.gladiators.model.entities.User;
 import project.gladiators.repository.CustomerRepository;
 import project.gladiators.repository.ProgressChartRepository;
 import project.gladiators.service.CustomerService;
+import project.gladiators.service.TrainerService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -27,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final ProgressChartRepository progressChartRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, UserService userService, ModelMapper modelMapper, ProgressChartRepository progressChartRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, UserService userService, TrainerService trainerService, ModelMapper modelMapper, ProgressChartRepository progressChartRepository) {
         this.customerRepository = customerRepository;
         this.userService = userService;
         this.modelMapper = modelMapper;
@@ -91,4 +95,6 @@ public class CustomerServiceImpl implements CustomerService {
         this.progressChartRepository.saveAndFlush(customerEntity.getProgressChart());
         this.customerRepository.saveAndFlush(customerEntity);
     }
+
+
 }

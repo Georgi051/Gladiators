@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/head}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}"></th:block>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="grid email">
+                <div class="grid-body">
+                    <div class="row">
+
+                        <h2 class="grid-title"><i class="fa fa-inbox"></i> Inbox</h2>
+
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label style="margin-right: 8px;" class="">
+                                        <div class="icheckbox_square-blue" style="position: relative;"><input type="checkbox" id="check-all" class="icheck" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <div class="padding"></div>
+
+                            <div class="table-responsive">
+                                <form>
+                                    <table class="table">
+                                        <tbody>
+                                        <th:block th:if="${messages.size() == 0}">
+                                            <div class="text-center">Your inbox is empty...</div>
+                                        </th:block>
+                                        <tr th:each="message: ${messages}" th:object="${message}">
+                                            <td class="action"><i class="fas fa-mail-forward"></i></td>
+                                            <th:block th:if="${message.unread == false}">
+                                                <td class="name" style="font-weight: normal"><span th:text="*{messageFrom}"></span></td>
+                                                <td class="subject" style="font-weight: normal"><a th:href="@{/messages/(id = *{id})}" th:text="*{title}"></a></td>
+                                                <td class="time" style="font-weight: normal"><span th:text="${#temporals.format(message.timeSent, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                            </th:block>
+                                            <th:block th:if="${message.unread == true}">
+                                                <td class="name" style="font-weight: bold"><span th:text="*{messageFrom}"></span></td>
+                                                <td class="subject" style="font-weight: bold"><a th:href="@{/messages/(id = *{id})}" th:text="*{title}"></a></td>
+                                                <td class="time" style="font-weight: bold" ><span th:text="${#temporals.format(message.timeSent, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                            </th:block>
+
+                                        </tr>
+
+                                        </tbody></table>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+<th:block th:insert="~{fragments/scripts}"></th:block>
+</body>
+</html>

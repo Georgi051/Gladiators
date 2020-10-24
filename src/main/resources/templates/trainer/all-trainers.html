@@ -41,8 +41,11 @@
                 <h5 th:text="${trainer.userFirstName + ' ' + trainer.userLastName}"></h5>
                 <p class="text-muted" th:text="|Experience: ${trainer.yearsOfExperience} years |"></p>
                 <p class="text-muted" th:text="${trainer.description}"></p>
-                <a class="btn btn-primary" th:href="@{/trainers/{id}(id=${trainer.id})}"
-                   style="margin-bottom: 20px;">Programs</a></div>
+                <th:block sec:authorize="hasRole('ROLE_CUSTOMER')">
+                    <a class="btn btn-primary" th:href="@{/customers/sendMessageToTrainer/(id=${trainer.id})}"
+                       style="margin-bottom: 20px;">Contact it</a>
+                </th:block>
+            </div>
         </div>
     </div>
     </div>

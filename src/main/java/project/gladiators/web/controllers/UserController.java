@@ -14,10 +14,14 @@ import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
+import project.gladiators.model.entities.Message;
 import project.gladiators.model.entities.User;
+import project.gladiators.service.MessageService;
 import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.MessageServiceModel;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.web.viewModels.MessageViewModel;
 import project.gladiators.web.viewModels.UserViewModel;
 
 import javax.validation.Valid;
@@ -25,6 +29,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -32,11 +40,13 @@ import java.time.Period;
 public class UserController extends BaseController {
     private final ModelMapper modelMapper;
     private final UserService userService;
+    private final MessageService messageService;
     private final Gson gson;
 
-    public UserController(ModelMapper modelMapper, UserService userService, Gson gson) {
+    public UserController(ModelMapper modelMapper, UserService userService, MessageService messageService, Gson gson) {
         this.modelMapper = modelMapper;
         this.userService = userService;
+        this.messageService = messageService;
         this.gson = gson;
     }
 
@@ -242,6 +252,29 @@ public class UserController extends BaseController {
 
         modelAndView.addObject("user", userServiceModel);
         return super.redirect(String.format("/users/?id=%s", id));
+    }
+
+    @GetMapping("/inbox/")
+    public ModelAndView inbox(@RequestParam("id") String id, ModelAndView modelAndView){
+
+        List<MessageServiceModel> messages = this.messageService
+        .findAllByUserId(id);
+
+        List<MessageViewModel> messageViewModels = new ArrayList<>();
+        messages.stream()
+                .forEach(messageServiceModel -> {
+                    MessageViewModel messageViewModel = this.modelMapper
+                            .map(messageServiceModel, MessageViewModel.class);
+                    messageViewModel.setMessageFrom(String.format
+                            ("%s %s", messageServiceModel.getMessageFrom().getFirstName(),
+                                    messageServiceModel.getMessageFrom().getLastName()));
+                    messageViewModels.add(messageViewModel);
+                });
+
+        List<MessageViewModel> sortedMesseges = messageViewModels.stream().sorted(Comparator.comparing(MessageViewModel::getTimeSent).reversed())
+                .collect(Collectors.toList());
+        modelAndView.addObject("messages", sortedMesseges);
+        return super.view("user/inbox", modelAndView);
     }
 
 }

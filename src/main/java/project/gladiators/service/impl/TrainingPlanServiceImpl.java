@@ -31,23 +31,8 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     }
 
     @Override
-    public void addTrainingPlan(TrainingPlanBindingModel trainingInfoModel
-            , TrainingPlanBindingModel trainingPlanWorkoutsModel) {
+    public void addTrainingPlan(TrainingPlanServiceModel trainingPlanServiceModel) {
 
-        TrainingPlanServiceModel trainingPlanServiceModel = this.modelMapper
-                .map(trainingInfoModel, TrainingPlanServiceModel.class);
-        DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
-        for (int i = 0; i < trainingPlanWorkoutsModel.getWorkout().size(); i++) {
-            trainingPlanServiceModel.getWorkouts().add(new TrainingPlanWorkoutInfo());
-
-            trainingPlanServiceModel.getWorkouts().get(i).setDayOfWeek(dayOfWeek);
-            dayOfWeek = dayOfWeek.plus(1);
-            Workout workout = this.modelMapper.map(this.workoutService
-                    .findById(trainingPlanWorkoutsModel.getWorkout().get(i)), Workout.class);
-            trainingPlanServiceModel.getWorkouts().get(i).setWorkout(workout);
-        }
-        trainingPlanServiceModel.getWorkouts()
-                .forEach(this.trainingPlanWorkoutInfoRepository::saveAndFlush);
         this.trainingPlanRepository.saveAndFlush(this.modelMapper
         .map(trainingPlanServiceModel, TrainingPlan.class));
 

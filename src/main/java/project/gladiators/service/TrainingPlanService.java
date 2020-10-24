@@ -6,7 +6,7 @@ import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 
 public interface TrainingPlanService {
 
-    void addTrainingPlan(TrainingPlanBindingModel trainingInfoModel, TrainingPlanBindingModel trainingPlanWorkoutsModel);
+    void addTrainingPlan(TrainingPlanServiceModel trainingPlanServiceModel);
 
     TrainingPlanServiceModel findById(String id);
 

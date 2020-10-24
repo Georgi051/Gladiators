@@ -3,24 +3,23 @@ package project.gladiators.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import project.gladiators.model.bindingModels.CustomerRegisterBindingModel;
-import project.gladiators.model.bindingModels.ProgressChartEditBindingModel;
+import project.gladiators.annotations.PageTitle;
+import project.gladiators.model.bindingModels.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.model.bindingModels.CustomerRegisterBindingModel;
-import project.gladiators.model.bindingModels.UserRegisterBindingModel;
-import project.gladiators.model.entities.User;
 import project.gladiators.service.CustomerService;
+import project.gladiators.service.MessageService;
+import project.gladiators.service.TrainerService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import javax.validation.Valid;
@@ -33,12 +32,16 @@ import java.security.Principal;
 public class CustomerController extends BaseController{
     private final CustomerService customerService;
     private final UserService userService;
+    private final TrainerService trainerService;
+    private final MessageService messageService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CustomerController(CustomerService customerService, UserService userService, ModelMapper modelMapper) {
+    public CustomerController(CustomerService customerService, UserService userService, TrainerService trainerService, MessageService messageService, ModelMapper modelMapper) {
         this.customerService = customerService;
         this.userService = userService;
+        this.trainerService = trainerService;
+        this.messageService = messageService;
         this.modelMapper = modelMapper;
     }
 
@@ -97,4 +100,44 @@ public class CustomerController extends BaseController{
         return super.view("home", modelAndView);
 
     }
+
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @PageTitle("Send message")
+    @GetMapping("/sendMessageToTrainer")
+    public ModelAndView getSendMessage(@RequestParam("id") String id,
+                                       ModelAndView modelAndView){
+
+        TrainerServiceModel trainer = this.trainerService.findById(id);
+        modelAndView.addObject("trainer", trainer);
+        SendMessageBindingModel sendMessageBindingModel = new SendMessageBindingModel();
+        sendMessageBindingModel.setMessageTo(trainer.getId());
+        modelAndView.addObject("sendMessageBindingModel", sendMessageBindingModel);
+        return super.view("/trainer/contact-with-trainer", modelAndView);
+    }
+
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @PostMapping("/sendMessageToTrainer")
+    public ModelAndView sendMessage(@RequestParam("id") String id,
+                                    @Valid @ModelAttribute("sendMessageBindingModel")
+                                                SendMessageBindingModel sendMessageBindingModel,
+                                    BindingResult bindingResult,
+                                    ModelAndView modelAndView,
+                                    Principal principal){
+
+        if(bindingResult.hasErrors()){
+            sendMessageBindingModel.setMessageTo(id);
+            modelAndView.addObject("sendMessageBindingModel", sendMessageBindingModel);
+            TrainerServiceModel trainer = this.trainerService.findById(sendMessageBindingModel.getMessageTo());
+            modelAndView.addObject("trainer", trainer);
+            return super.view("trainer/contact-with-trainer", modelAndView);
+        }
+
+        UserServiceModel userServiceModel = this.userService
+                .findUserByUsername(principal.getName());
+        this.messageService.sendMessage(userServiceModel, id, sendMessageBindingModel.getMessage(), sendMessageBindingModel.getTitle());
+        return redirect("/trainers");
+
+    }
+
+
 }

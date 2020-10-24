@@ -20,7 +20,6 @@ import project.gladiators.service.serviceModels.WorkoutServiceModel;
 
 import javax.servlet.http.HttpSession;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -60,7 +59,21 @@ public class WorkoutController extends BaseController{
                                                  ){
 
         TrainingPlanBindingModel trainingPlan = (TrainingPlanBindingModel) session.getAttribute("trainingPlan");
-        trainingPlanService.addTrainingPlan(trainingPlan, trainingPlanBindingModel);
+        TrainingPlanServiceModel trainingPlanServiceModel = trainingPlanServiceModel = this.modelMapper
+                .map(trainingPlanBindingModel, TrainingPlanServiceModel.class);
+        DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
+        for (int i = 0; i < trainingPlan.getWorkout().size(); i++) {
+            trainingPlanServiceModel.getWorkouts().add(new TrainingPlanWorkoutInfo());
+
+            trainingPlanServiceModel.getWorkouts().get(i).setDayOfWeek(dayOfWeek);
+            dayOfWeek = dayOfWeek.plus(1);
+            Workout workout = this.modelMapper.map(this.workoutService
+                    .findById(trainingPlan.getWorkout().get(i)), Workout.class);
+            trainingPlanServiceModel.getWorkouts().get(i).setWorkout(workout);
+        }
+        trainingPlanServiceModel.setStartedOn(trainingPlan.getStartedOn());
+        trainingPlanServiceModel.setTrainingPlanType(trainingPlan.getTrainingPlanType());
+        trainingPlanService.addTrainingPlan(trainingPlanServiceModel);
 
 
         redirectAttributes.addFlashAttribute("statusMessage", "You created training plan successful");
