@@ -26,10 +26,10 @@
             <th:block th:each="product: ${products}">
                 <tr class="row mx-auto">
                   <!--  <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>-->
-                    <td class="col-md-3"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>
-                    <td class="col-md-3 text-center" th:text="${product.name}"></td>
-                    <td class="col-md-2 text-center" th:text="${product.price}"></td>
-                    <td class="col-md-3 text-center">
+                    <td class="col-md-5" style="margin-left: -5px"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>
+                    <td class="col-md-2 text-center" style="margin-left: -30px" th:text="${product.name}"></td>
+                    <td class="col-md-3 text-center" style="margin-left: 20px" th:text="${product.price}"></td>
+                    <td class="btn-group col-md-1" style="margin-left: -50px">
                         <a th:href="@{/products/details/{id}(id=${product.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
                         <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
                         <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
@@ -46,3 +46,144 @@
 </div>
 </body>
 </html>
+
+
+
+<html lang="en"><head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title></title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" type="text/css" href="/css/ionicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/reset-css.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="shortcut icon" href="">
+    <link rel="icon" type="image/png" href="/img/favicon-muscle.png">
+
+
+</head>
+
+
+
+<body><nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+    <div class="container"><a class="navbar-brand" href="/">Gladiators</a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <span class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/home">Home</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/shop">Shop</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/trainers">Trainers</a>
+                    </li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/articles">Articles</a>
+                    </li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="/about">About Us</a></li>
+                </ul>
+            </span>
+
+
+
+        <div class="dropdown  border rounded" style="margin-right: 30px;">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#">root</a>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" role="presentation" href="/users/inbox/?id=cea5358e-66ac-4564-a8f8-6c78f2579a04">Inbox</a>
+                <a class="dropdown-item" role="presentation" href="/users/?id=cea5358e-66ac-4564-a8f8-6c78f2579a04">Profile</a>
+                <a class="dropdown-item" role="presentation" href="/admin/user-management">Admin Panel</a>
+                <a class="dropdown-item" role="presentation" href="/articles/article-add">Moderator Panel</a>
+
+            </div>
+
+        </div>
+
+
+        <span class="navbar-text actions">
+
+
+
+                        <form method="post" action="/users/logout"><input type="hidden" name="_csrf" value="7ab55200-4c00-4b47-b3fc-aad47f2c29d9">
+                        <button class="btn btn-light action-button" role="button" type="submit">Logout</button>
+                        </form>
+
+                </span>
+    </div>
+
+</nav>
+
+
+
+<ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item"><a class="nav-link" href="/articles/article-add">Add article</a></li>
+    <li class="nav-item"><a class="nav-link" href="/categories/category-add">Add category</a></li>
+    <li class="nav-item"><a class="nav-link" href="/categories/all">All categories</a></li>
+    <li class="nav-item"><a class="nav-link" href="/products/add">Add product</a></li>
+    <li class="nav-item"><a class="nav-link" href="/products/all">All products</a></li>
+</ul>
+
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-dark">All Products</h2>
+
+    <table class="table table-hover w-100mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-3 text-center">Image</th>
+            <th class="col-md-3 text-center">Name</th>
+            <th class="col-md-2 text-center">Price</th>
+            <th class="col-md-3 text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr class="row mx-auto">
+            <!--  <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>-->
+            <td class="col-md-5" style="margin-left: -5px"><div class="text-center"><img src="http://res.cloudinary.com/gladiators/image/upload/v1602666518/products/Syntha%206.jpg" width="40" height="40" alt="Product"></div></td>
+            <td class="col-md-2 text-center" style="margin-left: -30px">Syntha 6</td>
+            <td class="col-md-3 text-center" style="margin-left:
+20 px">80.60</td>
+            <td class="btn-group col-md-3" style="margin-left: -50px">
+                <a href="/products/details/30fb10e8-c825-4b20-8880-366d6bcd19b9" class="btn btn-secondary font-weight-bold text-white">Details</a>
+                <a href="/products/edit/30fb10e8-c825-4b20-8880-366d6bcd19b9" class="btn btn-success font-weight-bold text-white">Edit</a>
+                <a href="/products/delete/30fb10e8-c825-4b20-8880-366d6bcd19b9" class="btn btn-danger font-weight-bold text-white">Delete</a>
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+    <div class="footer-basic">
+        <footer>
+            <div class="social"><a href="https://github.com/Valeri12580/Gladiators"><i class="icon ion-social-github"></i></a></div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="/">Home</a></li>
+                <li class="list-inline-item"><a href="/shop">Shop</a></li>
+                <li class="list-inline-item"><a href="/trainers">Trainers</a></li>
+                <li class="list-inline-item"><a href="/articles">Articles</a></li>
+                <li class="list-inline-item"><a href="/about">About us</a></li>
+            </ul>
+            <p class="copyright">Gladiators © 2020</p>
+        </footer>
+    </div>
+
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/bmiCalculator.js"></script>
+    <script src="/js/createRowForExercise.js"></script>
+    <script src="/js/getListOfWorkouts.js"></script>
+    <script src="/js/allCategories.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+
+</div>
+
+</body></html>

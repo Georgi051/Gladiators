@@ -16,4 +16,5 @@ public class ProductViewModel extends BaseViewModel {
     private Integer quantity;
     private String description;
     private String imageUrl;
+    private Integer buyingCounter;
 }
