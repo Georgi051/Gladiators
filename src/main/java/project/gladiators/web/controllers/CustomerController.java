@@ -125,7 +125,8 @@ public class CustomerController extends BaseController{
                                     Principal principal){
 
         if(bindingResult.hasErrors()){
-            sendMessageBindingModel.setMessageTo(id);
+            sendMessageBindingModel.setMessageTo(this.trainerService.findById(id)
+            .getUser().getId());
             modelAndView.addObject("sendMessageBindingModel", sendMessageBindingModel);
             TrainerServiceModel trainer = this.trainerService.findById(sendMessageBindingModel.getMessageTo());
             modelAndView.addObject("trainer", trainer);
@@ -134,7 +135,8 @@ public class CustomerController extends BaseController{
 
         UserServiceModel userServiceModel = this.userService
                 .findUserByUsername(principal.getName());
-        this.messageService.sendMessage(userServiceModel, id, sendMessageBindingModel.getMessage(), sendMessageBindingModel.getTitle());
+        this.messageService.sendMessage(userServiceModel, this.trainerService.findById(id)
+                .getUser().getId(), sendMessageBindingModel.getMessage(), sendMessageBindingModel.getTitle());
         return redirect("/trainers");
 
     }
