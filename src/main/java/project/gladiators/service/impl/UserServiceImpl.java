@@ -32,6 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static project.gladiators.constants.ExceptionMessages.USER_NOT_FOUND;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -246,7 +248,7 @@ public class UserServiceImpl implements UserService {
         Role trainerConfirmed = this.modelMapper.map(roleService.findByAuthority("ROLE_TRAINER_CONFIRMED"), Role.class);
         Role trainerUnconfirmed = this.modelMapper.map(roleService.findByAuthority("ROLE_TRAINER_UNCONFIRMED"), Role.class);
         User user = this.userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
         sessionDynamicRoleChange(trainerConfirmed ,trainerUnconfirmed);
         user.getAuthorities().add(trainerConfirmed);
@@ -323,7 +325,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return this.userRepository.findUserByUsername(s)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
     }
 
 }

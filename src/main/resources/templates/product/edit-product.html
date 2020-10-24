@@ -1,0 +1,70 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+<div class="container mt-5">
+
+    <form id="add-product-form" class="form w-25 mx-auto" th:action="@{/products/edit/{id}(id=${productId})}"
+          method="post" enctype="multipart/form-data">
+        <h2 class="form-group">Edit Product</h2>
+        <div class="form-group">
+            <img th:src="${product.imageUrl}" width="225" height="225" alt="Product">
+        </div>
+
+        <div class="form-group">
+            <label for="add-product-image" class="font-weight-bold">Change product image</label>
+            <input th:value="*{product.imageUrl}" type="file" class="form-control-file" name="image"
+                   id="add-product-image">
+        </div>
+
+        <div class="form-group">
+            <label for="add-product-name" class="font-weight-bold">Name</label>
+            <input type="text" class="form-control text-center" id="add-product-name" name="name"
+                   th:value="${product.name}">
+        </div>
+
+        <div class="form-group">
+            <label for="add-product-manufacturerName" class="font-weight-bold">Manufacturer name</label>
+            <input type="text" class="form-control text-center" id="add-product-manufacturerName"
+                   name="manufacturerName"
+                   th:value="${product.manufacturerName}">
+        </div>
+
+        <div class="form-group">
+            <label for="add-product-description" class="font-weight-bold">Description</label>
+            <textarea name="description" id="add-product-description" cols="41" rows="5"
+                      th:text="${product.description}"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="add-product-quantity" class="font-weight-bold">Quantity</label>
+            <input type="number" class="form-control text-center" id="add-product-quantity" name="quantity"
+                   th:value="${product.quantity}">
+        </div>
+
+        <div class="form-group">
+            <label for="add-product-price" class="font-weight-bold">Price</label>
+            <input type="number" step="any" class="form-control text-center" id="add-product-price" name="price"
+                   th:value="${product.price}">
+        </div>
+
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-success">Edit Product</button>
+        </div>
+    </form>
+
+    <footer class="mt-3">
+        <th:block th:include="~{fragments/footer}"/>
+    </footer>
+
+</div>
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

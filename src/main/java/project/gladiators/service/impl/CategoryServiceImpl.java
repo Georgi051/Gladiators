@@ -12,6 +12,8 @@ import project.gladiators.service.serviceModels.CategoryServiceModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static project.gladiators.constants.ExceptionMessages.CATEGORY_NOT_FOUND;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
@@ -26,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void seedCategoryInDb(CategoryServiceModel categoryServiceModel) {
-        if (this.categoryRepository.findByName(categoryServiceModel.getName()) == null){
+        if (this.categoryRepository.findByName(categoryServiceModel.getName()) == null) {
             Category category = this.modelMapper.map(categoryServiceModel, Category.class);
             this.categoryRepository.saveAndFlush(category);
         }
@@ -35,21 +37,21 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryServiceModel> allCategories() {
         return this.categoryRepository.findAll().stream()
-                .map(c -> this.modelMapper.map(c,CategoryServiceModel.class))
+                .map(c -> this.modelMapper.map(c, CategoryServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public CategoryServiceModel findCategory(String id) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() ->  new CategoryNotFoundException(String.format("Category with ID %s not found", id)));
+                .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND));
         return this.modelMapper.map(category, CategoryServiceModel.class);
     }
 
     @Override
     public void editCategory(String id, CategoryServiceModel model) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(String.format("Category with ID %s not found", id)));
+                .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND));
         category.setName(model.getName());
         this.modelMapper.map(this.categoryRepository.saveAndFlush(category), CategoryServiceModel.class);
     }
@@ -57,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(String id) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(String.format("Category with ID %s not found", id)));
+                .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND));
         this.categoryRepository.delete(category);
     }
 }

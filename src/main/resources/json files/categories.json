@@ -1,0 +1,212 @@
+[
+  {
+    "name": "Proteins",
+    "subCategories": [
+      {
+        "name": "Vegetarian proteins"
+      },
+      {
+        "name": "Isolates"
+      },
+      {
+        "name": "Casein"
+      },
+      {
+        "name": "Protein matrices"
+      },
+      {
+        "name": "Soy proteins"
+      },
+      {
+        "name": "Whey Protein"
+      },
+      {
+        "name": "Beef protein"
+      },
+      {
+        "name": "Liquid proteins"
+      },
+      {
+        "name": "Egg proteins"
+      },
+      {
+        "name": "Hydrolyzed proteins"
+      }
+      ]
+  },
+  {
+    "name": "Nitrogen/pumping",
+    "subCategories": [
+      {
+        "name": "Nitrogen/pumping without creatine"
+      },
+      {
+        "name": "Nitrogen/pumping without stimulants"
+      },
+      {
+        "name": "Nitrogen/pumping tablets/capsules"
+      },
+      {
+        "name": "Concentrates"
+      }
+      ]
+  },
+  {
+    "name": "Amino acids",
+    "subCategories": [
+      {
+        "name": "BCAA"
+      },
+      {
+        "name": "SAMe"
+      },
+      {
+        "name": "Agmatine"
+      },
+      {
+        "name": "Arginine"
+      },
+      {
+        "name": "Beta-Alanine"
+      },
+      {
+        "name": "Glycine"
+      },
+      {
+        "name": "Glutamine"
+      },
+      {
+        "name": "Essential amino acids"
+      },
+      {
+        "name": "Complex amino acids"
+      },
+      {
+        "name": "Leucine"
+      },
+      {
+        "name": "Lysine"
+      },
+      {
+        "name": "Methionine"
+      },
+      {
+        "name": "Ornithine"
+      },
+      {
+        "name": "Proline"
+      },
+      {
+        "name": "Whey amino acids"
+      },
+      {
+        "name": "Taurine"
+      }
+    ]
+  },
+  {
+    "name": "Fat burning",
+    "subCategories": [
+      {
+        "name": "Carb/Fat blockers"
+      },
+      {
+        "name": "CLA"
+      },
+      {
+        "name": "African mango"
+      },
+      {
+        "name": "Garcinia Cambogia"
+      },
+      {
+        "name": "Gugulsteroni"
+      },
+      {
+        "name": "Green coffee"
+      },
+      {
+        "name": "Yohimbine"
+      },
+      {
+        "name": "Caffeine"
+      },
+      {
+        "name": "L-Carnitine"
+      },
+      {
+        "name": "Lipotropic fat burners"
+      },
+      {
+        "name": "Raspberry ketones"
+      },
+      {
+        "name": "Suppression of appetite"
+      },
+      {
+        "name": "Lubrication products"
+      },
+      {
+        "name": "Synephrine"
+      },
+      {
+        "name": "Thermogenic fat burners"
+      },
+      {
+        "name": "Forskolin"
+      }
+    ]
+  },
+  {
+    "name": "Weight gain",
+    "subCategories": [
+      {
+        "name": "Fast carbs"
+      },
+      {
+        "name": "Gainer"
+      }
+    ]
+  },
+  {
+    "name": "Creatine products",
+    "subCategories": [
+      {
+        "name": "CGT"
+      },
+      {
+        "name": "Cre-Alkaline"
+      },
+      {
+        "name": "Creatine Gluconate"
+      },
+      {
+        "name": "Creatine Ethyl Esther"
+      },
+      {
+        "name": "Creatine Ethyl Esther Malate"
+      },
+      {
+        "name": "Creatine Monohydrate"
+      },
+      {
+        "name": "Creatine Phosphate"
+      },
+      {
+        "name": "Creatine Hydrochloride"
+      },
+      {
+        "name": "Creatine Citrulline Malate"
+      },
+      {
+        "name": "Magnesium creatine chelate"
+      },
+      {
+        "name": "Orotin"
+      },
+      {
+        "name": "Three Creatine Malate"
+      }
+    ]
+  }
+]

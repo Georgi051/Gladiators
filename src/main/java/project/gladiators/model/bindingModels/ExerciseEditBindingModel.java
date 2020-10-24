@@ -22,6 +22,6 @@ public class ExerciseEditBindingModel {
     private String description;
     @NotNull(message = "Please add exercise picture.")
     private MultipartFile imageUrl;
-    @NotEmpty(message = "You must select muscle one or more.")
+    @NotEmpty(message = "You must select one or more muscle.")
     private Set<Muscle> muscles;
 }
