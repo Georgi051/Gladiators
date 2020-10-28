@@ -4,17 +4,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.model.entities.Category;
+import project.gladiators.model.entities.SubCategory;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductEditBindingModel {
+public class ProductAddBindingModel {
     @Size(min = 3, message = "Exercise name must be at least 3 characters")
     private String name;
     @Size(min = 3, message = "Exercise name must be at least 3 characters")
@@ -30,4 +30,6 @@ public class ProductEditBindingModel {
     private BigDecimal price;
     @NotNull
     private MultipartFile image;
+    @NotNull(message = "You must select sub-category.")
+    private SubCategory subCategories;
 }

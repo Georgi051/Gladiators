@@ -1,6 +1,5 @@
 package project.gladiators.service.impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.model.entities.WorkoutExerciseInfo;
@@ -12,12 +11,10 @@ import java.util.Set;
 @Service
 public class WorkoutExerciseInfoServiceImpl implements WorkoutExerciseInfoService {
     private final WorkoutExerciseInfoRepository workoutExerciseInfoRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public WorkoutExerciseInfoServiceImpl(WorkoutExerciseInfoRepository workoutExerciseInfoRepository, ModelMapper modelMapper) {
+    public WorkoutExerciseInfoServiceImpl(WorkoutExerciseInfoRepository workoutExerciseInfoRepository) {
         this.workoutExerciseInfoRepository = workoutExerciseInfoRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override

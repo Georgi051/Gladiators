@@ -123,8 +123,7 @@ public class UserController extends BaseController {
     public ModelAndView banUser(@RequestParam("id") String id,
                                 ModelAndView modelAndView){
 
-        this.userService
-                .banUser(id);
+        this.userService.banUser(id);
 
         modelAndView.addObject("users", this.userService.getAllUsers());
         return view("admin/all-users", modelAndView);
@@ -261,7 +260,7 @@ public class UserController extends BaseController {
         .findAllByUserId(id);
 
         List<MessageViewModel> messageViewModels = new ArrayList<>();
-        messages.stream()
+        messages
                 .forEach(messageServiceModel -> {
                     MessageViewModel messageViewModel = this.modelMapper
                             .map(messageServiceModel, MessageViewModel.class);

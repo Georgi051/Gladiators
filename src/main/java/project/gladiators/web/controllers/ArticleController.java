@@ -55,12 +55,8 @@ public class ArticleController extends BaseController {
             modelAndView.addObject("org.springframework.validation.BindingResult.article", result);
             return super.view("/article/article-add", modelAndView);
         }
-        String imageUrl = articleRegisterBindingModel.getImage().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg"
-                : this.cloudinaryService.uploadImageToCurrentFolder(articleRegisterBindingModel.getImage(), "articles");
         ArticleServiceModel articleServiceModel = modelMapper.map(articleRegisterBindingModel, ArticleServiceModel.class);
-        articleServiceModel.setImageUrl(imageUrl);
-
-        articleService.registerArticle(articleServiceModel, principal.getName());
+        articleService.registerArticle(articleServiceModel, principal.getName(),articleRegisterBindingModel.getImage());
         redirectAttributes.addFlashAttribute("statusMessage", "You created article successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
         return super.redirect("/articles/article-add");

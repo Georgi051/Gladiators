@@ -2,20 +2,13 @@ package project.gladiators.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import project.gladiators.model.entities.Customer;
 import project.gladiators.model.entities.Message;
-import project.gladiators.model.entities.Trainer;
 import project.gladiators.model.entities.User;
-import project.gladiators.repository.CustomerRepository;
 import project.gladiators.repository.MessageRepository;
-import project.gladiators.repository.TrainerRepository;
 import project.gladiators.repository.UserRepository;
 import project.gladiators.service.MessageService;
-import project.gladiators.service.TrainerService;
 import project.gladiators.service.UserService;
-import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.MessageServiceModel;
-import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.time.LocalDateTime;
@@ -24,19 +17,12 @@ import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
-    private final CustomerRepository customerRepository;
-    private final TrainerRepository trainerRepository;
-    private final TrainerService trainerService;
     private final UserService userService;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public MessageServiceImpl(CustomerRepository customerRepository, TrainerRepository trainerRepository, TrainerService trainerService, UserService userService, MessageRepository messageRepository, UserRepository userRepository, ModelMapper modelMapper) {
-
-        this.customerRepository = customerRepository;
-        this.trainerRepository = trainerRepository;
-        this.trainerService = trainerService;
+    public MessageServiceImpl(UserService userService, MessageRepository messageRepository, UserRepository userRepository, ModelMapper modelMapper) {
         this.userService = userService;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;

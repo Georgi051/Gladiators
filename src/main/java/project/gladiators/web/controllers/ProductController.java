@@ -9,20 +9,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
+import project.gladiators.model.bindingModels.ProductAddBindingModel;
 import project.gladiators.model.bindingModels.ProductEditBindingModel;
 import project.gladiators.service.CategoryService;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.SubCategoryService;
-import project.gladiators.service.serviceModels.CategoryServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.web.viewModels.ProductViewModel;
-import project.gladiators.web.viewModels.CategoryViewModel;
 import project.gladiators.web.viewModels.SubCategoryViewModel;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Controller
@@ -46,7 +44,7 @@ public class ProductController extends BaseController{
     @GetMapping("/add")
     @PageTitle("Add product")
     public ModelAndView addProduct(ModelAndView modelAndView) {
-        modelAndView.addObject("product", new ProductEditBindingModel());
+        modelAndView.addObject("product", new ProductAddBindingModel());
         modelAndView.addObject("subCategories", this.subCategoryService.allSubCategories().stream()
                 .map(subCategoryServiceModel -> this.modelMapper.map(subCategoryServiceModel, SubCategoryViewModel.class))
                 .collect(Collectors.toList()));
@@ -55,7 +53,7 @@ public class ProductController extends BaseController{
     }
 
     @PostMapping("/add")
-    public ModelAndView addProduct(@Valid @ModelAttribute(name = "product") ProductEditBindingModel productBindingModel,
+    public ModelAndView addProduct(@Valid @ModelAttribute(name = "product") ProductAddBindingModel productBindingModel,
                                    BindingResult result, RedirectAttributes redirectAttributes) throws IOException {
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
@@ -65,13 +63,8 @@ public class ProductController extends BaseController{
                     .collect(Collectors.toList()));
             return super.view("/product/product-add", modelAndView);
         }
-
-        String imageUrl = productBindingModel.getImage().isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg"
-                : this.cloudinaryService.uploadImageToCurrentFolder(productBindingModel.getImage(), "products");
         ProductServiceModel product = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
-        product.setImageUrl(imageUrl);
-        this.productService.addProduct(product);
-
+        this.productService.addProduct(product,productBindingModel.getImage());
         redirectAttributes.addFlashAttribute("statusMessage", "You created product successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
         return super.redirect("/products/all");
@@ -97,15 +90,8 @@ public class ProductController extends BaseController{
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView confirmEditProduct(@PathVariable String id,@Valid @ModelAttribute ProductEditBindingModel model) throws IOException {
-        String imageUrl = null;
-        if (!model.getImage().getOriginalFilename().equals("")){
-              imageUrl = this.cloudinaryService.uploadImageToCurrentFolder(model.getImage(), "products");
-        }
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
-        if (imageUrl != null){
-            productServiceModel.setImageUrl(imageUrl);
-        }
-        this.productService.editProduct(id,productServiceModel);
+        this.productService.editProduct(id,productServiceModel,model.getImage());
         return super.redirect("/products/all");
     }
 

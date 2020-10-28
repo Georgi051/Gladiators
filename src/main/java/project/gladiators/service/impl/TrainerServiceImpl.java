@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.constants.ExceptionMessages;
+import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.exceptions.TrainerNotFoundException;
 import project.gladiators.model.entities.Role;
@@ -21,6 +22,9 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static project.gladiators.constants.RoleConstants.TRAINER_CONFIRMED;
+import static project.gladiators.constants.RoleConstants.TRAINER_UNCONFIRMED;
 
 @Service
 public class TrainerServiceImpl implements TrainerService {
@@ -40,8 +44,8 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public void changeTrainerStatus(String username, Action action) {
         UserServiceModel userServiceModel = userService.findUserByUsername(username);
-        RoleServiceModel trainerConfirmed = this.roleService.findByAuthority("ROLE_TRAINER_CONFIRMED");
-        RoleServiceModel trainerUnconfirmed = this.roleService.findByAuthority("ROLE_TRAINER_UNCONFIRMED");
+        RoleServiceModel trainerConfirmed = this.roleService.findByAuthority(RoleConstants.TRAINER_CONFIRMED);
+        RoleServiceModel trainerUnconfirmed = this.roleService.findByAuthority(RoleConstants.TRAINER_UNCONFIRMED);
 
         if (Action.valueOf("CREATE").equals(action)) {
             if (userServiceModel.getAuthorities().contains(trainerConfirmed)
@@ -90,7 +94,7 @@ public class TrainerServiceImpl implements TrainerService {
 
         List<Trainer> trainers = trainerRepository.findAll()
                 .stream().
-                        filter(e -> !e.getUser().getAuthorities().contains(new Role("ROLE_TRAINER_UNCONFIRMED"))).
+                        filter(e -> !e.getUser().getAuthorities().contains(new Role(RoleConstants.TRAINER_UNCONFIRMED))).
                         collect(Collectors.toList());
 
         if (trainers.size() == 0) {

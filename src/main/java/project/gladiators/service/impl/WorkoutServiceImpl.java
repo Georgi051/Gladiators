@@ -41,7 +41,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         Set<WorkoutExerciseInfo> exerciseInfos = new HashSet<>();
         for (int i = 0; i < exercises.size(); i++) {
             workout.getWorkoutExerciseInfo().get(i).setExercise(this.modelMapper
-            .map(exercises.get(i), ExerciseServiceModel.class));
+                    .map(exercises.get(i), ExerciseServiceModel.class));
         }
 
         for (WorkoutExerciseInfoServiceModel workoutExerciseInfoServiceModel : workout.getWorkoutExerciseInfo()) {
@@ -81,21 +81,19 @@ public class WorkoutServiceImpl implements WorkoutService {
 
         trainingPlan.getWorkout().add(currentWorkout.getName());
 
-
     }
 
     @Override
     public List<WorkoutServiceModel> findAll() {
         return this.workoutRepository.findAll().stream()
-                .map(workout -> this.modelMapper.map(workout,WorkoutServiceModel.class))
+                .map(workout -> this.modelMapper.map(workout, WorkoutServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public WorkoutServiceModel findById(String id) {
-       Workout workout = this.workoutRepository.findById(id).orElse(null);
-
-       return this.modelMapper
-               .map(workout, WorkoutServiceModel.class);
+        Workout workout = this.workoutRepository.findById(id).orElse(null);
+        return this.modelMapper
+                .map(workout, WorkoutServiceModel.class);
     }
 }

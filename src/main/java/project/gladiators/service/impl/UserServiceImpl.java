@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import project.gladiators.constants.ExceptionMessages;
+import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,13 +71,13 @@ public class UserServiceImpl implements UserService {
 //            this.exerciseService.seedExercise(exercises);
 
             userServiceModel.setAuthorities(new HashSet<>());
-            userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ROOT")));
-            userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_ADMIN")));
-            userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_MODERATOR")));
-            userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_USER")));
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.ROOT)));
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.ADMIN)));
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.MODERATOR)));
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.USER)));
         } else {
             userServiceModel.setAuthorities(new HashSet<>());
-            userServiceModel.getAuthorities().add(this.roleService.findByAuthority(("ROLE_USER")));
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.USER)));
         }
 
         User user = this.modelMapper.map(userServiceModel, User.class);
@@ -119,7 +118,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             boolean isCustomer = false;
             for (Role authority : user.getAuthorities()) {
-                if (authority.getAuthority().equals("ROLE_CUSTOMER")) {
+                if (authority.getAuthority().equals(RoleConstants.CUSTOMER)) {
                     isCustomer = true;
                     break;
                 }
@@ -127,64 +126,64 @@ public class UserServiceImpl implements UserService {
             user.getAuthorities().clear();
             if(isCustomer){
                 switch (roleServiceModel.getAuthority()) {
-                    case "ROLE_USER":
+                    case RoleConstants.USER:
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                        .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                        .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
                         break;
-                    case "ROLE_MODERATOR":
+                    case RoleConstants.MODERATOR:
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
                         break;
-                    case "ROLE_ADMIN":
+                    case RoleConstants.ADMIN:
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
                         break;
-                    case "ROLE_ADMIN_AND_MODERATOR":
+                    case RoleConstants.ROLE_ADMIN_AND_MODERATOR:
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
                         break;
                 }
             }else{
                 switch (roleServiceModel.getAuthority()) {
-                case "ROLE_USER":
+                case RoleConstants.USER:
                     user.getAuthorities().add(this.modelMapper
-                            .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                     break;
-                case "ROLE_MODERATOR":
+                case RoleConstants.MODERATOR:
                     user.getAuthorities().add(this.modelMapper
-                            .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                     user.getAuthorities().add(this.modelMapper
-                            .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                            .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
                     break;
-                case "ROLE_ADMIN":
+                case RoleConstants.ADMIN:
                     user.getAuthorities().add(this.modelMapper
-                            .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                     user.getAuthorities().add(this.modelMapper
-                            .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                            .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
                     break;
-                    case "ROLE_ADMIN_AND_MODERATOR":
+                    case RoleConstants.ROLE_ADMIN_AND_MODERATOR:
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_USER"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_ADMIN"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
                         user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority("ROLE_MODERATOR"), Role.class));
+                                .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
                         break;
             }
             }
@@ -194,7 +193,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUserAnotherData(User user, String firstName, String lastName, LocalDate dateOfBirth, String gender, MultipartFile image) throws IOException {
-        Role customer = this.modelMapper.map(roleService.findByAuthority("ROLE_CUSTOMER"), Role.class);
+        Role customer = this.modelMapper.map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class);
 
         sessionDynamicRoleChange(customer,null);
         user.getAuthorities().add(customer);
@@ -245,8 +244,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void confirmTrainer(String username, UserServiceModel userServiceModel, MultipartFile profilePicture) throws IOException {
-        Role trainerConfirmed = this.modelMapper.map(roleService.findByAuthority("ROLE_TRAINER_CONFIRMED"), Role.class);
-        Role trainerUnconfirmed = this.modelMapper.map(roleService.findByAuthority("ROLE_TRAINER_UNCONFIRMED"), Role.class);
+        Role trainerConfirmed = this.modelMapper.map(roleService.findByAuthority(RoleConstants.TRAINER_CONFIRMED), Role.class);
+        Role trainerUnconfirmed = this.modelMapper.map(roleService.findByAuthority(RoleConstants.TRAINER_UNCONFIRMED), Role.class);
         User user = this.userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
@@ -309,7 +308,7 @@ public class UserServiceImpl implements UserService {
     public void banUser(String id) {
         User user = this.userRepository.findById(id).orElse(null);
         user.getAuthorities().clear();
-        RoleServiceModel role = this.roleService.findByAuthority("ROLE_BANNED");
+        RoleServiceModel role = this.roleService.findByAuthority(RoleConstants.BANNED);
         user.getAuthorities().add(this.modelMapper
                 .map(role, Role.class));
         this.userRepository.save(user);

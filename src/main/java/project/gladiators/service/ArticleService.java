@@ -1,7 +1,9 @@
 package project.gladiators.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.service.serviceModels.ArticleServiceModel;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ArticleService {
@@ -12,5 +14,5 @@ public interface ArticleService {
 
     void deleteById(String id);
 
-    ArticleServiceModel registerArticle(ArticleServiceModel articleServiceModel,String username);
+    ArticleServiceModel registerArticle(ArticleServiceModel articleServiceModel, String username, MultipartFile image) throws IOException;
 }
