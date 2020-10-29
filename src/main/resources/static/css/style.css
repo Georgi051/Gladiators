@@ -1586,7 +1586,7 @@ form .form-group {
     }
 }
 
-#shop {
+.shop {
     background-image: url("https://res.cloudinary.com/gladiators/image/upload/v1603450581/GLADIATORS_ftv8nd.png");
     background-repeat: no-repeat;
     background-position: center;

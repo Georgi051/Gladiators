@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
@@ -104,8 +105,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel findById(String id) {
-
-        User user = this.userRepository.findById(id).orElse(null);
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
         return this.modelMapper
                 .map(user, UserServiceModel.class);
     }

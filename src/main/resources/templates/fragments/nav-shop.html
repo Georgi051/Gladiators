@@ -2,13 +2,15 @@
           xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
-    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
-        <div class="container"><a class="navbar-brand" th:href="@{/}">Gladiators</a>
+    <nav class="navbar  navbar-expand-md navigation-clean-button bg-transparent ">
+        <img th:src="@{/img/logo.png}" >
+        <a class="navbar-brand text-warning" th:href="@{/}">Gladiators</a>
+        <div class="container">
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
                     class="navbar-toggler-icon"></span></button>
             <span class="collapse navbar-collapse"
                   id="navcol-1">
-                <ul class="nav navbar-nav mr-auto">
+                <ul class="nav navbar-nav mr-auto " >
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}"
@@ -16,6 +18,8 @@
                     </li>
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/articles}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/articles'?'active':''}">Articles</a>
+                     <li class="nav-item" role="presentation"><a class="nav-link"
+                                                                 th:href="@{/about}">About Us</a></li>
                 </ul>
             </span>
 
@@ -48,7 +52,7 @@
 
             <span class="navbar-text actions">
                     <th:block sec:authorize="isAnonymous()">
-                                <a class="login" th:href="@{/users/login}">Log In</a>
+                                <a class="login text-warning" th:href="@{/users/login}">Log In</a>
                                 <a class="btn btn-light action-button" role="button" th:href="@{/users/register}">Register</a>
                     </th:block>
 

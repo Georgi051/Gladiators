@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static project.gladiators.constants.ExceptionMessages.TRAINER_NOT_FOUND;
 import static project.gladiators.constants.RoleConstants.TRAINER_CONFIRMED;
 import static project.gladiators.constants.RoleConstants.TRAINER_UNCONFIRMED;
 
@@ -78,7 +79,7 @@ public class TrainerServiceImpl implements TrainerService {
     public void confirmTrainer(TrainerServiceModel trainerServiceModel, UserServiceModel userServiceModel, String username, MultipartFile profilePicture) throws IOException {
 
         Trainer trainer = this.trainerRepository.findTrainerByUser_Username(username).
-                orElseThrow(() -> new TrainerNotFoundException(ExceptionMessages.TRAINER_NOT_FOUND));
+                orElseThrow(() -> new TrainerNotFoundException(TRAINER_NOT_FOUND));
 
         trainer.setDescription(trainerServiceModel.getDescription());
         trainer.setYearsOfExperience(trainerServiceModel.getYearsOfExperience());
@@ -106,7 +107,8 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public TrainerServiceModel findById(String id) {
 
-        Trainer trainer = this.trainerRepository.findById(id).orElse(null);
+        Trainer trainer = this.trainerRepository.findById(id)
+                .orElseThrow(()-> new TrainerNotFoundException(TRAINER_NOT_FOUND));
         TrainerServiceModel trainerServiceModel = this.modelMapper
                 .map(trainer, TrainerServiceModel.class);
         return trainerServiceModel;
