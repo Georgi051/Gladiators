@@ -25,11 +25,11 @@
             <tbody>
             <th:block th:each="product: ${products}">
                 <tr class="row mx-auto">
-                  <!--  <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>-->
-                    <td class="col-md-5" style="margin-left: -5px"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>
-                    <td class="col-md-2 text-center" style="margin-left: -30px" th:text="${product.name}"></td>
-                    <td class="col-md-3 text-center" th:text="${product.price}"></td>
-                    <td class="btn-group col-md-1" style="margin-left: -50px">
+                    <th class="col-md-1 text-center" th:text="${productStat.index + 1}"></th>
+                    <td class="col-md-3" style="margin-left: -5px"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>
+                    <td class="col-md-4 text-center" style="margin-left: -30px" th:text="${product.name}"></td>
+                    <td class="col-md-1 text-center" th:text="${product.price}"></td>
+                    <td class="btn-group col-md-1" style="margin-left: 10px">
                         <a th:href="@{/products/details/{id}(id=${product.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
                         <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
                         <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
