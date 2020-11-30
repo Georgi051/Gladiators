@@ -62,4 +62,9 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND));
         this.categoryRepository.delete(category);
     }
+
+    @Override
+    public List<Category> findAll() {
+        return this.categoryRepository.findAll();
+    }
 }

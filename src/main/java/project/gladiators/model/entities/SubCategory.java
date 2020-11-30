@@ -18,7 +18,7 @@ public class SubCategory extends BaseEntity{
     @Column(nullable = false, unique = true)
     private String name;
 
-
-    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER,mappedBy = "subCategory")
+    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private Set<Product> products;
+
 }

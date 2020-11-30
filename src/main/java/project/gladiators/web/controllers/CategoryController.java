@@ -94,4 +94,5 @@ public class CategoryController extends BaseController {
         this.categoryService.deleteCategory(id);
         return super.redirect("/categories/all");
     }
+
 }

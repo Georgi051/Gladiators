@@ -71,7 +71,7 @@ public class ProductController extends BaseController{
     }
 
     @GetMapping("/details/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PageTitle("Product info")
     public ModelAndView productDetails(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("product", this.modelMapper.map(this.productService.findProductById(id),
                 ProductViewModel.class));

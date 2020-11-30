@@ -1,0 +1,38 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<th:block th:insert="~{fragments/nav-shop}">
+</th:block>
+<body class="shop">
+
+<th:block th:insert="~{fragments/nav-categories}"></th:block>
+<div class="container mt-5">
+
+        <tbody>
+        <th:block th:if="${products.size() == 0}">
+            <div>
+                <h1 class="no-products">There are no products in this category!</h1>
+            </div>
+        </th:block>
+
+        <section class="products">
+        <th:block th:each="product: ${products}" th:object="${product}"
+                  >
+                <article class="product-article">
+                    <img th:src="${product.imageUrl}" alt="">
+                    <span th:text="${product.name}"></span>
+                    <span th:text="${product.price}"></span>
+                    <a th:href="@{/products/details/{id}(id=${product.id})}">Details</a>
+                </article>
+
+        </th:block>
+        </section>
+        </tbody>
+    </table>
+    <th:block th:insert="~{fragments/scripts}"></th:block>
+
+</div>
+</body>
+</html>

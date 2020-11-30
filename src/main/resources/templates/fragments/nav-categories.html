@@ -1,0 +1,9 @@
+<th:block xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<nav class="nav-shop" id="nav-shop">
+    <ul >
+        <li class="nav-item" th:each="category :${categories}" th:id="${category.id}"><a class="nav-link" href="#" th:text="${category.name}"
+                                                                                         th:onclick="loadSubCategories([[${category.id}]])"></a></li>
+    </ul>
+</nav>
+</th:block>

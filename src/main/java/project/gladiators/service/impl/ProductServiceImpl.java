@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.exceptions.ProductNotFoundException;
 import project.gladiators.model.entities.Product;
+import project.gladiators.model.entities.SubCategory;
 import project.gladiators.repository.ProductRepository;
+import project.gladiators.repository.SubCategoryRepository;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.serviceModels.ProductServiceModel;
+import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,12 +23,14 @@ import static project.gladiators.constants.ExceptionMessages.PRODUCT_NOT_FOUND;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final SubCategoryRepository subCategoryRepository;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.productRepository = productRepository;
+        this.subCategoryRepository = subCategoryRepository;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
@@ -39,7 +44,14 @@ public class ProductServiceImpl implements ProductService {
             product.setBuyingCounter(0);
             product.setReviews(null);
             product.setImageUrl(imageUrl);
+            SubCategoryServiceModel subCategoryServiceModel = productServiceModel
+                    .getSubCategory();
+            SubCategory subCategory = this.subCategoryRepository
+                    .findById(subCategoryServiceModel.getId()).orElse(null);
+
             this.productRepository.saveAndFlush(product);
+            subCategory.getProducts().add(product);
+            this.subCategoryRepository.saveAndFlush(subCategory);
         }
     }
 
@@ -85,11 +97,11 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.delete(product);
     }
 
-    @Override
-    public List<ProductServiceModel> findAllByCategory(String category) {
-        return this.productRepository.findAll().stream()
-                .filter(p -> p.getSubCategory().getProducts().stream().anyMatch(c -> c.getName().equals(category)))
-                .map(p -> this.modelMapper.map(p,ProductServiceModel.class))
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<ProductServiceModel> findAllByCategory(String category) {
+//        return this.productRepository.findAll().stream()
+//                .filter(p -> p.getSubCategory().getProducts().stream().anyMatch(c -> c.getName().equals(category)))
+//                .map(p -> this.modelMapper.map(p,ProductServiceModel.class))
+//                .collect(Collectors.toList());
+//    }
 }

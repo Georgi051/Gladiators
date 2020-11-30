@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import project.gladiators.model.enums.Action;
@@ -16,8 +17,8 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Component
 @Aspect
+@Configuration
 public class AdminActionTracker {
     private final UserService userService;
     private final LoggerService loggerService;
@@ -28,7 +29,8 @@ public class AdminActionTracker {
         this.loggerService = loggerService;
     }
 
-    @Pointcut("execution(* project.gladiators.web.controllers.AdminController.Post*(..))")
+
+    @Pointcut("execution(* project.gladiators.web.controllers.AdminController.PostMapping*(..))")
     public void trackAdmin() {
     }
 

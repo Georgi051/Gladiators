@@ -41,7 +41,4 @@ public class Product extends BaseEntity {
     @OneToMany
     private List<Review> reviews;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private SubCategory subCategory;
-
 }

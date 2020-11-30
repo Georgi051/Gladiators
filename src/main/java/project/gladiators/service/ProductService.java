@@ -16,6 +16,6 @@ public interface ProductService {
     void editProduct(String id, ProductServiceModel model, MultipartFile image) throws IOException;
 
     void deleteProduct(String id);
-
-    List<ProductServiceModel> findAllByCategory(String category);
+//
+//    List<ProductServiceModel> findAllByCategory(String category);
 }
