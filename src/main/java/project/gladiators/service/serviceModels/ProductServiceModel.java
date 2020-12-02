@@ -21,4 +21,5 @@ public class ProductServiceModel extends BaseServiceModel{
     private String imageUrl;
     private SubCategoryServiceModel subCategory;
     private List<ReviewServiceModel> reviews;
+    private Integer buyingProductsQuantity;
 }

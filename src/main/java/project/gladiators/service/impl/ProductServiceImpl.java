@@ -74,17 +74,17 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
         String imageUrl = null;
-        if (!productImage.getOriginalFilename().equals("")){
+        if (!productImage.getOriginalFilename().equals("")) {
             imageUrl = this.cloudinaryService.uploadImageToCurrentFolder(productImage, "products");
         }
-        if (imageUrl != null){
+        if (imageUrl != null) {
             product.setImageUrl(imageUrl);
         }
         product.setName(model.getName());
         product.setPrice(model.getPrice());
         product.setDescription(model.getDescription());
         product.setQuantity(model.getQuantity());
-        if (model.getImageUrl() != null){
+        if (model.getImageUrl() != null) {
             product.setImageUrl(model.getImageUrl());
         }
         this.modelMapper.map(this.productRepository.saveAndFlush(product), ProductServiceModel.class);
@@ -97,11 +97,20 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.delete(product);
     }
 
-//    @Override
-//    public List<ProductServiceModel> findAllByCategory(String category) {
-//        return this.productRepository.findAll().stream()
-//                .filter(p -> p.getSubCategory().getProducts().stream().anyMatch(c -> c.getName().equals(category)))
-//                .map(p -> this.modelMapper.map(p,ProductServiceModel.class))
-//                .collect(Collectors.toList());
-//    }
+    @Override
+    public void sellProduct(List<ProductServiceModel> products) {
+        List<Product> collect = products.stream().map(p -> {
+                Product currProduct = this.modelMapper.map(p, Product.class);
+                if (currProduct.getQuantity() < p.getBuyingProductsQuantity()) {
+                    currProduct.setQuantity(0);
+                } else {
+                    currProduct.setQuantity(currProduct.getQuantity() -  p.getBuyingProductsQuantity());
+                }
+                currProduct.setBuyingCounter(currProduct.getBuyingCounter() + p.getBuyingProductsQuantity());
+                return currProduct;
+            }).collect(Collectors.toList());
+
+        this.productRepository.saveAll(collect);
+    }
+
 }

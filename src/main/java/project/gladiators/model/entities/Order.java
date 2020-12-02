@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,14 +16,18 @@ import java.util.List;
 @Setter
 public class Order extends BaseEntity {
 
-    @ManyToMany(cascade = CascadeType.MERGE
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REMOVE}
             ,fetch = FetchType.EAGER)
+    @JoinTable(name = "orders_products")
     private List<Product> products;
 
     @ManyToOne
-    private User user;
+    private User customer;
 
     @Column
     private LocalDateTime madeOn;
+
+    @Column
+    private BigDecimal totalPrice;
 
 }
