@@ -9,9 +9,7 @@ import project.gladiators.repository.OrderRepository;
 import project.gladiators.service.OrderService;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.serviceModels.OrderServiceModel;
-import project.gladiators.service.serviceModels.ProductServiceModel;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +30,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrder(OrderServiceModel orderServiceModel) {
-        orderServiceModel.setMadeOn(LocalDateTime.now());
-        List<ProductServiceModel> products = orderServiceModel.getProducts();
-        productService.sellProduct(products);
+        this.productService.sellProduct(orderServiceModel.getProducts());
 
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
         this.orderRepository.saveAndFlush(order);
@@ -62,9 +58,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderServiceModel findOrderById(String id) {
-        OrderServiceModel order = this.orderRepository.findById(id)
-                .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
-                .orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND));
-        return order;
+        Order order = this.orderRepository.findOrderById(id).orElseThrow(() ->
+                new OrderNotFoundException(ORDER_NOT_FOUND));
+        return modelMapper.map(order, OrderServiceModel.class);
     }
 }

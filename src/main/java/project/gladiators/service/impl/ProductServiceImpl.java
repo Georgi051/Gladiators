@@ -99,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void sellProduct(List<ProductServiceModel> products) {
-        List<Product> collect = products.stream().map(p -> {
+        List<Product> productsAfterQuantityChanges = products.stream().map(p -> {
                 Product currProduct = this.modelMapper.map(p, Product.class);
                 if (currProduct.getQuantity() < p.getBuyingProductsQuantity()) {
                     currProduct.setQuantity(0);
@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
                 return currProduct;
             }).collect(Collectors.toList());
 
-        this.productRepository.saveAll(collect);
+        this.productRepository.saveAll(productsAfterQuantityChanges);
     }
 
 }

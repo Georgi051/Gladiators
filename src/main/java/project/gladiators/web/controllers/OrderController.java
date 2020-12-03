@@ -61,21 +61,13 @@ public class OrderController extends BaseController {
         return view("order/my-orders", modelAndView);
     }
 
-    @GetMapping("/my/details/{id}")
+    @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Orders Details")
-    public ModelAndView myOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
+    public ModelAndView orderDetails(@PathVariable String id, ModelAndView modelAndView) {
         OrderViewModel orderViewModel = this.mapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
         modelAndView.addObject("order", orderViewModel);
         return super.view("order/order-details", modelAndView);
     }
 
-    @GetMapping("/all/details/{id}")
-    @PreAuthorize("hasRole('MODERATOR')")
-    @PageTitle("Orders Details")
-    public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
-        OrderViewModel orderViewModel = this.mapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
-        modelAndView.addObject("order", orderViewModel);
-        return super.view("order/order-details", modelAndView);
-    }
 }

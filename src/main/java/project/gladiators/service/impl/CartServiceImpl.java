@@ -11,6 +11,7 @@ import project.gladiators.web.viewModels.ShoppingCartViewModel;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -84,6 +85,7 @@ public class CartServiceImpl implements CartService {
 
         orderServiceModel.setProducts(products);
         orderServiceModel.setTotalPrice(this.calcTotal(session));
+        orderServiceModel.setMadeOn(LocalDateTime.now());
 
         return orderServiceModel;
     }
