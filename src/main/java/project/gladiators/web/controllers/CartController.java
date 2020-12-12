@@ -14,7 +14,7 @@ import project.gladiators.service.OrderService;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.serviceModels.OrderServiceModel;
 import project.gladiators.web.viewModels.OrderProductViewModel;
-import project.gladiators.web.viewModels.ProductViewModel;
+import project.gladiators.web.viewModels.ProductDetailsViewModel;
 import project.gladiators.web.viewModels.ShoppingCartViewModel;
 
 import javax.servlet.http.HttpSession;
@@ -40,8 +40,8 @@ public class CartController extends BaseController {
     @PostMapping("/add-product")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
-        ProductViewModel product = this.modelMapper
-                .map(this.productService.findProductById(id), ProductViewModel.class);
+        ProductDetailsViewModel product = this.modelMapper
+                .map(this.productService.findProductById(id), ProductDetailsViewModel.class);
 
         OrderProductViewModel orderProductViewModel = new OrderProductViewModel();
         orderProductViewModel.setProduct(product);

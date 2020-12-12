@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class OrderServiceModel extends BaseServiceModel {
-    private List<ProductServiceModel> products;
+    private List<OrderProductServiceModel> products;
     private UserServiceModel customer;
     private BigDecimal totalPrice;
     private LocalDateTime madeOn;

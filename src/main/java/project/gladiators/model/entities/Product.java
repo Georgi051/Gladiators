@@ -38,7 +38,7 @@ public class Product extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Review> reviews;
 
 }

@@ -22,7 +22,6 @@ public class ProductEditBindingModel {
     @Size(min = 30, max = 1000, message = "The description must be between 30 and 1000 characters!")
     private String description;
     @NotNull(message = "Please enter quantity!")
-    @Min(value = 1, message = "Quantity cannot be less than 1!")
     private Integer quantity;
     private Integer buyingCounter;
     @DecimalMin(value = "0.01", message = "Price can not be negative!")

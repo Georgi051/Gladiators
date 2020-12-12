@@ -7,14 +7,17 @@ import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.exceptions.ProductNotFoundException;
 import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.SubCategory;
+import project.gladiators.repository.OfferRepository;
 import project.gladiators.repository.ProductRepository;
 import project.gladiators.repository.SubCategoryRepository;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.ProductService;
+import project.gladiators.service.serviceModels.OrderProductServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,13 +27,15 @@ import static project.gladiators.constants.ExceptionMessages.PRODUCT_NOT_FOUND;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final SubCategoryRepository subCategoryRepository;
+    private final OfferRepository offerRepository;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, OfferRepository offerRepository, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.subCategoryRepository = subCategoryRepository;
+        this.offerRepository = offerRepository;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
@@ -50,7 +55,11 @@ public class ProductServiceImpl implements ProductService {
                     .findById(subCategoryServiceModel.getId()).orElse(null);
 
             this.productRepository.saveAndFlush(product);
-            subCategory.getProducts().add(product);
+
+            this.offerRepository.findByProduct_Id(product.getId())
+                    .ifPresent((o) -> { o.setPrice(product.getPrice().multiply(new BigDecimal(0.8)));
+                        this.offerRepository.save(o);
+                    });
             this.subCategoryRepository.saveAndFlush(subCategory);
         }
     }
@@ -87,6 +96,12 @@ public class ProductServiceImpl implements ProductService {
         if (model.getImageUrl() != null) {
             product.setImageUrl(model.getImageUrl());
         }
+
+        this.offerRepository.findByProduct_Id(product.getId())
+                .ifPresent((o) -> { o.setPrice(product.getPrice().multiply(new BigDecimal(0.8)));
+                    this.offerRepository.save(o);
+                });
+
         this.modelMapper.map(this.productRepository.saveAndFlush(product), ProductServiceModel.class);
     }
 
@@ -98,17 +113,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void sellProduct(List<ProductServiceModel> products) {
+    public void sellProduct(List<OrderProductServiceModel> products) {
         List<Product> productsAfterQuantityChanges = products.stream().map(p -> {
-                Product currProduct = this.modelMapper.map(p, Product.class);
-                if (currProduct.getQuantity() < p.getBuyingProductsQuantity()) {
-                    currProduct.setQuantity(0);
-                } else {
-                    currProduct.setQuantity(currProduct.getQuantity() -  p.getBuyingProductsQuantity());
-                }
-                currProduct.setBuyingCounter(currProduct.getBuyingCounter() + p.getBuyingProductsQuantity());
-                return currProduct;
-            }).collect(Collectors.toList());
+            Product product = this.productRepository.findById(p.getProduct().getId())
+                    .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
+
+            if (product.getQuantity() < p.getProduct().getBuyingProductsQuantity()) {
+                product.setQuantity(0);
+            } else {
+                product.setQuantity(product.getQuantity() - p.getProduct().getBuyingProductsQuantity());
+            }
+            product.setBuyingCounter(product.getBuyingCounter() + p.getProduct().getBuyingProductsQuantity());
+            return product;
+        }).collect(Collectors.toList());
 
         this.productRepository.saveAll(productsAfterQuantityChanges);
     }

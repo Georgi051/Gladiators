@@ -1,4 +1,4 @@
-package project.gladiators.web.viewModels;
+package project.gladiators.service.serviceModels;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderProductViewModel extends BaseViewModel{
-    private ProductDetailsViewModel product;
+public class OfferServiceModel extends BaseServiceModel {
+
+    private ProductServiceModel product;
     private BigDecimal price;
+
 }

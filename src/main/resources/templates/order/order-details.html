@@ -24,10 +24,10 @@
         <th:block th:each="product, iter : ${order.products}" th:object="${product}">
             <tr class="row mx-auto">
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-3 text-center"><img th:src="*{imageUrl}" alt="Product" height="70" width="70"></td>
-                <td class="col-md-3 text-center" th:text="*{name}"></td>
-                <td class="col-md-2 text-center" th:text="*{price}"></td>
-                <td class="col-md-2 text-center mx-auto" th:text="*{description}"></td>
+                <td class="col-md-3 text-center"><img th:src="*{product.imageUrl}" alt="Product" height="70" width="70"></td>
+                <td class="col-md-3 text-center" th:text="*{product.name}"></td>
+                <td class="col-md-2 text-center" th:text="${product.price}"></td>
+                <td class="col-md-2 text-center mx-auto" th:text="*{product.description}"></td>
             </tr>
         </th:block>
         </tbody>

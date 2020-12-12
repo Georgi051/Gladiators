@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.service.CartService;
 import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.OrderProductServiceModel;
 import project.gladiators.service.serviceModels.OrderServiceModel;
-import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.web.viewModels.ShoppingCartViewModel;
 
 import javax.servlet.http.HttpSession;
@@ -70,16 +70,16 @@ public class CartServiceImpl implements CartService {
     public OrderServiceModel prepareOrder(HttpSession session, String customer) {
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         List<ShoppingCartViewModel> shoppingCartViewModels = this.retrieveCart(session);
-        List<ProductServiceModel> products = new ArrayList<>();
+        List<OrderProductServiceModel> products = new ArrayList<>();
 
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
 
         for (ShoppingCartViewModel item : shoppingCartViewModels) {
-            ProductServiceModel productServiceModel =
-                    this.modelMapper.map(item.getProduct().getProduct(), ProductServiceModel.class);
-            productServiceModel.setBuyingProductsQuantity(item.getQuantity());
+            OrderProductServiceModel orderProductServiceModel =
+                    this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
+            orderProductServiceModel.getProduct().setBuyingProductsQuantity(item.getQuantity());
             for (int i = 0; i < item.getQuantity(); i++) {
-                products.add(productServiceModel);
+                products.add(orderProductServiceModel);
             }
         }
 

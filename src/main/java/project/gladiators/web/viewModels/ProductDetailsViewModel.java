@@ -9,7 +9,12 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderProductViewModel extends BaseViewModel{
-    private ProductDetailsViewModel product;
+public class ProductDetailsViewModel extends BaseViewModel{
+
+    private String name;
+    private String description;
     private BigDecimal price;
+    private String imageUrl;
+    private BigDecimal discountedPrice;
+
 }

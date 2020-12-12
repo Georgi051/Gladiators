@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reviews")
@@ -13,14 +14,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Review extends BaseEntity {
 
-    @Column
-    private String title;
-
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column
     private int stars;
+
+    @Column
+    private LocalDateTime reviewDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id")

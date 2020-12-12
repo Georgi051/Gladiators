@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class OrderViewModel extends BaseViewModel {
-    private List<ProductViewModel> products;
+    private List<OrderProductViewModel> products;
     private UserViewModel customer;
     private BigDecimal totalPrice;
     private LocalDateTime madeOn;

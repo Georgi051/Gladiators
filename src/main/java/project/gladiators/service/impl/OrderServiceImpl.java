@@ -10,6 +10,7 @@ import project.gladiators.service.OrderService;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.serviceModels.OrderServiceModel;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void createOrder(OrderServiceModel orderServiceModel) {
         this.productService.sellProduct(orderServiceModel.getProducts());
 
