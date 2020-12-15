@@ -14,7 +14,6 @@ import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
-import project.gladiators.model.entities.Message;
 import project.gladiators.model.entities.User;
 import project.gladiators.service.MessageService;
 import project.gladiators.service.UserService;

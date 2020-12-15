@@ -76,6 +76,9 @@ public class CartController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView checkoutConfirm(HttpSession session,Principal principal) {
         OrderServiceModel orderServiceModel = this.cartService.prepareOrder(session,principal.getName());
+        if (orderServiceModel == null){
+            return super.redirect("/home");
+        }
         this.orderService.createOrder(orderServiceModel);
         session.removeAttribute("shopping-cart");
         return super.redirect("/home");

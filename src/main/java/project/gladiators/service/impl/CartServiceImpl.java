@@ -71,7 +71,9 @@ public class CartServiceImpl implements CartService {
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         List<ShoppingCartViewModel> shoppingCartViewModels = this.retrieveCart(session);
         List<OrderProductServiceModel> products = new ArrayList<>();
-
+        if (shoppingCartViewModels.size() == 0){
+            return null;
+        }
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
 
         for (ShoppingCartViewModel item : shoppingCartViewModels) {
@@ -82,6 +84,8 @@ public class CartServiceImpl implements CartService {
                 products.add(orderProductServiceModel);
             }
         }
+
+
 
         orderServiceModel.setProducts(products);
         orderServiceModel.setTotalPrice(this.calcTotal(session));

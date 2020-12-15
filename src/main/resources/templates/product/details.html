@@ -7,64 +7,112 @@
 <th:block th:insert="~{fragments/nav}">
 </th:block>
 <div class="container mt-5">
-
-        <div class="jumbotron bg-light">
-            <h2 class="text-center text-dark">Details</h2>
-            <hr class="hr-2 bg-dark w-25">
-            <div class="text-center">
-                <img th:src="${product.imageUrl}" width="225" height="225" alt="Product">
-            </div>
-            <div class="row">
-                <div class="col col-md-12 text-center mt-3">
-                    <h4 th:text="'Name: ' + ${product.name}"></h4>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col col-md-12 text-center mt-3">
-                    <h6 th:text="'Manufacturer name: ' + ${product.manufacturerName}"></h6>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col col-md-12 text-center mt-3">
-                    <h6 th:text="'Quantity: ' + ${product.quantity}"></h6>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col col-md-12 text-center mt-3">
-                    <h6 th:text="'Number purchased: ' + ${product.buyingCounter}"></h6>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col col-md-12 text-center mt-3">
-                    <h6 th:text="'Desciption: ' + ${product.description}"></h6>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col col-md-12 text-center mt-5">
-                    <h4 th:text="'Price: ' + ${product.price}"></h4>
-                </div>
-            </div>
-
-
-            <hr class="hr-2 bg-dark w-25">
-
-            <div class="row">
-                <form class="form w-25 mx-auto"   style="margin-bottom: 20px;" th:action="@{/cart/add-product}" th:method="post">
-                    <div class="form-group mx-auto">
-                        <label for="quantity" class="font-weight-bold">Quantity</label>
-                        <input id="quantity" class="form-control text-center" type="number" min="1" max="15" step="1" name="quantity" value="1" />
-                    </div>
-                    <input type="hidden" name="id" th:value="${product.id}">
-                    <button type="submit" class="btn btn-success">Add to cart</button>
-                </form>
+    <div class="row align-items-center mt-5" th:if="${statusMessage}">
+        <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+             th:text="${statusMessage}">
+        </div>
+    </div>
+    <div class="jumbotron bg-light">
+        <h2 class="text-center text-dark">Details</h2>
+        <hr class="hr-2 bg-dark w-25">
+        <div class="text-center">
+            <img th:src="${product.imageUrl}" width="225" height="225" alt="Product">
+        </div>
+        <div class="row">
+            <div class="col col-md-12 text-center mt-3">
+                <h4 th:text="'Name: ' + ${product.name}"></h4>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col col-md-12 text-center mt-3">
+                <h6 th:text="'Manufacturer name: ' + ${product.manufacturerName}"></h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-12 text-center mt-3">
+                <h6 th:text="'Quantity: ' + ${product.quantity}"></h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-12 text-center mt-3">
+                <h6 th:text="'Number purchased: ' + ${product.buyingCounter}"></h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-12 text-center mt-3">
+                <h6 th:text="'Desciption: ' + ${product.description}"></h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-12 text-center mt-5">
+                <h4 th:text="'Price: ' + ${product.price}"></h4>
+            </div>
+        </div>
+
+
+        <hr class="hr-2 bg-dark w-25">
+
+        <div class="row">
+            <form class="form w-25 mx-auto" style="margin-bottom: 20px;" th:action="@{/cart/add-product}"
+                  th:method="post">
+                <div class="form-group mx-auto">
+                    <label for="quantity" class="font-weight-bold">Quantity</label>
+                    <input id="quantity" class="form-control text-center" type="number" min="1" max="15" step="1"
+                           name="quantity" value="1"/>
+                </div>
+                <input type="hidden" name="id" th:value="${product.id}">
+                <button type="submit" class="btn btn-success">Add to cart</button>
+            </form>
+        </div>
+        <hr class="hr-2 bg-dark w-100">
+
+        <div class="row">
+            <div class="form-group mx-auto">
+
+
+
+
+
+            </div>
+        </div>
+
+        <hr class="hr-2 bg-dark w-75">
+        <div class="row">
+            <form class="form w-25 mx-auto" th:action="@{/addComment}" th:method="post">
+
+                <div class="form-group mx-auto">
+                    <label for="add-comment-description" class="font-weight-bold">Add Comment</label>
+                    <textarea maxlength="100" class="form-control text-center" th:field="${comment.description}"
+                              id="add-comment-description" cols="41" rows="5"
+                              placeholder="Comment max length is 100 characters"></textarea>
+                    <div class="stars">
+                        <input class="star star-5" id="star-5" type="radio" th:value="5" name="stars"/>
+                        <label class="star star-5" for="star-5"></label>
+                        <input class="star star-4" id="star-4" type="radio" th:value="4" name="stars"/>
+                        <label class="star star-4" for="star-4"></label>
+                        <input class="star star-3" id="star-3" type="radio" th:value="3" name="stars"/>
+                        <label class="star star-3" for="star-3"></label>
+                        <input class="star star-2" id="star-2" type="radio" th:value="2" name="stars"/>
+                        <label class="star star-2" for="star-2"></label>
+                        <input class="star star-1" id="star-1" type="radio" th:value="1" name="stars"/>
+                        <label class="star star-1" for="star-1"></label>
+                    </div>
+
+                    <div class="form-group mx-auto vote">
+                        <h6 th:text="${ratingProduct.rating} + '/5' + ' (' + ${ratingProduct.votes} + ' ratings)'"></h6>
+                    </div>
+                </div>
+                <input type="hidden" name="id" th:value="${product.id}">
+
+                <button type="submit" class="btn btn-success">Add Comment</button>
+            </form>
+        </div>
+    </div>
     <th:block th:insert="~{fragments/footer}">
     </th:block>
     <th:block th:insert="~{fragments/scripts}">

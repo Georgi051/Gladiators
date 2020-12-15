@@ -19,6 +19,7 @@ import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static project.gladiators.constants.ExceptionMessages.PRODUCT_NOT_FOUND;
@@ -53,9 +54,8 @@ public class ProductServiceImpl implements ProductService {
                     .getSubCategory();
             SubCategory subCategory = this.subCategoryRepository
                     .findById(subCategoryServiceModel.getId()).orElse(null);
-
+            subCategory.getProducts().add(product);
             this.productRepository.saveAndFlush(product);
-
             this.offerRepository.findByProduct_Id(product.getId())
                     .ifPresent((o) -> { o.setPrice(product.getPrice().multiply(new BigDecimal(0.8)));
                         this.offerRepository.save(o);
