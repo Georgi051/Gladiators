@@ -34,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(OrderServiceModel orderServiceModel) {
         this.productService.sellProduct(orderServiceModel.getProducts());
 
+
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
         this.orderRepository.saveAndFlush(order);
     }

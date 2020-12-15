@@ -24,7 +24,10 @@ public class Review extends BaseEntity {
     private LocalDateTime reviewDate;
 
     @ManyToOne
+    @JoinColumn(name = "product_id",referencedColumnName = "id")
+    private Product product;
+
+    @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
-
 }

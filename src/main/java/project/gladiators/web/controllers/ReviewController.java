@@ -1,0 +1,47 @@
+package project.gladiators.web.controllers;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.model.bindingModels.CommentAddBindingModel;
+import project.gladiators.service.ProductService;
+import project.gladiators.service.ReviewService;
+import project.gladiators.service.serviceModels.ProductServiceModel;
+import project.gladiators.service.serviceModels.ReviewServiceModel;
+import project.gladiators.web.viewModels.CommentViewModel;
+import project.gladiators.web.viewModels.ProductViewModel;
+import project.gladiators.web.viewModels.RatingViewModel;
+
+import java.security.Principal;
+
+@Controller
+public class ReviewController extends BaseController{
+    private final ReviewService reviewService;
+    private final ModelMapper modelMapper;
+    private final ProductService productService;
+
+    @Autowired
+    public ReviewController(ReviewService reviewService, ModelMapper modelMapper, ProductService productService) {
+        this.reviewService = reviewService;
+        this.modelMapper = modelMapper;
+        this.productService = productService;
+    }
+
+    @PostMapping("/addComment")
+    public ModelAndView addProduct(@ModelAttribute(name = "comment") CommentAddBindingModel commentAddBindingModel ,
+                                   Principal principal, String id, ModelAndView modelAndView) {
+        ProductServiceModel productById = this.productService.findProductById(id);
+        ProductViewModel product = this.modelMapper.map(productById, ProductViewModel.class);
+        ReviewServiceModel reviewServiceModel = this.reviewService.addReview(commentAddBindingModel.getDescription(),
+                        commentAddBindingModel.getStars(), principal.getName(), productById);
+        RatingViewModel ratingViewModel = this.modelMapper.map(this.reviewService.RatingServiceModel(id), RatingViewModel.class);
+
+        modelAndView.addObject("product",product);
+        modelAndView.addObject("comment",modelMapper.map(reviewServiceModel,CommentViewModel.class));
+        modelAndView.addObject("ratingProduct",ratingViewModel);
+        return super.view("/product/details",modelAndView);
+    }
+}

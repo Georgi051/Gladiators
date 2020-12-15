@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
+import project.gladiators.model.bindingModels.CommentAddBindingModel;
 import project.gladiators.model.bindingModels.ProductAddBindingModel;
 import project.gladiators.model.bindingModels.ProductEditBindingModel;
-import project.gladiators.service.CategoryService;
-import project.gladiators.service.CloudinaryService;
-import project.gladiators.service.ProductService;
-import project.gladiators.service.SubCategoryService;
+import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.ProductServiceModel;
+import project.gladiators.service.serviceModels.RatingServiceModel;
 import project.gladiators.web.viewModels.ProductViewModel;
+import project.gladiators.web.viewModels.RatingViewModel;
 import project.gladiators.web.viewModels.SubCategoryViewModel;
 
 import javax.validation.Valid;
@@ -31,14 +31,18 @@ public class ProductController extends BaseController{
     private final SubCategoryService subCategoryService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
+    private final ReviewService reviewService;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService, SubCategoryService subCategoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, CategoryService categoryService,
+                             SubCategoryService subCategoryService, CloudinaryService cloudinaryService,
+                             ModelMapper modelMapper, ReviewService reviewService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.subCategoryService = subCategoryService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/add")
@@ -75,6 +79,10 @@ public class ProductController extends BaseController{
     public ModelAndView productDetails(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("product", this.modelMapper.map(this.productService.findProductById(id),
                 ProductViewModel.class));
+        RatingServiceModel ratingServiceModel = this.reviewService.RatingServiceModel(id);
+        RatingViewModel ratingViewModel = this.modelMapper.map(ratingServiceModel, RatingViewModel.class);
+        modelAndView.addObject("ratingProduct",ratingViewModel);
+        modelAndView.addObject("comment",new CommentAddBindingModel());
         return super.view("/product/details", modelAndView);
     }
 
