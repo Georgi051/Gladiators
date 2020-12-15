@@ -1672,4 +1672,7 @@ form .form-group {
     background: brown;
 }
 
+.cart-dropdown {
+    margin-right: 0px !important;
+}
 
