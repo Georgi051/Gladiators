@@ -59,8 +59,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewServiceModel> findAllReview() {
-        return this.reviewRepository.findAll().stream()
+    public List<ReviewServiceModel> findAllReviewByProductId(String id){
+        return this.reviewRepository.findAllByProductId(id)
+                .stream()
                 .map(r -> this.modelMapper.map(r,ReviewServiceModel.class))
                 .collect(Collectors.toList());
     }

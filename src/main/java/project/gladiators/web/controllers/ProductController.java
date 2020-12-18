@@ -15,12 +15,15 @@ import project.gladiators.model.bindingModels.ProductEditBindingModel;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.RatingServiceModel;
+import project.gladiators.service.serviceModels.ReviewServiceModel;
 import project.gladiators.web.viewModels.ProductViewModel;
 import project.gladiators.web.viewModels.RatingViewModel;
+import project.gladiators.web.viewModels.ReviewViewModel;
 import project.gladiators.web.viewModels.SubCategoryViewModel;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -79,10 +82,14 @@ public class ProductController extends BaseController{
     public ModelAndView productDetails(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("product", this.modelMapper.map(this.productService.findProductById(id),
                 ProductViewModel.class));
+
         RatingServiceModel ratingServiceModel = this.reviewService.RatingServiceModel(id);
         RatingViewModel ratingViewModel = this.modelMapper.map(ratingServiceModel, RatingViewModel.class);
+        List<ReviewViewModel> reviewViewModels = this.reviewService.findAllReviewByProductId(id)
+                .stream().map(p -> this.modelMapper.map(p,ReviewViewModel.class)).collect(Collectors.toList());
         modelAndView.addObject("ratingProduct",ratingViewModel);
         modelAndView.addObject("comment",new CommentAddBindingModel());
+        modelAndView.addObject("reviews",reviewViewModels);
         return super.view("/product/details", modelAndView);
     }
 

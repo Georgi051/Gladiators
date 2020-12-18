@@ -14,8 +14,11 @@ import project.gladiators.service.serviceModels.ReviewServiceModel;
 import project.gladiators.web.viewModels.CommentViewModel;
 import project.gladiators.web.viewModels.ProductViewModel;
 import project.gladiators.web.viewModels.RatingViewModel;
+import project.gladiators.web.viewModels.ReviewViewModel;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ReviewController extends BaseController{
@@ -35,13 +38,16 @@ public class ReviewController extends BaseController{
                                    Principal principal, String id, ModelAndView modelAndView) {
         ProductServiceModel productById = this.productService.findProductById(id);
         ProductViewModel product = this.modelMapper.map(productById, ProductViewModel.class);
+
         ReviewServiceModel reviewServiceModel = this.reviewService.addReview(commentAddBindingModel.getDescription(),
                         commentAddBindingModel.getStars(), principal.getName(), productById);
         RatingViewModel ratingViewModel = this.modelMapper.map(this.reviewService.RatingServiceModel(id), RatingViewModel.class);
-
+        List<ReviewViewModel> reviewViewModels = this.reviewService.findAllReviewByProductId(id)
+                .stream().map(p -> this.modelMapper.map(p,ReviewViewModel.class)).collect(Collectors.toList());
         modelAndView.addObject("product",product);
         modelAndView.addObject("comment",modelMapper.map(reviewServiceModel,CommentViewModel.class));
         modelAndView.addObject("ratingProduct",ratingViewModel);
+        modelAndView.addObject("reviews",reviewViewModels);
         return super.view("/product/details",modelAndView);
     }
 }

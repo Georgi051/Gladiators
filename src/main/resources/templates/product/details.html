@@ -70,16 +70,32 @@
             </form>
         </div>
         <hr class="hr-2 bg-dark w-100">
-
-        <div class="row">
-            <div class="form-group mx-auto">
-
-
-
-
-
+        <h1 class="comments-title" th:text=" 'Comments ' + '(' + ${reviews.size()}  + ')'"></h1>
+        <th:block th:each="review: ${reviews}">
+            <div class="row">
+                <div class="form-group mx-auto">
+                    <div class="container">
+                        <div class="be-comment-block">
+                            <div class="be-comment">
+                                <div class="be-img-comment">
+                                    <a><img th:src="${review.user.imageUrl}" alt="" class="be-ava-comment"></a>
+                                </div>
+                                <div class="be-comment-content">
+				                <span class="be-comment-name">
+                                    <h7  th:text="${review.user.firstName} + ' ' + ${review.user.lastName}"></h7>
+					            </span>
+                                <span class="be-comment-time"><i class="fa fa-clock-o"></i>
+                                    <h7  th:text="${#temporals.format(review.reviewDate, 'dd-MMM-yyyy')}"></h7>
+				                </span>
+                                    <p class="be-comment-text" th:text="${review.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </th:block>
+
 
         <hr class="hr-2 bg-dark w-75">
         <div class="row">

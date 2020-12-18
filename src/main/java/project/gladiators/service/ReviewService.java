@@ -10,7 +10,7 @@ public interface ReviewService {
 
     ReviewServiceModel addReview(String description, int stars, String userName, ProductServiceModel productById);
 
-    List<ReviewServiceModel> findAllReview();
+    List<ReviewServiceModel> findAllReviewByProductId(String id);
 
     RatingServiceModel RatingServiceModel(String id);
 
