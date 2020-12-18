@@ -15,6 +15,7 @@ public class ProductDetailsViewModel extends BaseViewModel{
     private String description;
     private BigDecimal price;
     private String imageUrl;
+    int quantity;
     private BigDecimal discountedPrice;
 
 }

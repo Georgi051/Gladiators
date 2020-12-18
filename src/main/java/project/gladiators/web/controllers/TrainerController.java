@@ -62,7 +62,7 @@ public class TrainerController extends BaseController {
     @PreAuthorize("permitAll()")
     @GetMapping
     @PageTitle("All trainers")
-    public ModelAndView getAlTrainers(ModelAndView modelAndView) {
+    public ModelAndView getAllTrainers(ModelAndView modelAndView) {
 
         List<TrainerViewModel> trainers;
         try {
