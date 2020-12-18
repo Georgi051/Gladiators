@@ -48,8 +48,7 @@ public class CartController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session,
                                          ModelAndView modelAndView) {
-
-
+        
         try{
             this.cartService.addItemToCart(id, quantity, this.cartService.retrieveCart(session));
         }catch (MaxProductQuantityInCartException ex){
