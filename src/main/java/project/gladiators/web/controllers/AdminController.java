@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
+import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.enums.Action;
@@ -21,6 +22,8 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static project.gladiators.constants.RoleConstants.ROOT;
 
 @Controller
 @RequestMapping("/admin")
@@ -52,15 +55,10 @@ public class AdminController extends BaseController {
                                   RoleChangeBindingModel roleChangeBindingModel,
                                   Principal principal) {
 
-        UserServiceModel user = this.userService.findById(id);
-
-        RoleServiceModel role = new RoleServiceModel();
-        role.setAuthority(roleChangeBindingModel.getRole());
 
         List<UserServiceModel> users = filteredUsers(principal);
-        if (role.getAuthority() != null) {
-            this.userService.addRoleToUser(user, role);
-        }
+
+        this.userService.changeUserRole(id, roleChangeBindingModel);
 
         modelAndView.addObject("users", users);
         return view("/admin/user-management", modelAndView);
@@ -72,7 +70,7 @@ public class AdminController extends BaseController {
                                 ModelAndView modelAndView) {
         this.userService.banUser(id);
         modelAndView.addObject("users", this.userService.getAllUsers());
-        return view("/admin/all-users", modelAndView);
+        return view("/admin/user-management", modelAndView);
     }
 
     @GetMapping("/trainer-manager")
@@ -92,7 +90,6 @@ public class AdminController extends BaseController {
         try {
             trainerService.changeTrainerStatus(username, action);
             String resultAction = Action.valueOf("CREATE").equals(action) ? "created" : "removed";
-
             redirectAttributes.addFlashAttribute("statusMessage", String.format("You %s trainer successful", resultAction));
             redirectAttributes.addFlashAttribute("statusCode", "successful");
 
@@ -108,7 +105,8 @@ public class AdminController extends BaseController {
     private List<UserServiceModel> filteredUsers(Principal principal) {
         return this.userService.getAllUsers().stream()
                 .filter(u -> !u.getUsername().equals(principal.getName()))
-                .filter(u -> u.getAuthorities().stream().noneMatch(roleServiceModel -> roleServiceModel.getAuthority().equals("ROLE_ROOT")))
+                .filter(u -> u.getAuthorities().stream().noneMatch(roleServiceModel ->
+                        roleServiceModel.getAuthority().equals(ROOT)))
                 .collect(Collectors.toList());
     }
 }

@@ -22,12 +22,10 @@ import java.security.Principal;
 public class MessageController extends BaseController{
 
     private final MessageService messageService;
-    private final ModelMapper modelMapper;
     private final UserService userService;
 
-    public MessageController(MessageService messageService, ModelMapper modelMapper, UserService userService) {
+    public MessageController(MessageService messageService, UserService userService) {
         this.messageService = messageService;
-        this.modelMapper = modelMapper;
         this.userService = userService;
     }
 

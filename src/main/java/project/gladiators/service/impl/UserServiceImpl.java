@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.UserNotFoundException;
+import project.gladiators.exceptions.WrongPasswordException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
+import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
@@ -235,15 +237,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUserPassword(UserServiceModel userServiceModel, String oldPassword) {
-        User user = userRepository.findUserByUsername(userServiceModel.getUsername())
+    public void changeUserPassword(UserEditBindingModel userEditBindingModel) {
+
+        User user = userRepository.findUserByUsername(userEditBindingModel.getUsername())
                 .orElse(null);
         if(user != null){
-            if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
-                throw new UserNotFoundException("Incorrect old password!");
+            if (!bCryptPasswordEncoder.matches(userEditBindingModel.getOldPassword(), user.getPassword())) {
+                throw new WrongPasswordException("Incorrect old password!");
+            }else if (!userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())){
+                throw new WrongPasswordException("Passwords do not match!");
             }
-            user.setPassword(bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
-            user.setEmail(userServiceModel.getEmail());
+
+            user.setPassword(bCryptPasswordEncoder.encode(userEditBindingModel.getPassword()));
             this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
         }
     }

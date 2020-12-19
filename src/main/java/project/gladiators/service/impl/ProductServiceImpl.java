@@ -109,6 +109,12 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(String id) {
         Product product = this.productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
+        List<SubCategory> subCategory = this.subCategoryRepository
+                .findAllByProducts(product);
+        subCategory.forEach(category -> {
+            category.getProducts().remove(product);
+            this.subCategoryRepository.save(category);
+        });
         this.productRepository.delete(product);
     }
 

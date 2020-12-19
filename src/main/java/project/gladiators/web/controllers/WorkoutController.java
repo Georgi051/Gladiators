@@ -1,6 +1,5 @@
 package project.gladiators.web.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,17 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
-import project.gladiators.model.entities.TrainingPlan;
-import project.gladiators.model.entities.TrainingPlanWorkoutInfo;
-import project.gladiators.model.entities.Workout;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.WorkoutService;
-import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 import project.gladiators.service.serviceModels.WorkoutServiceModel;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.time.DayOfWeek;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 

@@ -21,12 +21,10 @@ import java.util.stream.Collectors;
 public class OfferController extends BaseController {
 
     private final OfferService offerService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public OfferController(OfferService offerService, ModelMapper modelMapper) {
+    public OfferController(OfferService offerService) {
         this.offerService = offerService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping()

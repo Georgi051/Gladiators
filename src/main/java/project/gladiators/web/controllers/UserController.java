@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.UserNotFoundException;
+import project.gladiators.exceptions.WrongPasswordException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
@@ -60,9 +61,7 @@ public class UserController extends BaseController {
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@Valid @ModelAttribute(name = "model") UserRegisterBindingModel model
-            , BindingResult bindingResult,ModelAndView modelAndView) throws FileNotFoundException {
-
-
+            , BindingResult bindingResult,ModelAndView modelAndView) {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("model", model);
@@ -71,7 +70,6 @@ public class UserController extends BaseController {
 
         UserServiceModel userServiceModel =
                 this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class), model);
-
 
         if (userServiceModel == null) {
             return super.view("register");
@@ -86,39 +84,12 @@ public class UserController extends BaseController {
         return super.view("login");
     }
 
-
-
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getAllUsers(Model model){
+    public ModelAndView getAllUsers(Model model){
 
         model.addAttribute("users", this.userService.getAllUsers());
-        return "admin/all-users";
-    }
-
-    @PostMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView changeUserRole(@RequestParam("id") String id,
-                                       ModelAndView modelAndView,
-                                       RoleChangeBindingModel roleChangeBindingModel){
-
-
-        this.userService.changeUserRole(id, roleChangeBindingModel);
-
-        modelAndView.addObject("users", this.userService
-                .getAllUsers());
-        return view("admin/all-users", modelAndView);
-    }
-
-    @GetMapping("/ban")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView banUser(@RequestParam("id") String id,
-                                ModelAndView modelAndView){
-
-        this.userService.banUser(id);
-
-        modelAndView.addObject("users", this.userService.getAllUsers());
-        return view("admin/all-users", modelAndView);
+        return super.view("admin/all-users");
     }
 
     @GetMapping("/")
@@ -158,9 +129,7 @@ public class UserController extends BaseController {
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
-
         this.userService.editUserProfile(userServiceModel);
-
         modelAndView.addObject("user", userServiceModel);
         return super.redirect(String.format("/users/?id=%s", id));
     }
@@ -171,10 +140,10 @@ public class UserController extends BaseController {
                                  ModelAndView modelAndView,
                                  @ModelAttribute(name = "userEditBindingModel")
                                          UserEditBindingModel userEditBindingModel) throws UserNotFoundException {
-        UserServiceModel userServiceModel = this.userService.findById(id);
-        userEditBindingModel = modelMapper.map(userServiceModel, UserEditBindingModel.class);
-        userEditBindingModel.setOldPassword(null);
-        modelAndView.addObject("user", userServiceModel);
+
+        UserViewModel userViewModel = this.modelMapper
+        .map(this.userService.findById(id), UserViewModel.class);
+        userEditBindingModel = modelMapper.map(userViewModel, UserEditBindingModel.class);
         modelAndView.addObject("userEditBindingModel", userEditBindingModel);
         modelAndView.setViewName("user/change-password");
         return modelAndView;
@@ -193,14 +162,19 @@ public class UserController extends BaseController {
             userEditBindingModel.setPassword(null);
             userEditBindingModel.setConfirmPassword(null);
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
-            return view("user/edit-user", modelAndView);
+            return view("user/change-password", modelAndView);
         }
 
-        UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
+        try{
+            this.userService.changeUserPassword(userEditBindingModel);
+        }catch (WrongPasswordException ex){
+            userEditBindingModel.setOldPassword(null);
+            userEditBindingModel.setPassword(null);
+            userEditBindingModel.setConfirmPassword(null);
+            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+            return view("user/change-password", modelAndView);
+        }
 
-        this.userService.changeUserPassword(userServiceModel, userEditBindingModel.getOldPassword());
-
-        modelAndView.addObject("user", userServiceModel);
         return super.redirect(String.format("/users/?id=%s", id));
     }
 
@@ -237,7 +211,6 @@ public class UserController extends BaseController {
 
     @GetMapping("/inbox/")
     public ModelAndView inbox(@RequestParam("id") String id, ModelAndView modelAndView){
-
 
         modelAndView.addObject("messages", this.messageService.getSortedMessagesByUserId(id));
         return super.view("user/inbox", modelAndView);

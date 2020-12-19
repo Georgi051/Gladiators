@@ -30,9 +30,9 @@
                     <td class="col-md-4 text-center" style="margin-left: -30px" th:text="${product.name}"></td>
                     <td class="col-md-1 text-center" th:text="${product.price}"></td>
                     <td class="btn-group col-md-1" style="margin-left: 10px">
-                        <a th:href="@{/products/details/{id}(id=${product.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
-                        <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
-                        <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
+                        <a th:href="@{/products/details/{id}(id=${product.id})}" class="all-products-button btn btn-secondary font-weight-bold text-white">Details</a>
+                        <a th:href="@{/products/edit/{id}(id=${product.id})}" class="all-products-button btn btn-success font-weight-bold text-white">Edit</a>
+                        <a th:href="@{/products/delete/{id}(id=${product.id})}" class="all-products-button btn btn-danger font-weight-bold text-white">Delete</a>
                     </td>
                 </tr>
             </th:block>

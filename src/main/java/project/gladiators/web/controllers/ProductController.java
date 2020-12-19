@@ -32,21 +32,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/products")
 public class ProductController extends BaseController{
     private final ProductService productService;
-    private final CategoryService categoryService;
     private final SubCategoryService subCategoryService;
-    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final ReviewService reviewService;
     private final OfferService offerService;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService,
-                             SubCategoryService subCategoryService, CloudinaryService cloudinaryService,
+    public ProductController(ProductService productService,
+                             SubCategoryService subCategoryService,
                              ModelMapper modelMapper, ReviewService reviewService, OfferService offerService) {
         this.productService = productService;
-        this.categoryService = categoryService;
         this.subCategoryService = subCategoryService;
-        this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.reviewService = reviewService;
         this.offerService = offerService;

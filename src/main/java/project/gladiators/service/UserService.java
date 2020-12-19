@@ -3,6 +3,7 @@ package project.gladiators.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
+import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.User;
 import project.gladiators.service.serviceModels.RoleServiceModel;
@@ -31,7 +32,7 @@ public interface UserService  extends UserDetailsService {
 
     void editUserProfile(UserServiceModel userServiceModel);
 
-    void changeUserPassword(UserServiceModel userServiceModel, String oldPassword);
+    void changeUserPassword(UserEditBindingModel userEditBindingModel);
 
     void changeProfilePicture(UserServiceModel userServiceModel, MultipartFile image) throws IOException;
 

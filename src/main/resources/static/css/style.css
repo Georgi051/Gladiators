@@ -1679,9 +1679,6 @@ form .form-group {
     background: brown;
 }
 
-.cart-dropdown {
-    margin-right: 0px !important;
-}
 div.stars {
     display:flex;
     flex-direction: row-reverse;
@@ -1846,4 +1843,11 @@ label.star:before {
 
 .login-dark {
     width: 50px;
+}
+
+.all-products-button {
+    margin-right: 5px;
+    border-radius: 15px;
+    font-family: sans-serif;
+    box-shadow: 9px -1px 41px -3px rgba(0,0,0,0.36);
 }

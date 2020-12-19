@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/trainers")
 public class TrainerController extends BaseController {
+
     private final TrainerService trainerService;
     private final ExerciseService exerciseService;
     private final MuscleService muscleService;
@@ -49,13 +50,12 @@ public class TrainerController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-
     @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
     @GetMapping("/confirmation")
     @PageTitle("Trainer confirmation")
-    public ModelAndView confirm(ModelAndView mav) {
-        mav.addObject("trainer", new TrainerRegisterBindingModel());
-        return super.view("/trainer/trainer-confirm", mav);
+    public ModelAndView confirm(ModelAndView modelAndView) {
+        modelAndView.addObject("trainer", new TrainerRegisterBindingModel());
+        return super.view("/trainer/trainer-confirm", modelAndView);
     }
 
     @PreAuthorize("permitAll()")
@@ -72,7 +72,6 @@ public class TrainerController extends BaseController {
             modelAndView.addObject("error", ex.getMessage());
         }
 
-
         return super.view("/trainer/all-trainers", modelAndView);
     }
 
@@ -84,12 +83,10 @@ public class TrainerController extends BaseController {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("org.springframework.validation.BindingResult.trainer", bindingResult);
-
             return super.view("/trainer/trainer-confirm", modelAndView);
         }
 
         TrainerServiceModel trainerServiceModel = this.modelMapper.map(trainerRegisterBindingModel, TrainerServiceModel.class);
-
         UserServiceModel userServiceModel = this.modelMapper.map(trainerRegisterBindingModel, UserServiceModel.class);
         trainerService.confirmTrainer(trainerServiceModel, userServiceModel, principal.getName(), trainerRegisterBindingModel.getImageUrl());
         return super.redirect("/home");
@@ -169,17 +166,12 @@ public class TrainerController extends BaseController {
                     .sorted(Comparator.comparing(WorkoutServiceModel::getName))
                     .collect(Collectors.toList()));
             modelAndView.addObject("trainingPlan", trainingPlan);
-            this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
-            redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
-            redirectAttributes.addFlashAttribute("statusCode", "successful");
+            createWorkout(workoutAddBindingModel, redirectAttributes, workoutServiceModel);
             return super.view("/trainer/add-workout-training-plan", modelAndView);
         }
-        this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
-        redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
-        redirectAttributes.addFlashAttribute("statusCode", "successful");
+        createWorkout(workoutAddBindingModel, redirectAttributes, workoutServiceModel);
         return super.redirect("/trainers/add-workout");
     }
-
 
     @GetMapping("/add-training-plan")
     @PageTitle("Add training plan")
@@ -212,7 +204,10 @@ public class TrainerController extends BaseController {
         return super.redirect("/workouts/add-workout-training-plan");
     }
 
-
-
+    private void createWorkout(@ModelAttribute("workout") @Valid WorkoutAddBindingModel workoutAddBindingModel, RedirectAttributes redirectAttributes, WorkoutServiceModel workoutServiceModel) {
+        this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
+        redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
+        redirectAttributes.addFlashAttribute("statusCode", "successful");
+    }
 
 }

@@ -33,13 +33,6 @@
             <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
         </div>
 
- <!--       <div class="form-group">
-            <label for="dayOfWeek" class="font-weight-bold">Day of week</label>
-            <select class="form-control" name="dayOfWeek" id="dayOfWeek">
-                <option th:each="dayOfWeek:${daysOfWeek}" th:text="${dayOfWeek}" th:value="${dayOfWeek}"></option>
-            </select>
-        </div>
--->
         <div class="row d-flex justify-content-center">
             <input type="button" value="Add Exercise" class="btn btn-primary" th:onclick="createRowForExercise()">
         </div>
@@ -58,7 +51,7 @@
         </div>
 
         <div class="row d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary ">Submit</button>
+            <button type="submit" style="margin-bottom: 20px;" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </div>
