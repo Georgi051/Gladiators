@@ -1725,7 +1725,7 @@ label.star:before {
     margin-top: -10px;
 }
 
-<<<<<<< HEAD
+
 body{
     margin-top:20px;
     background-color:#e9ebee;
@@ -1804,22 +1804,6 @@ body{
     width: 770px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
 .offer-article {
     background: white;
     display: flex;
@@ -1868,4 +1852,4 @@ body{
 .login-dark {
     width: 50px;
 }
->>>>>>> ccefbd1c32ee2880df6a076a624f2b5d1ed3d17e
+
