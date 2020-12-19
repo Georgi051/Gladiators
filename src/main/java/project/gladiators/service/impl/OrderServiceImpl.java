@@ -63,6 +63,12 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceModel findOrderById(String id) {
         Order order = this.orderRepository.findOrderById(id).orElseThrow(() ->
                 new OrderNotFoundException(ORDER_NOT_FOUND));
+        order.getProducts().forEach(orderProduct -> {
+            if(orderProduct.getProduct().getDescription().length() > 50){
+                orderProduct.getProduct().setDescription(orderProduct.getProduct()
+                .getDescription().substring(0, 49).concat("..."));
+            }
+        });
         return modelMapper.map(order, OrderServiceModel.class);
     }
 }

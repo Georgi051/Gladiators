@@ -13,6 +13,7 @@ import project.gladiators.model.bindingModels.CommentAddBindingModel;
 import project.gladiators.model.bindingModels.ProductAddBindingModel;
 import project.gladiators.model.bindingModels.ProductEditBindingModel;
 import project.gladiators.service.*;
+import project.gladiators.service.serviceModels.OfferServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.RatingServiceModel;
 import project.gladiators.service.serviceModels.ReviewServiceModel;
@@ -24,6 +25,10 @@ import project.gladiators.web.viewModels.SubCategoryViewModel;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+<<<<<<< HEAD
+=======
+import java.util.Set;
+>>>>>>> ccefbd1c32ee2880df6a076a624f2b5d1ed3d17e
 import java.util.stream.Collectors;
 
 @Controller
@@ -35,17 +40,19 @@ public class ProductController extends BaseController{
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final ReviewService reviewService;
+    private final OfferService offerService;
 
     @Autowired
     public ProductController(ProductService productService, CategoryService categoryService,
                              SubCategoryService subCategoryService, CloudinaryService cloudinaryService,
-                             ModelMapper modelMapper, ReviewService reviewService) {
+                             ModelMapper modelMapper, ReviewService reviewService, OfferService offerService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.subCategoryService = subCategoryService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.reviewService = reviewService;
+        this.offerService = offerService;
     }
 
     @GetMapping("/add")
@@ -80,7 +87,10 @@ public class ProductController extends BaseController{
     @GetMapping("/details/{id}")
     @PageTitle("Product info")
     public ModelAndView productDetails(@PathVariable String id, ModelAndView modelAndView) {
-        modelAndView.addObject("product", this.modelMapper.map(this.productService.findProductById(id),
+        ProductServiceModel productServiceModel = this.productService
+                .findProductById(id);
+        modelAndView.addObject("product", this.modelMapper
+                .map(productServiceModel,
                 ProductViewModel.class));
 
         RatingServiceModel ratingServiceModel = this.reviewService.RatingServiceModel(id);
@@ -89,7 +99,11 @@ public class ProductController extends BaseController{
                 .stream().map(p -> this.modelMapper.map(p,ReviewViewModel.class)).collect(Collectors.toList());
         modelAndView.addObject("ratingProduct",ratingViewModel);
         modelAndView.addObject("comment",new CommentAddBindingModel());
+<<<<<<< HEAD
         modelAndView.addObject("reviews",reviewViewModels);
+=======
+        modelAndView.addObject("offerPrice", this.offerService.getProductOfferPrice(productServiceModel));
+>>>>>>> ccefbd1c32ee2880df6a076a624f2b5d1ed3d17e
         return super.view("/product/details", modelAndView);
     }
 
@@ -133,7 +147,10 @@ public class ProductController extends BaseController{
         return super.view("/product/all-products", modelAndView);
     }
 
+
+
     private ProductViewModel mapProductDetails(String id) {
         return this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class);
     }
+
 }

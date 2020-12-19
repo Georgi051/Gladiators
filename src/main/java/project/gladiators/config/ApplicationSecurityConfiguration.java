@@ -25,7 +25,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/css/**", "/js/**", "/fonts/**", "/img/**").permitAll()
                 .antMatchers("/articles", "/articles/*", "/about", "/trainers","/shop", "/api/categories/*", "/subcategories/*",
-                        "/products/details/*").permitAll()
+                        "/products/details/*", "/top-offers").permitAll()
                 .antMatchers("/", "/users/login", "/users/register").anonymous()
                 .antMatchers("/articles/delete/**").hasAnyRole("MODERATOR", "ROOT")
                 .antMatchers("/products/**").hasAnyRole("MODERATOR","ROOT")

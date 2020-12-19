@@ -13,6 +13,8 @@
                 <ul class="nav navbar-nav mr-auto ">
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
+                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}"
+                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/shop'?'active':''}">Shop</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/trainers'?'active':''}">Trainers</a>
                     </li>
@@ -49,7 +51,11 @@
             </a>
             <div class="dropdown-menu" role="menu">
                 <a class="dropdown-item" role="presentation"
+                   th:href="@{/users/inbox/(id=${#authentication.getPrincipal().getId()})}">Inbox</a>
+                <a class="dropdown-item" role="presentation"
                    th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
+                <a class="dropdown-item" role="presentation"
+                   th:href="@{/orders/my}">My Orders</a>
                 <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item"
                    role="presentation"
                    th:href="@{/admin/user-management}">Admin Panel</a>
@@ -65,7 +71,7 @@
 
         <span class="navbar-text actions">
                     <th:block sec:authorize="isAnonymous()">
-                                <a class="login text-warning" th:href="@{/users/login}">Log In</a>
+                                <a class="login-dark login text-warning" th:href="@{/users/login}">Log In</a>
                                 <a class="btn btn-light action-button" role="button" th:href="@{/users/register}">Register</a>
                     </th:block>
 

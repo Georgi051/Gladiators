@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface OfferRepository extends JpaRepository<Offer, String> {
 
     Optional<Offer> findByProduct_Id(String id);
+
+    Optional<Offer> findByProduct_Name(String name);
 }

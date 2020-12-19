@@ -18,6 +18,10 @@ public class OrderProduct extends BaseEntity {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
 }

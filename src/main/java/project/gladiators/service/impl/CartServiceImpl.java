@@ -3,10 +3,16 @@ package project.gladiators.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.gladiators.exceptions.MaxProductQuantityInCartException;
 import project.gladiators.service.CartService;
+import project.gladiators.service.OfferService;
+import project.gladiators.service.ProductService;
 import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.OfferServiceModel;
 import project.gladiators.service.serviceModels.OrderProductServiceModel;
 import project.gladiators.service.serviceModels.OrderServiceModel;
+import project.gladiators.web.viewModels.OrderProductViewModel;
+import project.gladiators.web.viewModels.ProductDetailsViewModel;
 import project.gladiators.web.viewModels.ShoppingCartViewModel;
 
 import javax.servlet.http.HttpSession;
@@ -20,11 +26,15 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final OfferService offerService;
+    private final ProductService productService;
 
     @Autowired
-    public CartServiceImpl(UserService userService, ModelMapper modelMapper) {
+    public CartServiceImpl(UserService userService, ModelMapper modelMapper, OfferService offerService, ProductService productService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.offerService = offerService;
+        this.productService = productService;
     }
 
     @Override
@@ -40,12 +50,39 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addItemToCart(ShoppingCartViewModel item, List<ShoppingCartViewModel> cart) {
+    public void addItemToCart(String id, int quantity, List<ShoppingCartViewModel> cart) {
+        ProductDetailsViewModel product = this.modelMapper
+                .map(this.productService.findProductById(id), ProductDetailsViewModel.class);
+        OfferServiceModel offerServiceModel = this.offerService
+                .findByProductId(id);
+
+        if(quantity > product.getQuantity()){
+            throw new MaxProductQuantityInCartException(
+                    "We are sorry but we don't have the amount of the product you wants! Try to order smaller amount!");
+        }
+        OrderProductViewModel orderProductViewModel = new OrderProductViewModel();
+        orderProductViewModel.setProduct(product);
+        orderProductViewModel.setPrice(product.getPrice());
+        ShoppingCartViewModel item = new ShoppingCartViewModel();
+        item.setProduct(orderProductViewModel);
+        item.setQuantity(quantity);
+        if(offerServiceModel != null){
+            item.getProduct().setPrice(offerServiceModel.getPrice());
+        }
         for (ShoppingCartViewModel shoppingCartItem : cart) {
             if (shoppingCartItem.getProduct().getProduct().getId().equals(item.getProduct().getProduct().getId())) {
+
+                if(shoppingCartItem.getQuantity() + item.getQuantity() > 15){
+                    throw new MaxProductQuantityInCartException("You have reached limit of order product quantity!");
+                }
+
                 shoppingCartItem.setQuantity(shoppingCartItem.getQuantity() + item.getQuantity());
                 return;
             }
+        }
+        if(item.getProduct().getProduct().getDescription().length() > 50){
+            item.getProduct().getProduct().setDescription
+                    (item.getProduct().getProduct().getDescription().substring(0, 49).concat("..."));
         }
         cart.add(item);
     }
@@ -80,9 +117,8 @@ public class CartServiceImpl implements CartService {
             OrderProductServiceModel orderProductServiceModel =
                     this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
             orderProductServiceModel.getProduct().setBuyingProductsQuantity(item.getQuantity());
-            for (int i = 0; i < item.getQuantity(); i++) {
-                products.add(orderProductServiceModel);
-            }
+            orderProductServiceModel.setQuantity(item.getQuantity());
+            products.add(orderProductServiceModel);
         }
 
 

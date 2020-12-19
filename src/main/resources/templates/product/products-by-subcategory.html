@@ -18,17 +18,24 @@
         </th:block>
 
         <section class="products">
-        <th:block th:each="product: ${products}" th:object="${product}"
-                  >
+        <th:block th:each="product: ${products}" th:object="${product}">
                 <article class="product-article">
                     <img th:src="${product.imageUrl}" alt="">
-                    <span th:text="${product.name}"></span>
-                    <span th:text="${product.price}"></span>
-                    <a th:href="@{/products/details/{id}(id=${product.id})}">Details</a>
-                </article>
+                        <span th:text="${product.name}"></span>
 
+                        <th:block th:each="offer: ${offers}" th:object="${product}">
+                            <th:block th:if="${product.name} == ${offer.product.name}">
+                                <span class="product-old-price" th:text="${product.price}"></span>
+                                <span th:text="${offer.price}"></span>
+                            </th:block>
+                        </th:block>
+                        <span th:text="${product.price}"></span>
+                        <a th:href="@{/products/details/{id}(id=${product.id})}">Details</a>
+
+                </article>
         </th:block>
         </section>
+
         </tbody>
     </table>
     <th:block th:insert="~{fragments/scripts}"></th:block>

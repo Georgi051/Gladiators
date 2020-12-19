@@ -12,6 +12,13 @@
 <th:block th:insert="~{fragments/nav-categories}"></th:block>
 
 <div class="container">
+    <th:block  th:if="${error}">
+        <h1 class="text-primary bg-danger text-center" th:text="${error}"></h1>
+        <a th:href="@{/shop}" class="text-center submit-button" style="color: white; font-weight: bold">
+        <i class="fas fa-arrow-left"></i>
+        <span>Return to the shop</span>
+        </a>
+    </th:block>
 </div>
 <th:block th:insert="~{fragments/scripts}"></th:block>
 </body>

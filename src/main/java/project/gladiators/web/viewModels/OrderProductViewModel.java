@@ -11,5 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class OrderProductViewModel extends BaseViewModel{
     private ProductDetailsViewModel product;
+    private int quantity;
     private BigDecimal price;
+
 }

@@ -31,7 +31,7 @@
 
             <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
               <div class="dropdown">
-                 <a class="nav-link active dropdown-toggle"  href="#" role="button" id="cartDropdown"
+                 <a class="nav-link active dropdown-toggle cart-dropdown"  href="#" role="button" id="cartDropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: -75px;">Cart</a>
                  <div class="dropdown-menu" aria-labelledby="cartDropdown">
                      <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">

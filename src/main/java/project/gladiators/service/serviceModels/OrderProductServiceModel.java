@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class OrderProductServiceModel extends BaseServiceModel {
 
     private ProductServiceModel product;
+    private int quantity;
     private BigDecimal price;
 
 }

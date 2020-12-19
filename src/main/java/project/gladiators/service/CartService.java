@@ -12,7 +12,7 @@ public interface CartService  {
 
     List<ShoppingCartViewModel> retrieveCart(HttpSession session);
 
-    void addItemToCart(ShoppingCartViewModel item, List<ShoppingCartViewModel> cart);
+    void addItemToCart(String id, int quantity, List<ShoppingCartViewModel> cart);
 
     void removeItemFromCart(String id,HttpSession session);
 

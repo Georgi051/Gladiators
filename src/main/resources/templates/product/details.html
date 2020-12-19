@@ -48,12 +48,21 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col col-md-12 text-center mt-5">
-                <h4 th:text="'Price: ' + ${product.price}"></h4>
+        <th:block th:if="${offerPrice != null}">
+            <div class="row">
+                <div class="col col-md-12 text-center mt-5">
+                    <h6 class="product-old-price" th:text="'Old price: ' + ${product.price}"></h6>
+                    <h4 th:text="'New price: ' + ${offerPrice}"></h4>
+                </div>
             </div>
-        </div>
-
+        </th:block>
+        <th:block th:if="${offerPrice == null}">
+            <div class="row">
+                <div class="col col-md-12 text-center mt-5">
+                    <h4 th:text="'Price: ' + ${product.price}"></h4>
+                </div>
+            </div>
+        </th:block>
 
         <hr class="hr-2 bg-dark w-25">
 
@@ -66,10 +75,16 @@
                            name="quantity" value="1"/>
                 </div>
                 <input type="hidden" name="id" th:value="${product.id}">
-                <button type="submit" class="btn btn-success">Add to cart</button>
+                <th:block th:if="${product.quantity == 0}">
+                    <button disabled type="submit" class="btn btn-success">Add to cart</button>
+                </th:block>
+                <th:block th:if="${product.quantity > 0}">
+                    <button type="submit" class="btn btn-success">Add to cart</button>
+                </th:block>
             </form>
         </div>
         <hr class="hr-2 bg-dark w-100">
+<<<<<<< HEAD
         <h1 class="comments-title" th:text=" 'Comments ' + '(' + ${reviews.size()}  + ')'"></h1>
         <th:block th:each="review: ${reviews}">
             <div class="row">
@@ -96,6 +111,8 @@
             </div>
         </th:block>
 
+=======
+>>>>>>> ccefbd1c32ee2880df6a076a624f2b5d1ed3d17e
 
         <hr class="hr-2 bg-dark w-75">
         <div class="row">

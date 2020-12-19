@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
+import project.gladiators.exceptions.MaxProductQuantityInCartException;
 import project.gladiators.service.CartService;
+import project.gladiators.service.OfferService;
 import project.gladiators.service.OrderService;
 import project.gladiators.service.ProductService;
+import project.gladiators.service.serviceModels.OfferServiceModel;
 import project.gladiators.service.serviceModels.OrderServiceModel;
+import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.web.viewModels.OrderProductViewModel;
 import project.gladiators.web.viewModels.ProductDetailsViewModel;
+import project.gladiators.web.viewModels.ProductViewModel;
 import project.gladiators.web.viewModels.ShoppingCartViewModel;
 
 import javax.servlet.http.HttpSession;
@@ -27,31 +32,30 @@ public class CartController extends BaseController {
     private final CartService cartService;
     private final ProductService productService;
     private final OrderService orderService;
+    private final OfferService offerService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CartController(CartService cartService, ProductService productService, OrderService orderService, ModelMapper modelMapper) {
+    public CartController(CartService cartService, ProductService productService, OrderService orderService, OfferService offerService, ModelMapper modelMapper) {
         this.cartService = cartService;
         this.productService = productService;
         this.orderService = orderService;
+        this.offerService = offerService;
         this.modelMapper = modelMapper;
     }
 
     @PostMapping("/add-product")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
-        ProductDetailsViewModel product = this.modelMapper
-                .map(this.productService.findProductById(id), ProductDetailsViewModel.class);
+    public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session,
+                                         ModelAndView modelAndView) {
+        
+        try{
+            this.cartService.addItemToCart(id, quantity, this.cartService.retrieveCart(session));
+        }catch (MaxProductQuantityInCartException ex){
+            modelAndView.addObject("error", ex.getMessage());
+            return super.view("/shop", modelAndView);
+        }
 
-        OrderProductViewModel orderProductViewModel = new OrderProductViewModel();
-        orderProductViewModel.setProduct(product);
-        orderProductViewModel.setPrice(product.getPrice());
-
-        ShoppingCartViewModel cartItem = new ShoppingCartViewModel();
-        cartItem.setProduct(orderProductViewModel);
-        cartItem.setQuantity(quantity);
-
-        this.cartService.addItemToCart(cartItem, this.cartService.retrieveCart(session));
         return super.redirect("/shop");
     }
 
