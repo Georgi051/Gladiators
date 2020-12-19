@@ -1725,16 +1725,9 @@ label.star:before {
     margin-top: -10px;
 }
 
-
-body{
-    margin-top:20px;
-    background-color:#e9ebee;
-}
-
 .be-comment-block {
-    border: 1px solid #edeff2;
     border-radius: 2px;
-    border:1px solid #ffffff;
+    border:1px solid #f8f9fa;
     box-sizing: inherit;
 }
 
@@ -1798,7 +1791,7 @@ body{
     line-height: 18px;
     color: #7a8192;
     display: block;
-    background: #f6f6f7;
+    background: white;
     border: 1px solid #edeff2;
     padding: 15px 20px 20px 20px;
     width: 770px;
@@ -1852,4 +1845,3 @@ body{
 .login-dark {
     width: 50px;
 }
-
