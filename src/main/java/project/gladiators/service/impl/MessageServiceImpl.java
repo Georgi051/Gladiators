@@ -10,10 +10,13 @@ import project.gladiators.service.MessageService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.MessageServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.web.viewModels.MessageViewModel;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -50,6 +53,49 @@ public class MessageServiceImpl implements MessageService {
             this.userRepository.save(userTo);
             this.messageRepository.saveAndFlush(messageText);
         }
+    }
+
+    @Override
+    public MessageViewModel getMessageInfo(String id) {
+
+        MessageServiceModel messageServiceModel = this.findById(id);
+
+        this.changeStatusToRead(messageServiceModel);
+
+        MessageViewModel message = this.modelMapper.map
+                (messageServiceModel, MessageViewModel.class);
+        message.setMessageFrom(String.format
+                ("%s %s", messageServiceModel.getMessageFrom().getFirstName(),
+                        messageServiceModel.getMessageFrom().getLastName()));
+        message.setMessage(messageServiceModel.getText());
+        message.setImageOfSender(messageServiceModel.getMessageFrom().getImageUrl());
+        message.setIdOfSender(messageServiceModel.getMessageFrom().getId());
+
+        return message;
+
+
+    }
+
+    @Override
+    public List<MessageViewModel> getSortedMessagesByUserId(String id) {
+        List<MessageServiceModel> messages = this.findAllByUserId(id);
+
+        List<MessageViewModel> messageViewModels = new ArrayList<>();
+        messages
+                .forEach(messageServiceModel -> {
+                    MessageViewModel messageViewModel = this.modelMapper
+                            .map(messageServiceModel, MessageViewModel.class);
+                    messageViewModel.setMessageFrom(String.format
+                            ("%s %s", messageServiceModel.getMessageFrom().getFirstName(),
+                                    messageServiceModel.getMessageFrom().getLastName()));
+                    messageViewModels.add(messageViewModel);
+                });
+
+        List<MessageViewModel> sortedMessages = messageViewModels.stream().sorted(Comparator.comparing(MessageViewModel::getTimeSent).reversed())
+                .collect(Collectors.toList());
+
+        return sortedMessages;
+
     }
 
     @Override

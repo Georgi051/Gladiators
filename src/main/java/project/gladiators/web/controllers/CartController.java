@@ -30,25 +30,20 @@ import java.security.Principal;
 @RequestMapping("/cart")
 public class CartController extends BaseController {
     private final CartService cartService;
-    private final ProductService productService;
     private final OrderService orderService;
-    private final OfferService offerService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public CartController(CartService cartService, ProductService productService, OrderService orderService, OfferService offerService, ModelMapper modelMapper) {
+    public CartController(CartService cartService, OrderService orderService) {
         this.cartService = cartService;
-        this.productService = productService;
         this.orderService = orderService;
-        this.offerService = offerService;
-        this.modelMapper = modelMapper;
+
     }
 
     @PostMapping("/add-product")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session,
                                          ModelAndView modelAndView) {
-        
+
         try{
             this.cartService.addItemToCart(id, quantity, this.cartService.retrieveCart(session));
         }catch (MaxProductQuantityInCartException ex){

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
+import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
 import project.gladiators.model.entities.Exercise;
 import project.gladiators.model.entities.Workout;
 import project.gladiators.model.entities.WorkoutExerciseInfo;
@@ -15,6 +16,7 @@ import project.gladiators.service.serviceModels.WorkoutExerciseInfoServiceModel;
 import project.gladiators.service.serviceModels.WorkoutServiceModel;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -93,7 +95,18 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public WorkoutServiceModel findById(String id) {
         Workout workout = this.workoutRepository.findById(id).orElse(null);
-        return this.modelMapper
+        WorkoutServiceModel workoutServiceModel =
+                this.modelMapper
                 .map(workout, WorkoutServiceModel.class);
+        workoutServiceModel.setWorkoutExerciseInfo(new ArrayList<>());
+        workout.getWorkoutExerciseInfos()
+                .forEach(workoutExerciseInfo -> {
+                    WorkoutExerciseInfoServiceModel workoutExerciseInfoServiceModel =
+                            this.modelMapper
+                            .map(workoutExerciseInfo, WorkoutExerciseInfoServiceModel.class);
+                    workoutServiceModel.getWorkoutExerciseInfo().add(workoutExerciseInfoServiceModel);
+                });
+        return workoutServiceModel;
     }
+
 }

@@ -39,14 +39,4 @@ public class OfferController extends BaseController {
         return super.view("/offer/top-offers", modelAndView);
     }
 
-//    @GetMapping("/top-offers/{category}")
-//    @ResponseBody
-//    public List<OfferViewModel> fetchByCategory(@PathVariable String category) {
-//        List<OfferViewModel> offerViewModels = this.offerService.findAllOffers()
-//                .stream()
-//                .map(o -> this.modelMapper.map(o, OfferViewModel.class))
-//                .collect(Collectors.toList());
-//
-//        return offerViewModels;
-//    }
 }

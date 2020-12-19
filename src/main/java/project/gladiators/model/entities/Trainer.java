@@ -28,7 +28,7 @@ public class Trainer extends BaseEntity{
     private Set<Customer> customers;
 
     @OneToMany
-    private List<TrainingPlan> trainingPlans;
+    private List<TrainingPlan> trainingPlans = new ArrayList<>();
 
 
     @OneToOne

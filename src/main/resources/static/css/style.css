@@ -1795,6 +1795,8 @@ label.star:before {
     border: 1px solid #edeff2;
     padding: 15px 20px 20px 20px;
     width: 770px;
+    text-align: left;
+    font-weight: bold;
 }
 
 .offer-article {

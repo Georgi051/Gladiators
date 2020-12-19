@@ -19,6 +19,7 @@ import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 import project.gladiators.service.serviceModels.WorkoutServiceModel;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.time.DayOfWeek;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -27,13 +28,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/workouts")
 public class WorkoutController extends BaseController{
     private final WorkoutService workoutService;
-    private final ModelMapper modelMapper;
     private final TrainingPlanService trainingPlanService;
 
     @Autowired
-    public WorkoutController(WorkoutService workoutService, ModelMapper modelMapper, TrainingPlanService trainingPlanService) {
+    public WorkoutController(WorkoutService workoutService, TrainingPlanService trainingPlanService) {
         this.workoutService = workoutService;
-        this.modelMapper = modelMapper;
         this.trainingPlanService = trainingPlanService;
     }
 
@@ -54,28 +53,11 @@ public class WorkoutController extends BaseController{
 
     @PostMapping("/add-workout-training-plan")
     public ModelAndView addWorkoutToTrainingPlanPost(TrainingPlanBindingModel trainingPlanBindingModel,
-                                                 HttpSession session,
-                                                     RedirectAttributes redirectAttributes
+                                                     RedirectAttributes redirectAttributes,
+                                                     HttpSession httpSession, Principal principal
                                                  ){
 
-        TrainingPlanBindingModel trainingPlan = (TrainingPlanBindingModel) session.getAttribute("trainingPlan");
-        TrainingPlanServiceModel trainingPlanServiceModel = trainingPlanServiceModel = this.modelMapper
-                .map(trainingPlanBindingModel, TrainingPlanServiceModel.class);
-        DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
-        for (int i = 0; i < trainingPlan.getWorkout().size(); i++) {
-            trainingPlanServiceModel.getWorkouts().add(new TrainingPlanWorkoutInfo());
-
-            trainingPlanServiceModel.getWorkouts().get(i).setDayOfWeek(dayOfWeek);
-            dayOfWeek = dayOfWeek.plus(1);
-            Workout workout = this.modelMapper.map(this.workoutService
-                    .findById(trainingPlan.getWorkout().get(i)), Workout.class);
-            trainingPlanServiceModel.getWorkouts().get(i).setWorkout(workout);
-        }
-        trainingPlanServiceModel.setStartedOn(trainingPlan.getStartedOn());
-        trainingPlanServiceModel.setTrainingPlanType(trainingPlan.getTrainingPlanType());
-        trainingPlanService.addTrainingPlan(trainingPlanServiceModel);
-
-
+        this.trainingPlanService.addWorkoutsToTrainingPlanByDay(trainingPlanBindingModel, httpSession, principal);
         redirectAttributes.addFlashAttribute("statusMessage", "You created training plan successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
 

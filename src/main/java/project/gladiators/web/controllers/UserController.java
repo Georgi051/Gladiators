@@ -102,15 +102,8 @@ public class UserController extends BaseController {
                                        ModelAndView modelAndView,
                                        RoleChangeBindingModel roleChangeBindingModel){
 
-        UserServiceModel user = this.userService
-                .findById(id);
 
-        RoleServiceModel role = new RoleServiceModel();
-        role.setAuthority(roleChangeBindingModel.getRole());
-
-        if(role.getAuthority() != null){
-            this.userService.addRoleToUser(user, role);
-        }
+        this.userService.changeUserRole(id, roleChangeBindingModel);
 
         modelAndView.addObject("users", this.userService
                 .getAllUsers());
@@ -132,19 +125,9 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView userProfile(@RequestParam("id") String id){
 
-        User userTest = this.modelMapper
-        .map(this.userService.findById(id), User.class);
-
-        UserViewModel user = this.modelMapper.map
-                (userTest, UserViewModel.class);
-        if(userTest.getDateOfBirth() != null){
-            int age = Period.between(userTest.getDateOfBirth(), LocalDate.now()).getYears();
-            user.setAge(age);
-        }else{
-            user.setAge(0);
-        }
         return super.view("user/profile-page",
-                new ModelAndView().addObject("user", user));
+                new ModelAndView().addObject("user", this.modelMapper
+                .map(this.userService.findById(id), UserViewModel.class)));
     }
 
     @GetMapping("/edit")
@@ -255,23 +238,8 @@ public class UserController extends BaseController {
     @GetMapping("/inbox/")
     public ModelAndView inbox(@RequestParam("id") String id, ModelAndView modelAndView){
 
-        List<MessageServiceModel> messages = this.messageService
-        .findAllByUserId(id);
 
-        List<MessageViewModel> messageViewModels = new ArrayList<>();
-        messages
-                .forEach(messageServiceModel -> {
-                    MessageViewModel messageViewModel = this.modelMapper
-                            .map(messageServiceModel, MessageViewModel.class);
-                    messageViewModel.setMessageFrom(String.format
-                            ("%s %s", messageServiceModel.getMessageFrom().getFirstName(),
-                                    messageServiceModel.getMessageFrom().getLastName()));
-                    messageViewModels.add(messageViewModel);
-                });
-
-        List<MessageViewModel> sortedMesseges = messageViewModels.stream().sorted(Comparator.comparing(MessageViewModel::getTimeSent).reversed())
-                .collect(Collectors.toList());
-        modelAndView.addObject("messages", sortedMesseges);
+        modelAndView.addObject("messages", this.messageService.getSortedMessagesByUserId(id));
         return super.view("user/inbox", modelAndView);
     }
 

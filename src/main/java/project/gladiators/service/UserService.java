@@ -2,6 +2,7 @@ package project.gladiators.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.User;
 import project.gladiators.service.serviceModels.RoleServiceModel;
@@ -38,4 +39,6 @@ public interface UserService  extends UserDetailsService {
     void updateUser(UserServiceModel userServiceModel);
 
     void confirmTrainer(String username, UserServiceModel userServiceModel, MultipartFile profilePicture) throws IOException;
+
+    void changeUserRole(String id, RoleChangeBindingModel roleChangeBindingModel);
 }

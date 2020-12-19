@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.UserNotFoundException;
+import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
@@ -23,10 +24,12 @@ import project.gladiators.repository.UserRepository;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.web.viewModels.UserViewModel;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -107,8 +110,17 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel findById(String id) {
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+
+        UserViewModel userViewModel = this.modelMapper.map
+                (user, UserViewModel.class);
+        if(user.getDateOfBirth() != null){
+            int age = Period.between(user.getDateOfBirth(), LocalDate.now()).getYears();
+            userViewModel.setAge(age);
+        }else{
+            userViewModel.setAge(0);
+        }
         return this.modelMapper
-                .map(user, UserServiceModel.class);
+                .map(userViewModel, UserServiceModel.class);
     }
 
     @Override
@@ -256,6 +268,17 @@ public class UserServiceImpl implements UserService {
 
         setUserCredentials(user, userServiceModel.getFirstName(), userServiceModel.getLastName(), userServiceModel.getDateOfBirth(), userServiceModel.getGender().name(), profilePicture);
         userRepository.save(user);
+    }
+
+    @Override
+    public void changeUserRole(String id, RoleChangeBindingModel roleChangeBindingModel) {
+        UserServiceModel user = this.findById(id);
+        RoleServiceModel role = new RoleServiceModel();
+        role.setAuthority(roleChangeBindingModel.getRole());
+        if(role.getAuthority() != null){
+            this.addRoleToUser(user, role);
+        }
+
     }
 
     private void sessionDynamicRoleChange(Role addRole, Role removeRole) {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.CommentAddBindingModel;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.ReviewService;
@@ -34,6 +35,7 @@ public class ReviewController extends BaseController{
     }
 
     @PostMapping("/addComment")
+    @PageTitle("Product info")
     public ModelAndView addProduct(@ModelAttribute(name = "comment") CommentAddBindingModel commentAddBindingModel ,
                                    Principal principal, String id, ModelAndView modelAndView) {
         ProductServiceModel productById = this.productService.findProductById(id);

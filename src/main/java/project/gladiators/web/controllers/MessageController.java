@@ -35,20 +35,7 @@ public class MessageController extends BaseController{
     public ModelAndView messageInfo(@RequestParam("id") String id,
                                     ModelAndView modelAndView){
 
-        MessageServiceModel messageServiceModel = this.messageService
-                .findById(id);
-
-        this.messageService.changeStatusToRead(messageServiceModel);
-
-        MessageViewModel message = this.modelMapper.map
-                (messageServiceModel, MessageViewModel.class);
-        message.setMessageFrom(String.format
-                ("%s %s", messageServiceModel.getMessageFrom().getFirstName(),
-                        messageServiceModel.getMessageFrom().getLastName()));
-        message.setMessage(messageServiceModel.getText());
-        message.setImageOfSender(messageServiceModel.getMessageFrom().getImageUrl());
-        message.setIdOfSender(messageServiceModel.getMessageFrom().getId());
-        modelAndView.addObject("message", message);
+        modelAndView.addObject("message", this.messageService.getMessageInfo(id));
         return super.view("user/message-info", modelAndView);
     }
 
@@ -88,7 +75,6 @@ public class MessageController extends BaseController{
             modelAndView.addObject("user", user);
             return super.view("user/send-message", modelAndView);
         }
-
 
         UserServiceModel messageFrom = this.userService
                 .findUserByUsername(principal.getName());

@@ -25,7 +25,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,16 +36,16 @@ public class TrainerController extends BaseController {
     private final ExerciseService exerciseService;
     private final MuscleService muscleService;
     private final WorkoutService workoutService;
-    private final CloudinaryService cloudinaryService;
+    private final WorkoutExerciseInfoService workoutExerciseInfoService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, WorkoutService workoutService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper) {
         this.trainerService = trainerService;
         this.exerciseService = exerciseService;
         this.muscleService = muscleService;
         this.workoutService = workoutService;
-        this.cloudinaryService = cloudinaryService;
+        this.workoutExerciseInfoService = workoutExerciseInfoService;
         this.modelMapper = modelMapper;
     }
 
@@ -154,40 +153,30 @@ public class TrainerController extends BaseController {
                     .sorted(Comparator.comparing(ExerciseServiceModel::getName))
                     .collect(Collectors.toList()));
             modelAndView.addObject("daysOfWeek", DayOfWeek.values());
-
             return super.view("/trainer/workout-add", modelAndView);
         }
 
         WorkoutServiceModel workoutServiceModel = this.modelMapper
                 .map(workoutAddBindingModel, WorkoutServiceModel.class);
-
-            List<WorkoutExerciseInfoServiceModel> workoutExerciseModels = addWorkoutExerciseInfoParams(workoutAddBindingModel);
-            workoutServiceModel.setWorkoutExerciseInfo(workoutExerciseModels);
-
-
+        List<WorkoutExerciseInfoServiceModel> workoutExerciseModels = this.workoutExerciseInfoService
+                .addWorkoutExerciseInfoParams(workoutAddBindingModel);
+        workoutServiceModel.setWorkoutExerciseInfo(workoutExerciseModels);
 
         if(session.getAttribute("trainingPlan") != null){
             TrainingPlanBindingModel trainingPlan = (TrainingPlanBindingModel) session.getAttribute("trainingPlan");
-
             this.workoutService.addWorkoutToTrainingPlan(workoutServiceModel, workoutAddBindingModel.getExercises(), trainingPlan);
-
             modelAndView.addObject("workouts", this.workoutService.findAll().stream()
                     .sorted(Comparator.comparing(WorkoutServiceModel::getName))
                     .collect(Collectors.toList()));
-
             modelAndView.addObject("trainingPlan", trainingPlan);
             this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
             redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
             redirectAttributes.addFlashAttribute("statusCode", "successful");
             return super.view("/trainer/add-workout-training-plan", modelAndView);
         }
-
         this.workoutService.addWorkout(workoutServiceModel, workoutAddBindingModel.getExercises());
-
         redirectAttributes.addFlashAttribute("statusMessage", "You created workout successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
-
-
         return super.redirect("/trainers/add-workout");
     }
 
@@ -209,38 +198,21 @@ public class TrainerController extends BaseController {
                                            TrainingPlanBindingModel trainingPlan,
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView,
-                                   HttpSession session
-            ) {
+                                   HttpSession session) {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("trainingPlan", trainingPlan);
-
             modelAndView.addObject("workouts", this.workoutService.findAll().stream()
                     .sorted(Comparator.comparing(WorkoutServiceModel::getName))
                     .collect(Collectors.toList()));
             modelAndView.addObject("trainingPlanTypes", List.of(TrainingPlanType.values()));
-
             return super.view("/trainer/add-training-plan", modelAndView);
         }
-
         session.setAttribute("trainingPlan",trainingPlan);
-
         return super.redirect("/workouts/add-workout-training-plan");
     }
 
 
 
-    private List<WorkoutExerciseInfoServiceModel> addWorkoutExerciseInfoParams(@ModelAttribute("workout") @Valid WorkoutAddBindingModel workoutAddBindingModel) {
-        List<WorkoutExerciseInfoServiceModel> workoutExerciseModels = new ArrayList<>(workoutAddBindingModel.getExercises().size());
-        for (int i = 0; i < workoutAddBindingModel.getExercises().size(); i++) {
-            WorkoutExerciseInfoServiceModel workoutExerciseInfoServiceModel = new WorkoutExerciseInfoServiceModel();
-            workoutExerciseInfoServiceModel.setExercise(this.modelMapper
-                    .map(workoutAddBindingModel.getExercises().get(i), ExerciseServiceModel.class));
-            workoutExerciseInfoServiceModel.setRestTime(workoutAddBindingModel.getRestTime().get(i));
-            workoutExerciseInfoServiceModel.setSets(workoutAddBindingModel.getSets().get(i));
-            workoutExerciseInfoServiceModel.setRepeats(workoutAddBindingModel.getRepeats().get(i));
-            workoutExerciseModels.add(workoutExerciseInfoServiceModel);
-        }
-        return workoutExerciseModels;
-    }
+
 }
