@@ -25,10 +25,7 @@ import project.gladiators.web.viewModels.SubCategoryViewModel;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-<<<<<<< HEAD
-=======
-import java.util.Set;
->>>>>>> ccefbd1c32ee2880df6a076a624f2b5d1ed3d17e
+
 import java.util.stream.Collectors;
 
 @Controller
@@ -99,11 +96,8 @@ public class ProductController extends BaseController{
                 .stream().map(p -> this.modelMapper.map(p,ReviewViewModel.class)).collect(Collectors.toList());
         modelAndView.addObject("ratingProduct",ratingViewModel);
         modelAndView.addObject("comment",new CommentAddBindingModel());
-<<<<<<< HEAD
         modelAndView.addObject("reviews",reviewViewModels);
-=======
         modelAndView.addObject("offerPrice", this.offerService.getProductOfferPrice(productServiceModel));
->>>>>>> ccefbd1c32ee2880df6a076a624f2b5d1ed3d17e
         return super.view("/product/details", modelAndView);
     }
 
