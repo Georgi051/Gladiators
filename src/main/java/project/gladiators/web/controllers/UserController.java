@@ -12,27 +12,18 @@ import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.exceptions.WrongPasswordException;
-import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
-import project.gladiators.model.entities.User;
 import project.gladiators.service.MessageService;
 import project.gladiators.service.UserService;
-import project.gladiators.service.serviceModels.MessageServiceModel;
-import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
-import project.gladiators.web.viewModels.MessageViewModel;
+import project.gladiators.validators.user.UserChangePasswordValidator;
+import project.gladiators.validators.user.UserEditValidator;
+import project.gladiators.validators.user.UserRegisterValidator;
 import project.gladiators.web.viewModels.UserViewModel;
 
 import javax.validation.Valid;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -41,12 +32,18 @@ public class UserController extends BaseController {
     private final ModelMapper modelMapper;
     private final UserService userService;
     private final MessageService messageService;
+    private final UserRegisterValidator userRegisterValidator;
+    private final UserEditValidator userEditValidator;
+    private final UserChangePasswordValidator userChangePasswordValidator;
     private final Gson gson;
 
-    public UserController(ModelMapper modelMapper, UserService userService, MessageService messageService, Gson gson) {
+    public UserController(ModelMapper modelMapper, UserService userService, MessageService messageService, UserRegisterValidator userRegisterValidator, UserEditValidator userEditValidator, UserChangePasswordValidator userChangePasswordValidator, Gson gson) {
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.messageService = messageService;
+        this.userRegisterValidator = userRegisterValidator;
+        this.userEditValidator = userEditValidator;
+        this.userChangePasswordValidator = userChangePasswordValidator;
         this.gson = gson;
     }
 
@@ -59,10 +56,11 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/register")
+    @PageTitle("Register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@Valid @ModelAttribute(name = "model") UserRegisterBindingModel model
             , BindingResult bindingResult,ModelAndView modelAndView) {
-
+        userRegisterValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("model", model);
             return super.view("register", modelAndView);
@@ -70,7 +68,6 @@ public class UserController extends BaseController {
 
         UserServiceModel userServiceModel =
                 this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class), model);
-
         if (userServiceModel == null) {
             return super.view("register");
         }
@@ -123,6 +120,7 @@ public class UserController extends BaseController {
                                                 UserEditBindingModel userEditBindingModel,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView){
+        userEditValidator.validate(userEditBindingModel, bindingResult);
         if(bindingResult.hasErrors()){
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return view("user/edit-user", modelAndView);
@@ -157,6 +155,7 @@ public class UserController extends BaseController {
                                             UserEditBindingModel userEditBindingModel,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView){
+        userChangePasswordValidator.validate(userEditBindingModel, bindingResult);
         if(bindingResult.hasErrors()){
             userEditBindingModel.setOldPassword(null);
             userEditBindingModel.setPassword(null);

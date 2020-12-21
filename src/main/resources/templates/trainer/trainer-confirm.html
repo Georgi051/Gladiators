@@ -32,10 +32,12 @@
                 <small id="ageCheck" th:each="error : ${#fields.errors('dateOfBirth')}" th:text="${error}"></small>
             </div>
 
-            <div class="form-group">
-                <label class="font-weight-bold">Gender</label>
-                <input type="radio" name="gender" th:value="MALE"/>male
+            <div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'text-danger'">
+                <label for="gender" class="font-weight-bold">Gender</label>
+                <input type="radio" th:field="*{gender}" name="gender" id="gender" th:value="MALE"/>male
                 <input type="radio" name="gender" th:value="FEMALE"/>female
+                <small th:each="error : ${#fields.errors('gender')}" th:text="${error}"></small>
+
             </div>
             <div class="form-group">
                 <label for="add-product-image" class="font-weight-bold">Image</label>

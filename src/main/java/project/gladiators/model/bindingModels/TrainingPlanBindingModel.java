@@ -19,12 +19,8 @@ import java.util.List;
 public class TrainingPlanBindingModel {
 
     private TrainingPlanType trainingPlanType;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent(message = "Please choose date that is not in the past!")
-    @NotNull(message = "Please choose date")
     private LocalDate startedOn;
-
     private List<String> workout = new ArrayList<>();
 
 }

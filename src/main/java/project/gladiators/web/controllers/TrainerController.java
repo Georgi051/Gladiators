@@ -10,13 +10,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.TrainerNotFoundException;
-import project.gladiators.model.bindingModels.ExerciseEditBindingModel;
+import project.gladiators.model.bindingModels.ExerciseAddBindingModel;
 import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
 import project.gladiators.model.enums.TrainingPlanType;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.*;
+import project.gladiators.validators.trainer.AddExerciseValidator;
+import project.gladiators.validators.trainer.AddTrainingPlanValidator;
+import project.gladiators.validators.trainer.AddWorkoutValidator;
+import project.gladiators.validators.trainer.TrainerRegisterValidator;
 import project.gladiators.web.viewModels.MuscleViewModel;
 import project.gladiators.web.viewModels.TrainerViewModel;
 
@@ -39,15 +43,23 @@ public class TrainerController extends BaseController {
     private final WorkoutService workoutService;
     private final WorkoutExerciseInfoService workoutExerciseInfoService;
     private final ModelMapper modelMapper;
+    private final AddExerciseValidator addExerciseValidator;
+    private final AddWorkoutValidator addWorkoutValidator;
+    private final AddTrainingPlanValidator addTrainingPlanValidator;
+    private final TrainerRegisterValidator trainerRegisterValidator;
 
     @Autowired
-    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper) {
+    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator, AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator) {
         this.trainerService = trainerService;
         this.exerciseService = exerciseService;
         this.muscleService = muscleService;
         this.workoutService = workoutService;
         this.workoutExerciseInfoService = workoutExerciseInfoService;
         this.modelMapper = modelMapper;
+        this.addExerciseValidator = addExerciseValidator;
+        this.addWorkoutValidator = addWorkoutValidator;
+        this.addTrainingPlanValidator = addTrainingPlanValidator;
+        this.trainerRegisterValidator = trainerRegisterValidator;
     }
 
     @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
@@ -77,10 +89,12 @@ public class TrainerController extends BaseController {
 
     @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
     @PostMapping("/confirmation")
+    @PageTitle("Trainer confirmation")
     public ModelAndView confirm(@Valid @ModelAttribute("trainer") TrainerRegisterBindingModel trainerRegisterBindingModel
             , BindingResult bindingResult
             , Principal principal, ModelAndView modelAndView) throws IOException {
 
+        trainerRegisterValidator.validate(trainerRegisterBindingModel, bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("org.springframework.validation.BindingResult.trainer", bindingResult);
             return super.view("/trainer/trainer-confirm", modelAndView);
@@ -95,7 +109,7 @@ public class TrainerController extends BaseController {
     @GetMapping("/add-exercise")
     @PageTitle("Add exercise")
     public ModelAndView addExercise(ModelAndView modelAndView) {
-        modelAndView.addObject("exercise", new ExerciseEditBindingModel());
+        modelAndView.addObject("exercise", new ExerciseAddBindingModel());
         modelAndView.addObject("muscles", this.muscleService.findAll().stream()
                 .sorted(Comparator.comparing(MuscleServiceModel::getName))
                 .map(muscleServiceModel -> this.modelMapper.map(muscleServiceModel, MuscleViewModel.class))
@@ -104,11 +118,12 @@ public class TrainerController extends BaseController {
     }
 
     @PostMapping("/add-exercise")
-    public ModelAndView addExercise(@Valid @ModelAttribute(name = "exercise") ExerciseEditBindingModel exerciseEditBindingModel, BindingResult result,
+    public ModelAndView addExercise(@Valid @ModelAttribute(name = "exercise") ExerciseAddBindingModel exerciseAddBindingModel, BindingResult result,
                                     RedirectAttributes redirectAttributes) throws IOException {
+        addExerciseValidator.validate(exerciseAddBindingModel, result);
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("exercise", exerciseEditBindingModel);
+            modelAndView.addObject("exercise", exerciseAddBindingModel);
             modelAndView.addObject("muscles", this.muscleService.findAll().stream()
                     .sorted(Comparator.comparing(MuscleServiceModel::getName))
                     .map(muscleServiceModel -> this.modelMapper.map(muscleServiceModel, MuscleViewModel.class))
@@ -116,8 +131,8 @@ public class TrainerController extends BaseController {
             modelAndView.addObject("org.springframework.validation.BindingResult.exercise", result);
             return super.view("/trainer/exercise-add", modelAndView);
         }
-        ExerciseServiceModel exerciseServiceModel = this.modelMapper.map(exerciseEditBindingModel, ExerciseServiceModel.class);
-        this.exerciseService.addExercise(exerciseServiceModel,exerciseEditBindingModel.getImageUrl());
+        ExerciseServiceModel exerciseServiceModel = this.modelMapper.map(exerciseAddBindingModel, ExerciseServiceModel.class);
+        this.exerciseService.addExercise(exerciseServiceModel, exerciseAddBindingModel.getImageUrl());
 
         redirectAttributes.addFlashAttribute("statusMessage", "You created exercise successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
@@ -144,6 +159,7 @@ public class TrainerController extends BaseController {
                                    ModelAndView modelAndView,
                                    RedirectAttributes redirectAttributes,
                                    HttpSession session) {
+        addWorkoutValidator.validate(workoutAddBindingModel, bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("workout", workoutAddBindingModel);
             modelAndView.addObject("exercises", this.exerciseService.findAll().stream()
@@ -191,7 +207,7 @@ public class TrainerController extends BaseController {
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView,
                                    HttpSession session) {
-
+        addTrainingPlanValidator.validate(trainingPlan, bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("trainingPlan", trainingPlan);
             modelAndView.addObject("workouts", this.workoutService.findAll().stream()

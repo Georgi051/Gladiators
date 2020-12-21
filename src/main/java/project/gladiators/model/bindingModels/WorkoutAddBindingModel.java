@@ -15,15 +15,9 @@ import java.util.Set;
 @Setter
 public class WorkoutAddBindingModel {
 
-    @Size(min = 3, message = "Exercise name must be at least 3 characters")
     private String name;
-
     private List<Integer> sets;
-
     private List<String> repeats;
-
     private List<Integer> restTime;
-
-    @NotEmpty(message = "You must select exercise one or more.")
     private List<Exercise> exercises;
 }

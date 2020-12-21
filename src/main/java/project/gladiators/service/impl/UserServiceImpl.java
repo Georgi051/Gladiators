@@ -242,11 +242,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findUserByUsername(userEditBindingModel.getUsername())
                 .orElse(null);
         if(user != null){
-            if (!bCryptPasswordEncoder.matches(userEditBindingModel.getOldPassword(), user.getPassword())) {
-                throw new WrongPasswordException("Incorrect old password!");
-            }else if (!userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())){
-                throw new WrongPasswordException("Passwords do not match!");
-            }
 
             user.setPassword(bCryptPasswordEncoder.encode(userEditBindingModel.getPassword()));
             this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);

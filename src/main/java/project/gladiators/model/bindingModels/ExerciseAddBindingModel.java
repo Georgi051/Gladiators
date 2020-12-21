@@ -14,13 +14,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ExerciseEditBindingModel {
+public class ExerciseAddBindingModel {
 
-    @Size(min = 3, message = "Exercise name must be at least 3 characters")
     private String name;
-    @Size(min = 30, max = 1000, message = "The description must be between 30 and 1000 characters!")
     private String description;
-    @NotNull(message = "Please add exercise picture.")
     private MultipartFile imageUrl;
     @NotEmpty(message = "You must select one or more muscle.")
     private Set<Muscle> muscles;

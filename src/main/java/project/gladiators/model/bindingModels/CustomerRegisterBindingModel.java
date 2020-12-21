@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class CustomerRegisterBindingModel {
+
     @Length(min = 1,message = "Please add your first name")
     private String firstName;
     @Length(min = 1,message = "Please add your last name")

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.exceptions.ProductDeleteException;
 import project.gladiators.exceptions.ProductNotFoundException;
 import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.SubCategory;
@@ -111,11 +112,16 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
         List<SubCategory> subCategory = this.subCategoryRepository
                 .findAllByProducts(product);
+
         subCategory.forEach(category -> {
             category.getProducts().remove(product);
             this.subCategoryRepository.save(category);
         });
-        this.productRepository.delete(product);
+        try{
+            this.productRepository.delete(product);
+        }catch (Exception ex){
+            throw new ProductDeleteException("This product cannot be deleted!");
+        }
     }
 
     @Override

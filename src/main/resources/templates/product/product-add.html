@@ -32,13 +32,13 @@
 
             <div class="form-group">
                 <label for="add-quantity">Quantity</label>
-                <input th:field="*{quantity}" type="number" class="form-control text-center" id="add-quantity">
+                <input th:field="*{quantity}" min="1" type="number" class="form-control text-center" id="add-quantity">
                 <small class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></small>
             </div>
 
             <div class="form-group">
                 <label for="add-product-price">Price</label>
-                <input th:field="*{price}" type="number" step="any" class="form-control text-center" id="add-product-price">
+                <input th:field="*{price}" min="0.01" type="number" step="any" class="form-control text-center" id="add-product-price">
                 <small class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
 
             </div>

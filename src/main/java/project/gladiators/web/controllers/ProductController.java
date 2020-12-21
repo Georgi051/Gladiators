@@ -13,10 +13,9 @@ import project.gladiators.model.bindingModels.CommentAddBindingModel;
 import project.gladiators.model.bindingModels.ProductAddBindingModel;
 import project.gladiators.model.bindingModels.ProductEditBindingModel;
 import project.gladiators.service.*;
-import project.gladiators.service.serviceModels.OfferServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.RatingServiceModel;
-import project.gladiators.service.serviceModels.ReviewServiceModel;
+import project.gladiators.validators.admin.AddProductValidator;
 import project.gladiators.web.viewModels.ProductViewModel;
 import project.gladiators.web.viewModels.RatingViewModel;
 import project.gladiators.web.viewModels.ReviewViewModel;
@@ -36,16 +35,18 @@ public class ProductController extends BaseController{
     private final ModelMapper modelMapper;
     private final ReviewService reviewService;
     private final OfferService offerService;
+    private final AddProductValidator addProductValidator;
 
     @Autowired
     public ProductController(ProductService productService,
                              SubCategoryService subCategoryService,
-                             ModelMapper modelMapper, ReviewService reviewService, OfferService offerService) {
+                             ModelMapper modelMapper, ReviewService reviewService, OfferService offerService, AddProductValidator addProductValidator) {
         this.productService = productService;
         this.subCategoryService = subCategoryService;
         this.modelMapper = modelMapper;
         this.reviewService = reviewService;
         this.offerService = offerService;
+        this.addProductValidator = addProductValidator;
     }
 
     @GetMapping("/add")
@@ -62,6 +63,8 @@ public class ProductController extends BaseController{
     @PostMapping("/add")
     public ModelAndView addProduct(@Valid @ModelAttribute(name = "product") ProductAddBindingModel productBindingModel,
                                    BindingResult result, RedirectAttributes redirectAttributes) throws IOException {
+
+        addProductValidator.validate(productBindingModel, result);
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("product", productBindingModel);
@@ -115,6 +118,7 @@ public class ProductController extends BaseController{
     }
 
     @GetMapping("/delete/{id}")
+    @PageTitle("Delete Product")
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView deleteProduct(@PathVariable String id, ModelAndView modelAndView){
         ProductViewModel product = mapProductDetails(id);
@@ -124,9 +128,19 @@ public class ProductController extends BaseController{
     }
 
     @PostMapping("/delete/{id}")
+    @PageTitle("Delete Product")
     @PreAuthorize("hasRole('MODERATOR')")
-    public ModelAndView confirmDeleteProduct(@PathVariable String id) {
-        this.productService.deleteProduct(id);
+    public ModelAndView confirmDeleteProduct(@PathVariable String id, ModelAndView modelAndView) {
+        try{
+            this.productService.deleteProduct(id);
+        }catch (Exception ex) {
+            modelAndView.addObject("error", ex.getMessage());
+            ProductViewModel product = mapProductDetails(id);
+            modelAndView.addObject("product", product);
+            modelAndView.addObject("productId", id);
+            return super.view("product/delete-product", modelAndView);
+        }
+
         return super.redirect("/products/all");
     }
 

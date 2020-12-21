@@ -26,10 +26,13 @@
                 <label for="add-product-price" class="font-weight-bold">Price</label>
                 <input type="number" step="any" class="form-control text-center" id="add-product-price" name="price" th:value="${product.price}" disabled>
             </div>
-
+            <div th:if="${error}">
+                <span class="text-danger" th:text="${error}"></span>
+            </div>
             <div class="button-holder d-flex justify-content-center">
                 <button type="submit" class="btn btn-danger">Delete Product</button>
             </div>
+
         </form>
     <th:block th:insert="~{fragments/footer}">
     </th:block>
