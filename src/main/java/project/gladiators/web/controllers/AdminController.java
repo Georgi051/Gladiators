@@ -84,8 +84,7 @@ public class AdminController extends BaseController {
 
     @PostMapping("/trainer-manager")
     public ModelAndView addTrainer(@RequestParam String username, @RequestParam("option") Action action,
-                                   RedirectAttributes redirectAttributes
-    ) {
+                                   RedirectAttributes redirectAttributes) {
 
         try {
             trainerService.changeTrainerStatus(username, action);

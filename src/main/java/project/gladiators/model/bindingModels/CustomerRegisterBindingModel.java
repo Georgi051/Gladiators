@@ -17,19 +17,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CustomerRegisterBindingModel {
 
-    @Length(min = 1,message = "Please add your first name")
     private String firstName;
-    @Length(min = 1,message = "Please add your last name")
     private String lastName;
-    @Length(min = 1,message = "Please add your gender")
     private String gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Past(message = "Please enter valid date")
-    @NotNull(message = "Date cannot be null")
     private LocalDate dateOfBirth;
-    @Min(value = 30 ,message = "Your weight is incorrect")
     private double weight;
-    @Min(value = 57,message = "Your height is incorrect")
     private double height;
     private MultipartFile imageUrl;
 }

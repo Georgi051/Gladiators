@@ -1,6 +1,5 @@
 package project.gladiators.web.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -8,11 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.model.bindingModels.SendMessageBindingModel;
 import project.gladiators.service.MessageService;
 import project.gladiators.service.UserService;
-import project.gladiators.service.serviceModels.CustomerServiceModel;
-import project.gladiators.service.serviceModels.MessageServiceModel;
-import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
-import project.gladiators.web.viewModels.MessageViewModel;
+import project.gladiators.validators.customer.SendMessageValidator;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -23,10 +19,12 @@ public class MessageController extends BaseController{
 
     private final MessageService messageService;
     private final UserService userService;
+    private final SendMessageValidator sendMessageValidator;
 
-    public MessageController(MessageService messageService, UserService userService) {
+    public MessageController(MessageService messageService, UserService userService, SendMessageValidator sendMessageValidator) {
         this.messageService = messageService;
         this.userService = userService;
+        this.sendMessageValidator = sendMessageValidator;
     }
 
     @GetMapping("/")
@@ -65,7 +63,7 @@ public class MessageController extends BaseController{
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView,
                                     Principal principal){
-
+        sendMessageValidator.validate(sendMessageBindingModel,bindingResult);
         if(bindingResult.hasErrors()){
             sendMessageBindingModel.setMessageTo(id);
             modelAndView.addObject("sendMessageBindingModel", sendMessageBindingModel);

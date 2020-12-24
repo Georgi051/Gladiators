@@ -3,6 +3,7 @@ package project.gladiators.web.viewModels;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -17,4 +18,5 @@ public class ProductViewModel extends BaseViewModel {
     private String description;
     private String imageUrl;
     private Integer buyingCounter;
+    private MultipartFile newImage;
 }

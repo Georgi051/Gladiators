@@ -3,24 +3,24 @@
 
 
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
-        <div class="container"><a class="navbar-brand" th:href="@{/}">Gladiators</a>
+        <a class="navbar-brand" th:href="@{/}">Gladiators</a>
+        <div class="container">
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
                     class="navbar-toggler-icon"></span></button>
             <span class="collapse navbar-collapse"
                   id="navcol-1">
-                <ul class="nav navbar-nav mr-auto">
+                <ul class="nav navbar-nav mr-auto ">
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/home}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/home'?'active':''}">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}"
-                                                                th:classappend="${#httpServletRequest.getRequestURI()=='/shop'?'active':''}">Shop</a></li>
+                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/shop}"
+                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/shop'?'active':''}">Shop</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/trainers}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/trainers'?'active':''}">Trainers</a>
                     </li>
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/articles}"
                                                                 th:classappend="${#httpServletRequest.getRequestURI()=='/articles'?'active':''}">Articles</a>
-                    </li>
-                                        <li class="nav-item" role="presentation"><a class="nav-link"
-                                                                                    th:href="@{/about}">About Us</a></li>
+                     <li class="nav-item" role="presentation"><a class="nav-link"
+                                                                 th:href="@{/about}">About Us</a></li>
                 </ul>
             </span>
 
@@ -45,34 +45,34 @@
             </div>
         </div>
 
-            <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
-                 class="dropdown  border rounded" style="margin-right: 30px;">
-                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
-                   sec:authentication="name">
-                </a>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" role="presentation"
-                       th:href="@{/users/inbox/(id=${#authentication.getPrincipal().getId()})}">Inbox</a>
-                    <a class="dropdown-item" role="presentation"
-                       th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
-                    <a class="dropdown-item" role="presentation"
-                       th:href="@{/orders/my}">My Orders</a>
-                    <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item"
-                       role="presentation"
-                       th:href="@{/admin/user-management}">Admin Panel</a>
-                    <a sec:authorize="hasAnyRole('ROOT','MODERATOR')" class="dropdown-item"
-                       role="presentation"
-                       th:href="@{/articles/article-add}">Moderator Panel</a>
-                    <a sec:authorize="hasRole('TRAINER_CONFIRMED')" class="dropdown-item" role="presentation"
-                       th:href="@{/trainers/add-exercise}">Trainer Panel</a>
-                </div>
-
+        <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
+             class="dropdown  border rounded" style="margin-right: 30px;">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
+               sec:authentication="name">
+            </a>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" role="presentation"
+                   th:href="@{/users/inbox/(id=${#authentication.getPrincipal().getId()})}">Inbox</a>
+                <a class="dropdown-item" role="presentation"
+                   th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
+                <a class="dropdown-item" role="presentation"
+                   th:href="@{/orders/my}">My Orders</a>
+                <a sec:authorize="hasAnyRole('ROOT','ADMIN')" class="dropdown-item"
+                   role="presentation"
+                   th:href="@{/admin/user-management}">Admin Panel</a>
+                <a sec:authorize="hasAnyRole('ROOT','MODERATOR')" class="dropdown-item"
+                   role="presentation"
+                   th:href="@{/articles/article-add}">Moderator Panel</a>
+                <a sec:authorize="hasRole('TRAINER_CONFIRMED')" class="dropdown-item" role="presentation"
+                   th:href="@{/trainers/add-exercise}">Trainer Panel</a>
             </div>
 
+        </div>
 
-            <span class="navbar-text actions">
+
+        <span class="navbar-text actions">
                     <th:block sec:authorize="isAnonymous()">
-                                <a class="login" th:href="@{/users/login}">Log In</a>
+                                <a class="login-dark login text-warning" th:href="@{/users/login}">Log In</a>
                                 <a class="btn btn-light action-button" role="button" th:href="@{/users/register}">Register</a>
                     </th:block>
 

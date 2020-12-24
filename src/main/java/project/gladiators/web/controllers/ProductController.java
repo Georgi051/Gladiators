@@ -15,7 +15,8 @@ import project.gladiators.model.bindingModels.ProductEditBindingModel;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.RatingServiceModel;
-import project.gladiators.validators.admin.AddProductValidator;
+import project.gladiators.validators.moderator.AddProductValidator;
+import project.gladiators.validators.moderator.EditProductValidator;
 import project.gladiators.web.viewModels.ProductViewModel;
 import project.gladiators.web.viewModels.RatingViewModel;
 import project.gladiators.web.viewModels.ReviewViewModel;
@@ -36,17 +37,19 @@ public class ProductController extends BaseController{
     private final ReviewService reviewService;
     private final OfferService offerService;
     private final AddProductValidator addProductValidator;
+    private final EditProductValidator editProductValidator;
 
     @Autowired
     public ProductController(ProductService productService,
                              SubCategoryService subCategoryService,
-                             ModelMapper modelMapper, ReviewService reviewService, OfferService offerService, AddProductValidator addProductValidator) {
+                             ModelMapper modelMapper, ReviewService reviewService, OfferService offerService, AddProductValidator addProductValidator, EditProductValidator editProductValidator) {
         this.productService = productService;
         this.subCategoryService = subCategoryService;
         this.modelMapper = modelMapper;
         this.reviewService = reviewService;
         this.offerService = offerService;
         this.addProductValidator = addProductValidator;
+        this.editProductValidator = editProductValidator;
     }
 
     @GetMapping("/add")
@@ -103,17 +106,26 @@ public class ProductController extends BaseController{
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView editProduct(@PathVariable String id, ModelAndView modelAndView) {
-        ProductViewModel product = mapProductDetails(id);
-        modelAndView.addObject("product", product);
+        modelAndView.addObject("product", mapProductDetails(id));
         modelAndView.addObject("productId", id);
         return super.view("product/edit-product", modelAndView);
     }
 
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
-    public ModelAndView confirmEditProduct(@PathVariable String id,@Valid @ModelAttribute ProductEditBindingModel model) throws IOException {
-        ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
-        this.productService.editProduct(id,productServiceModel,model.getImage());
+    public ModelAndView confirmEditProduct(@PathVariable String id, @Valid @ModelAttribute(name = "product")  ProductEditBindingModel product
+            ,BindingResult bindingResult,ModelAndView modelAndView) throws IOException {
+
+        editProductValidator.validate(product,bindingResult);
+        if (bindingResult.hasErrors()){
+            modelAndView.addObject("productId",id);
+            product.setImageUrl(mapProductDetails(id).getImageUrl());
+            modelAndView.addObject("product",product);
+            return super.view("/product/edit-product",modelAndView);
+        }
+
+        ProductServiceModel productServiceModel = this.modelMapper.map(product, ProductServiceModel.class);
+        this.productService.editProduct(id,productServiceModel,product.getNewImage());
         return super.redirect("/products/all");
     }
 
@@ -150,8 +162,6 @@ public class ProductController extends BaseController{
                 .map(p -> this.modelMapper.map(p, ProductViewModel.class)).collect(Collectors.toList()));
         return super.view("/product/all-products", modelAndView);
     }
-
-
 
     private ProductViewModel mapProductDetails(String id) {
         return this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class);

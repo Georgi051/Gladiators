@@ -1,4 +1,4 @@
-package project.gladiators.validators.admin;
+package project.gladiators.validators.moderator;
 
 import org.springframework.validation.Errors;
 import project.gladiators.annotations.Validator;
@@ -7,7 +7,7 @@ import project.gladiators.repository.ProductRepository;
 
 import java.math.BigDecimal;
 
-import static project.gladiators.validators.admin.AdminConstants.*;
+import static project.gladiators.validators.moderator.ModeratorConstants.*;
 
 @Validator
 public class AddProductValidator implements org.springframework.validation.Validator {
@@ -46,7 +46,7 @@ public class AddProductValidator implements org.springframework.validation.Valid
             errors.rejectValue("price", PRICE_CANNOT_BE_NULL,
                     PRICE_CANNOT_BE_NULL);
         }else{
-            if(productAddBindingModel.getPrice().compareTo(BigDecimal.ZERO) < 0){
+            if(productAddBindingModel.getPrice().compareTo(BigDecimal.ZERO) <= 0){
                 errors.rejectValue("price", PRICE_CANNOT_BE_NEGATIVE_OR_ZERO,
                         PRICE_CANNOT_BE_NEGATIVE_OR_ZERO);
             }

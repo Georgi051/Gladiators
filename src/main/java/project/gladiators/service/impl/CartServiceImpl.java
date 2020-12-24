@@ -121,8 +121,6 @@ public class CartServiceImpl implements CartService {
             products.add(orderProductServiceModel);
         }
 
-
-
         orderServiceModel.setProducts(products);
         orderServiceModel.setTotalPrice(this.calcTotal(session));
         orderServiceModel.setMadeOn(LocalDateTime.now());

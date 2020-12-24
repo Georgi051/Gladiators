@@ -1,6 +1,5 @@
 package project.gladiators.web.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -11,16 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.MaxProductQuantityInCartException;
 import project.gladiators.service.CartService;
-import project.gladiators.service.OfferService;
 import project.gladiators.service.OrderService;
-import project.gladiators.service.ProductService;
-import project.gladiators.service.serviceModels.OfferServiceModel;
 import project.gladiators.service.serviceModels.OrderServiceModel;
-import project.gladiators.service.serviceModels.ProductServiceModel;
-import project.gladiators.web.viewModels.OrderProductViewModel;
-import project.gladiators.web.viewModels.ProductDetailsViewModel;
-import project.gladiators.web.viewModels.ProductViewModel;
-import project.gladiators.web.viewModels.ShoppingCartViewModel;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -54,7 +45,6 @@ public class CartController extends BaseController {
         return super.redirect("/shop");
     }
 
-
     @GetMapping("/details")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Cart Details")
@@ -62,7 +52,6 @@ public class CartController extends BaseController {
         modelAndView.addObject("totalPrice", this.cartService.calcTotal(session));
         return super.view("cart/cart-details", modelAndView);
     }
-
 
     @PostMapping("/remove-product")
     @PreAuthorize("isAuthenticated()")

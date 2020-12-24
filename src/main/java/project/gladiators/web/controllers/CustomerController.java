@@ -21,6 +21,9 @@ import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.validators.customer.CustomerRegistrationValidator;
+import project.gladiators.validators.customer.ProgressChartValidator;
+import project.gladiators.validators.customer.SendMessageValidator;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -35,14 +38,20 @@ public class CustomerController extends BaseController{
     private final TrainerService trainerService;
     private final MessageService messageService;
     private final ModelMapper modelMapper;
+    private final CustomerRegistrationValidator customerRegistrationValidator;
+    private final ProgressChartValidator progressChartValidator;
+    private final SendMessageValidator sendMessageValidator;
 
     @Autowired
-    public CustomerController(CustomerService customerService, UserService userService, TrainerService trainerService, MessageService messageService, ModelMapper modelMapper) {
+    public CustomerController(CustomerService customerService, UserService userService, TrainerService trainerService, MessageService messageService, ModelMapper modelMapper, CustomerRegistrationValidator customerRegistrationValidator, ProgressChartValidator progressChartValidator, SendMessageValidator sendMessageValidator) {
         this.customerService = customerService;
         this.userService = userService;
         this.trainerService = trainerService;
         this.messageService = messageService;
         this.modelMapper = modelMapper;
+        this.customerRegistrationValidator = customerRegistrationValidator;
+        this.progressChartValidator = progressChartValidator;
+        this.sendMessageValidator = sendMessageValidator;
     }
 
 
@@ -58,6 +67,8 @@ public class CustomerController extends BaseController{
     public ModelAndView confirmRegistration(@Valid @ModelAttribute(name = "customer")
                                                         CustomerRegisterBindingModel customer
             , BindingResult bindingResult, ModelAndView modelAndView) throws IOException {
+
+        customerRegistrationValidator.validate(customer,bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("customer", customer);
             return super.view("customer/customer-registration", modelAndView);
@@ -84,7 +95,7 @@ public class CustomerController extends BaseController{
                                           BindingResult bindingResult,
                                           ModelAndView modelAndView,
                                           Principal principal){
-
+        progressChartValidator.validate(progressChartEditBindingModel,bindingResult);
         if(bindingResult.hasErrors()){
             modelAndView.addObject("progressChartEditBindingModel", progressChartEditBindingModel);
             modelAndView.addObject("org.springframework.validation.BindingResult.progressChartEditBindingModel", bindingResult);
@@ -120,15 +131,14 @@ public class CustomerController extends BaseController{
     public ModelAndView sendMessage(@RequestParam("id") String id,
                                     @Valid @ModelAttribute("sendMessageBindingModel")
                                                 SendMessageBindingModel sendMessageBindingModel,
-                                    BindingResult bindingResult,
-                                    ModelAndView modelAndView,
+                                    BindingResult bindingResult, ModelAndView modelAndView,
                                     Principal principal){
 
+        sendMessageValidator.validate(sendMessageBindingModel,bindingResult);
         if(bindingResult.hasErrors()){
-            sendMessageBindingModel.setMessageTo(this.trainerService.findById(id)
-            .getUser().getId());
+            sendMessageBindingModel.setMessageTo(this.trainerService.findById(id).getId());
+            TrainerServiceModel trainer = this.trainerService.findById(id);
             modelAndView.addObject("sendMessageBindingModel", sendMessageBindingModel);
-            TrainerServiceModel trainer = this.trainerService.findById(sendMessageBindingModel.getMessageTo());
             modelAndView.addObject("trainer", trainer);
             return super.view("trainer/contact-with-trainer", modelAndView);
         }
@@ -140,6 +150,5 @@ public class CustomerController extends BaseController{
         return redirect("/trainers");
 
     }
-
 
 }

@@ -12,6 +12,7 @@ import project.gladiators.model.bindingModels.ArticleRegisterBindingModel;
 import project.gladiators.service.ArticleService;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.serviceModels.ArticleServiceModel;
+import project.gladiators.validators.moderator.AddArticleValidator;
 import project.gladiators.web.viewModels.ArticleViewModel;
 
 import javax.validation.Valid;
@@ -24,15 +25,17 @@ import java.util.List;
 @RequestMapping("/articles")
 public class ArticleController extends BaseController {
 
-    private ArticleService articleService;
+    private final ArticleService articleService;
     private final CloudinaryService cloudinaryService;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final AddArticleValidator addArticleValidator;
 
     @Autowired
-    public ArticleController(ArticleService articleService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public ArticleController(ArticleService articleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, AddArticleValidator addArticleValidator) {
         this.articleService = articleService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
+        this.addArticleValidator = addArticleValidator;
     }
 
 
@@ -49,6 +52,8 @@ public class ArticleController extends BaseController {
     @PostMapping("/article-add")
     public ModelAndView addArticle(@Valid @ModelAttribute("article") ArticleRegisterBindingModel articleRegisterBindingModel, BindingResult result, Principal principal
             , RedirectAttributes redirectAttributes) throws IOException {
+
+        addArticleValidator.validate(articleRegisterBindingModel,result);
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("article", articleRegisterBindingModel);

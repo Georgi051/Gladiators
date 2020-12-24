@@ -11,6 +11,7 @@ import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.CategoryBindingModel;
 import project.gladiators.service.CategoryService;
 import project.gladiators.service.serviceModels.CategoryServiceModel;
+import project.gladiators.validators.moderator.AddCategoryValidator;
 import project.gladiators.web.viewModels.CategoryViewModel;
 
 import javax.validation.Valid;
@@ -21,11 +22,13 @@ import java.util.stream.Collectors;
 public class CategoryController extends BaseController {
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
+    private final AddCategoryValidator addCategoryValidator;
 
     @Autowired
-    public CategoryController(CategoryService categoryService, ModelMapper modelMapper) {
+    public CategoryController(CategoryService categoryService, ModelMapper modelMapper, AddCategoryValidator addCategoryValidator) {
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
+        this.addCategoryValidator = addCategoryValidator;
     }
 
     @GetMapping("/category-add")
@@ -40,6 +43,7 @@ public class CategoryController extends BaseController {
                                     BindingResult result,
                                     RedirectAttributes redirectAttributes,
                                     ModelAndView modelAndView) {
+        addCategoryValidator.validate(categoryBindingModel,result);
         if (result.hasErrors()){
             modelAndView.addObject("category",categoryBindingModel);
             return super.view("/category/category-add", modelAndView);
@@ -72,6 +76,7 @@ public class CategoryController extends BaseController {
     public ModelAndView confirmEditCategory(@PathVariable String id, @Valid @ModelAttribute(name = "category") CategoryBindingModel category,
                                             BindingResult result,
                                             ModelAndView modelAndView) {
+        addCategoryValidator.validate(category,result);
         if (result.hasErrors()){
             modelAndView.addObject("categoryId",id);
             modelAndView.addObject("category", category);

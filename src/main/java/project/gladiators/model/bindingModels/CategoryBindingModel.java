@@ -14,6 +14,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class CategoryBindingModel {
-    @Size(min = 4,max = 20,message = "The category must be between 4 and 20 characters!")
+
     private String name;
 }
