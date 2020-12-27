@@ -30,7 +30,7 @@ public class VerificationToken extends BaseEntity{
     public VerificationToken(User user, String token){
         this.user = user;
         this.token = token;
-        this.expiryDate = calculateExpiryDate(2);
+        this.expiryDate = calculateExpiryDate(1440);
     }
 
     private Date calculateExpiryDate(int expiryTimeInMinutes) {
