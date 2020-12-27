@@ -13,6 +13,10 @@
              th:text="${statusMessage}">
         </div>
     </div>
+    <div class="row align-items-center mt-5" th:if="${message}">
+        <div class="col-12 alert-danger text-center" th:text="${message}">
+        </div>
+    </div>
     <main class="mt-3">
         <h1 class="text-center text-dark">Login</h1>
         <hr class="hr-2 bg-dark w-25">

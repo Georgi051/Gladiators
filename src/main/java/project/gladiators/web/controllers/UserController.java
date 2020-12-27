@@ -118,9 +118,9 @@ public class UserController extends BaseController {
         User user = verificationToken.getUser();
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            String messageValue = messages.getMessage("auth.message.expired", null, locale);
-            model.addObject("message", messageValue);
-            return super.view("register", model);
+            model.addObject("message", "Your verification has expired!");
+
+            return super.view("login", model);
         }
 
         user.setEnabled(true);
