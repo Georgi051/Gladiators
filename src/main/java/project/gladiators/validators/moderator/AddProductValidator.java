@@ -7,7 +7,7 @@ import project.gladiators.repository.ProductRepository;
 
 import java.math.BigDecimal;
 
-import static project.gladiators.validators.moderator.ModeratorConstants.*;
+import static project.gladiators.constants.validators.ModeratorConstants.*;
 
 @Validator
 public class AddProductValidator implements org.springframework.validation.Validator {

@@ -12,29 +12,30 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import project.gladiators.constants.ExceptionMessages;
 import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.UserNotFoundException;
-import project.gladiators.exceptions.WrongPasswordException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
+import project.gladiators.model.entities.VerificationToken;
 import project.gladiators.model.enums.Gender;
 import project.gladiators.repository.UserRepository;
+import project.gladiators.repository.VerificationTokenRepository;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.web.viewModels.UserViewModel;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static project.gladiators.constants.ExceptionMessages.USER_NOT_FOUND;
@@ -49,9 +50,10 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final WorkoutService workoutService;
+    private final VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, WorkoutService workoutService, RoleService roleService, MuscleService muscleService, ExerciseService exerciseService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, WorkoutService workoutService, RoleService roleService, MuscleService muscleService, ExerciseService exerciseService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, VerificationTokenRepository tokenRepository) {
 
         this.userRepository = userRepository;
         this.roleService = roleService;
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.workoutService = workoutService;
+        this.tokenRepository = tokenRepository;
     }
 
         //todo security context holder refresh
@@ -73,8 +76,6 @@ public class UserServiceImpl implements UserService {
         }
 
         if (this.userRepository.count() == 0) {
-
-//            this.exerciseService.seedExercise(exercises);
 
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.ROOT)));
@@ -121,6 +122,8 @@ public class UserServiceImpl implements UserService {
         }else{
             userViewModel.setAge(0);
         }
+        UserServiceModel userServiceModel = this.modelMapper
+                .map(userViewModel, UserServiceModel.class);
         return this.modelMapper
                 .map(userViewModel, UserServiceModel.class);
     }
@@ -279,6 +282,31 @@ public class UserServiceImpl implements UserService {
             this.addRoleToUser(user, role);
         }
 
+    }
+
+
+    @Override
+    public User getUser(String verificationToken) {
+
+        User user = tokenRepository.findByToken(verificationToken).getUser();
+        return user;
+    }
+
+    @Override
+    public void saveRegisteredUser(User user) {
+        this.userRepository.save(user);
+    }
+
+    @Override
+    public void createVerificationToken(User user, String token) {
+
+        VerificationToken myToken = new VerificationToken(user, token);
+        tokenRepository.save(myToken);
+    }
+
+    @Override
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return tokenRepository.findByToken(VerificationToken);
     }
 
     private void sessionDynamicRoleChange(Role addRole, Role removeRole) {

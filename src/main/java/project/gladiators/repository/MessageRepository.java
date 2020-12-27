@@ -11,4 +11,5 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, String> {
 
     List<Message> findAllByMessageTo(User user);
+
 }

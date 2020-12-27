@@ -6,7 +6,7 @@ import project.gladiators.model.bindingModels.CustomerRegisterBindingModel;
 
 import java.time.LocalDate;
 
-import static project.gladiators.validators.customer.CustomerConstants.*;
+import static project.gladiators.constants.validators.CustomerConstants.*;
 
 @Validator
 public class CustomerRegistrationValidator implements org.springframework.validation.Validator {
@@ -39,9 +39,9 @@ public class CustomerRegistrationValidator implements org.springframework.valida
             errors.rejectValue("dateOfBirth", CUSTOMER_DATE_IS_NULL,
                     CUSTOMER_DATE_IS_NULL);
         }else {
-            if(customerRegisterBindingModel.getDateOfBirth().isBefore(LocalDate.now())){
-                errors.rejectValue("dateOfBirth", CUSTOMER_BIRTH_DATE_IS_IN_THE_PAST,
-                        CUSTOMER_BIRTH_DATE_IS_IN_THE_PAST);
+            if(customerRegisterBindingModel.getDateOfBirth().isAfter(LocalDate.now())){
+                errors.rejectValue("dateOfBirth", CUSTOMER_BIRTH_DATE_IS_IN_THE_FUTURE,
+                        CUSTOMER_BIRTH_DATE_IS_IN_THE_FUTURE);
             }
         }
 

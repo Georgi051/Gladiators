@@ -7,7 +7,7 @@ import project.gladiators.repository.UserRepository;
 
 import java.util.regex.Pattern;
 
-import static project.gladiators.validators.user.UserConstants.*;
+import static project.gladiators.constants.validators.UserConstants.*;
 
 @Validator
 public class UserRegisterValidator implements org.springframework.validation.Validator {

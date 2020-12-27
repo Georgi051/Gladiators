@@ -16,7 +16,6 @@ import java.util.Set;
 @Table(name= "users")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 public class User extends BaseEntity implements UserDetails {
@@ -55,6 +54,13 @@ public class User extends BaseEntity implements UserDetails {
             ,inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
     private Set<Role> authorities;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    public User() {
+        super();
+        this.enabled=false;
+    }
 
     @Transient
     @Override
@@ -77,7 +83,7 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 
     @Override

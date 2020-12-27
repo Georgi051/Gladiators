@@ -4,7 +4,7 @@ import org.springframework.validation.Errors;
 import project.gladiators.annotations.Validator;
 import project.gladiators.model.bindingModels.CategoryBindingModel;
 
-import static project.gladiators.validators.moderator.ModeratorConstants.CATEGORY_NAME_LENGTH;
+import static project.gladiators.constants.validators.ModeratorConstants.CATEGORY_NAME_LENGTH;
 
 @Validator
 public class AddCategoryValidator implements org.springframework.validation.Validator {

@@ -4,10 +4,7 @@ import org.springframework.validation.Errors;
 import project.gladiators.annotations.Validator;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 
-import java.util.regex.Pattern;
-
-import static project.gladiators.validators.user.UserConstants.*;
-import static project.gladiators.validators.user.UserConstants.PASSWORD_NOT_VALID;
+import static project.gladiators.constants.validators.UserConstants.*;
 
 @Validator
 public class UserEditValidator implements org.springframework.validation.Validator {

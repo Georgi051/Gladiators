@@ -4,9 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.bindingModels.SendMessageBindingModel;
 import project.gladiators.service.MessageService;
 import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.MessageServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.validators.customer.SendMessageValidator;
 
@@ -28,6 +30,7 @@ public class MessageController extends BaseController{
     }
 
     @GetMapping("/")
+    @PageTitle("Message")
     public ModelAndView messageInfo(@RequestParam("id") String id,
                                     ModelAndView modelAndView){
 
@@ -47,11 +50,11 @@ public class MessageController extends BaseController{
     public ModelAndView sendMessage(@RequestParam("id") String id,
                                        ModelAndView modelAndView){
 
-        UserServiceModel userServiceModel = this.userService.findById(id);
+        MessageServiceModel messageServiceModel = this.messageService.findById(id);
         SendMessageBindingModel sendMessageBindingModel = new SendMessageBindingModel();
-        sendMessageBindingModel.setMessageTo(id);
-
-        modelAndView.addObject("user", userServiceModel);
+        sendMessageBindingModel.setMessageTo(messageServiceModel.getMessageFrom().getId());
+        sendMessageBindingModel.setTitle(messageServiceModel.getTitle());
+        modelAndView.addObject("user", messageServiceModel.getMessageFrom());
         modelAndView.addObject("sendMessageBindingModel", sendMessageBindingModel);
         return super.view("user/send-message", modelAndView);
     }
@@ -64,6 +67,7 @@ public class MessageController extends BaseController{
                                     ModelAndView modelAndView,
                                     Principal principal){
         sendMessageValidator.validate(sendMessageBindingModel,bindingResult);
+
         if(bindingResult.hasErrors()){
             sendMessageBindingModel.setMessageTo(id);
             modelAndView.addObject("sendMessageBindingModel", sendMessageBindingModel);

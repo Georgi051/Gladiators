@@ -9,8 +9,8 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.util.regex.Pattern;
 
-import static project.gladiators.validators.user.UserConstants.*;
-import static project.gladiators.validators.user.UserConstants.PASSWORDS_DO_NOT_MATCH;
+import static project.gladiators.constants.validators.UserConstants.*;
+import static project.gladiators.constants.validators.UserConstants.PASSWORDS_DO_NOT_MATCH;
 
 @Validator
 public class UserChangePasswordValidator implements org.springframework.validation.Validator {
@@ -41,12 +41,16 @@ public class UserChangePasswordValidator implements org.springframework.validati
             if(!encoder.matches(userEditBindingModel.getOldPassword(), userServiceModel.getPassword())){
                 errors.rejectValue("oldPassword", OLD_PASSWORD_ERROR,
                         OLD_PASSWORD_ERROR);
+
             }
             Pattern pattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@~$%^&*-]).{7,}\\S+$");
             if(!pattern.matcher(userEditBindingModel.getPassword()).matches()){
                 errors.rejectValue("password", PASSWORD_NOT_VALID,
                         PASSWORD_NOT_VALID);
             }
+        }
+        if(errors.hasErrors()){
+            return;
         }
         if(userEditBindingModel.getPassword() == null || userEditBindingModel.getConfirmPassword() == null){
             errors.rejectValue("password", PASSWORD_CANNOT_BE_EMPTY,

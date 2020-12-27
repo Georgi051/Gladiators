@@ -23,16 +23,16 @@
         </thead>
         <tbody>
         <th:block th:each="product, iter : ${order.products}" th:object="${product}">
-            <tr class="row mx-auto">
+            <tr class="row mx-auto" th:href="@{/products/${product.id}}">
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-2 text-center"><a th:href="@{/products/details/{id}(id = *{product.id})}" class="submit-button">
+                <td class="col-md-2 text-center"><a th:href="@{/products/details/${product.id}}" class="submit-button">
                     <img th:src="*{product.imageUrl}" alt="Product" height="70" width="70">
                 </a>
                </td>
                 <td class="col-md-2 text-center" th:text="*{product.name}"></td>
                 <td class="col-md-2 text-center" th:text="${product.price}"></td>
                 <td class="col-md-2 text-center" th:text="${product.quantity}"></td>
-                <td class="col-md-2 text-center mx-auto" th:text="*{product.description}"></td>
+                <td class="col-md-3 text-center mx-auto" th:text="*{product.description}"></td>
             </tr>
         </th:block>
         </tbody>

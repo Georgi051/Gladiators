@@ -6,8 +6,8 @@ import project.gladiators.model.bindingModels.ProductEditBindingModel;
 
 import java.math.BigDecimal;
 
-import static project.gladiators.validators.moderator.ModeratorConstants.*;
-import static project.gladiators.validators.moderator.ModeratorConstants.PRODUCT_DESCRIPTION_LENGTH;
+import static project.gladiators.constants.validators.ModeratorConstants.*;
+import static project.gladiators.constants.validators.ModeratorConstants.PRODUCT_DESCRIPTION_LENGTH;
 
 @Validator
 public class EditProductValidator implements org.springframework.validation.Validator {

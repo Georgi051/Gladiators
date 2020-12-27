@@ -50,20 +50,20 @@ public class UsersInitialization implements CommandLineRunner {
             User root = new User("root", "rootFirstName", "rootLastName", LocalDateTime.now(), passwordEncoder.encode("1234")
                     , "root1234@abg.bg", "https://res.cloudinary.com/gladiators/image/upload/v1599468350/profile-pictures/profile_quok32_qsbjk2.jpg",
                     Gender.MALE, LocalDate.of(2000, 9, 24),
-                    Set.of(roleAdmin, roleRoot, roleModerator, roleUser));
+                    Set.of(roleAdmin, roleRoot, roleModerator, roleUser), true);
 
             User user = new User("user", null, null, LocalDateTime.now(), passwordEncoder.encode("1234")
-                    , "user@abv.bg", null, null, null, Set.of(roleUser));
+                    , "user@abv.bg", null, null, null, Set.of(roleUser), true);
 
             User trainerUnconfirmed = new User("trainer_unconfirmed",
                     null, null, LocalDateTime.now()
                     , passwordEncoder.encode("1234"), "trainer_unc@abv.bg", null
-                    , null, null,Set.of(roleUser, roleTrainerUnconfirmed));
+                    , null, null,Set.of(roleUser, roleTrainerUnconfirmed), true);
 
             User trainerConfirmed = new User("trainer_confirmed",
                     "trainerConfirmedFirstName", "trainerConfirmedLastName", LocalDateTime.now()
                     , passwordEncoder.encode("1234"), "trainer_conf@abv.bg", "https://res.cloudinary.com/gladiators/image/upload/v1600681759/profile-pictures/photo-1507398941214-572c25f4b1dc_dgdoa2.jpg"
-                    , Gender.MALE, LocalDate.of(1923, 1, 15), Set.of(roleUser, roleTrainerConfirmed));
+                    , Gender.MALE, LocalDate.of(1923, 1, 15), Set.of(roleUser, roleTrainerConfirmed), true);
 
             Trainer trainerUnconfirmedT = new Trainer(2, "Test description Test description Test description Test description Test description Test description",
                     new HashSet<>(), new ArrayList<>(), trainerUnconfirmed);

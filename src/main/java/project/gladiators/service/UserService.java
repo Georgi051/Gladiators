@@ -6,6 +6,7 @@ import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.User;
+import project.gladiators.model.entities.VerificationToken;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
@@ -42,4 +43,13 @@ public interface UserService  extends UserDetailsService {
     void confirmTrainer(String username, UserServiceModel userServiceModel, MultipartFile profilePicture) throws IOException;
 
     void changeUserRole(String id, RoleChangeBindingModel roleChangeBindingModel);
+
+    User getUser(String verificationToken);
+
+    void saveRegisteredUser(User user);
+
+    void createVerificationToken(User user, String token);
+
+    VerificationToken getVerificationToken(String VerificationToken);
+
 }

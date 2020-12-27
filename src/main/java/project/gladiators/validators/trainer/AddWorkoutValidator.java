@@ -3,9 +3,8 @@ package project.gladiators.validators.trainer;
 import org.springframework.validation.Errors;
 import project.gladiators.annotations.Validator;
 import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
-import project.gladiators.repository.WorkoutRepository;
 
-import static project.gladiators.validators.trainer.TrainerConstants.*;
+import static project.gladiators.constants.validators.TrainerConstants.*;
 
 @Validator
 public class AddWorkoutValidator implements org.springframework.validation.Validator {

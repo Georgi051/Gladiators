@@ -5,7 +5,7 @@ import project.gladiators.annotations.Validator;
 import project.gladiators.model.bindingModels.ExerciseAddBindingModel;
 import project.gladiators.repository.ProductRepository;
 
-import static project.gladiators.validators.trainer.TrainerConstants.*;
+import static project.gladiators.constants.validators.TrainerConstants.*;
 
 @Validator
 public class AddExerciseValidator implements org.springframework.validation.Validator {

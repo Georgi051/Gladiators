@@ -6,7 +6,7 @@ import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
 
 import java.time.LocalDate;
 
-import static project.gladiators.validators.trainer.TrainerConstants.*;
+import static project.gladiators.constants.validators.TrainerConstants.*;
 
 @Validator
 public class TrainerRegisterValidator implements org.springframework.validation.Validator {
@@ -38,9 +38,9 @@ public class TrainerRegisterValidator implements org.springframework.validation.
             errors.rejectValue("dateOfBirth", DATE_IS_NULL,
                     DATE_IS_NULL);
         }else {
-            if(trainerRegisterBindingModel.getDateOfBirth().isBefore(LocalDate.now())){
-                errors.rejectValue("dateOfBirth", DATE_IS_IN_THE_PAST,
-                        DATE_IS_IN_THE_PAST);
+            if(trainerRegisterBindingModel.getDateOfBirth().isAfter(LocalDate.now())){
+                errors.rejectValue("dateOfBirth", BIRTH_DATE_IS_IN_THE_FUTURE,
+                        BIRTH_DATE_IS_IN_THE_FUTURE);
             }
         }
 

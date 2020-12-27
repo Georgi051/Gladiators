@@ -6,8 +6,8 @@ import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 
 import java.time.LocalDate;
 
-import static project.gladiators.validators.trainer.TrainerConstants.DATE_IS_IN_THE_PAST;
-import static project.gladiators.validators.trainer.TrainerConstants.DATE_IS_NULL;
+import static project.gladiators.constants.validators.TrainerConstants.DATE_IS_IN_THE_PAST;
+import static project.gladiators.constants.validators.TrainerConstants.DATE_IS_NULL;
 
 @Validator
 public class AddTrainingPlanValidator implements org.springframework.validation.Validator {

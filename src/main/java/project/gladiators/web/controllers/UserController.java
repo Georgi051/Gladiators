@@ -3,17 +3,24 @@ package project.gladiators.web.controllers;
 
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
+import project.gladiators.events.OnRegistrationCompleteEvent;
 import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.exceptions.WrongPasswordException;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
+import project.gladiators.model.entities.User;
+import project.gladiators.model.entities.VerificationToken;
 import project.gladiators.service.MessageService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.UserServiceModel;
@@ -22,9 +29,11 @@ import project.gladiators.validators.user.UserEditValidator;
 import project.gladiators.validators.user.UserRegisterValidator;
 import project.gladiators.web.viewModels.UserViewModel;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
-
+import java.util.Calendar;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/users")
@@ -36,8 +45,13 @@ public class UserController extends BaseController {
     private final UserEditValidator userEditValidator;
     private final UserChangePasswordValidator userChangePasswordValidator;
     private final Gson gson;
+    private final ApplicationEventPublisher eventPublisher;
+    private final MessageSource messages;
 
-    public UserController(ModelMapper modelMapper, UserService userService, MessageService messageService, UserRegisterValidator userRegisterValidator, UserEditValidator userEditValidator, UserChangePasswordValidator userChangePasswordValidator, Gson gson) {
+    public UserController(ModelMapper modelMapper, UserService userService,
+                          MessageService messageService, UserRegisterValidator userRegisterValidator,
+                          UserEditValidator userEditValidator, UserChangePasswordValidator userChangePasswordValidator,
+                          Gson gson, ApplicationEventPublisher eventPublisher, MessageSource messages) {
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.messageService = messageService;
@@ -45,6 +59,8 @@ public class UserController extends BaseController {
         this.userEditValidator = userEditValidator;
         this.userChangePasswordValidator = userChangePasswordValidator;
         this.gson = gson;
+        this.eventPublisher = eventPublisher;
+        this.messages = messages;
     }
 
     @GetMapping("/register")
@@ -59,7 +75,8 @@ public class UserController extends BaseController {
     @PageTitle("Register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@Valid @ModelAttribute(name = "model") UserRegisterBindingModel model
-            , BindingResult bindingResult,ModelAndView modelAndView) {
+            , HttpServletRequest request, BindingResult bindingResult, ModelAndView modelAndView,
+                                        RedirectAttributes redirectAttributes) {
         userRegisterValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("model", model);
@@ -68,10 +85,49 @@ public class UserController extends BaseController {
 
         UserServiceModel userServiceModel =
                 this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class), model);
+
+        String appUrl = request.getContextPath();
+        User user = this.modelMapper
+                .map(this.userService.findById(userServiceModel.getId()), User.class);
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,
+                request.getLocale(), appUrl));
+
         if (userServiceModel == null) {
             return super.view("register");
         }
-        return super.redirect("/login");
+        redirectAttributes.addFlashAttribute("statusMessage", "Please check your email to verify your account");
+        redirectAttributes.addFlashAttribute("statusCode", "successful");
+        return super.redirect("/users/register");
+    }
+
+
+    @GetMapping("/registrationConfirm")
+    public ModelAndView confirmRegistration
+            (WebRequest request, ModelAndView model, @RequestParam("token") String token,
+             RedirectAttributes redirectAttributes) {
+
+        Locale locale = request.getLocale();
+
+        VerificationToken verificationToken = userService.getVerificationToken(token);
+        if (verificationToken == null) {
+            String message = messages.getMessage("auth.message.invalidToken", null, locale);
+            model.addObject("message", message);
+            return super.view("register", model);
+        }
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            String messageValue = messages.getMessage("auth.message.expired", null, locale);
+            model.addObject("message", messageValue);
+            return super.view("register", model);
+        }
+
+        user.setEnabled(true);
+        userService.saveRegisteredUser(user);
+        redirectAttributes.addFlashAttribute("statusMessage", "You have verified your account! You can log now!");
+        redirectAttributes.addFlashAttribute("statusCode", "successful");
+        return super.redirect("/users/login");
     }
 
     @GetMapping("/login")
@@ -155,25 +211,18 @@ public class UserController extends BaseController {
                                             UserEditBindingModel userEditBindingModel,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView){
+
         userChangePasswordValidator.validate(userEditBindingModel, bindingResult);
         if(bindingResult.hasErrors()){
-            userEditBindingModel.setOldPassword(null);
-            userEditBindingModel.setPassword(null);
-            userEditBindingModel.setConfirmPassword(null);
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return view("user/change-password", modelAndView);
         }
-
         try{
             this.userService.changeUserPassword(userEditBindingModel);
         }catch (WrongPasswordException ex){
-            userEditBindingModel.setOldPassword(null);
-            userEditBindingModel.setPassword(null);
-            userEditBindingModel.setConfirmPassword(null);
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return view("user/change-password", modelAndView);
         }
-
         return super.redirect(String.format("/users/?id=%s", id));
     }
 
@@ -195,20 +244,19 @@ public class UserController extends BaseController {
                                             UserEditBindingModel userEditBindingModel,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView) throws IOException {
+
         if(bindingResult.hasErrors()){
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return view("user/change-profilePicture", modelAndView);
         }
-
         UserServiceModel userServiceModel = this.userService.findById(id);
-
         this.userService.changeProfilePicture(userServiceModel, userEditBindingModel.getImageUrl());
-
         modelAndView.addObject("user", userServiceModel);
         return super.redirect(String.format("/users/?id=%s", id));
     }
 
     @GetMapping("/inbox/")
+    @PageTitle("Your Messages")
     public ModelAndView inbox(@RequestParam("id") String id, ModelAndView modelAndView){
 
         modelAndView.addObject("messages", this.messageService.getSortedMessagesByUserId(id));

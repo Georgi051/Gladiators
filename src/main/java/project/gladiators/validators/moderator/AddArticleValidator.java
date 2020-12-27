@@ -4,7 +4,7 @@ import org.springframework.validation.Errors;
 import project.gladiators.annotations.Validator;
 import project.gladiators.model.bindingModels.ArticleRegisterBindingModel;
 
-import static project.gladiators.validators.moderator.ModeratorConstants.*;
+import static project.gladiators.constants.validators.ModeratorConstants.*;
 
 @Validator
 public class AddArticleValidator implements org.springframework.validation.Validator {

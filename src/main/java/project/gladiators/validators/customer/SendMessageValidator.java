@@ -4,8 +4,8 @@ import org.springframework.validation.Errors;
 import project.gladiators.annotations.Validator;
 import project.gladiators.model.bindingModels.SendMessageBindingModel;
 
-import static project.gladiators.validators.customer.CustomerConstants.MASSAGE_MUST_BE_MORE_THAN_30;
-import static project.gladiators.validators.customer.CustomerConstants.TITLE_MUST_BE_BETWEEN_THREE_AND_THIRTY;
+import static project.gladiators.constants.validators.CustomerConstants.MASSAGE_MUST_BE_MORE_THAN_30;
+import static project.gladiators.constants.validators.CustomerConstants.TITLE_MUST_BE_BETWEEN_THREE_AND_THIRTY;
 
 @Validator
 public class SendMessageValidator implements org.springframework.validation.Validator{
