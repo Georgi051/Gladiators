@@ -43,7 +43,7 @@ public class UserChangePasswordValidator implements org.springframework.validati
                         OLD_PASSWORD_ERROR);
 
             }
-            Pattern pattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@~$%^&*-]).{7,}\\S+$");
+            Pattern pattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}\\S+$");
             if(!pattern.matcher(userEditBindingModel.getPassword()).matches()){
                 errors.rejectValue("password", PASSWORD_NOT_VALID,
                         PASSWORD_NOT_VALID);
