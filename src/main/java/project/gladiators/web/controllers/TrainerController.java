@@ -10,10 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.TrainerNotFoundException;
-import project.gladiators.model.bindingModels.ExerciseAddBindingModel;
-import project.gladiators.model.bindingModels.TrainerRegisterBindingModel;
-import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
-import project.gladiators.model.bindingModels.WorkoutAddBindingModel;
+import project.gladiators.model.bindingModels.*;
 import project.gladiators.model.enums.TrainingPlanType;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.*;
@@ -23,6 +20,7 @@ import project.gladiators.validators.trainer.AddWorkoutValidator;
 import project.gladiators.validators.trainer.TrainerRegisterValidator;
 import project.gladiators.web.viewModels.MuscleViewModel;
 import project.gladiators.web.viewModels.TrainerViewModel;
+import project.gladiators.web.viewModels.TrainingPlanViewModel;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -40,6 +38,8 @@ public class TrainerController extends BaseController {
     private final TrainerService trainerService;
     private final ExerciseService exerciseService;
     private final MuscleService muscleService;
+    private final CustomerService customerService;
+    private final TrainingPlanService trainingPlanService;
     private final WorkoutService workoutService;
     private final WorkoutExerciseInfoService workoutExerciseInfoService;
     private final ModelMapper modelMapper;
@@ -49,10 +49,12 @@ public class TrainerController extends BaseController {
     private final TrainerRegisterValidator trainerRegisterValidator;
 
     @Autowired
-    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator, AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator) {
+    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CustomerService customerService, TrainingPlanService trainingPlanService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator, AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator) {
         this.trainerService = trainerService;
         this.exerciseService = exerciseService;
         this.muscleService = muscleService;
+        this.customerService = customerService;
+        this.trainingPlanService = trainingPlanService;
         this.workoutService = workoutService;
         this.workoutExerciseInfoService = workoutExerciseInfoService;
         this.modelMapper = modelMapper;
@@ -218,6 +220,27 @@ public class TrainerController extends BaseController {
         }
         session.setAttribute("trainingPlan",trainingPlan);
         return super.redirect("/workouts/add-workout-training-plan");
+    }
+
+    @PreAuthorize("hasRole('TRAINER_CONFIRMED')")
+    @GetMapping("/add-training-plan-to-customer")
+    @PageTitle("Add training plan to customer")
+    public ModelAndView addTrainingPlanToCustomer(ModelAndView modelAndView) {
+
+        modelAndView.addObject("trainingPlanNames", trainingPlanService.findAll().stream()
+        .map(trainingPlanServiceModel -> this.modelMapper.map(trainingPlanServiceModel, TrainingPlanViewModel.class))
+        .collect(Collectors.toList()));
+
+        modelAndView.addObject("customers",this.customerService.findAll());
+        return super.view("/trainer/add-training-plan-to-customer", modelAndView);
+    }
+
+    @PostMapping("/add-training-plan-to-customer")
+    @PageTitle("Add training plan to customer")
+    public ModelAndView addTrainingPlanToCustomer(TrainingPlanToCustomerBindingModel trainingPlanToCustomerBindingModel,
+                                                  ModelAndView modelAndView) {
+        trainingPlanService.addTrainingPlanToCustomer(trainingPlanToCustomerBindingModel.getId(),trainingPlanToCustomerBindingModel.getName());
+        return super.view("/trainer/add-training-plan-to-customer", modelAndView);
     }
 
     private void createWorkout(@ModelAttribute("workout") @Valid WorkoutAddBindingModel workoutAddBindingModel, RedirectAttributes redirectAttributes, WorkoutServiceModel workoutServiceModel) {

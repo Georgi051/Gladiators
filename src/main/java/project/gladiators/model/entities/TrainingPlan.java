@@ -7,6 +7,7 @@ import project.gladiators.model.enums.TrainingPlanType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class TrainingPlan extends BaseEntity{
     fetch = FetchType.EAGER)
     private List<TrainingPlanWorkoutInfo> workouts;
 
-    @OneToMany
-    private Set<Customer> customers;
+    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    private Set<Customer> customers = new HashSet<>();
 
 }

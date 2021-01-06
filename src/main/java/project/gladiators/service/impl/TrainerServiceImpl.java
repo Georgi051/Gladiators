@@ -113,4 +113,5 @@ public class TrainerServiceImpl implements TrainerService {
                 .map(trainer, TrainerServiceModel.class);
         return trainerServiceModel;
     }
+
 }

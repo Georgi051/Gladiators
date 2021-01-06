@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class CustomerServiceModel extends BaseServiceModel{
-
+    private UserServiceModel user;
     private String firstName;
     private String lastName;
     private String gender;

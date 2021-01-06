@@ -8,4 +8,6 @@ import project.gladiators.model.entities.User;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,String> {
     Customer findCustomerByUser(User user);
+
+    Customer findFirstById (String id);
 }

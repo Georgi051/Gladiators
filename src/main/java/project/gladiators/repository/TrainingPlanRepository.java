@@ -6,5 +6,5 @@ import project.gladiators.model.entities.TrainingPlan;
 
 @Repository
 public interface TrainingPlanRepository extends JpaRepository<TrainingPlan,String> {
-
+    TrainingPlan findByName(String name);
 }

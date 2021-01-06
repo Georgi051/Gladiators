@@ -6,6 +6,7 @@ import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface CustomerService {
     void registerCustomer(CustomerServiceModel customer, MultipartFile imageUrl) throws IOException;
@@ -16,4 +17,5 @@ public interface CustomerService {
 
     void editProgressChart(CustomerServiceModel customer, ProgressChartEditBindingModel progressChartEditBindingModel);
 
+    List<CustomerServiceModel> findAll();
 }

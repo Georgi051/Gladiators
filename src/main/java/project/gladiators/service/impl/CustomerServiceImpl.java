@@ -18,6 +18,8 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -71,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerServiceModel findCustomerById(String id) {
         return this.modelMapper
-                .map(this.customerRepository.findById(id), CustomerServiceModel.class);
+                .map(this.customerRepository.findFirstById(id), CustomerServiceModel.class);
     }
 
     @Override
@@ -92,5 +94,11 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository.saveAndFlush(customerEntity);
     }
 
+    @Override
+    public List<CustomerServiceModel> findAll() {
+        return this.customerRepository.findAll().stream()
+                .map(customer -> this.modelMapper.map(customer,CustomerServiceModel.class))
+                .collect(Collectors.toList());
+    }
 
 }

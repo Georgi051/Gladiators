@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-trainer-panel}">
+
+</th:block>
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-dark">Add training plan to customer</h2>
+
+    <form th:object="${trainingPlanToCustomer}" th:action="@{/trainers/add-training-plan-to-customer}" th:method="post">
+        <div class="form-group">
+            <label for="name" class="font-weight-bold">Training plan name</label>
+            <select class="form-control" name="name" id="name">
+                <option th:each="trainingPlan:${trainingPlanNames}" th:text="${trainingPlan.name}" th:value="${trainingPlan.name}" ></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="customer" class="font-weight-bold">Customers</label>
+            <select class="form-control" name="id" id="customer">
+                <option th:each="customer:${customers}" th:text="${customer.user.username}" th:value="${customer.id}" ></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>
