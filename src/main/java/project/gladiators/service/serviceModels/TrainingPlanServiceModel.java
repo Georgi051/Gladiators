@@ -15,6 +15,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class TrainingPlanServiceModel extends BaseServiceModel{
+    private String name;
+
     private TrainingPlanType trainingPlanType;
 
     private LocalDate startedOn;

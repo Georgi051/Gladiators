@@ -1,4 +1,4 @@
-package project.gladiators.web.viewModels;
+package project.gladiators.model.bindingModels;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubCategoryViewModel  extends BaseViewModel{
+public class SubCategoryBindingModel {
+
     private String name;
-    private boolean isEmpty;
+
 }

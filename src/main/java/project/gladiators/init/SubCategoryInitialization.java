@@ -33,6 +33,7 @@ public class SubCategoryInitialization implements CommandLineRunner {
                             e -> {
                                 SubCategory subCategory = new SubCategory();
                                 subCategory.setName(e.getName());
+                                subCategory.setEmpty(true);
                                 subCategoryRepository.save(subCategory);
                             }
                     );

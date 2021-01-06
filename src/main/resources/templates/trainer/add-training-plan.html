@@ -19,7 +19,11 @@
     <h2 class="text-center text-dark">Add training plan</h2>
 
     <form th:object="${trainingPlan}" th:action="@{/trainers/add-training-plan}" th:method="post">
-
+        <div class="form-group">
+            <label for="name" class="font-weight-bold">Name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" name="name">
+            <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+        </div>
         <div class="form-group">
             <label for="trainingPlanType" class="font-weight-bold">Training plan type</label>
             <select class="form-control" name="trainingPlanType" id="trainingPlanType">

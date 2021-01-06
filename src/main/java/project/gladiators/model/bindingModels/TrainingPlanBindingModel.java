@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class TrainingPlanBindingModel {
-
+    private String name;
     private TrainingPlanType trainingPlanType;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startedOn;

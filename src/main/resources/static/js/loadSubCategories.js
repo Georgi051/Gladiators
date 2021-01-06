@@ -11,14 +11,14 @@ function loadSubCategories(id) {
                     if(category.id === id){
 
                         category.subCategories.forEach(subCategory => {
-                            let a = document.createElement("a");
-                            a.classList.add("nav-link");
-                            a.value = subCategory.id;
-                            a.text = subCategory.name;
-                            a.href = "/subcategories/" + subCategory.id;
-                            let li = document.createElement('li');
-                            li.appendChild(a);
-                            ul.appendChild(li);
+                                let a = document.createElement("a");
+                                a.classList.add("nav-link");
+                                a.value = subCategory.id;
+                                a.text = subCategory.name;
+                                a.href = "/subcategories/" + subCategory.id;
+                                let li = document.createElement('li');
+                                li.appendChild(a);
+                                ul.appendChild(li);
                         })
                     }
 

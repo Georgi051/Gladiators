@@ -12,6 +12,7 @@ public class TrainerConstants {
     /*Training plan message constants*/
     public final static String DATE_IS_IN_THE_PAST = "Please choose date that is not in the past!";
     public final static String DATE_IS_NULL = "Please choose date!";
+    public final static String NAME_LENGTH = "Name cannot be less than 3 symbols";
     /*Trainer register message constants*/
     public final static String FIRST_NAME_IS_EMPTY = "Please add your first name";
     public final static String LAST_NAME_IS_EMPTY = "Please add your first name";

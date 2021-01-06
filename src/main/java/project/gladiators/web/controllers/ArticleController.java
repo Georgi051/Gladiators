@@ -2,6 +2,7 @@ package project.gladiators.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ public class ArticleController extends BaseController {
 
     @GetMapping("/article-add")
     @PageTitle("Add article")
+    @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView addArticle(ModelAndView modelAndView) {
 
         modelAndView.addObject("article", new ArticleRegisterBindingModel());

@@ -17,6 +17,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class TrainingPlan extends BaseEntity{
 
+    @Column
+    private String name;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "training_plan_type")
     private TrainingPlanType trainingPlanType;

@@ -1,0 +1,37 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+
+<th:block th:insert="~{fragments/nav-moderator-panel}">
+
+</th:block>
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-dark">Add Subcategory</h2>
+    <div class="row align-items-center mt-5" th:if="${statusMessage}">
+        <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+             th:text="${statusMessage}">
+        </div>
+    </div>
+    <form th:object="${subCategory}" id="add-category-form" class="form w-25 mx-auto" th:action="@{/subcategories/subCategory-add}" th:method="post">
+        <div class="form-group">
+            <label for="add-category-name">Name</label>
+            <input type="text" th:field="*{name}" class="form-control text-center" id="add-category-name" name="name">
+            <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+        </div>
+        <button type="submit" class="btn btn-primary ">Submit</button>
+    </form>
+
+    <th:block th:insert="~{fragments/footer}">
+    </th:block>
+    <th:block th:insert="~{fragments/scripts}"></th:block>
+
+</div>
+</body>
+</html>

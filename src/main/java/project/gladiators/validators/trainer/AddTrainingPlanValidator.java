@@ -6,8 +6,7 @@ import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 
 import java.time.LocalDate;
 
-import static project.gladiators.constants.validators.TrainerConstants.DATE_IS_IN_THE_PAST;
-import static project.gladiators.constants.validators.TrainerConstants.DATE_IS_NULL;
+import static project.gladiators.constants.validators.TrainerConstants.*;
 
 @Validator
 public class AddTrainingPlanValidator implements org.springframework.validation.Validator {
@@ -20,6 +19,11 @@ public class AddTrainingPlanValidator implements org.springframework.validation.
     @Override
     public void validate(Object o, Errors errors) {
         TrainingPlanBindingModel trainingPlanBindingModel = (TrainingPlanBindingModel) o;
+
+        if (trainingPlanBindingModel.getName().length() < 3){
+            errors.rejectValue("name",NAME_LENGTH,
+                    NAME_LENGTH);
+        }
 
         if(trainingPlanBindingModel.getStartedOn() == null){
             errors.rejectValue("startedOn", DATE_IS_NULL,
