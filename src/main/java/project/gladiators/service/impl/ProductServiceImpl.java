@@ -8,6 +8,7 @@ import project.gladiators.exceptions.ProductDeleteException;
 import project.gladiators.exceptions.ProductNotFoundException;
 import project.gladiators.model.entities.Category;
 import project.gladiators.model.entities.Product;
+import project.gladiators.model.entities.Review;
 import project.gladiators.model.entities.SubCategory;
 import project.gladiators.repository.OfferRepository;
 import project.gladiators.repository.ProductRepository;
@@ -16,8 +17,10 @@ import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.serviceModels.OrderProductServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
+import project.gladiators.service.serviceModels.ReviewServiceModel;
 import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -136,6 +139,13 @@ public class ProductServiceImpl implements ProductService {
         subCategory.setEmpty(false);
         this.productRepository.save(product);
 
+    }
+
+    @Override
+    public void addReviewToCurrentProduct(ProductServiceModel product, ReviewServiceModel review) {
+        Product currentProduct = this.modelMapper.map(product, Product.class);
+        currentProduct.getReviews().add(this.modelMapper.map(review, Review.class));
+        this.productRepository.save(currentProduct);
     }
 
     @Override

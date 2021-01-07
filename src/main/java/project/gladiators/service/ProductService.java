@@ -1,8 +1,11 @@
 package project.gladiators.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.model.entities.Product;
+import project.gladiators.model.entities.Review;
 import project.gladiators.service.serviceModels.OrderProductServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
+import project.gladiators.service.serviceModels.ReviewServiceModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,4 +24,6 @@ public interface ProductService {
     void sellProduct(List<OrderProductServiceModel> product);
 
     void restoreProduct(String id);
+
+    void addReviewToCurrentProduct(ProductServiceModel product, ReviewServiceModel review);
 }

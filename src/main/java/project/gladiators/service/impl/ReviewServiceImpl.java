@@ -7,6 +7,7 @@ import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.Review;
 import project.gladiators.model.entities.User;
 import project.gladiators.repository.ReviewRepository;
+import project.gladiators.service.ProductService;
 import project.gladiators.service.ReviewService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.ProductServiceModel;
@@ -25,22 +26,24 @@ import static project.gladiators.constants.UserMassages.NEW_COMMENT;
 @Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
+    private final ProductService productService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository, UserService userService, ModelMapper modelMapper) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ProductService productService, UserService userService, ModelMapper modelMapper) {
         this.reviewRepository = reviewRepository;
+        this.productService = productService;
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
 
     @Override
-    public ReviewServiceModel addReview(String description, int stars, String userName, ProductServiceModel productById) {
+    public ReviewServiceModel addReview(String description, int stars, String userName, ProductServiceModel productServiceModel) {
         UserServiceModel client = userService.findUserByUsername(userName);
-        Product product = modelMapper.map(productById, Product.class);
+        Product product = modelMapper.map(productServiceModel, Product.class);
         ReviewServiceModel reviewServiceModel = new ReviewServiceModel();
         if (reviewRepository.findByUserIdAndProductId(client.getId(),product.getId()) == null &&
         !description.equals("")){
@@ -50,6 +53,8 @@ public class ReviewServiceImpl implements ReviewService {
             review.setUser(this.modelMapper.map(client, User.class));
             review.setProduct(product);
             review.setStars(stars);
+            productService.addReviewToCurrentProduct(productServiceModel,this.modelMapper.map(review,ReviewServiceModel.class)
+            );
             this.reviewRepository.save(review);
             reviewServiceModel.setDescription(NEW_COMMENT);
         }else {
