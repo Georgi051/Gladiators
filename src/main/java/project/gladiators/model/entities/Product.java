@@ -41,4 +41,7 @@ public class Product extends BaseEntity {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Review> reviews;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
+
 }

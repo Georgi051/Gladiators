@@ -19,4 +19,6 @@ public interface ProductService {
     void deleteProduct(String id);
 
     void sellProduct(List<OrderProductServiceModel> product);
+
+    void restoreProduct(String id);
 }

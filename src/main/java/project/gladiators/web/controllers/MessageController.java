@@ -47,6 +47,7 @@ public class MessageController extends BaseController{
     }
 
     @GetMapping("/reply/")
+    @PageTitle("Send Message")
     public ModelAndView sendMessage(@RequestParam("id") String id,
                                        ModelAndView modelAndView){
 
@@ -60,6 +61,7 @@ public class MessageController extends BaseController{
     }
 
     @PostMapping("/reply/")
+    @PageTitle("Send Message")
     public ModelAndView sendMessage(@RequestParam("id") String id,
                                     @Valid @ModelAttribute("sendMessageBindingModel")
                                                 SendMessageBindingModel sendMessageBindingModel,

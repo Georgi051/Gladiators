@@ -44,7 +44,8 @@ public class SubCategoryController extends BaseController {
                                                    ModelAndView modelAndView) {
 
         SubCategoryServiceModel subCategory = this.subCategoryService.findById(id);
-        modelAndView.addObject("products", subCategory.getProducts());
+        modelAndView.addObject("products", subCategory.getProducts()
+        .stream().filter(productServiceModel -> !productServiceModel.isDeleted()).collect(Collectors.toList()));
         modelAndView.addObject("categories", this.categoryService.allCategories().stream()
                 .map(c -> this.modelMapper.map(c, CategoryViewModel.class)).collect(Collectors.toList()));
         modelAndView.addObject("offers", this.offerService.findAllOffers());
@@ -60,6 +61,7 @@ public class SubCategoryController extends BaseController {
     }
 
     @PostMapping("/subCategory-add")
+    @PageTitle("Add sub-category")
     public ModelAndView addCategory(@Valid @ModelAttribute(name = "subCategory") SubCategoryBindingModel subCategoryBindingModel,
                                     BindingResult result,
                                     RedirectAttributes redirectAttributes,
@@ -90,6 +92,7 @@ public class SubCategoryController extends BaseController {
     }
 
     @GetMapping("edit/{id}")
+    @PageTitle("Edit sub-category")
     public ModelAndView editSubcategory(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("subCategory",
                 this.modelMapper.map(this.subCategoryService.findById(id), SubCategoryViewModel.class));
@@ -98,6 +101,7 @@ public class SubCategoryController extends BaseController {
     }
 
     @PostMapping("edit/{id}")
+    @PageTitle("Edit sub-category")
     public ModelAndView editSubcategory(@PathVariable String id, @Valid @ModelAttribute(name = "subCategory") SubCategoryBindingModel subCategory,
                                             BindingResult result,
                                             ModelAndView modelAndView) {

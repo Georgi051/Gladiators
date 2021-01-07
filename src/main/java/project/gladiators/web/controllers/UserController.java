@@ -102,6 +102,7 @@ public class UserController extends BaseController {
 
 
     @GetMapping("/registrationConfirm")
+    @PageTitle("Register")
     public ModelAndView confirmRegistration
             (WebRequest request, ModelAndView model, @RequestParam("token") String token,
              RedirectAttributes redirectAttributes) {
@@ -139,6 +140,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("User management")
     public ModelAndView getAllUsers(Model model){
 
         model.addAttribute("users", this.userService.getAllUsers());
@@ -147,6 +149,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("User Profile")
     public ModelAndView userProfile(@RequestParam("id") String id){
 
         return super.view("user/profile-page",
@@ -156,6 +159,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/edit")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit User")
     public ModelAndView editUser(@RequestParam("id") String id,
                                  ModelAndView modelAndView,
                                  @ModelAttribute(name = "userEditBindingModel")
@@ -171,6 +175,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/edit")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit User")
     public ModelAndView editProfile(@RequestParam("id") String id,
                                     @Valid @ModelAttribute(name = "userEditBindingModel")
                                                 UserEditBindingModel userEditBindingModel,
@@ -190,6 +195,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/changePassword")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit User")
     public ModelAndView getChangePassword(@RequestParam("id") String id,
                                  ModelAndView modelAndView,
                                  @ModelAttribute(name = "userEditBindingModel")
@@ -206,6 +212,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/changePassword")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit User")
     public ModelAndView changePassword(@RequestParam("id") String id,
                                     @Valid @ModelAttribute(name = "userEditBindingModel")
                                             UserEditBindingModel userEditBindingModel,
@@ -228,6 +235,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/changePicture")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit User")
     public ModelAndView changePicture(@ModelAttribute(name = "userEditBindingModel")
                                                    UserEditBindingModel userEditBindingModel,
                                        ModelAndView modelAndView
@@ -239,6 +247,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/changePicture")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit User")
     public ModelAndView changeProfilePicture(@RequestParam("id") String id,
                                     @Valid @ModelAttribute(name = "userEditBindingModel")
                                             UserEditBindingModel userEditBindingModel,

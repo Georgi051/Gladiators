@@ -79,7 +79,9 @@ public class OfferServiceImpl implements OfferService {
     @Scheduled(fixedRate = 604800000)
     private void generateOffers() {
         this.offerRepository.deleteAll();
-        List<ProductServiceModel> products = this.productService.allProducts();
+        List<ProductServiceModel> products = this.productService.allProducts()
+                .stream().filter(productServiceModel -> !productServiceModel.isDeleted())
+                .collect(Collectors.toList());
 
         if (products.isEmpty()) { return; }
 

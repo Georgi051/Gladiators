@@ -10,39 +10,71 @@
 <body>
 <div class="container mt-5">
 
-        <h2 class="text-center text-dark">All Products</h2>
+    <h2 class="text-center text-dark">All Products</h2>
 
-        <table class="table table-hover w-75 mx-auto">
-            <thead>
+    <table class="table table-hover w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-3 text-center">Image</th>
+            <th class="col-md-3 text-center">Name</th>
+            <th class="col-md-2 text-center">Price</th>
+            <th class="col-md-3 text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="product: ${products}">
             <tr class="row mx-auto">
-                <th class="col-md-1 text-center">#</th>
-                <th class="col-md-3 text-center">Image</th>
-                <th class="col-md-3 text-center">Name</th>
-                <th class="col-md-2 text-center">Price</th>
-                <th class="col-md-3 text-center">Actions</th>
+                <th class="col-md-1 text-center" th:text="${productStat.index + 1}"></th>
+                <td class="col-md-3" style="margin-left: -5px"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>
+                <td class="col-md-4 text-center" style="margin-left: -30px" th:text="${product.name}"></td>
+                <td class="col-md-1 text-center" th:text="${product.price}"></td>
+                <td class="btn-group col-md-1" style="margin-left: 10px">
+                    <a th:href="@{/products/details/{id}(id=${product.id})}" class="all-products-button btn btn-secondary font-weight-bold text-white">Details</a>
+                    <a th:href="@{/products/edit/{id}(id=${product.id})}" class="all-products-button btn btn-success font-weight-bold text-white">Edit</a>
+                    <a th:href="@{/products/delete/{id}(id=${product.id})}" class="all-products-button btn btn-danger font-weight-bold text-white">Delete</a>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="product: ${products}">
-                <tr class="row mx-auto">
-                    <th class="col-md-1 text-center" th:text="${productStat.index + 1}"></th>
-                    <td class="col-md-3" style="margin-left: -5px"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>
-                    <td class="col-md-4 text-center" style="margin-left: -30px" th:text="${product.name}"></td>
-                    <td class="col-md-1 text-center" th:text="${product.price}"></td>
-                    <td class="btn-group col-md-1" style="margin-left: 10px">
-                        <a th:href="@{/products/details/{id}(id=${product.id})}" class="all-products-button btn btn-secondary font-weight-bold text-white">Details</a>
-                        <a th:href="@{/products/edit/{id}(id=${product.id})}" class="all-products-button btn btn-success font-weight-bold text-white">Edit</a>
-                        <a th:href="@{/products/delete/{id}(id=${product.id})}" class="all-products-button btn btn-danger font-weight-bold text-white">Delete</a>
-                    </td>
-                </tr>
-            </th:block>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div class="container mt-5">
 
-            </tbody>
-        </table>
-    <th:block th:insert="~{fragments/footer}">
-    </th:block>
-    <th:block th:insert="~{fragments/scripts}"></th:block>
+    <h2 class="text-center text-dark">Deleted Products</h2>
+
+    <table class="table table-hover w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-3 text-center">Image</th>
+            <th class="col-md-3 text-center">Name</th>
+            <th class="col-md-2 text-center">Price</th>
+            <th class="col-md-3 text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="product: ${deletedProducts}">
+            <tr class="row mx-auto">
+                <th class="col-md-1 text-center" th:text="${productStat.index + 1}"></th>
+                <td class="col-md-3" style="margin-left: -5px"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>
+                <td class="col-md-4 text-center" style="margin-left: -30px" th:text="${product.name}"></td>
+                <td class="col-md-1 text-center" th:text="${product.price}"></td>
+                <td class="btn-group col-md-1" style="margin-left: 10px">
+                    <a th:href="@{/products/details/{id}(id=${product.id})}" class="all-products-button btn btn-secondary font-weight-bold text-white">Details</a>
+                    <a th:href="@{/products/edit/{id}(id=${product.id})}" class="all-products-button btn btn-success font-weight-bold text-white">Edit</a>
+                    <a th:href="@{/products/restore/{id}(id=${product.id})}" class="all-products-button btn btn-info font-weight-bold text-white">Restore</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+
+    </table>
 
 </div>
+<th:block th:insert="~{fragments/footer}">
+</th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
 </body>
 </html>

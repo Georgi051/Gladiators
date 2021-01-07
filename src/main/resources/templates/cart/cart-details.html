@@ -26,7 +26,7 @@
                 <tr class="row mx-auto">
                     <th class="col-md-2 text-center"><img th:src="*{product.product.imageUrl}" alt="Product" height="75" width="75"></th>
                     <td class="col-md-3 text-center" th:text="*{product.product.name}"></td>
-                    <td class="col-md-3 text-center" th:text="|*{product.product.description}...|" maxlength="20"></td>
+                    <td class="col-md-2 text-center" th:text="|*{product.product.description}...|" maxlength="20"></td>
                     <td class="col-md-2 text-center" th:text="*{product.price}" ></td>
                     <td class="col-md-1 text-center" th:text="*{quantity}"></td>
                     <td class="col-md-2 text-center">

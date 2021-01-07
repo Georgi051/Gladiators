@@ -64,6 +64,7 @@ public class ProductController extends BaseController{
     }
 
     @PostMapping("/add")
+    @PageTitle("Add Product")
     public ModelAndView addProduct(@Valid @ModelAttribute(name = "product") ProductAddBindingModel productBindingModel,
                                    BindingResult result, RedirectAttributes redirectAttributes) throws IOException {
 
@@ -104,6 +105,7 @@ public class ProductController extends BaseController{
     }
 
     @GetMapping("/edit/{id}")
+    @PageTitle("Edit Product")
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView editProduct(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("product", mapProductDetails(id));
@@ -112,6 +114,7 @@ public class ProductController extends BaseController{
     }
 
     @PostMapping("/edit/{id}")
+    @PageTitle("Edit Product")
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView confirmEditProduct(@PathVariable String id, @Valid @ModelAttribute(name = "product")  ProductEditBindingModel product
             ,BindingResult bindingResult,ModelAndView modelAndView) throws IOException {
@@ -156,10 +159,43 @@ public class ProductController extends BaseController{
         return super.redirect("/products/all");
     }
 
+    @GetMapping("/restore/{id}")
+    @PageTitle("Restore Product")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ModelAndView restoreProduct(@PathVariable String id, ModelAndView modelAndView){
+        ProductViewModel product = mapProductDetails(id);
+        modelAndView.addObject("product", product);
+        modelAndView.addObject("productId", id);
+        return super.view("/product/restore-product", modelAndView);
+    }
+
+    @PostMapping("/restore/{id}")
+    @PageTitle("Restore Product")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ModelAndView confirmRestoreProduct(@PathVariable String id, ModelAndView modelAndView) {
+        try{
+            this.productService.restoreProduct(id);
+        }catch (Exception ex) {
+            modelAndView.addObject("error", ex.getMessage());
+            ProductViewModel product = mapProductDetails(id);
+            modelAndView.addObject("product", product);
+            modelAndView.addObject("productId", id);
+            return super.view("product/restore-product", modelAndView);
+        }
+
+        return super.redirect("/products/all");
+    }
+
     @GetMapping("/all")
+    @PageTitle("All Products")
     public ModelAndView allProduct(ModelAndView modelAndView) {
         modelAndView.addObject("products", this.productService.allProducts().stream()
+                .filter(product -> !product.isDeleted())
                 .map(p -> this.modelMapper.map(p, ProductViewModel.class)).collect(Collectors.toList()));
+        modelAndView.addObject("deletedProducts", this.productService
+        .allProducts().stream().filter(ProductServiceModel::isDeleted)
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toList()));
         return super.view("/product/all-products", modelAndView);
     }
 

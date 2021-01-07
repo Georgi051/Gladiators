@@ -54,6 +54,7 @@ public class CartController extends BaseController {
     }
 
     @PostMapping("/remove-product")
+    @PageTitle("Cart Details")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView removeFromCartConfirm(String id, HttpSession session) {
         this.cartService.removeItemFromCart(id,session);

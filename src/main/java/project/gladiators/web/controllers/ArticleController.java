@@ -52,6 +52,7 @@ public class ArticleController extends BaseController {
     }
 
     @PostMapping("/article-add")
+    @PageTitle("Add article")
     public ModelAndView addArticle(@Valid @ModelAttribute("article") ArticleRegisterBindingModel articleRegisterBindingModel, BindingResult result, Principal principal
             , RedirectAttributes redirectAttributes) throws IOException {
 
@@ -77,6 +78,7 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("{id}")
+    @PageTitle("Article Info")
     public ModelAndView getSpecificArticle(@PathVariable String id){
         ArticleServiceModel articleServiceModel = articleService.findArticleById(id);
         ArticleViewModel article=this.modelMapper.map(articleServiceModel, ArticleViewModel.class);

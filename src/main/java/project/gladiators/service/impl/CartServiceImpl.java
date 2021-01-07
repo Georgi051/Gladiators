@@ -80,9 +80,9 @@ public class CartServiceImpl implements CartService {
                 return;
             }
         }
-        if(item.getProduct().getProduct().getDescription().length() > 50){
+        if(item.getProduct().getProduct().getDescription().length() > 20){
             item.getProduct().getProduct().setDescription
-                    (item.getProduct().getProduct().getDescription().substring(0, 49).concat("..."));
+                    (item.getProduct().getProduct().getDescription().substring(0, 19).concat("..."));
         }
         cart.add(item);
     }
