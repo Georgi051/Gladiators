@@ -3,6 +3,7 @@ package project.gladiators.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.gladiators.exceptions.TrainerNotFoundException;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 import project.gladiators.model.entities.*;
 import project.gladiators.repository.CustomerRepository;
@@ -17,12 +18,13 @@ import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 import project.gladiators.service.serviceModels.WorkoutServiceModel;
 
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.DayOfWeek;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static project.gladiators.constants.ExceptionMessages.TRAINER_NOT_FOUND;
 
 @Service
 public class TrainingPlanServiceImpl implements TrainingPlanService {
@@ -108,11 +110,25 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     }
 
     @Override
-    public void addTrainingPlanToCustomer(String id, String name) {
+    public boolean addTrainingPlanToCustomer(String id, String name, String trainerName) {
         TrainingPlan trainingPlan = trainingPlanRepository.findByName(name);
         Customer findCustomerById = this.modelMapper.map(customerService.findCustomerById(id), Customer.class);
-        trainingPlan.getCustomers().add(findCustomerById);
-        trainingPlanRepository.save(trainingPlan);
+
+        TrainingPlanServiceModel trainingPlanServiceModel =
+                findByCustomer(this.modelMapper.map(findCustomerById, CustomerServiceModel.class));
+
+        if (trainingPlanServiceModel == null) {
+            trainingPlan.getCustomers().add(findCustomerById);
+            Trainer trainer = trainerRepository.findTrainerByUser_Username(trainerName)
+                    .orElseThrow(() -> new TrainerNotFoundException(TRAINER_NOT_FOUND));
+            if (!trainer.getCustomers().contains(findCustomerById)){
+                trainer.getCustomers().add(findCustomerById);
+                trainerRepository.save(trainer);
+            }
+            trainingPlanRepository.save(trainingPlan);
+            return true;
+        }
+        return false;
     }
 
     @Override

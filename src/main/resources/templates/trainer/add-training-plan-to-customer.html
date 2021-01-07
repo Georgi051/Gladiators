@@ -15,7 +15,11 @@
 </th:block>
 
 <div class="container mt-5">
-
+    <div class="row align-items-center mt-5" th:if="${error} != null">
+        <div class="col-12 alert  text-center text-danger"
+             th:text="${error}">
+        </div>
+    </div>
     <h2 class="text-center text-dark">Add training plan to customer</h2>
 
     <form th:object="${trainingPlanToCustomer}" th:action="@{/trainers/add-training-plan-to-customer}" th:method="post">

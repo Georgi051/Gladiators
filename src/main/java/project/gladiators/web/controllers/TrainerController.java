@@ -241,8 +241,14 @@ public class TrainerController extends BaseController {
     @PostMapping("/add-training-plan-to-customer")
     @PageTitle("Add training plan to customer")
     public ModelAndView addTrainingPlanToCustomer(TrainingPlanToCustomerBindingModel trainingPlanToCustomerBindingModel,
-                                                  ModelAndView modelAndView) {
-        trainingPlanService.addTrainingPlanToCustomer(trainingPlanToCustomerBindingModel.getId(),trainingPlanToCustomerBindingModel.getName());
+                                                  ModelAndView modelAndView,Principal principal) {
+        boolean trainingPlanServiceModel = trainingPlanService.addTrainingPlanToCustomer(trainingPlanToCustomerBindingModel.getId(), trainingPlanToCustomerBindingModel.getName(),principal.getName());
+
+        if (!trainingPlanServiceModel){
+            modelAndView.addObject("error",  "This user already have training plan");
+            return super.view("/trainer/add-training-plan-to-customer", modelAndView);
+        }
+
         return super.view("/trainer/add-training-plan-to-customer", modelAndView);
     }
 
