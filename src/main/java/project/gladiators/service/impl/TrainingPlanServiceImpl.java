@@ -103,7 +103,12 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
 
         TrainingPlan trainingPlan = this.trainingPlanRepository.getByCustomers(customer);
 
-        return this.modelMapper
-                .map(trainingPlan, TrainingPlanServiceModel.class);
+        if(trainingPlan != null){
+            return this.modelMapper
+                    .map(trainingPlan, TrainingPlanServiceModel.class);
+        }else {
+            return null;
+        }
+
     }
 }

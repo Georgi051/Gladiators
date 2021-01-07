@@ -9,6 +9,7 @@ import project.gladiators.repository.ProgressChartRepository;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -21,16 +22,20 @@ public class ProgressChartScheduler {
         this.progressChartRepository = progressChartRepository;
     }
 
-    @Scheduled(cron = "0 0 0 8-14,22-28 * 7")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void changeProgressChartStatus(){
         List<Customer> customers = this.customerRepository.findAll();
 
         customers.forEach(customer -> {
             ProgressChart progressChart = customer.getProgressChart();
-            progressChart.setChanged(false);
-            this.progressChartRepository.saveAndFlush(progressChart);
-            customer.setProgressChart(progressChart);
-            this.customerRepository.save(customer);
+            if(progressChart.getProgressDate().plusDays(14).isBefore(LocalDate.now())){
+                progressChart.setChanged(false);
+                this.progressChartRepository.saveAndFlush(progressChart);
+                customer.setProgressChart(progressChart);
+                this.customerRepository.save(customer);
+            }
+
+
         });
 
     }

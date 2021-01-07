@@ -93,6 +93,7 @@ public class UsersInitialization implements CommandLineRunner {
             customer1.getProgressChart().setThigh(80);
             customer1.getProgressChart().setWaist(90);
             customer1.getProgressChart().setProgressDate(LocalDate.now());
+            customer1.getProgressChart().setChanged(true);
             userRepository.saveAll(List.of(root, user, trainerConfirmed, trainerUnconfirmed, customer));
             customerRepository.saveAndFlush(customer1);
             trainerRepository.saveAll(List.of(trainerConfirmedT, trainerUnconfirmedT));
