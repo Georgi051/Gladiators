@@ -110,10 +110,7 @@ public class CustomerController extends BaseController{
         CustomerServiceModel customer = this.customerService.findCustomerByUser(userServiceModel);
 
         customerService.editProgressChart(customer, progressChartEditBindingModel);
-        modelAndView.addObject("trainingPlan",
-                this.trainingPlanService.findByCustomer(customer));
-        modelAndView.addObject("progressChart", customer.getProgressChart());
-        return super.view("home", modelAndView);
+        return super.redirect("/");
 
     }
 

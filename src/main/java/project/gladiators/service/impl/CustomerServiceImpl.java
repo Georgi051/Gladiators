@@ -44,9 +44,11 @@ public class CustomerServiceImpl implements CustomerService {
             customer.getProgressChart().setProgressDate(LocalDate.now());
             customer.getProgressChart().setHeight(customer.getHeight());
             customer.getProgressChart().setWeight(customer.getWeight());
+
             double bmi = customer.getWeight()/Math.pow(customer.getHeight()/100,2);
             customer.getProgressChart().setBMI(bmi);
             customer.setBMI(bmi);
+            customer.getProgressChart().setChanged(true);
             this.userService.addUserAnotherData(user,customerServiceModel.getFirstName(),customerServiceModel.getLastName(),
             customerServiceModel.getDateOfBirth(),customerServiceModel.getGender(),imageUrl);
             this.customerRepository.saveAndFlush(customer);
@@ -88,6 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerEntity.getProgressChart().setWaist(progressChartEditBindingModel.getWaist());
         customerEntity.getProgressChart().setThigh(progressChartEditBindingModel.getThigh());
         customerEntity.getProgressChart().setProgressDate(LocalDate.now());
+        customerEntity.getProgressChart().setChanged(true);
         this.progressChartRepository.saveAndFlush(customerEntity.getProgressChart());
         this.customerRepository.saveAndFlush(customerEntity);
     }

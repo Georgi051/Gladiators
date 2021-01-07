@@ -12,6 +12,9 @@
 <th:block sec:authorize="hasRole('ROLE_BANNED')">
     <h5 class="text-danger text-lg-center">You are banned!</h5>
 </th:block>
+<th:block th:if="${customer != null && progressChart.changed == false}">
+    <h5 class="text-primary text-lg-center">We didn't check any progress! If you have progress please enter your new values in the progress chart!</h5>
+</th:block>
 
 
 <div class="col-12 alert alert-warning  text-center" sec:authorize="hasRole('TRAINER_UNCONFIRMED')">

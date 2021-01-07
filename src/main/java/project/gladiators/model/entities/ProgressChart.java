@@ -40,4 +40,7 @@ public class ProgressChart extends BaseEntity{
     @Column
     private double thigh;
 
+    @Column
+    private boolean isChanged = false;
+
 }

@@ -1911,7 +1911,7 @@ label.star:before {
 }
 
 .progress-chart-info-div i {
-    font-size: larger;
+    font-size: small;
     color: seashell;
 }
 
