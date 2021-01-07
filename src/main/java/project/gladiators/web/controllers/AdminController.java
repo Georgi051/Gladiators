@@ -50,6 +50,7 @@ public class AdminController extends BaseController {
 
 
     @PostMapping("/user-management/change")
+    @PageTitle("User management")
     public ModelAndView userRoles(@RequestParam("id") String id,
                                   ModelAndView modelAndView,
                                   RoleChangeBindingModel roleChangeBindingModel,
@@ -66,6 +67,7 @@ public class AdminController extends BaseController {
 
     @GetMapping("/user-management/ban")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ROOT')")
+    @PageTitle("User management")
     public ModelAndView banUser(@RequestParam("id") String id,
                                 ModelAndView modelAndView) {
         this.userService.banUser(id);
@@ -83,6 +85,7 @@ public class AdminController extends BaseController {
     }
 
     @PostMapping("/trainer-manager")
+    @PageTitle("Trainer manager")
     public ModelAndView addTrainer(@RequestParam String username, @RequestParam("option") Action action,
                                    RedirectAttributes redirectAttributes) {
 

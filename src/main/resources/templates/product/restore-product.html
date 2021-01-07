@@ -1,0 +1,43 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+</th:block>
+<th:block th:insert="~{fragments/nav-moderator-panel}">
+</th:block>
+<div class="container mt-5">
+
+    <h2 class="text-center text-dark">Delete Product</h2>
+    <form id="add-product-form" class="form w-25 mx-auto" th:action="@{/products/restore/{id}(id=${productId})}" method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="c686cd14-a7f9-4216-8009-c093b7d3df86">
+        <div class="form-group">
+            <label for="add-product-name">Name</label>
+            <input type="text" class="form-control text-center" id="add-product-name" name="name" th:value="${product.name}" disabled="">
+        </div>
+        <div class="form-group">
+            <label for="add-manufacture-name">Manufacturer name</label>
+            <input type="text" class="form-control text-center" id="add-manufacture-name" name="manufacturerName" th:value="${product.manufacturerName}" disabled="">
+        </div>
+        <div class="form-group">
+            <label for="add-product-description">Description</label>
+            <textarea name="description" id="add-product-description" cols="41" rows="5" disabled="" th:text="${product.description}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="add-product-price" class="font-weight-bold">Price</label>
+            <input type="number" step="any" class="form-control text-center" id="add-product-price" name="price" th:value="${product.price}" disabled>
+        </div>
+        <div th:if="${error}">
+            <span class="text-danger" th:text="${error}"></span>
+        </div>
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-info">Restore Product</button>
+        </div>
+
+    </form>
+    <th:block th:insert="~{fragments/footer}">
+    </th:block>
+    <th:block th:insert="~{fragments/scripts}"></th:block>
+</div>
+</body></html>

@@ -10,7 +10,7 @@
 </th:block>
 
 <th:block sec:authorize="hasRole('ROLE_BANNED')">
-    <h5 class="text-danger text-lg-center">You are banned! You can stay only on this page!</h5>
+    <h5 class="text-danger text-lg-center">You are banned!</h5>
 </th:block>
 
 
@@ -27,80 +27,113 @@
 </div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-4">
+    <div class="home-row">
+        <div>
             <!-- TRAINING PLAN -->
-            <article>
-                <h3>Your Training plan<br/>
-                    <small>some training plan</small>
-                    <img src="https://softsmart.co.za/wp-content/uploads/2018/06/image-not-found-1038x576.jpg"
-                         weight="120px" height="120px">
-                </h3>
-                <br>
-                <hr>
-                <div class="text-center">
-                    <a class="btn btn-success" href="#" data-toggle="modal"><i class="glyphicon glyphicon-eye-open"></i>Activate
-                        now</a>
-                </div>
-            </article>
+            <th:block th:if="${trainingPlan != null}">
+                <article class="training-plan-article" th:object="${trainingPlan}">
+                    <h3>Your Training plan</h3>
+                    <th:block th:if="*{trainingPlanType.name() == 'BUILD_MUSCLE'}">
+                        <span>BUILD MUSCLE</span>
+                        <img th:src="@{https://res.cloudinary.com/gladiators/image/upload/v1609761974/build-muscle_x5zn2w.jpg}"
+                        >
+                    </th:block>
+                    <th:block th:if="*{trainingPlanType.name() == 'BULK_UP'}">
+                        <span>BULK UP</span>
+                        <img th:src="@{https://res.cloudinary.com/gladiators/image/upload/v1609761974/bulk-up_v4yeqq.jpg}"
+                        >
+                    </th:block>
+                    <th:block th:if="*{trainingPlanType.name() == 'LOST_WEIGHT'}">
+                        <span>LOST WEIGHT</span>
+                        <img th:src="@{https://res.cloudinary.com/gladiators/image/upload/v1609761974/lost-weight_slx9ev.jpg}"
+                        >
+                    </th:block>
+                    <div class="text-center">
+                        <a class="btn btn-success" href="#" data-toggle="modal"><i class="glyphicon glyphicon-eye-open"></i>
+                            More Info</a>
+
+                    </div>
+                </article>
+            </th:block>
+            <th:block th:if="${trainingPlan == null}">
+                <article class="training-plan-article">
+                    <div class="no-active-training-plan">
+                        <span>You have no active training plan at this moment.</span>
+                        <span>You can contact to our trainers and they will make individual program for you.</span>
+                        <div class="choose-trainer">
+                            <span>To choose your trainer</span>
+                            <a th:href="@{/trainers}" class="btn btn-success">Click Here</a>
+                        </div>
+                    </div>
+
+                </article>
+            </th:block>
         </div>
+
 
         <!-- END TRAINING PLAN -->
 
         <!-- PROGRESS CHART -->
 
-        <div class="col-sm-4">
+        <div class="progress-chart">
 
             <form th:object="${progressChart}" th:action="@{/customers/progressChart/edit}"
-            th:method="post">
-                <div id="contact-form" class="form-container" data-form-container>
+                  th:method="post">
+                <div>
                     <h3>Progress chart</h3>
-                    <div class="input-container">
-                        <div class="row">
-                <span class="req-input">
-                    <span th:text="Weight" style="color: white" data-toggle="tooltip" data-placement="top" title="Your weight"> </span>
-                    <input type="text" th:value="*{weight}" data-min-length="8" placeholder="Weight">
-                </span>
+                    <div>
+                        <div class="progress-chart-info-div">
+                            <span th:text="Weight" title="Your weight"></span>
+                            <div>
+                                <i class="fas fa-hand-point-right"></i>
+                                <input type="text" th:value="*{weight}" placeholder="Weight">
+                            </div>
                         </div>
-                        <div class="row">
-                <span class="req-input">
-                    <span th:text="Height" style="color: white" data-toggle="tooltip" data-placement="top" title="Your height"> </span>
-                    <input type="text" th:value="*{height}" placeholder="Height">
-                </span>
+                        <div class="progress-chart-info-div">
+                            <span th:text="Height" title="Your height"></span>
+                            <div>
+                                <i class="fas fa-hand-point-right"></i>
+                                <input type="text" th:value="*{height}" placeholder="Height">
+                            </div>
                         </div>
-                        <div class="row">
-                <span class="req-input">
-                    <span th:text="BMI" style="color: white" data-toggle="tooltip" data-placement="top" title="Your BMI"> </span>
-                    <input type="text" th:value="*{BMI}" placeholder="BMI">
-                </span>
+                        <div class="progress-chart-info-div">
+                            <span th:text="BMI" title="Your BMI"></span>
+                            <div>
+                                <i class="fas fa-hand-point-right"></i>
+                                <input type="text" th:value="*{BMI}" placeholder="BMI">
+                            </div>
                         </div>
-                        <div class="row">
-                <span class="req-input">
-                    <span th:text="Chest" style="color: white" data-toggle="tooltip" data-placement="top" title="Your chest"> </span>
-                    <input type="text" th:value="*{chest}" placeholder="Chest">
-                </span>
+                        <div class="progress-chart-info-div">
+                            <span th:text="Chest" title="Your chest"></span>
+                            <div>
+                                <i class="fas fa-hand-point-right"></i>
+                                <input type="text" th:value="*{chest}" placeholder="Chest">
+                            </div>
                         </div>
-                        <div class="row">
-                <span class="req-input">
-                    <span th:text="Waist" style="color: white" data-toggle="tooltip" data-placement="top" title="Your waist"> </span>
-                    <input type="text" th:value="*{waist}" placeholder="Waist">
-                </span>
+                        <div class="progress-chart-info-div">
+                            <span th:text="Waist" title="Your waist"></span>
+                            <div>
+                                <i class="fas fa-hand-point-right"></i>
+                                <input type="text" th:value="*{waist}" placeholder="Waist">
+                            </div>
                         </div>
-                        <div class="row">
-                <span class="req-input">
-                    <span th:text="Biceps" style="color: white" data-toggle="tooltip" data-placement="top" title="Your biceps"> </span>
-                    <input type="text" th:value="*{biceps}" placeholder="Biceps">
-                </span>
+                        <div class="progress-chart-info-div">
+                            <span th:text="Biceps" title="Your biceps"> </span>
+                            <div>
+                                <i class="fas fa-hand-point-right"></i>
+                                <input type="text" th:value="*{biceps}" placeholder="Biceps">
+                            </div>
                         </div>
-                        <div class="row">
-                <span class="req-input">
-                    <span th:text="Thigh" style="color: white" data-toggle="tooltip" data-placement="top" title="Your thigh"> </span>
-                    <input type="text" th:value="*{thigh}" placeholder="Thigh">
-                </span>
+                        <div class="progress-chart-info-div">
+                            <span th:text="Thigh" title="Your thigh"></span>
+                            <div>
+                                <i class="fas fa-hand-point-right"></i>
+                                <input type="text" th:value="*{thigh}" placeholder="Thigh">
+                            </div>
                         </div>
-                        <div class="row submit-row">
-                            <a th:href="@{/customers/progressChart/edit}"
-                                     type="button" class="btn btn-block submit-form">Edit</a>
+                        <div class="text-center" style="margin-top: 40px;">
+                            <a class="btn btn-success" th:href="@{/customers/progressChart/edit}"
+                               type="button" >Edit</a>
                         </div>
                     </div>
                 </div>
@@ -108,29 +141,32 @@
         </div>
         <!-- END PROGRESS CHART -->
 
-
         <!-- BMI CALCULATOR -->
-        <div class="form-container col-sm-3" data-form-container>
+        <div class="bmi-form">
             <h3>BMI Calculator</h3>
             <form name="bmiForm">
-                 <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your weight"> </span>
+                 <span>
+                    <span title="Your weight"> </span>
                     <input type="text" name="weight" placeholder="Weight">
                 </span>
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your height"> </span>
+                <span>
+                    <span title="Your height"> </span>
                     <input type="text" name="height" placeholder="Height">
                 </span>
-                <input class="btn-primary" type="button" value="Calculate BMI" th:onclick="bmiCalculator()"><br/>
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your BMI"> </span>
+                <div>
+                    <input class="btn btn-success" type="button" value="Calculate BMI" th:onclick="bmiCalculator()"><br/>
+                </div>
+                <span>
+                    <span title="Your BMI"> </span>
                     <input type="text" name="bmi" placeholder="BMI">
                 </span>
-                <span class="req-input">
-                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Your result"> </span>
+                <span>
+                    <span title="Your result"> </span>
                     <input type="text" name="meaning" placeholder="Result">
                 </span>
-                <input class="btn-primary" type="reset" value="Reset"/>
+                <div>
+                    <input class="btn btn-success" type="reset" value="Reset"/>
+                </div>
             </form>
         </div>
         <!-- END BMI CALCULATOR -->

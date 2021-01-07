@@ -39,9 +39,6 @@ public class OrderController extends BaseController {
                 .collect(Collectors.toList());
         modelAndView.addObject("orders", orderViewModels);
 
-        if (orderViewModels.isEmpty()){
-            return super.redirect("/articles/article-add");
-        }
         return view("order/all-orders", modelAndView);
     }
 

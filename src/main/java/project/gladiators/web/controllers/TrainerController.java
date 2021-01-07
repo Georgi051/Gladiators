@@ -118,6 +118,7 @@ public class TrainerController extends BaseController {
     }
 
     @PostMapping("/add-exercise")
+    @PageTitle("Add exercise")
     public ModelAndView addExercise(@Valid @ModelAttribute(name = "exercise") ExerciseAddBindingModel exerciseAddBindingModel, BindingResult result,
                                     RedirectAttributes redirectAttributes) throws IOException {
         addExerciseValidator.validate(exerciseAddBindingModel, result);
@@ -153,6 +154,7 @@ public class TrainerController extends BaseController {
     }
 
     @PostMapping("/add-workout")
+    @PageTitle("Add workout")
     public ModelAndView addWorkout(@Valid @ModelAttribute("workout")
                                            WorkoutAddBindingModel workoutAddBindingModel,
                                    BindingResult bindingResult,
@@ -202,6 +204,7 @@ public class TrainerController extends BaseController {
     }
 
     @PostMapping("/add-training-plan")
+    @PageTitle("Add Training Plan")
     public ModelAndView addTrainingPlan(@Valid @ModelAttribute("trainingPlan")
                                            TrainingPlanBindingModel trainingPlan,
                                    BindingResult bindingResult,

@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 import project.gladiators.model.entities.*;
+import project.gladiators.repository.CustomerRepository;
 import project.gladiators.repository.TrainerRepository;
 import project.gladiators.repository.TrainingPlanRepository;
 import project.gladiators.repository.TrainingPlanWorkoutInfoRepository;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.WorkoutService;
+import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 import project.gladiators.service.serviceModels.WorkoutServiceModel;
 
@@ -20,19 +22,22 @@ import java.util.HashSet;
 
 @Service
 public class TrainingPlanServiceImpl implements TrainingPlanService {
+
     private final TrainingPlanRepository trainingPlanRepository;
     private final ModelMapper modelMapper;
     private final WorkoutService workoutService;
     private final TrainerRepository trainerRepository;
     private final TrainingPlanWorkoutInfoRepository trainingPlanWorkoutInfoRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public TrainingPlanServiceImpl(TrainingPlanRepository trainingPlanRepository, ModelMapper modelMapper, WorkoutService workoutService, TrainerRepository trainerRepository, TrainingPlanWorkoutInfoRepository trainingPlanWorkoutInfoRepository) {
+    public TrainingPlanServiceImpl(TrainingPlanRepository trainingPlanRepository, ModelMapper modelMapper, WorkoutService workoutService, TrainerRepository trainerRepository, TrainingPlanWorkoutInfoRepository trainingPlanWorkoutInfoRepository, CustomerRepository customerRepository) {
         this.trainingPlanRepository = trainingPlanRepository;
         this.modelMapper = modelMapper;
         this.workoutService = workoutService;
         this.trainerRepository = trainerRepository;
         this.trainingPlanWorkoutInfoRepository = trainingPlanWorkoutInfoRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -87,5 +92,18 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
         this.addTrainingPlan(trainingPlanServiceModel, principal);
 
 
+    }
+
+
+    @Override
+    public TrainingPlanServiceModel findByCustomer(CustomerServiceModel customerServiceModel) {
+
+        Customer customer = this.customerRepository.findById(customerServiceModel.getId())
+                .orElse(null);
+
+        TrainingPlan trainingPlan = this.trainingPlanRepository.getByCustomers(customer);
+
+        return this.modelMapper
+                .map(trainingPlan, TrainingPlanServiceModel.class);
     }
 }

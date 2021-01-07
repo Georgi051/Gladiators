@@ -27,9 +27,13 @@ public class WorkoutInitialization implements CommandLineRunner {
             Workout workout = new Workout();
             workout.setDuration(0);
             workout.setName("RESTING DAY");
-
             workout.setWorkoutExerciseInfos(new HashSet<>());
             workoutRepository.saveAndFlush(workout);
+            Workout workout1 = new Workout();
+            workout1.setDuration(10);
+            workout1.setName("ABS");
+            workout1.setWorkoutExerciseInfos(new HashSet<>());
+            workoutRepository.saveAndFlush(workout1);
         }
     }
 }

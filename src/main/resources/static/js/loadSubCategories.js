@@ -11,6 +11,7 @@ function loadSubCategories(id) {
                     if(category.id === id){
 
                         category.subCategories.forEach(subCategory => {
+                            if(!subCategory.empty){
                                 let a = document.createElement("a");
                                 a.classList.add("nav-link");
                                 a.value = subCategory.id;
@@ -19,6 +20,8 @@ function loadSubCategories(id) {
                                 let li = document.createElement('li');
                                 li.appendChild(a);
                                 ul.appendChild(li);
+                            }
+
                         })
                     }
 

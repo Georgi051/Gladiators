@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.gladiators.model.bindingModels.CustomerRegisterBindingModel;
-import project.gladiators.service.CustomerService;
-import project.gladiators.service.MessageService;
-import project.gladiators.service.TrainerService;
-import project.gladiators.service.UserService;
+import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
@@ -37,17 +34,19 @@ public class CustomerController extends BaseController{
     private final UserService userService;
     private final TrainerService trainerService;
     private final MessageService messageService;
+    private final TrainingPlanService trainingPlanService;
     private final ModelMapper modelMapper;
     private final CustomerRegistrationValidator customerRegistrationValidator;
     private final ProgressChartValidator progressChartValidator;
     private final SendMessageValidator sendMessageValidator;
 
     @Autowired
-    public CustomerController(CustomerService customerService, UserService userService, TrainerService trainerService, MessageService messageService, ModelMapper modelMapper, CustomerRegistrationValidator customerRegistrationValidator, ProgressChartValidator progressChartValidator, SendMessageValidator sendMessageValidator) {
+    public CustomerController(CustomerService customerService, UserService userService, TrainerService trainerService, MessageService messageService, TrainingPlanService trainingPlanService, ModelMapper modelMapper, CustomerRegistrationValidator customerRegistrationValidator, ProgressChartValidator progressChartValidator, SendMessageValidator sendMessageValidator) {
         this.customerService = customerService;
         this.userService = userService;
         this.trainerService = trainerService;
         this.messageService = messageService;
+        this.trainingPlanService = trainingPlanService;
         this.modelMapper = modelMapper;
         this.customerRegistrationValidator = customerRegistrationValidator;
         this.progressChartValidator = progressChartValidator;
@@ -57,6 +56,7 @@ public class CustomerController extends BaseController{
 
     @GetMapping("/registration")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @PageTitle("Customer Registration")
     public ModelAndView registration(@ModelAttribute(name = "customer") CustomerRegisterBindingModel customer, ModelAndView modelAndView) {
         modelAndView.addObject("customer", customer);
         return super.view("customer/customer-registration",modelAndView);
@@ -64,6 +64,7 @@ public class CustomerController extends BaseController{
 
     @PostMapping("/registration")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @PageTitle("Customer Registration")
     public ModelAndView confirmRegistration(@Valid @ModelAttribute(name = "customer")
                                                         CustomerRegisterBindingModel customer
             , BindingResult bindingResult, ModelAndView modelAndView) throws IOException {
@@ -81,15 +82,18 @@ public class CustomerController extends BaseController{
 
     @GetMapping("/progressChart/edit")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @PageTitle("Edit Progress Chart")
     public ModelAndView getEditProgressChart(ModelAndView modelAndView,
-                                  ProgressChartEditBindingModel progressChartEditBindingModel){
-
-        modelAndView.addObject("progressChartEditBindingModel", progressChartEditBindingModel);
+                                  ProgressChartEditBindingModel progressChartEditBindingModel, Principal principal){
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+        CustomerServiceModel customerServiceModel = this.customerService.findCustomerByUser(userServiceModel);
+        modelAndView.addObject("progressChartEditBindingModel", customerServiceModel.getProgressChart());
         return super.view("user/edit-progressChart", modelAndView);
     }
 
     @PostMapping("/progressChart/edit")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @PageTitle("Home - Gladiators")
     public ModelAndView editProgressChart(@Valid @ModelAttribute("progressChartEditBindingModel")
                                                       ProgressChartEditBindingModel progressChartEditBindingModel,
                                           BindingResult bindingResult,
@@ -106,7 +110,8 @@ public class CustomerController extends BaseController{
         CustomerServiceModel customer = this.customerService.findCustomerByUser(userServiceModel);
 
         customerService.editProgressChart(customer, progressChartEditBindingModel);
-
+        modelAndView.addObject("trainingPlan",
+                this.trainingPlanService.findByCustomer(customer));
         modelAndView.addObject("progressChart", customer.getProgressChart());
         return super.view("home", modelAndView);
 
@@ -127,6 +132,7 @@ public class CustomerController extends BaseController{
     }
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @PageTitle("Send Message")
     @PostMapping("/sendMessageToTrainer")
     public ModelAndView sendMessage(@RequestParam("id") String id,
                                     @Valid @ModelAttribute("sendMessageBindingModel")

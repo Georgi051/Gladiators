@@ -39,6 +39,7 @@ public class CategoryController extends BaseController {
     }
 
     @PostMapping("/category-add")
+    @PageTitle("Add category")
     public ModelAndView addCategory(@Valid  @ModelAttribute(name = "category")CategoryBindingModel categoryBindingModel,
                                     BindingResult result,
                                     RedirectAttributes redirectAttributes,
@@ -65,6 +66,7 @@ public class CategoryController extends BaseController {
     }
 
     @GetMapping("edit/{id}")
+    @PageTitle("Edit Category")
     public ModelAndView editCategory(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("category",
                 this.modelMapper.map(this.categoryService.findCategory(id), CategoryViewModel.class));
@@ -73,6 +75,7 @@ public class CategoryController extends BaseController {
     }
 
     @PostMapping("edit/{id}")
+    @PageTitle("Edit Category")
     public ModelAndView confirmEditCategory(@PathVariable String id, @Valid @ModelAttribute(name = "category") CategoryBindingModel category,
                                             BindingResult result,
                                             ModelAndView modelAndView) {
@@ -88,6 +91,7 @@ public class CategoryController extends BaseController {
     }
 
     @GetMapping("delete/{id}")
+    @PageTitle("Delete Category")
     public ModelAndView deleteCategory(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("category",
                 this.modelMapper.map(this.categoryService.findCategory(id), CategoryViewModel.class));
@@ -95,6 +99,7 @@ public class CategoryController extends BaseController {
     }
 
     @PostMapping("delete/{id}")
+    @PageTitle("Delete Category")
     public ModelAndView deleteCategory(@PathVariable String id) {
         this.categoryService.deleteCategory(id);
         return super.redirect("/categories/all");

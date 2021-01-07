@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.exceptions.ProductDeleteException;
 import project.gladiators.exceptions.ProductNotFoundException;
+import project.gladiators.model.entities.Category;
 import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.SubCategory;
 import project.gladiators.repository.OfferRepository;
@@ -51,10 +52,14 @@ public class ProductServiceImpl implements ProductService {
             product.setBuyingCounter(0);
             product.setReviews(null);
             product.setImageUrl(imageUrl);
+            product.setDeleted(false);
             SubCategoryServiceModel subCategoryServiceModel = productServiceModel
                     .getSubCategory();
             SubCategory subCategory = this.subCategoryRepository
                     .findById(subCategoryServiceModel.getId()).orElse(null);
+            if(subCategory.getProducts().isEmpty()){
+                subCategory.setEmpty(false);
+            }
             subCategory.getProducts().add(product);
             this.productRepository.saveAndFlush(product);
             this.offerRepository.findByProduct_Id(product.getId())
@@ -110,18 +115,27 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(String id) {
         Product product = this.productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
-        List<SubCategory> subCategory = this.subCategoryRepository
-                .findAllByProducts(product);
-
-        subCategory.forEach(category -> {
-            category.getProducts().remove(product);
-            this.subCategoryRepository.save(category);
-        });
-        try{
-            this.productRepository.delete(product);
-        }catch (Exception ex){
-            throw new ProductDeleteException("This product cannot be deleted!");
+        product.setDeleted(true);
+        SubCategory subCategory = this.subCategoryRepository.findByProducts(product);
+        List<Product> products = subCategory.getProducts().stream()
+                .filter(product1 -> !product1.isDeleted()).collect(Collectors.toList());
+        if(products.isEmpty()){
+            subCategory.setEmpty(true);
+            this.subCategoryRepository.save(subCategory);
         }
+        this.productRepository.save(product);
+    }
+
+    @Override
+    public void restoreProduct(String id) {
+        Product product = this.productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
+
+        SubCategory subCategory = this.subCategoryRepository.findByProducts(product);
+        product.setDeleted(false);
+        subCategory.setEmpty(false);
+        this.productRepository.save(product);
+
     }
 
     @Override
@@ -141,5 +155,6 @@ public class ProductServiceImpl implements ProductService {
 
         this.productRepository.saveAll(productsAfterQuantityChanges);
     }
+
 
 }

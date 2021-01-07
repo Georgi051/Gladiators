@@ -6,6 +6,8 @@
 <body>
 <th:block th:insert="~{fragments/nav}">
 </th:block>
+<th:block th:insert="~{fragments/nav-moderator-panel}">
+</th:block>
 <div class="container mt-5">
 
     <form id="add-product-form" th:object="${product}" class="form w-25 mx-auto" th:action="@{/products/edit/{id}(id=${productId})}"

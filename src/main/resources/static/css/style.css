@@ -1853,3 +1853,145 @@ label.star:before {
     font-family: sans-serif;
     box-shadow: 9px -1px 41px -3px rgba(0,0,0,0.36);
 }
+
+.training-plan-article  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid gray;
+    width: 330px;
+    height: 400px;
+    border-radius: 20px;
+    padding: 20px 20px;
+    background: radial-gradient(circle, rgba(254,197,3,1) 39%, rgba(255,255,255,1) 100%);
+}
+
+.training-plan-article h3 {
+    font-family: cursive;
+}
+
+.training-plan-article span {
+    font-style: italic;
+    font-family: inherit;
+    font-size: medium;
+    color: white;
+}
+
+.training-plan-article img {
+    width: 250px;
+    height: 200px;
+    margin-top: 20px;
+    margin-bottom: 44px;
+}
+
+.progress-chart {
+    border: 2px solid gray;
+    width: 330px;
+    height: 400px;
+    border-radius: 20px;
+    padding: 20px 20px;
+    background: radial-gradient(circle, rgba(254,197,3,1) 39%, rgba(255,255,255,1) 100%);
+}
+
+.progress-chart h3{
+    display:flex;
+    justify-content: center;
+    border-bottom: 2px solid white;
+    font-family: cursive;
+}
+
+.progress-chart-info-div {
+    color: purple;
+    font-weight: 800;
+    font-family: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.progress-chart-info-div i {
+    font-size: larger;
+    color: seashell;
+}
+
+.progress-chart-info-div input {
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.progress-chart-info-div a {
+    margin-top: 10px;
+}
+
+.bmi-form {
+    border: 2px solid gray;
+    width: 330px;
+    height: 400px;
+    border-radius: 20px;
+    padding: 20px 20px;
+    background: radial-gradient(circle, rgba(254,197,3,1) 39%, rgba(255,255,255,1) 100%);
+}
+
+.bmi-form form {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bmi-form span{
+    margin-top: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.bmi-form div {
+    margin-top: 10px;
+}
+
+.bmi-form h3 {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid white;
+    font-family: cursive;
+}
+
+.home-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.no-active-training-plan{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.no-active-training-plan>span:nth-child(1){
+    color: red;
+    font-weight: 800;
+    font-size: larger;
+}
+
+.no-active-training-plan>span:nth-child(2){
+    color: slategrey;
+    font-size: larger;
+}
+
+.choose-trainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    color:white;
+}
+
+.choose-trainer span {
+    color: darkblue;
+    font-size: larger;
+}
+

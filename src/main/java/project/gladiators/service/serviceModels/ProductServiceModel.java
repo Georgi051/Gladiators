@@ -22,4 +22,5 @@ public class ProductServiceModel extends BaseServiceModel{
     private SubCategoryServiceModel subCategory;
     private List<ReviewServiceModel> reviews;
     private Integer buyingProductsQuantity;
+    private boolean isDeleted;
 }
