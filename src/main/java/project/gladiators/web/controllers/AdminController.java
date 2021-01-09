@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
-import project.gladiators.constants.RoleConstants;
+import project.gladiators.aspects.Admin;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.enums.Action;
 import project.gladiators.service.TrainerService;
 import project.gladiators.service.UserService;
-import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.security.Principal;
@@ -51,6 +50,7 @@ public class AdminController extends BaseController {
 
     @PostMapping("/user-management/change")
     @PageTitle("User management")
+    @Admin
     public ModelAndView userRoles(@RequestParam("id") String id,
                                   ModelAndView modelAndView,
                                   RoleChangeBindingModel roleChangeBindingModel,
@@ -68,6 +68,7 @@ public class AdminController extends BaseController {
     @GetMapping("/user-management/ban")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ROOT')")
     @PageTitle("User management")
+    @Admin
     public ModelAndView banUser(@RequestParam("id") String id,
                                 ModelAndView modelAndView) {
         this.userService.banUser(id);
@@ -86,6 +87,7 @@ public class AdminController extends BaseController {
 
     @PostMapping("/trainer-manager")
     @PageTitle("Trainer manager")
+    @Admin
     public ModelAndView addTrainer(@RequestParam String username, @RequestParam("option") Action action,
                                    RedirectAttributes redirectAttributes) {
 
