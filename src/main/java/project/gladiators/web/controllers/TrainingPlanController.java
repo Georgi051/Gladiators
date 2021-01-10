@@ -12,13 +12,12 @@ import project.gladiators.model.entities.WorkoutExerciseInfo;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.UserService;
-import project.gladiators.service.serviceModels.CustomerServiceModel;
-import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
-import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.service.serviceModels.*;
 
 import java.security.Principal;
 import java.time.DayOfWeek;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -46,7 +45,7 @@ public class TrainingPlanController extends BaseController{
         TrainingPlanServiceModel trainingPlan = this.trainingPlanService
                 .findByCustomer(customerServiceModel);
         trainingPlan.setWorkouts(trainingPlan.getWorkouts().stream()
-        .sorted(Comparator.comparing(TrainingPlanWorkoutInfo::getDayOfWeek)).collect(Collectors.toList()));
+        .sorted(Comparator.comparing(TrainingPlanWorkoutInfoServiceModel::getDayOfWeek)).collect(Collectors.toList()));
         modelAndView.addObject("trainingPlan", trainingPlan);
 
         return super.view("customer/customer-training-plan", modelAndView);
@@ -61,14 +60,14 @@ public class TrainingPlanController extends BaseController{
         CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
         TrainingPlanServiceModel trainingPlan = this.trainingPlanService
                 .findByCustomer(customer);
-        final TrainingPlanWorkoutInfo[] trainingPlanWorkoutInfo = {new TrainingPlanWorkoutInfo()};
-        trainingPlan.getWorkouts()
-                .stream().filter(workoutInfo -> workoutInfo.getDayOfWeek().equals(dayOfWeek))
-        .forEach(trainingPlanWorkoutInfo1 -> {
-             trainingPlanWorkoutInfo[0] = trainingPlanWorkoutInfo1;
-        });
-        modelAndView.addObject("workout", trainingPlanWorkoutInfo[0]);
-        modelAndView.addObject("exercises", trainingPlanWorkoutInfo[0].getWorkout().getWorkoutExerciseInfos());
+        trainingPlan
+                .getWorkouts()
+                .forEach(workout -> {
+                    if(workout.getWorkout().getDayOfWeek().equals(dayOfWeek)){
+                        modelAndView.addObject("workout", workout);
+                        modelAndView.addObject("exercises", workout.getWorkout().getWorkoutExerciseInfo());
+                    }
+                });
 
         return super.view("customer/workout-by-day", modelAndView);
     }

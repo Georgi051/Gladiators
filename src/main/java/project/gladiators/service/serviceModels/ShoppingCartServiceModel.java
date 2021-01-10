@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ShoppingCartServiceModel extends BaseServiceModel{
+
     private ProductServiceModel product;
     private int quantity;
 }

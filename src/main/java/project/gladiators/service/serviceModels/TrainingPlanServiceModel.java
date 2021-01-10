@@ -14,12 +14,13 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TrainingPlanServiceModel extends BaseServiceModel{
+public class TrainingPlanServiceModel extends BaseServiceModel {
+
     private String name;
 
     private TrainingPlanType trainingPlanType;
 
     private LocalDate startedOn;
 
-    private List<TrainingPlanWorkoutInfo> workouts = new ArrayList<>();
+    private List<TrainingPlanWorkoutInfoServiceModel> workouts = new ArrayList<>();
 }

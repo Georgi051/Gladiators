@@ -28,7 +28,7 @@ public class TrainingPlan extends BaseEntity{
     @Column(name = "started_on")
     private LocalDate startedOn;
 
-    @ManyToMany(cascade = CascadeType.MERGE,
+    @ManyToMany(cascade = CascadeType.ALL,
     fetch = FetchType.EAGER)
     private List<TrainingPlanWorkoutInfo> workouts;
 

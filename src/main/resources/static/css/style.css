@@ -440,6 +440,14 @@
     }
 }
 
+@media (max-width:1200px) {
+    .home-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+}
+
 .header-blue .navbar {
     background: transparent;
     padding-top: .75rem;
@@ -1949,7 +1957,7 @@ label.star:before {
 }
 
 .bmi-form div {
-    margin-top: 10px;
+    margin-top: 22px;
 }
 
 .bmi-form h3 {
@@ -1986,8 +1994,9 @@ label.star:before {
 .choose-trainer {
     display: flex;
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 110px;
     color:white;
+
 }
 
 .choose-trainer span {

@@ -18,7 +18,7 @@
            </div>
            <div class="row exercises-div">
                    <article class="exercise-article" th:each="exercise: ${exercises}" th:object="${exercise}">
-                       <a th:href="@{/trainingPlan/exercise-{id}(id = *{id})}" th:text="*{exercise.name}"></a>
+                       <span style="color: #fed136" th:text="*{exercise.name}"></span>
                        <span th:text="|Sets: *{sets}|"></span>
                        <span th:text="|Repeats: *{repeats}|"></span>
                        <span th:text="|Rest Time: *{restTime}|"></span>

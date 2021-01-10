@@ -15,6 +15,7 @@ import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.WorkoutService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
+import project.gladiators.service.serviceModels.TrainingPlanWorkoutInfoServiceModel;
 import project.gladiators.service.serviceModels.WorkoutServiceModel;
 
 import javax.servlet.http.HttpSession;
@@ -55,11 +56,15 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
                 .findTrainerByUser_Username(principal.getName())
                 .orElse(null);
 
+        TrainingPlan trainingPlan = this.modelMapper
+                .map(trainingPlanServiceModel, TrainingPlan.class);
         trainer.getTrainingPlans()
-                .add(this.trainingPlanRepository.saveAndFlush(this.modelMapper
-                                .map(trainingPlanServiceModel, TrainingPlan.class)));
-
+                .add(trainingPlan);
+        this.trainingPlanRepository.save(trainingPlan);
+        this.trainingPlanWorkoutInfoRepository.saveAll(trainingPlan.getWorkouts());
         this.trainerRepository.saveAndFlush(trainer);
+
+
     }
 
     @Override
@@ -78,10 +83,9 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
                 .map(trainingPlan, TrainingPlanServiceModel.class);
         DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
         for (int i = 0; i < trainingPlanBindingModel.getWorkout().size(); i++) {
-            trainingPlanServiceModel.getWorkouts().add(new TrainingPlanWorkoutInfo());
+            trainingPlanServiceModel.getWorkouts().add(new TrainingPlanWorkoutInfoServiceModel());
 
             trainingPlanServiceModel.getWorkouts().get(i).setDayOfWeek(dayOfWeek);
-            dayOfWeek = dayOfWeek.plus(1);
             WorkoutServiceModel workoutServiceModel = this.workoutService
                     .findById(trainingPlanBindingModel.getWorkout().get(i));
 
@@ -92,10 +96,12 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
                         .map(workoutExerciseInfoServiceModel, WorkoutExerciseInfo.class);
                 workout.getWorkoutExerciseInfos().add(workoutExerciseInfo);
             });
-
-            trainingPlanServiceModel.getWorkouts().get(i).setWorkout(workout);
-            this.trainingPlanWorkoutInfoRepository.saveAndFlush(trainingPlanServiceModel
-            .getWorkouts().get(i));
+            workoutServiceModel.setDayOfWeek(dayOfWeek);
+            trainingPlanServiceModel.getWorkouts().get(i).setWorkout(workoutServiceModel);
+            dayOfWeek = dayOfWeek.plus(1);
+//            this.trainingPlanWorkoutInfoRepository.saveAndFlush(this.modelMapper
+//                    .map(trainingPlanServiceModel
+//            .getWorkouts().get(i), TrainingPlanWorkoutInfo.class));
         }
         this.addTrainingPlan(trainingPlanServiceModel, principal);
 
