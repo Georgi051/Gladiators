@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/head}">
+
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+
+</th:block>
+
+<div class="container">
+    <main class="workout-container" th:object="${workout}">
+       <div class="container">
+           <div class="workout-info">
+               <h3 class="text-center text-primary" th:text="*{dayOfWeek}"></h3>
+               <span class="text-center" th:text="*{workout.name}"></span>
+               <span class="text-center" th:text="|Duration: *{workout.duration} minutes|"></span>
+           </div>
+           <div class="row exercises-div">
+                   <article class="exercise-article" th:each="exercise: ${exercises}" th:object="${exercise}">
+                       <a th:href="@{/trainingPlan/exercise-{id}(id = *{id})}" th:text="*{exercise.name}"></a>
+                       <span th:text="|Sets: *{sets}|"></span>
+                       <span th:text="|Repeats: *{repeats}|"></span>
+                       <span th:text="|Rest Time: *{restTime}|"></span>
+                   </article>
+
+           </div>
+       </div>
+    </main>
+</div>
+<th:block th:insert="~{fragments/footer}"></th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

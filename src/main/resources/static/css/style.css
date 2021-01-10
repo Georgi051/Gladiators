@@ -1995,3 +1995,78 @@ label.star:before {
     font-size: larger;
 }
 
+.workout-article {
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid gray;
+    border-radius: 5px;
+    height: 250px;
+    width: 300px;
+    justify-content: center;
+    margin-bottom: 25px;
+    background: url("https://res.cloudinary.com/gladiators/image/upload/v1610271402/for-miles-a-great-bodyweight-workout-would-include-squats-push-ups-walking-lunges-_wgthf6.jpg") no-repeat center center fixed;
+    opacity: 0.75;
+    color: white;
+    align-items: center;
+}
+
+.workout-article a {
+    font-size: 3.0em;
+    text-decoration: none;
+}
+
+.exercise-article {
+    display: flex;
+    flex-direction: column;
+}
+
+.exercises-div {
+    justify-content: space-evenly;
+    display: flex;
+    margin-top: 100px;
+}
+
+.workout-info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.workout-info h3 {
+    font-size: 3.0em;
+    font-family: serif;
+    margin-top: 50px;
+}
+
+.workout-info span {
+    color: white;
+    font-weight: bold;
+}
+
+.exercise-article {
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 3px;
+    width: 300px;
+    height: 200px;
+    justify-content: center;
+    background: black;
+    opacity: 0.65;
+    margin-bottom: 50px;
+}
+
+.exercise-article a {
+    text-decoration: none;
+    font-size: 1.5em;
+}
+
+.exercise-article span {
+    color: white;
+}
+
+.workout-container {
+    background: url("https://res.cloudinary.com/gladiators/image/upload/v1610283278/Pull_Up_Alt1-1440x900_vrx0h4.jpg") no-repeat center;
+    opacity: 0.75;
+}
+

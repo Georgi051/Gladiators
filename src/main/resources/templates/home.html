@@ -52,8 +52,7 @@
                         >
                     </th:block>
                     <div class="text-center">
-                        <a class="btn btn-success" href="#" data-toggle="modal"><i class="glyphicon glyphicon-eye-open"></i>
-                            More Info</a>
+                        <a class="btn btn-success" th:href="@{/trainingPlan/userId-{id}(id=${customer.id})}">More Info</a>
 
                     </div>
                 </article>

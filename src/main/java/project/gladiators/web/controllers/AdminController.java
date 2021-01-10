@@ -90,6 +90,7 @@ public class AdminController extends BaseController {
     @Admin
     public ModelAndView addTrainer(@RequestParam String username, @RequestParam("option") Action action,
                                    RedirectAttributes redirectAttributes) {
+        System.out.println();
 
         try {
             trainerService.changeTrainerStatus(username, action);

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/head}">
+
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}">
+
+</th:block>
+
+<div class="container">
+    <main th:object="${trainingPlan}">
+        <th:block th:if="*{trainingPlanType.name() == 'BUILD_MUSCLE'}">
+            <h3 class="text-center text-primary">BUILD MUSCLE</h3>
+        </th:block>
+        <th:block th:if="*{trainingPlanType.name() == 'BULK_UP'}">
+            <h3 class="text-center text-primary">BULK UP</h3>
+               </th:block>
+        <th:block th:if="*{trainingPlanType.name() == 'LOST_WEIGHT'}">
+            <h3 class="text-center text-primary">LOST WEIGHT</h3>
+        </th:block>
+            <div class="row" style="justify-content: center">
+                <article  class="workout-article" th:each="workout: *{workouts}" th:object="${workout}">
+                    <a th:href="@{/trainingPlan/workoutByDay-{day}(day = *{dayOfWeek})}" th:text="*{dayOfWeek}"></a>
+                    <span th:text="*{workout.name}"></span>
+                    <span th:text="|Duration: *{workout.duration} minutes|"></span>
+                </article>
+            </div>
+    </main>
+</div>
+<th:block th:insert="~{fragments/footer}"></th:block>
+<th:block th:insert="~{fragments/scripts}"></th:block>
+
+</body>
+</html>

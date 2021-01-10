@@ -92,7 +92,7 @@
     ]
   },
   {
-    "name": "BICEPS_CURL",
+    "name": "BICEPS CURL",
     "description": "Constant representing a bicep curl. This is an exercise in which weight is pulled using the biceps muscle in a curling movement of the elbow.",
     "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599573241/exercises/biceps_curl_gq39fu.jpg",
     "muscles": [
@@ -108,7 +108,7 @@
     ]
   },
   {
-    "name": "BENCH_PRESS",
+    "name": "BENCH PRESS",
     "description": "Constant representing a bench press. This is an exercise in which the weight is pressed upwards from a lying position on a bench.",
     "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599573486/exercises/bench_press_uxgqkk.jpg",
     "muscles": [
@@ -179,7 +179,7 @@
     ]
   },
   {
-    "name": "LEG_CURL",
+    "name": "LEG CURL",
     "description": "Constant representing a leg curl. This is an exercise in which weight is pulled up with the legs by curling the knees.",
     "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599574519/exercises/leg_curl_qhqd2e.jpg",
     "muscles": [
@@ -201,7 +201,7 @@
     ]
   },
   {
-    "name": "TRICEPS_EXTENSION",
+    "name": "TRICEPS EXTENSION",
     "description": "Constant representing a triceps extension. This is an exercise in which weight is pressed overhead by extending the elbows.",
     "imageUrl": "https://res.cloudinary.com/gladiators/image/upload/v1599574951/exercises/triceps_extension_wttxtp.jpg",
     "muscles": [
