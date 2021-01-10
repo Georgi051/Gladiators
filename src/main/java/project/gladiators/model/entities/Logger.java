@@ -25,5 +25,8 @@ public class Logger extends BaseEntity {
     private LocalDateTime madeOn;
 
     @ManyToOne
+    private User admin;
+
+    @ManyToOne()
     private User user;
 }
