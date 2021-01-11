@@ -29,7 +29,7 @@
                 </th:block>
                 <th:block   th:each="workout: *{workouts}" th:object="${workout}"  th:if="${currentDayOfWeek != workout.DayOfWeek}">
                     <article class="workout-article">
-                        <a href="#" th:text="*{dayOfWeek}"></a>
+                        <a th:href="@{/trainingPlan/workoutByDay-{day}(day = *{dayOfWeek})}" th:text="*{dayOfWeek}"></a>
                         <span th:text="*{workout.name}"></span>
                         <span th:text="|Duration: *{workout.duration} minutes|"></span>
                     </article>

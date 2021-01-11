@@ -14,10 +14,7 @@ import project.gladiators.model.bindingModels.*;
 import project.gladiators.model.enums.TrainingPlanType;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.*;
-import project.gladiators.validators.trainer.AddExerciseValidator;
-import project.gladiators.validators.trainer.AddTrainingPlanValidator;
-import project.gladiators.validators.trainer.AddWorkoutValidator;
-import project.gladiators.validators.trainer.TrainerRegisterValidator;
+import project.gladiators.validators.trainer.*;
 import project.gladiators.web.viewModels.MuscleViewModel;
 import project.gladiators.web.viewModels.TrainerViewModel;
 import project.gladiators.web.viewModels.TrainingPlanViewModel;
@@ -47,9 +44,10 @@ public class TrainerController extends BaseController {
     private final AddWorkoutValidator addWorkoutValidator;
     private final AddTrainingPlanValidator addTrainingPlanValidator;
     private final TrainerRegisterValidator trainerRegisterValidator;
+    private final AddTrainingPlanToCustomerValidator addTrainingPlanToCustomerValidator;
 
     @Autowired
-    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CustomerService customerService, TrainingPlanService trainingPlanService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator, AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator) {
+    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CustomerService customerService, TrainingPlanService trainingPlanService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator, AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator, AddTrainingPlanToCustomerValidator addTrainingPlanToCustomerValidator) {
         this.trainerService = trainerService;
         this.exerciseService = exerciseService;
         this.muscleService = muscleService;
@@ -62,6 +60,7 @@ public class TrainerController extends BaseController {
         this.addWorkoutValidator = addWorkoutValidator;
         this.addTrainingPlanValidator = addTrainingPlanValidator;
         this.trainerRegisterValidator = trainerRegisterValidator;
+        this.addTrainingPlanToCustomerValidator = addTrainingPlanToCustomerValidator;
     }
 
     @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
@@ -243,7 +242,17 @@ public class TrainerController extends BaseController {
     @PageTitle("Add training plan to customer")
     public ModelAndView addTrainingPlanToCustomer(@Valid @ModelAttribute("trainingPlanToCustomer")
                                                               TrainingPlanToCustomerBindingModel trainingPlanToCustomer,
-                                                  ModelAndView modelAndView,Principal principal) {
+                                                  BindingResult bindingResult,
+                                                  ModelAndView modelAndView,Principal principal
+                                                  ) {
+        addTrainingPlanToCustomerValidator.validate(trainingPlanToCustomer, bindingResult);
+        if(bindingResult.hasErrors()){
+            modelAndView.addObject("trainingPlanNames", trainingPlanService.findAll().stream()
+                    .map(trainingPlanServiceModel -> this.modelMapper.map(trainingPlanServiceModel, TrainingPlanViewModel.class))
+                    .collect(Collectors.toList()));
+            modelAndView.addObject("customers",this.customerService.findAll());
+            return super.view("/trainer/add-training-plan-to-customer", modelAndView);
+        }
         boolean trainingPlanServiceModel = trainingPlanService.addTrainingPlanToCustomer(trainingPlanToCustomer.getId(),
                 trainingPlanToCustomer.getName(),principal.getName(), trainingPlanToCustomer.getStartedOn());
 

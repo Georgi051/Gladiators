@@ -59,6 +59,7 @@ public class TrainingPlanController extends BaseController{
 
             UserServiceModel user = this.userService.findUserByUsername(principal.getName());
             CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
+
             TrainingPlanServiceModel trainingPlan = this.trainingPlanService
                     .findByCustomer(customer);
             trainingPlan

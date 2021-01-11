@@ -10,10 +10,7 @@ import project.gladiators.repository.*;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.WorkoutService;
-import project.gladiators.service.serviceModels.CustomerServiceModel;
-import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
-import project.gladiators.service.serviceModels.TrainingPlanWorkoutInfoServiceModel;
-import project.gladiators.service.serviceModels.WorkoutServiceModel;
+import project.gladiators.service.serviceModels.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -118,18 +115,18 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
         TrainingPlan trainingPlan = trainingPlanRepository.findByName(name);
         Customer findCustomerById = this.modelMapper.map(customerService.findCustomerById(id), Customer.class);
 
-        TrainingPlanServiceModel trainingPlanServiceModel =
-                findByCustomer(this.modelMapper.map(findCustomerById, CustomerServiceModel.class));
-
-        if (trainingPlanServiceModel == null) {
-            trainingPlan.getCustomers().add(findCustomerById);
-            Trainer trainer = trainerRepository.findTrainerByUser_Username(trainerName)
-                    .orElseThrow(() -> new TrainerNotFoundException(TRAINER_NOT_FOUND));
-            if (!trainer.getCustomers().contains(findCustomerById)){
-                trainer.getCustomers().add(findCustomerById);
-                trainerRepository.save(trainer);
+        CustomerTrainingPlanInfo customerTrainingPlanInfo = this.customerTrainingPlanInfoRepository.findByCustomer_Id(id);
+        if (customerTrainingPlanInfo == null) {
+            if(this.trainingPlanRepository.getByCustomers(findCustomerById) == null) {
+                trainingPlan.getCustomers().add(findCustomerById);
+                Trainer trainer = trainerRepository.findTrainerByUser_Username(trainerName)
+                        .orElseThrow(() -> new TrainerNotFoundException(TRAINER_NOT_FOUND));
+                if (!trainer.getCustomers().contains(findCustomerById)) {
+                    trainer.getCustomers().add(findCustomerById);
+                    trainerRepository.save(trainer);
+                }
             }
-            CustomerTrainingPlanInfo customerTrainingPlanInfo = new CustomerTrainingPlanInfo();
+            customerTrainingPlanInfo = new CustomerTrainingPlanInfo();
             customerTrainingPlanInfo.setTrainingPlan(trainingPlan);
             customerTrainingPlanInfo.setCustomer(findCustomerById);
             customerTrainingPlanInfo.setStartedOn(startedOn);

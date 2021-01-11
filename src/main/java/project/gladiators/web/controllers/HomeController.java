@@ -48,23 +48,25 @@ public class HomeController extends BaseController{
     public ModelAndView getHome(Principal principal, ModelAndView modelAndView) {
         UserServiceModel user =
                 this.userService.findUserByUsername(principal.getName());
-        if(customerService.findCustomerByUser(user) != null){
             CustomerServiceModel customer =
                     this.customerService.findCustomerByUser(user);
+            if(customer != null){
             modelAndView.addObject("customer", customer);
             TrainingPlanServiceModel trainingPlan = this.trainingPlanService.findByCustomer(customer);
             CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel =
                     this.customerTrainingPlanInfoService.findByCustomer(customer);
-            if(customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).isAfter(LocalDate.now())){
-                modelAndView.addObject("trainingPlan",
-                        trainingPlan);
-                modelAndView.addObject("daysLeft",
-                        customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).minusDays(LocalDate.now().getDayOfMonth()).getDayOfMonth());
+            if(customerTrainingPlanInfoServiceModel != null) {
+                if (customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).isAfter(LocalDate.now())) {
+                    modelAndView.addObject("trainingPlan",
+                            trainingPlan);
+                    modelAndView.addObject("daysLeft",
+                            customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).minusDays(LocalDate.now().getDayOfMonth()).getDayOfMonth());
+                }
             }
-            modelAndView.addObject("progressChart", customer.getProgressChart());
-        }else{
-            modelAndView.addObject("progressChart", new ProgressChart());
-        }
+                modelAndView.addObject("progressChart", customer.getProgressChart());
+            }else{
+                modelAndView.addObject("progressChart", new ProgressChart());
+            }
 
         return super.view("home", modelAndView);
     }

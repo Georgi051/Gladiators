@@ -32,13 +32,18 @@ public class CustomerTrainingPlanInfoServiceImpl implements CustomerTrainingPlan
     public CustomerTrainingPlanInfoServiceModel findByCustomer(CustomerServiceModel customer) {
         CustomerTrainingPlanInfo customerTrainingPlanInfo =
                 this.customerTrainingPlanInfoRepository.findByCustomer_Id(customer.getId());
-        CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel = this
-                .modelMapper.map(customerTrainingPlanInfo, CustomerTrainingPlanInfoServiceModel.class);
-        customerTrainingPlanInfoServiceModel.setCustomerServiceModel(customer);
-        Customer customer1 = this.customerRepository.findFirstById(customer.getId());
-        TrainingPlan trainingPlan = this.trainingPlanRepository.getByCustomers(customer1);
-        customerTrainingPlanInfoServiceModel.setTrainingPlanServiceModel(this.modelMapper
-        .map(trainingPlan, TrainingPlanServiceModel.class));
-        return customerTrainingPlanInfoServiceModel;
+        if(customerTrainingPlanInfo != null){
+            CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel = this
+                    .modelMapper.map(customerTrainingPlanInfo, CustomerTrainingPlanInfoServiceModel.class);
+            customerTrainingPlanInfoServiceModel.setCustomerServiceModel(customer);
+            Customer customer1 = this.customerRepository.findFirstById(customer.getId());
+            TrainingPlan trainingPlan = this.trainingPlanRepository.getByCustomers(customer1);
+            customerTrainingPlanInfoServiceModel.setTrainingPlanServiceModel(this.modelMapper
+                    .map(trainingPlan, TrainingPlanServiceModel.class));
+            return customerTrainingPlanInfoServiceModel;
+        }else {
+            return null;
+        }
+
     }
 }
