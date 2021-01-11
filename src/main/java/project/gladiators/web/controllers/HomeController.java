@@ -7,12 +7,16 @@ import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.model.entities.ProgressChart;
 import project.gladiators.service.CustomerService;
+import project.gladiators.service.CustomerTrainingPlanInfoService;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceModel;
+import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.security.Principal;
+import java.time.LocalDate;
 
 @Controller
 public class HomeController extends BaseController{
@@ -20,12 +24,14 @@ public class HomeController extends BaseController{
     private final UserService userService;
     private final CustomerService customerService;
     private final TrainingPlanService trainingPlanService;
+    private final CustomerTrainingPlanInfoService customerTrainingPlanInfoService;
 
 
-    public HomeController(UserService userService, CustomerService customerService, TrainingPlanService trainingPlanService) {
+    public HomeController(UserService userService, CustomerService customerService, TrainingPlanService trainingPlanService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService) {
         this.userService = userService;
         this.customerService = customerService;
         this.trainingPlanService = trainingPlanService;
+        this.customerTrainingPlanInfoService = customerTrainingPlanInfoService;
     }
 
     @GetMapping("/")
@@ -46,8 +52,15 @@ public class HomeController extends BaseController{
             CustomerServiceModel customer =
                     this.customerService.findCustomerByUser(user);
             modelAndView.addObject("customer", customer);
-            modelAndView.addObject("trainingPlan",
-                    this.trainingPlanService.findByCustomer(customer));
+            TrainingPlanServiceModel trainingPlan = this.trainingPlanService.findByCustomer(customer);
+            CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel =
+                    this.customerTrainingPlanInfoService.findByCustomer(customer);
+            if(customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).isAfter(LocalDate.now())){
+                modelAndView.addObject("trainingPlan",
+                        trainingPlan);
+                modelAndView.addObject("daysLeft",
+                        customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).minusDays(LocalDate.now().getDayOfMonth()).getDayOfMonth());
+            }
             modelAndView.addObject("progressChart", customer.getProgressChart());
         }else{
             modelAndView.addObject("progressChart", new ProgressChart());

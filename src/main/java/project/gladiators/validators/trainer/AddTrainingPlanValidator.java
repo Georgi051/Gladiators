@@ -24,17 +24,5 @@ public class AddTrainingPlanValidator implements org.springframework.validation.
             errors.rejectValue("name",NAME_LENGTH,
                     NAME_LENGTH);
         }
-
-        if(trainingPlanBindingModel.getStartedOn() == null){
-            errors.rejectValue("startedOn", DATE_IS_NULL,
-                    DATE_IS_NULL);
-        }
-        if(errors.hasErrors()){
-            return;
-        }
-        if(trainingPlanBindingModel.getStartedOn().isBefore(LocalDate.now())){
-            errors.rejectValue("startedOn", DATE_IS_IN_THE_PAST,
-                    DATE_IS_IN_THE_PAST);
-        }
     }
 }

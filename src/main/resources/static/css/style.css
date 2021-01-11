@@ -445,7 +445,6 @@
         flex-direction: column;
         align-items: center;
     }
-
 }
 
 .header-blue .navbar {
@@ -1889,7 +1888,7 @@ label.star:before {
     width: 250px;
     height: 200px;
     margin-top: 20px;
-    margin-bottom: 44px;
+    margin-bottom: 18px;
 }
 
 .progress-chart {
@@ -2077,5 +2076,10 @@ label.star:before {
 .workout-container {
     background: url("https://res.cloudinary.com/gladiators/image/upload/v1610283278/Pull_Up_Alt1-1440x900_vrx0h4.jpg") no-repeat center;
     opacity: 0.75;
+}
+
+.training-plan-content {
+    display: flex;
+    justify-content: center;
 }
 

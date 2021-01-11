@@ -6,6 +6,7 @@ import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TrainingPlanService {
@@ -19,7 +20,7 @@ public interface TrainingPlanService {
 
     List<TrainingPlanServiceModel> findAll();
 
-    boolean addTrainingPlanToCustomer(String id, String name, String trainerName);
+    boolean addTrainingPlanToCustomer(String id, String name, String trainerName, LocalDate startedOn);
 
     TrainingPlanServiceModel findByCustomer(CustomerServiceModel customerServiceModel);
 }

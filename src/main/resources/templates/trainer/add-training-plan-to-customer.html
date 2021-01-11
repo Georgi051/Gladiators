@@ -35,6 +35,11 @@
                 <option th:each="customer:${customers}" th:text="${customer.user.username}" th:value="${customer.id}" ></option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="startedOn" class="font-weight-bold">Training plan started date</label>
+            <input type="date" th:field="*{startedOn}" class="form-control" id="startedOn" name="startedOn">
+            <small class="text-danger" th:if="${#fields.hasErrors('startedOn')}" th:errors="*{startedOn}"></small>
+        </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

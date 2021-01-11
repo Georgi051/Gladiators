@@ -16,6 +16,7 @@ import project.gladiators.service.serviceModels.*;
 
 import java.security.Principal;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,28 +48,31 @@ public class TrainingPlanController extends BaseController{
         trainingPlan.setWorkouts(trainingPlan.getWorkouts().stream()
         .sorted(Comparator.comparing(TrainingPlanWorkoutInfoServiceModel::getDayOfWeek)).collect(Collectors.toList()));
         modelAndView.addObject("trainingPlan", trainingPlan);
-
+        modelAndView.addObject("currentDayOfWeek", LocalDate.now().getDayOfWeek());
         return super.view("customer/customer-training-plan", modelAndView);
     }
 
     @GetMapping("/workoutByDay-{dayOfWeek}")
     @PageTitle("Workout Info")
     public ModelAndView getWorkoutByDay(@PathVariable("dayOfWeek")DayOfWeek dayOfWeek,
-                                        ModelAndView modelAndView, Principal principal){
+                                        ModelAndView modelAndView, Principal principal) {
 
-        UserServiceModel user = this.userService.findUserByUsername(principal.getName());
-        CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
-        TrainingPlanServiceModel trainingPlan = this.trainingPlanService
-                .findByCustomer(customer);
-        trainingPlan
-                .getWorkouts()
-                .forEach(workout -> {
-                    if(workout.getWorkout().getDayOfWeek().equals(dayOfWeek)){
-                        modelAndView.addObject("workout", workout);
-                        modelAndView.addObject("exercises", workout.getWorkout().getWorkoutExerciseInfo());
-                    }
-                });
+            UserServiceModel user = this.userService.findUserByUsername(principal.getName());
+            CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
+            TrainingPlanServiceModel trainingPlan = this.trainingPlanService
+                    .findByCustomer(customer);
+            trainingPlan
+                    .getWorkouts()
+                    .forEach(workout -> {
+                        if (workout.getWorkout().getDayOfWeek().equals(dayOfWeek)) {
+                            modelAndView.addObject("workout", workout);
+                            modelAndView.addObject("exercises", workout.getWorkout().getWorkoutExerciseInfo());
+                        }
+                    });
 
-        return super.view("customer/workout-by-day", modelAndView);
+            return super.view("customer/workout-by-day", modelAndView);
+
+
     }
+
 }

@@ -20,7 +20,5 @@ public class TrainingPlanServiceModel extends BaseServiceModel {
 
     private TrainingPlanType trainingPlanType;
 
-    private LocalDate startedOn;
-
     private List<TrainingPlanWorkoutInfoServiceModel> workouts = new ArrayList<>();
 }

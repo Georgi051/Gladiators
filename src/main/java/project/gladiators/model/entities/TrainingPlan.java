@@ -25,9 +25,6 @@ public class TrainingPlan extends BaseEntity{
     @Column(name = "training_plan_type")
     private TrainingPlanType trainingPlanType;
 
-    @Column(name = "started_on")
-    private LocalDate startedOn;
-
     @ManyToMany(cascade = CascadeType.ALL,
     fetch = FetchType.EAGER)
     private List<TrainingPlanWorkoutInfo> workouts;

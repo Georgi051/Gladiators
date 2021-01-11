@@ -230,6 +230,7 @@ public class TrainerController extends BaseController {
     @PageTitle("Add training plan to customer")
     public ModelAndView addTrainingPlanToCustomer(ModelAndView modelAndView) {
 
+        modelAndView.addObject("trainingPlanToCustomer", new TrainingPlanToCustomerBindingModel());
         modelAndView.addObject("trainingPlanNames", trainingPlanService.findAll().stream()
         .map(trainingPlanServiceModel -> this.modelMapper.map(trainingPlanServiceModel, TrainingPlanViewModel.class))
         .collect(Collectors.toList()));
@@ -240,16 +241,23 @@ public class TrainerController extends BaseController {
 
     @PostMapping("/add-training-plan-to-customer")
     @PageTitle("Add training plan to customer")
-    public ModelAndView addTrainingPlanToCustomer(TrainingPlanToCustomerBindingModel trainingPlanToCustomerBindingModel,
+    public ModelAndView addTrainingPlanToCustomer(@Valid @ModelAttribute("trainingPlanToCustomer")
+                                                              TrainingPlanToCustomerBindingModel trainingPlanToCustomer,
                                                   ModelAndView modelAndView,Principal principal) {
-        boolean trainingPlanServiceModel = trainingPlanService.addTrainingPlanToCustomer(trainingPlanToCustomerBindingModel.getId(), trainingPlanToCustomerBindingModel.getName(),principal.getName());
+        boolean trainingPlanServiceModel = trainingPlanService.addTrainingPlanToCustomer(trainingPlanToCustomer.getId(),
+                trainingPlanToCustomer.getName(),principal.getName(), trainingPlanToCustomer.getStartedOn());
 
         if (!trainingPlanServiceModel){
+            modelAndView.addObject("trainingPlanNames", trainingPlanService.findAll().stream()
+                    .map(trainingPlan -> this.modelMapper.map(trainingPlan, TrainingPlanViewModel.class))
+                    .collect(Collectors.toList()));
+
+            modelAndView.addObject("customers",this.customerService.findAll());
             modelAndView.addObject("error",  "This user already have training plan");
             return super.view("/trainer/add-training-plan-to-customer", modelAndView);
         }
 
-        return super.view("/trainer/add-training-plan-to-customer", modelAndView);
+        return super.redirect("/trainers/add-training-plan-to-customer");
     }
 
     private void createWorkout(@ModelAttribute("workout") @Valid WorkoutAddBindingModel workoutAddBindingModel, RedirectAttributes redirectAttributes, WorkoutServiceModel workoutServiceModel) {

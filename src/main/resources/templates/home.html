@@ -36,6 +36,7 @@
             <th:block th:if="${trainingPlan != null}">
                 <article class="training-plan-article" th:object="${trainingPlan}">
                     <h3>Your Training plan</h3>
+                    <span th:text="|You have ${daysLeft} days left|"></span>
                     <th:block th:if="*{trainingPlanType.name() == 'BUILD_MUSCLE'}">
                         <span>BUILD MUSCLE</span>
                         <img th:src="@{https://res.cloudinary.com/gladiators/image/upload/v1609761974/build-muscle_x5zn2w.jpg}"

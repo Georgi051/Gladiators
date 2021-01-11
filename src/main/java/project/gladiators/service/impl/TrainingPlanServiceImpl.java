@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import project.gladiators.exceptions.TrainerNotFoundException;
 import project.gladiators.model.bindingModels.TrainingPlanBindingModel;
 import project.gladiators.model.entities.*;
-import project.gladiators.repository.CustomerRepository;
-import project.gladiators.repository.TrainerRepository;
-import project.gladiators.repository.TrainingPlanRepository;
-import project.gladiators.repository.TrainingPlanWorkoutInfoRepository;
+import project.gladiators.repository.*;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.WorkoutService;
@@ -21,6 +18,7 @@ import project.gladiators.service.serviceModels.WorkoutServiceModel;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,9 +35,10 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     private final TrainerRepository trainerRepository;
     private final TrainingPlanWorkoutInfoRepository trainingPlanWorkoutInfoRepository;
     private final CustomerRepository customerRepository;
+    private final CustomerTrainingPlanInfoRepository customerTrainingPlanInfoRepository;
 
     @Autowired
-    public TrainingPlanServiceImpl(TrainingPlanRepository trainingPlanRepository, ModelMapper modelMapper, WorkoutService workoutService, CustomerService customerService, TrainerRepository trainerRepository,CustomerRepository customerRepository, TrainingPlanWorkoutInfoRepository trainingPlanWorkoutInfoRepository) {
+    public TrainingPlanServiceImpl(TrainingPlanRepository trainingPlanRepository, ModelMapper modelMapper, WorkoutService workoutService, CustomerService customerService, TrainerRepository trainerRepository, CustomerRepository customerRepository, TrainingPlanWorkoutInfoRepository trainingPlanWorkoutInfoRepository, CustomerTrainingPlanInfoRepository customerTrainingPlanInfoRepository) {
         this.trainingPlanRepository = trainingPlanRepository;
         this.modelMapper = modelMapper;
         this.workoutService = workoutService;
@@ -47,6 +46,7 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
         this.trainerRepository = trainerRepository;
         this.trainingPlanWorkoutInfoRepository = trainingPlanWorkoutInfoRepository;
         this.customerRepository = customerRepository;
+        this.customerTrainingPlanInfoRepository = customerTrainingPlanInfoRepository;
     }
 
     @Override
@@ -99,9 +99,6 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
             workoutServiceModel.setDayOfWeek(dayOfWeek);
             trainingPlanServiceModel.getWorkouts().get(i).setWorkout(workoutServiceModel);
             dayOfWeek = dayOfWeek.plus(1);
-//            this.trainingPlanWorkoutInfoRepository.saveAndFlush(this.modelMapper
-//                    .map(trainingPlanServiceModel
-//            .getWorkouts().get(i), TrainingPlanWorkoutInfo.class));
         }
         this.addTrainingPlan(trainingPlanServiceModel, principal);
 
@@ -116,7 +113,8 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     }
 
     @Override
-    public boolean addTrainingPlanToCustomer(String id, String name, String trainerName) {
+    public boolean addTrainingPlanToCustomer(String id, String name, String trainerName,
+                                             LocalDate startedOn) {
         TrainingPlan trainingPlan = trainingPlanRepository.findByName(name);
         Customer findCustomerById = this.modelMapper.map(customerService.findCustomerById(id), Customer.class);
 
@@ -131,6 +129,11 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
                 trainer.getCustomers().add(findCustomerById);
                 trainerRepository.save(trainer);
             }
+            CustomerTrainingPlanInfo customerTrainingPlanInfo = new CustomerTrainingPlanInfo();
+            customerTrainingPlanInfo.setTrainingPlan(trainingPlan);
+            customerTrainingPlanInfo.setCustomer(findCustomerById);
+            customerTrainingPlanInfo.setStartedOn(startedOn);
+            customerTrainingPlanInfoRepository.save(customerTrainingPlanInfo);
             trainingPlanRepository.save(trainingPlan);
             return true;
         }
