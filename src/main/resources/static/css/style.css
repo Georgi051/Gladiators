@@ -2083,3 +2083,7 @@ label.star:before {
     justify-content: center;
 }
 
+.locked-icon {
+    margin-right: 5px;
+}
+

@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
-import project.gladiators.model.entities.TrainingPlanWorkoutInfo;
-import project.gladiators.model.entities.WorkoutExerciseInfo;
 import project.gladiators.service.CustomerService;
+import project.gladiators.service.CustomerTrainingPlanInfoService;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.*;
@@ -17,8 +16,8 @@ import project.gladiators.service.serviceModels.*;
 import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -28,11 +27,13 @@ public class TrainingPlanController extends BaseController{
     private final CustomerService customerService;
     private final UserService userService;
     private final TrainingPlanService trainingPlanService;
+    private final CustomerTrainingPlanInfoService customerTrainingPlanInfoService;
 
-    public TrainingPlanController(CustomerService customerService, UserService userService, TrainingPlanService trainingPlanService) {
+    public TrainingPlanController(CustomerService customerService, UserService userService, TrainingPlanService trainingPlanService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService) {
         this.customerService = customerService;
         this.userService = userService;
         this.trainingPlanService = trainingPlanService;
+        this.customerTrainingPlanInfoService = customerTrainingPlanInfoService;
     }
 
     @GetMapping("/userId-{id}")
@@ -45,11 +46,17 @@ public class TrainingPlanController extends BaseController{
                 .findCustomerById(id);
         TrainingPlanServiceModel trainingPlan = this.trainingPlanService
                 .findByCustomer(customerServiceModel);
-        trainingPlan.setWorkouts(trainingPlan.getWorkouts().stream()
-        .sorted(Comparator.comparing(TrainingPlanWorkoutInfoServiceModel::getDayOfWeek)).collect(Collectors.toList()));
-        modelAndView.addObject("trainingPlan", trainingPlan);
-        modelAndView.addObject("currentDayOfWeek", LocalDate.now().getDayOfWeek());
-        return super.view("customer/customer-training-plan", modelAndView);
+        CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel =
+                this.customerTrainingPlanInfoService.findByCustomer(customerServiceModel);
+        if(customerTrainingPlanInfoServiceModel != null && Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(),
+                LocalDate.now()).getDays() > 0){
+            trainingPlan.setWorkouts(trainingPlan.getWorkouts().stream()
+                    .sorted(Comparator.comparing(TrainingPlanWorkoutInfoServiceModel::getDayOfWeek)).collect(Collectors.toList()));
+            modelAndView.addObject("trainingPlan", trainingPlan);
+            modelAndView.addObject("currentDayOfWeek", LocalDate.now().getDayOfWeek());
+            return super.view("customer/customer-training-plan", modelAndView);
+        }
+        return super.redirect("/home");
     }
 
     @GetMapping("/workoutByDay-{dayOfWeek}")
@@ -57,9 +64,13 @@ public class TrainingPlanController extends BaseController{
     public ModelAndView getWorkoutByDay(@PathVariable("dayOfWeek")DayOfWeek dayOfWeek,
                                         ModelAndView modelAndView, Principal principal) {
 
-            UserServiceModel user = this.userService.findUserByUsername(principal.getName());
-            CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
+        UserServiceModel user = this.userService.findUserByUsername(principal.getName());
+        CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
 
+        CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel =
+                this.customerTrainingPlanInfoService.findByCustomer(customer);
+        if (customerTrainingPlanInfoServiceModel != null && Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(),
+                LocalDate.now()).getDays() > 0) {
             TrainingPlanServiceModel trainingPlan = this.trainingPlanService
                     .findByCustomer(customer);
             trainingPlan
@@ -73,6 +84,8 @@ public class TrainingPlanController extends BaseController{
 
             return super.view("customer/workout-by-day", modelAndView);
 
+        }
+        return super.redirect("/home");
 
     }
 

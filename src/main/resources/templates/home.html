@@ -4,7 +4,7 @@
 <head th:insert="~{fragments/head}">
 
 </head>
-<body>
+<body class="home-content">
 <th:block th:insert="~{fragments/nav}">
 
 </th:block>
@@ -36,7 +36,8 @@
             <th:block th:if="${trainingPlan != null}">
                 <article class="training-plan-article" th:object="${trainingPlan}">
                     <h3>Your Training plan</h3>
-                    <span th:text="|You have ${daysLeft} days left|"></span>
+                    <span class="text-danger" style="font-size: 0.95em" th:if="${daysUntil}" th:text="|You have ${daysUntil} days until your plan starts|"></span>
+                    <span th:if="${daysLeft}" th:text="|You have ${daysLeft} days left|"></span>
                     <th:block th:if="*{trainingPlanType.name() == 'BUILD_MUSCLE'}">
                         <span>BUILD MUSCLE</span>
                         <img th:src="@{https://res.cloudinary.com/gladiators/image/upload/v1609761974/build-muscle_x5zn2w.jpg}"
@@ -52,8 +53,13 @@
                         <img th:src="@{https://res.cloudinary.com/gladiators/image/upload/v1609761974/lost-weight_slx9ev.jpg}"
                         >
                     </th:block>
-                    <div class="text-center">
+
+                    <div th:if="${daysLeft}" class="text-center">
                         <a class="btn btn-success" th:href="@{/trainingPlan/userId-{id}(id=${customer.id})}">More Info</a>
+
+                    </div>
+                    <div th:if="${daysUntil}" class="text-center">
+                        <button class="btn btn-secondary" style="opacity: 0.5" disabled><i class="fas fa-lock locked-icon"></i>Locked</button>
 
                     </div>
                 </article>

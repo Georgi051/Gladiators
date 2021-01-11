@@ -17,6 +17,8 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 
 @Controller
 public class HomeController extends BaseController{
@@ -25,6 +27,7 @@ public class HomeController extends BaseController{
     private final CustomerService customerService;
     private final TrainingPlanService trainingPlanService;
     private final CustomerTrainingPlanInfoService customerTrainingPlanInfoService;
+    private final static int TRAINING_PLAN_DURATION_DAYS = 28;
 
 
     public HomeController(UserService userService, CustomerService customerService, TrainingPlanService trainingPlanService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService) {
@@ -56,11 +59,13 @@ public class HomeController extends BaseController{
             CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel =
                     this.customerTrainingPlanInfoService.findByCustomer(customer);
             if(customerTrainingPlanInfoServiceModel != null) {
-                if (customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).isAfter(LocalDate.now())) {
+                int days = Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(), LocalDate.now()).getDays();
                     modelAndView.addObject("trainingPlan",
                             trainingPlan);
-                    modelAndView.addObject("daysLeft",
-                            customerTrainingPlanInfoServiceModel.getStartedOn().plusDays(28).minusDays(LocalDate.now().getDayOfMonth()).getDayOfMonth());
+                if (days <= TRAINING_PLAN_DURATION_DAYS && days >= 0) {
+                    modelAndView.addObject("daysLeft", TRAINING_PLAN_DURATION_DAYS - days);
+                }else if(days < 0) {
+                    modelAndView.addObject("daysUntil", Period.between(LocalDate.now(), customerTrainingPlanInfoServiceModel.getStartedOn()).getDays());
                 }
             }
                 modelAndView.addObject("progressChart", customer.getProgressChart());
