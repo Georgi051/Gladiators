@@ -41,17 +41,14 @@ public class TrainingPlanController extends BaseController{
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ModelAndView getTrainingPlanByCustomerId(@PathVariable("id") String id,
                                                 ModelAndView modelAndView){
+        CustomerServiceModel customerServiceModel = this.customerService.findCustomerById(id);
+        TrainingPlanServiceModel trainingPlan = this.trainingPlanService.findByCustomer(customerServiceModel);
+        CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel = this.customerTrainingPlanInfoService.findByCustomer(customerServiceModel);
 
-        CustomerServiceModel customerServiceModel = this.customerService
-                .findCustomerById(id);
-        TrainingPlanServiceModel trainingPlan = this.trainingPlanService
-                .findByCustomer(customerServiceModel);
-        CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel =
-                this.customerTrainingPlanInfoService.findByCustomer(customerServiceModel);
-        if(customerTrainingPlanInfoServiceModel != null && Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(),
-                LocalDate.now()).getDays() > 0){
+        if (checkForCustomerTrainingPlan(customerTrainingPlanInfoServiceModel)){
             trainingPlan.setWorkouts(trainingPlan.getWorkouts().stream()
-                    .sorted(Comparator.comparing(TrainingPlanWorkoutInfoServiceModel::getDayOfWeek)).collect(Collectors.toList()));
+                    .sorted(Comparator.comparing(TrainingPlanWorkoutInfoServiceModel::getDayOfWeek))
+                    .collect(Collectors.toList()));
             modelAndView.addObject("trainingPlan", trainingPlan);
             modelAndView.addObject("currentDayOfWeek", LocalDate.now().getDayOfWeek());
             return super.view("customer/customer-training-plan", modelAndView);
@@ -66,27 +63,25 @@ public class TrainingPlanController extends BaseController{
 
         UserServiceModel user = this.userService.findUserByUsername(principal.getName());
         CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
+        CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel = this.customerTrainingPlanInfoService.findByCustomer(customer);
 
-        CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel =
-                this.customerTrainingPlanInfoService.findByCustomer(customer);
-        if (customerTrainingPlanInfoServiceModel != null && Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(),
-                LocalDate.now()).getDays() > 0) {
-            TrainingPlanServiceModel trainingPlan = this.trainingPlanService
-                    .findByCustomer(customer);
-            trainingPlan
-                    .getWorkouts()
+        if (checkForCustomerTrainingPlan(customerTrainingPlanInfoServiceModel)) {
+            TrainingPlanServiceModel trainingPlan = this.trainingPlanService.findByCustomer(customer);
+            trainingPlan.getWorkouts()
                     .forEach(workout -> {
                         if (workout.getWorkout().getDayOfWeek().equals(dayOfWeek)) {
                             modelAndView.addObject("workout", workout);
                             modelAndView.addObject("exercises", workout.getWorkout().getWorkoutExerciseInfo());
                         }
                     });
-
             return super.view("customer/workout-by-day", modelAndView);
-
         }
         return super.redirect("/home");
 
     }
 
+    private boolean checkForCustomerTrainingPlan(CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel) {
+        return customerTrainingPlanInfoServiceModel != null && Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(),
+                LocalDate.now()).getDays() > 0;
+    }
 }
