@@ -41,28 +41,31 @@
                     <th class="col-md-3 text-center font-weight-bold">BAN</th>
                 </tr>
 
-                <tr class="row mx-auto">
+                <tr class="row mx-auto auto">
                     <th class="col-md-3 text-center font-weight-bold" th:text="${u.username}"></th>
                     <th class="col-md-2 text-center font-weight-bold" th:text="${u.email}"></th>
-                    <th class="col-md-2 text-center font-weight-bold">
-                        <select class="browser-default custom-select" id="role" name="role">
-                            <option value="">SELECT ROLE</option>
-                            <option value="ROLE_USER">USER</option>
-                            <option value="ROLE_MODERATOR">MODERATOR</option>
-                            <option value="ROLE_ADMIN">ADMIN</option>
-                            <option value="ROLE_ADMIN_AND_MODERATOR">ADMIN AND MODERATOR</option>
-                        </select>
-                    </th>
-                    <th class="col-md-2 text-center font-weight-bold">
+                    <th class="col-md-4 text-center font-weight-bold">
+                        <ul class="change-role">
+                            <li>
+                                <select class="browser-default custom-select" id="role" name="role">
+                                    <option value="">SELECT ROLE</option>
+                                    <option value="ROLE_USER">USER</option>
+                                    <option value="ROLE_MODERATOR">MODERATOR</option>
+                                    <option value="ROLE_ADMIN">ADMIN</option>
+                                    <option value="ROLE_ADMIN_AND_MODERATOR">ADMIN AND MODERATOR</option>
+                                </select>
+                            </li>
+                            <li>
                         <button type="submit" class="btn-group-vertical mb-3 btn-success">Change</button>
+                            </li>
+                        </ul>
+
                     </th>
                     <th class="col-md-3 text-center font-weight-bold">
                         <a th:href="@{/admin/user-management/ban/(id = ${u.id})}"
                            class="btn-group-vertical action-button mb-3 btn-danger">BAN</a>
                     </th>
-
                 </tr>
-
             </form>
             </tbody>
         </table>

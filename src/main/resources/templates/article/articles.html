@@ -16,7 +16,7 @@
             <h2 class="text-center">Latest Articles</h2>
             <p class="text-center">Our latest articles. </p>
         </div>
-        <div class="row articles">
+        <div class="row-articles">
             <div class="col-sm-6 col-md-4 item" th:each="article:${articles}">
                 <a th:href="@{/articles/{id}(id=${article.id})}">
                     <img style="width: 240px ;height: 160px" class="img-fluid" th:src="${article.imageUrl}">

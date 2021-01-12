@@ -82,6 +82,6 @@ public class TrainingPlanController extends BaseController{
 
     private boolean checkForCustomerTrainingPlan(CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel) {
         return customerTrainingPlanInfoServiceModel != null && Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(),
-                LocalDate.now()).getDays() > 0;
+                LocalDate.now()).getDays() >= 0;
     }
 }

@@ -5,8 +5,7 @@
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
         <a class="navbar-brand" th:href="@{/}">Gladiators</a>
         <div class="container">
-            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-                    class="navbar-toggler-icon"></span></button>
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><i class="fas fa-chevron-circle-down"></i></button>
             <span class="collapse navbar-collapse"
                   id="navcol-1">
                 <ul class="nav navbar-nav mr-auto ">
@@ -23,7 +22,7 @@
                                                                  th:href="@{/about}">About Us</a></li>
                 </ul>
             </span>
-
+        </div>
             <th:div sec:authorize="!hasAnyRole('CUSTOMER','MODERATOR','TRAINER_UNCONFIRMED','TRAINER_CONFIRMED','BANNED','ROOT','ADMIN')
              && isAuthenticated()">
                 <a class="nav-link" th:href="@{/customers/registration}">Customer registration</a>
@@ -37,13 +36,12 @@
                     <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">
                         <div class="dropdown-item" th:text="|*{product.product.name} x *{quantity}|"></div>
                     </th:block>
-                    <div class="dropdown-divider"></div>
                     <div class="text-center">
                         <a th:href="@{/cart/details}" class="btn btn-dark">Cart</a>
                     </div>
                 </div>
             </div>
-        </div>
+
 
         <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
              class="dropdown  border rounded" style="margin-right: 30px;">

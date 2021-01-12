@@ -4,7 +4,6 @@
     <th:block th:include="~{fragments/head}"/>
 </head>
 <body>
-<div class="container-fluid">
     <th:block th:insert="~{fragments/nav}">
     </th:block>
     <main class="mt-3">
@@ -26,9 +25,9 @@
                 <tr class="row mx-auto">
                     <th class="col-md-2 text-center"><img th:src="*{product.product.imageUrl}" alt="Product" height="75" width="75"></th>
                     <td class="col-md-3 text-center" th:text="*{product.product.name}"></td>
-                    <td class="col-md-2 text-center" th:text="|*{product.product.description}...|" maxlength="20"></td>
+                    <td class="col-md-2 text-center" th:text="|*{product.product.description}...|"></td>
                     <td class="col-md-2 text-center" th:text="*{product.price}" ></td>
-                    <td class="col-md-1 text-center" th:text="*{quantity}"></td>
+                    <td class="col-md-1 text-center" th:text="|*{quantity} pc.|"></td>
                     <td class="col-md-2 text-center">
                         <form th:action="@{/cart/remove-product}" th:method="post">
                             <div class="button-holder d-flex justify-content-center">
@@ -55,6 +54,5 @@
     </th:block>
     <th:block th:insert="~{fragments/scripts}">
     </th:block>
-</div>
 </body>
 </html>

@@ -1,0 +1,314 @@
+@media all and (max-width: 360px) {
+    .mail-wrapper .panel-sub-heading {
+        text-align: center;
+    }
+    .mail-wrapper .panel-sub-heading .pull-left, .mail-wrapper .panel-sub-heading .pull-right {
+        float: none !important;
+        display: block;
+    }
+    .mail-wrapper .panel-sub-heading .pull-right {
+        margin-top: 10px;
+    }
+    .mail-wrapper .panel-sub-heading img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+    }
+    .mail-wrapper .panel-footer {
+        text-align: center;
+    }
+    .mail-wrapper .panel-footer .pull-right {
+        float: none !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .mail-wrapper .attachment-mail ul {
+        padding: 0px;
+    }
+    .mail-wrapper .attachment-mail ul li {
+        width: 100%;
+    }
+    .mail-wrapper .attachment-mail ul li a.atch-thumb img {
+        width: 100% !important;
+    }
+    .mail-wrapper .attachment-mail ul li .links {
+        margin-bottom: 20px;
+    }
+
+    .compose-mail-wrapper .search-mail input {
+        width: 130px;
+    }
+    .compose-mail-wrapper .panel-sub-heading {
+        padding: 10px 7px;
+    }
+}
+
+@media all and (max-width: 500px){
+    /*html {*/
+    /*    min-width: 500px;*/
+    /*}*/
+    body > nav > div.container {
+        margin-right: 46%;
+    }
+    body > div.container.mt-5 > form {}
+
+}
+
+@media all and (max-width: 640px) {
+    .compose-mail-wrapper .compose-mail {
+        padding: 0px;
+    }
+
+}
+@media all and (max-width: 768px) {
+    body > nav {
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+    body > nav > .container{
+        width: 10% !important;
+    }
+    #navcol-1 {
+        text-align: center;
+    }
+    body > nav > div.dropdown.border.rounded{
+        margin-right: 0 !important;
+    }
+    .training-plan-article, .progress-chart {
+        margin-bottom: 5px;
+    }
+    .list-inline {
+        display: flex;
+        flex-direction: column;
+    }
+    .list-inline ul {
+        margin-bottom: 5px;
+    }
+    .row-articles div {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0 auto;
+        flex: none;
+    }
+    #portfolio > div > div:nth-child(2){
+        flex-direction: column;
+        align-items: center;
+    }
+    #portfolio .portfolio-item{
+        max-width: none;
+        flex: none;
+        width: 500px;
+    }
+    .workout-container{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    body > main > .table-responsive > table > thead{
+        display: flex;
+    }
+    body > main > .table-responsive > table > thead > tr > th{
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+    .table-responsive > table > thead > tr > th {
+        height: 54px;
+    }
+    .table-responsive > table > thead > tr > th > ul {
+        margin-bottom: 0;
+    }
+    .table-responsive > table {
+        margin-bottom: 50px;
+        border-bottom: 2px solid;
+        border-top: 2px solid;
+    }
+    .card-header-tabs {
+        justify-content: center;
+    }
+    body > nav > div.container {
+        margin-right: 44%;
+    }
+
+    .login-form div {
+        margin-top: 30px;
+    }
+
+    .form-group btn {
+        display: flex;
+        margin: 0 auto;
+    }
+
+    body > div > form {
+        min-width: 70%;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+    body > div:nth-child(3) > table > thead,
+    body > div:nth-child(4) > table > thead,
+    body > main > table > thead,
+    body > div > main > table > thead{
+        display: none;
+    }
+
+    .stars, .comments-title {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-group{
+        display: flex;
+        margin: 0 auto;
+    }
+
+    body > div.container.mt-5 > form {
+        margin: 0 auto;
+        max-width: 70%;
+        justify-content: center;
+    }
+    .social-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #team .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #team > div > div > div {
+        flex: none;
+        max-width: none;
+    }
+    #tbl > thead > tr {
+        display: none;
+    }
+    #tbl > tbody > tr {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    #tbl > tbody > tr > td > input {
+        width: 190px;
+    }
+    body > section > form:nth-child(2) {
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    body > section > form:nth-child(2) > button{
+        display: flex;
+        margin: 0 auto;
+        position: inherit;
+    }
+    .shop #navcol-1 .nav-link, active {
+        background: gray;
+        opacity: 0.85;
+        border-radius: 20px;
+    }
+
+}
+@media all and (max-width: 768px) {
+    .navigation-clean-button .navbar-nav .show .dropdown-menu .dropdown-item {
+        color: #37434d;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        line-height: 1;
+    }
+    .navigation-clean-button .navbar-nav .show .dropdown-menu {
+        box-shadow: none;
+    }
+    .navigation-clean-button {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .header-blue .navbar-nav .nav-link {
+        padding-left: .7rem;
+        padding-right: .7rem;
+    }
+    .header-blue .hero {
+        margin-top: 60px;
+        text-align: left;
+    }
+    .header-blue .navbar .navbar-collapse {
+        border-color: transparent;
+        margin: 0;
+    }
+    .header-blue .navbar {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .header-blue {
+        padding-bottom: 120px;
+    }
+    .article-clean .text h2 {
+        font-size: 20px;
+    }
+    .article-list h2 {
+        margin-bottom: 25px;
+        padding-top: 25px;
+        font-size: 24px;
+    }
+    .article-clean .text p {
+        font-size: 16px;
+    }
+    .navigation-clean-button.navbar-dark .navbar-nav .show .dropdown-menu .dropdown-item {
+        color: #fff;
+    }
+
+
+}
+
+@media all and (max-width: 896px) {
+    .nav-shop ul {
+        flex-direction: column;
+    }
+
+}
+
+@media all and (max-width: 992px) {
+    .workout-container{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .navigation-clean-button.navbar .navbar-nav .nav-link{
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    body > nav > div.dropdown.border.rounded {
+        margin-right: 15px;
+    }
+
+}
+
+@media all and (max-width: 992px) {
+    .header-blue .navbar-nav .nav-link {
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+    }
+    .header-blue .hero h1 {
+        margin-top: 190px;
+        margin-bottom: 24px;
+        line-height: 1.2;
+    }
+
+}
+
+@media all and (max-width:1200px) {
+    .home-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .training-plan-article, .progress-chart {
+        margin-bottom: 5px;
+    }
+}

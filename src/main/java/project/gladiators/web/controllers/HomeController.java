@@ -11,6 +11,7 @@ import java.security.Principal;
 
 @Controller
 public class HomeController extends BaseController {
+
     private final HomeService homeService;
 
     public HomeController(HomeService homeService) {

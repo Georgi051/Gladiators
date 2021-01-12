@@ -121,10 +121,8 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
                 trainingPlan.getCustomers().add(findCustomerById);
                 Trainer trainer = trainerRepository.findTrainerByUser_Username(trainerName)
                         .orElseThrow(() -> new TrainerNotFoundException(TRAINER_NOT_FOUND));
-                if (!trainer.getCustomers().contains(findCustomerById)) {
                     trainer.getCustomers().add(findCustomerById);
                     trainerRepository.save(trainer);
-                }
             }
             customerTrainingPlanInfo = new CustomerTrainingPlanInfo();
             customerTrainingPlanInfo.setTrainingPlan(trainingPlan);

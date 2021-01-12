@@ -20,15 +20,8 @@
             <h3 class="text-center text-primary">LOST WEIGHT</h3>
         </th:block>
             <div class="row" style="justify-content: center">
-                <th:block >
-                    <article class="workout-article" style="border: 5px solid yellow;opacity: 0.85;" th:each="workout: *{workouts}" th:object="${workout}"   th:if="${currentDayOfWeek == workout.DayOfWeek}">
-                        <a th:href="@{/trainingPlan/workoutByDay-{day}(day = *{dayOfWeek})}" th:text="*{dayOfWeek}"></a>
-                        <span th:text="*{workout.name}"></span>
-                        <span th:text="|Duration: *{workout.duration} minutes|"></span>
-                    </article>
-                </th:block>
-                <th:block   th:each="workout: *{workouts}" th:object="${workout}"  th:if="${currentDayOfWeek != workout.DayOfWeek}">
-                    <article class="workout-article">
+                <th:block th:each="workout: *{workouts}" th:object="${workout}">
+                    <article class="workout-article"  th:styleappend="${currentDayOfWeek == workout.DayOfWeek} ? 'border: 2px solid yellow; opacity:0.90' : ''">
                         <a th:href="@{/trainingPlan/workoutByDay-{day}(day = *{dayOfWeek})}" th:text="*{dayOfWeek}"></a>
                         <span th:text="*{workout.name}"></span>
                         <span th:text="|Duration: *{workout.duration} minutes|"></span>

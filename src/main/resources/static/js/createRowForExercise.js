@@ -28,7 +28,7 @@ function createRowForExercise(){
     inputSets.type = "number";
     inputSets.classList.add("w-40");
     inputSets.name = "sets";
-    inputSets.placeholder = "0";
+    inputSets.placeholder = "Sets";
     inputSets.min = "1";
     inputSets.max = "6";
     tdSets.appendChild(inputSets);
@@ -48,7 +48,7 @@ function createRowForExercise(){
     inputRestTime.type = "number";
     inputRestTime.classList.add("w-40");
     inputRestTime.name = "restTime";
-    inputRestTime.placeholder = "0";
+    inputRestTime.placeholder = "Rest Time";
     inputRestTime.min = "1";
     inputRestTime.max = "6";
     tdRestTime.appendChild(inputRestTime);

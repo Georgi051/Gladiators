@@ -434,19 +434,6 @@
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-@media (min-width:768px) {
-    .header-blue {
-        padding-bottom: 120px;
-    }
-}
-
-@media (max-width:1200px) {
-    .home-row {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
 .header-blue .navbar {
     background: transparent;
     padding-top: .75rem;
@@ -455,13 +442,6 @@
     border-radius: 0;
     box-shadow: none;
     border: none;
-}
-
-@media (min-width:768px) {
-    .header-blue .navbar {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
 }
 
 .header-blue .navbar .navbar-brand {
@@ -476,13 +456,6 @@
 .header-blue .navbar .navbar-collapse {
     border-top: 1px solid rgba(255,255,255,0.3);
     margin-top: .5rem;
-}
-
-@media (min-width:768px) {
-    .header-blue .navbar .navbar-collapse {
-        border-color: transparent;
-        margin: 0;
-    }
 }
 
 .header-blue .navbar .navbar-collapse span .login {
@@ -502,20 +475,6 @@
 
 .header-blue .navbar .navbar-toggler:hover, .header-blue .navbar-toggler:focus {
     background: none;
-}
-
-@media (min-width: 768px) {
-    .header-blue .navbar-nav .nav-link {
-        padding-left: .7rem;
-        padding-right: .7rem;
-    }
-}
-
-@media (min-width: 992px) {
-    .header-blue .navbar-nav .nav-link {
-        padding-left: 1.2rem;
-        padding-right: 1.2rem;
-    }
 }
 
 .header-blue .navbar.navbar-light .navbar-nav .nav-link {
@@ -585,13 +544,6 @@
     text-align: center;
 }
 
-@media (min-width:768px) {
-    .header-blue .hero {
-        margin-top: 60px;
-        text-align: left;
-    }
-}
-
 .header-blue .hero h1 {
     color: #fff;
     font-size: 40px;
@@ -599,14 +551,6 @@
     margin-bottom: 15px;
     font-weight: 300;
     line-height: 1.4;
-}
-
-@media (min-width:992px) {
-    .header-blue .hero h1 {
-        margin-top: 190px;
-        margin-bottom: 24px;
-        line-height: 1.2;
-    }
 }
 
 .header-blue .hero p {
@@ -666,13 +610,6 @@
     box-shadow: none;
     border: none;
     margin-bottom: 0;
-}
-
-@media (min-width:768px) {
-    .navigation-clean-button {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
 }
 
 .navigation-clean-button .navbar-brand {
@@ -767,21 +704,6 @@
     color: inherit;
 }
 
-@media (max-width:767px) {
-    .navigation-clean-button .navbar-nav .show .dropdown-menu {
-        box-shadow: none;
-    }
-}
-
-@media (max-width:767px) {
-    .navigation-clean-button .navbar-nav .show .dropdown-menu .dropdown-item {
-        color: #37434d;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        line-height: 1;
-    }
-}
-
 .navigation-clean-button.navbar-dark {
     background-color: #1f2021;
     color: #fff;
@@ -813,12 +735,6 @@
 
 .navigation-clean-button.navbar-dark .dropdown-menu .dropdown-item:focus, .navigation-clean-button.navbar-dark .dropdown-menu .dropdown-item:hover {
     background: #363739;
-}
-
-@media (max-width:767px) {
-    .navigation-clean-button.navbar-dark .navbar-nav .show .dropdown-menu .dropdown-item {
-        color: #fff;
-    }
 }
 
 .actions {
@@ -886,14 +802,6 @@
     margin-bottom: 40px;
     padding-top: 40px;
     color: inherit;
-}
-
-@media (max-width:767px) {
-    .article-list h2 {
-        margin-bottom: 25px;
-        padding-top: 25px;
-        font-size: 24px;
-    }
 }
 
 .article-list .intro {
@@ -997,12 +905,6 @@
     line-height: 1.45;
 }
 
-@media (min-width:768px) {
-    .article-clean .text p {
-        font-size: 16px;
-    }
-}
-
 .article-clean .text h2 {
     margin-top: 28px;
     margin-bottom: 20px;
@@ -1012,11 +914,6 @@
     color: #333;
 }
 
-@media (min-width:768px) {
-    .article-clean .text h2 {
-        font-size: 20px;
-    }
-}
 
 .article-clean .text figure {
     text-align: center;
@@ -1098,7 +995,10 @@ div.radio {
 
 
 .about {
-    background-image: url("/img/about-img.jpg");
+    /*background-image: url("/img/about-img.jpg");*/
+    /*background-size: cover;*/
+    /*opacity: 0.8;*/
+    color: white;
 }
 
 .message-form {
@@ -1551,57 +1451,6 @@ form .form-group {
     color: #767676;
 }
 
-@media (max-width: 640px) {
-    .compose-mail-wrapper .compose-mail {
-        padding: 0px;
-    }
-}
-@media (max-width: 360px) {
-    .mail-wrapper .panel-sub-heading {
-        text-align: center;
-    }
-    .mail-wrapper .panel-sub-heading .pull-left, .mail-wrapper .panel-sub-heading .pull-right {
-        float: none !important;
-        display: block;
-    }
-    .mail-wrapper .panel-sub-heading .pull-right {
-        margin-top: 10px;
-    }
-    .mail-wrapper .panel-sub-heading img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 10px;
-    }
-    .mail-wrapper .panel-footer {
-        text-align: center;
-    }
-    .mail-wrapper .panel-footer .pull-right {
-        float: none !important;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .mail-wrapper .attachment-mail ul {
-        padding: 0px;
-    }
-    .mail-wrapper .attachment-mail ul li {
-        width: 100%;
-    }
-    .mail-wrapper .attachment-mail ul li a.atch-thumb img {
-        width: 100% !important;
-    }
-    .mail-wrapper .attachment-mail ul li .links {
-        margin-bottom: 20px;
-    }
-
-    .compose-mail-wrapper .search-mail input {
-        width: 130px;
-    }
-    .compose-mail-wrapper .panel-sub-heading {
-        padding: 10px 7px;
-    }
-}
-
 .shop {
     background-image: url("https://res.cloudinary.com/gladiators/image/upload/v1603450581/GLADIATORS_ftv8nd.png");
     background-repeat: no-repeat;
@@ -1662,6 +1511,7 @@ form .form-group {
 
 .products {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     padding: 0;
 }
@@ -1815,6 +1665,7 @@ label.star:before {
     margin-right: 15px;
     height: 80%;
     width: 230px;
+    margin-bottom: 10px;
 }
 
 .offer-article img {
@@ -2085,5 +1936,21 @@ label.star:before {
 
 .locked-icon {
     margin-right: 5px;
+}
+
+#team > div > .col-sm-4 {
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+    flex: none;
+}
+
+.change-role {
+    display: flex;
+}
+
+.change-role li:nth-child(2) {
+    margin-left: 10px;
+    margin-top: 3px;
 }
 
