@@ -44,7 +44,7 @@
         <div class="text-center">
             <h3 th:text="|Total: ${totalPrice}|"></h3>
         </div>
-        <form th:action="@{/cart/checkout}" th:method="post">
+        <form th:action="@{/cart/checkout}" th:method="get">
             <div class="button-holder d-flex justify-content-center">
                 <button type="submit" class="btn btn-success">Checkout</button>
             </div>

@@ -61,16 +61,17 @@ public class CartController extends BaseController {
         return super.redirect("/cart/details");
     }
 
-    @PostMapping("/checkout")
+    @GetMapping("/checkout")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView checkoutConfirm(HttpSession session,Principal principal) {
+    @PageTitle("Order Details")
+    public ModelAndView getCheckout(HttpSession session, ModelAndView modelAndView,
+                                    Principal principal){
+
+        modelAndView.addObject("totalPrice", this.cartService.calcTotal(session));
         OrderServiceModel orderServiceModel = this.cartService.prepareOrder(session,principal.getName());
-        if (orderServiceModel == null){
-            return super.redirect("/home");
-        }
-        this.orderService.createOrder(orderServiceModel);
-        session.removeAttribute("shopping-cart");
-        return super.redirect("/home");
+        modelAndView.addObject("order", orderServiceModel);
+        return super.view("cart/checkout", modelAndView);
+
     }
 
 }
