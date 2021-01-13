@@ -124,7 +124,11 @@
             <artifactId>spring-context-support</artifactId>
             <version>5.2.1.RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>rest-api-sdk</artifactId>
+            <version>1.4.2</version>
+        </dependency>
     </dependencies>
 
     <build>
