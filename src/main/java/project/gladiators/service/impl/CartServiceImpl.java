@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static project.gladiators.constants.ShoppingCartConstants.*;
+
 @Service
 public class CartServiceImpl implements CartService {
     private final UserService userService;
@@ -40,12 +42,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<ShoppingCartViewModel> retrieveCart(HttpSession session) {
         this.initCart(session);
-        return (List<ShoppingCartViewModel>) session.getAttribute("shopping-cart");
+        return (List<ShoppingCartViewModel>) session.getAttribute(SHOPPING_CART);
     }
 
     private void initCart(HttpSession session) {
-        if (session.getAttribute("shopping-cart") == null) {
-            session.setAttribute("shopping-cart", new LinkedList<>());
+        if (session.getAttribute(SHOPPING_CART) == null) {
+            session.setAttribute(SHOPPING_CART, new LinkedList<>());
         }
     }
 
@@ -58,7 +60,7 @@ public class CartServiceImpl implements CartService {
 
         if(quantity > product.getQuantity()){
             throw new MaxProductQuantityInCartException(
-                    "We are sorry but we don't have the amount of the product you wants! Try to order smaller amount!");
+                    MAX_PRODUCT_QUANTITY);
         }
         OrderProductViewModel orderProductViewModel = new OrderProductViewModel();
         orderProductViewModel.setProduct(product);
@@ -73,7 +75,7 @@ public class CartServiceImpl implements CartService {
             if (shoppingCartItem.getProduct().getProduct().getId().equals(item.getProduct().getProduct().getId())) {
 
                 if(shoppingCartItem.getQuantity() + item.getQuantity() > 15){
-                    throw new MaxProductQuantityInCartException("You have reached limit of order product quantity!");
+                    throw new MaxProductQuantityInCartException(LIMIT_QUANTITY);
                 }
 
                 shoppingCartItem.setQuantity(shoppingCartItem.getQuantity() + item.getQuantity());
