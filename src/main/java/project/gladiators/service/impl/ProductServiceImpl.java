@@ -149,6 +149,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductServiceModel findByName(String name) {
+        return this.modelMapper.map(this.productRepository.findByName(name),ProductServiceModel.class);
+    }
+
+    @Override
     public void sellProduct(List<OrderProductServiceModel> products) {
         List<Product> productsAfterQuantityChanges = products.stream().map(p -> {
             Product product = this.productRepository.findById(p.getProduct().getId())

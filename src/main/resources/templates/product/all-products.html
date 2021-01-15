@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="product: ${products}">
+        <th:block th:each="product: ${products}" th:if="${product.name != 'Training plan'}">
             <tr class="row mx-auto">
                 <th class="col-md-1 text-center" th:text="${productStat.index + 1}"></th>
                 <td class="col-md-3" style="margin-left: -5px"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div></td>

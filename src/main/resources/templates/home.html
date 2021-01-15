@@ -15,7 +15,9 @@
 <th:block th:if="${customer != null && progressChart.changed == false}">
     <h5 class="text-primary text-lg-center">We didn't check any progress! If you have progress please enter your new values in the progress chart!</h5>
 </th:block>
-
+<th:block th:if="${paid == false}">
+    <h5 class="text-primary text-lg-center">Your trainer have made a training plan for you. To activate it go to this <a th:href="@{/cart/details}" style="text-decoration: none;border-bottom: 1px solid">page</a></h5>
+</th:block>
 
 <div class="col-12 alert alert-warning  text-center" sec:authorize="hasRole('TRAINER_UNCONFIRMED')">
     You are registered as a trainer!
@@ -54,13 +56,12 @@
                         >
                     </th:block>
 
-                    <div th:if="${daysLeft}" class="text-center">
+                    <div th:if="${daysLeft != null && paid == true}" class="text-center">
                         <a class="btn btn-success" th:href="@{/trainingPlan/userId-{id}(id=${customer.id})}">More Info</a>
 
                     </div>
-                    <div th:if="${daysUntil}" class="text-center">
+                    <div th:if="${daysUntil != null || paid == false} " class="text-center">
                         <button class="btn btn-secondary" style="opacity: 0.5" disabled><i class="fas fa-lock locked-icon"></i>Locked</button>
-
                     </div>
                 </article>
             </th:block>
@@ -95,49 +96,49 @@
                             <span th:text="Weight" title="Your weight"></span>
                             <div>
                                 <i class="fas fa-hand-point-right"></i>
-                                <input type="text" th:value="*{weight}" placeholder="Weight">
+                                <input type="text" th:value="*{weight}" placeholder="Weight" readonly>
                             </div>
                         </div>
                         <div class="progress-chart-info-div">
                             <span th:text="Height" title="Your height"></span>
                             <div>
                                 <i class="fas fa-hand-point-right"></i>
-                                <input type="text" th:value="*{height}" placeholder="Height">
+                                <input type="text" th:value="*{height}" placeholder="Height" readonly>
                             </div>
                         </div>
                         <div class="progress-chart-info-div">
                             <span th:text="BMI" title="Your BMI"></span>
                             <div>
                                 <i class="fas fa-hand-point-right"></i>
-                                <input type="text" th:value="*{BMI}" placeholder="BMI">
+                                <input type="text" th:value="*{BMI}" placeholder="BMI" readonly>
                             </div>
                         </div>
                         <div class="progress-chart-info-div">
                             <span th:text="Chest" title="Your chest"></span>
                             <div>
                                 <i class="fas fa-hand-point-right"></i>
-                                <input type="text" th:value="*{chest}" placeholder="Chest">
+                                <input type="text" th:value="*{chest}" placeholder="Chest" readonly>
                             </div>
                         </div>
                         <div class="progress-chart-info-div">
                             <span th:text="Waist" title="Your waist"></span>
                             <div>
                                 <i class="fas fa-hand-point-right"></i>
-                                <input type="text" th:value="*{waist}" placeholder="Waist">
+                                <input type="text" th:value="*{waist}" placeholder="Waist" readonly>
                             </div>
                         </div>
                         <div class="progress-chart-info-div">
                             <span th:text="Biceps" title="Your biceps"> </span>
                             <div>
                                 <i class="fas fa-hand-point-right"></i>
-                                <input type="text" th:value="*{biceps}" placeholder="Biceps">
+                                <input type="text" th:value="*{biceps}" placeholder="Biceps" readonly>
                             </div>
                         </div>
                         <div class="progress-chart-info-div">
                             <span th:text="Thigh" title="Your thigh"></span>
                             <div>
                                 <i class="fas fa-hand-point-right"></i>
-                                <input type="text" th:value="*{thigh}" placeholder="Thigh">
+                                <input type="text" th:value="*{thigh}" placeholder="Thigh" readonly>
                             </div>
                         </div>
                         <div class="text-center" style="margin-top: 40px;">

@@ -128,6 +128,7 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
             customerTrainingPlanInfo.setTrainingPlan(trainingPlan);
             customerTrainingPlanInfo.setCustomer(findCustomerById);
             customerTrainingPlanInfo.setStartedOn(startedOn);
+            customerTrainingPlanInfo.setPaid(false);
             customerTrainingPlanInfoRepository.save(customerTrainingPlanInfo);
             trainingPlanRepository.save(trainingPlan);
             return true;

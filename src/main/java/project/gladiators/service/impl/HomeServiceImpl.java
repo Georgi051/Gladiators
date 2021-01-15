@@ -41,6 +41,7 @@ public class HomeServiceImpl implements HomeService {
             if (customerTrainingPlanInfoServiceModel != null) {
                 int days = Period.between(customerTrainingPlanInfoServiceModel.getStartedOn(), LocalDate.now()).getDays();
                 modelAndView.addObject("trainingPlan", trainingPlan);
+                modelAndView.addObject("paid",customerTrainingPlanInfoServiceModel.isPaid());
                 if (days <= TRAINING_PLAN_DURATION_DAYS && days >= 0) {
                     modelAndView.addObject("daysLeft", TRAINING_PLAN_DURATION_DAYS - days);
                 } else if (days < 0) {

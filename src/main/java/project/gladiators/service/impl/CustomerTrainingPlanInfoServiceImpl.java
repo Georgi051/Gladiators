@@ -46,4 +46,11 @@ public class CustomerTrainingPlanInfoServiceImpl implements CustomerTrainingPlan
         }
 
     }
+
+    @Override
+    public void customerPaidTrainingPlan(CustomerServiceModel customer) {
+        CustomerTrainingPlanInfo customerTrainingPlan = customerTrainingPlanInfoRepository.findByCustomer_Id(customer.getId());
+        customerTrainingPlan.setPaid(true);
+        customerTrainingPlanInfoRepository.save(customerTrainingPlan);
+    }
 }

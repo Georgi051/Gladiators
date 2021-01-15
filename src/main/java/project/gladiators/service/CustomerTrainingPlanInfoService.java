@@ -6,4 +6,6 @@ import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceM
 public interface CustomerTrainingPlanInfoService {
 
     CustomerTrainingPlanInfoServiceModel findByCustomer(CustomerServiceModel customer);
+
+    void customerPaidTrainingPlan(CustomerServiceModel customer);
 }

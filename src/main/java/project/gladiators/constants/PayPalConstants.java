@@ -8,8 +8,8 @@ public class PayPalConstants {
 
     /*Payment constants*/
     public static final String CURRENCY = "USD";
-    public static final String METHOD = "PayPal";
-    public static final String INTENT = "Sale";
+    public static final String METHOD = "Paypal";
+    public static final String INTENT = "sale";
     public static final String CANCEL_URL = "http://localhost:8080/payment/cancel";
     public static final String SUCCESS_URL = "http://localhost:8080/payment/success";
     public static final String APPROVAL_URL = "approval_url";

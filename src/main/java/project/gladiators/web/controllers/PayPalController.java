@@ -79,7 +79,7 @@ public class PayPalController extends BaseController {
             Payment payment = service.executePayment(paymentId, payerId);
             if (payment.getState().equals(APPROVED)) {
                 OrderServiceModel orderServiceModel = this.cartService.prepareOrder(session, principal.getName());
-                this.orderService.createOrder(orderServiceModel);
+                this.orderService.createOrder(orderServiceModel,principal.getName());
                 redirectAttributes.addFlashAttribute("statusMessage", SUCCESSFUL_MASSAGE);
                 redirectAttributes.addFlashAttribute("statusCode", "successful");
                 session.removeAttribute(SHOPPING_CART);

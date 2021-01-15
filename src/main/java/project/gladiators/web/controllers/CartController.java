@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.MaxProductQuantityInCartException;
-import project.gladiators.service.CartService;
-import project.gladiators.service.OrderService;
+import project.gladiators.service.*;
+import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceModel;
 import project.gladiators.service.serviceModels.OrderServiceModel;
 
 import javax.servlet.http.HttpSession;
@@ -21,13 +22,18 @@ import java.security.Principal;
 @RequestMapping("/cart")
 public class CartController extends BaseController {
     private final CartService cartService;
-    private final OrderService orderService;
+    private final UserService userService;
+    private final CustomerService customerService;
+    private final ProductService productService;
+    private final CustomerTrainingPlanInfoService customerTrainingPlanInfoService;
 
     @Autowired
-    public CartController(CartService cartService, OrderService orderService) {
+    public CartController(CartService cartService, UserService userService, CustomerService customerService, ProductService productService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService) {
         this.cartService = cartService;
-        this.orderService = orderService;
-
+        this.userService = userService;
+        this.customerService = customerService;
+        this.productService = productService;
+        this.customerTrainingPlanInfoService = customerTrainingPlanInfoService;
     }
 
     @PostMapping("/add-product")
@@ -36,7 +42,7 @@ public class CartController extends BaseController {
                                          ModelAndView modelAndView) {
 
         try{
-            this.cartService.addItemToCart(id, quantity, this.cartService.retrieveCart(session));
+            this.cartService.addItemToCart(id, quantity, this.cartService.retrieveCart(session), null);
         }catch (MaxProductQuantityInCartException ex){
             modelAndView.addObject("error", ex.getMessage());
             return super.view("/shop", modelAndView);
@@ -48,7 +54,13 @@ public class CartController extends BaseController {
     @GetMapping("/details")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Cart Details")
-    public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session) {
+    public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session , Principal principal) {
+        CustomerServiceModel customerServiceModel = customerService.findCustomerByUser(userService.findUserByUsername(principal.getName()));
+        CustomerTrainingPlanInfoServiceModel customerTrainingPlan = this.customerTrainingPlanInfoService.findByCustomer(customerServiceModel);
+
+        if (customerTrainingPlan != null && !customerTrainingPlan.isPaid()){
+            this.cartService.addItemToCart(productService.findByName("Training plan").getId(),1,this.cartService.retrieveCart(session),customerServiceModel);
+        }
         modelAndView.addObject("totalPrice", this.cartService.calcTotal(session));
         return super.view("cart/cart-details", modelAndView);
     }

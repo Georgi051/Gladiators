@@ -26,4 +26,7 @@ public class CustomerTrainingPlanInfo extends BaseEntity{
     @Column(name = "started_on")
     private LocalDate startedOn;
 
+    @Column(name = "is_paid")
+    private boolean isPaid;
+
 }
