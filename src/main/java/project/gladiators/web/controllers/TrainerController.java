@@ -288,7 +288,6 @@ public class TrainerController extends BaseController {
         CustomerServiceModel customer = this.customerService.findCustomerById(id);
         modelAndView.addObject("customer",customer);
         modelAndView.addObject("trainingPlan",this.trainingPlanService.findByCustomer(customer));
-        int a = 5;
         return super.view("/trainer/customer-details",modelAndView);
     }
 

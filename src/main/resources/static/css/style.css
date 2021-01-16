@@ -1954,3 +1954,9 @@ label.star:before {
     margin-top: 3px;
 }
 
+.image-style{
+    width: 225px ;
+    height: 225px;
+    border-radius: 50%;
+}
+
