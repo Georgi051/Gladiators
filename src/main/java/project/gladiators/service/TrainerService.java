@@ -17,4 +17,6 @@ public interface TrainerService {
     List<TrainerServiceModel> findAll();
 
     TrainerServiceModel findById(String id);
+
+    TrainerServiceModel findByUserName(String name);
 }

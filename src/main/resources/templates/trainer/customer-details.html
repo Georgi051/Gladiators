@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/head}">
+
+</head>
+<body>
+<th:block th:insert="~{fragments/nav}"></th:block>
+<h1 class="text-center" th:text="*{customer.user.username}"></h1>
+<div class="container text-center" style="margin-right: -70px">
+    <div style="display: table-cell; justify-content:  space-around">
+        <div class="row">
+            <div class="col">
+                <img style="width: 225px ; height: 225px ;border-radius: 50%" class="img-fluid"
+                     th:src="*{customer.user.imageUrl}">
+            </div>
+        </div>
+        <div class="col">
+            <h5 class="text-center">Full name:</h5>
+            <h6 th:text="|*{customer.user.firstName} *{customer.user.LastName}|" class="text-center"
+                style="color: grey"></h6>
+        </div>
+        <div class="col">
+            <h5 class="text-center">Age:</h5>
+            <h6 th:text="*{customer.user.age}" class="text-center" style="color: grey"></h6>
+        </div>
+        <div class="col">
+            <h5 class="text-center">Email:</h5>
+            <h6 th:text="*{customer.user.email}" class="text-center" style="color: grey"></h6>
+        </div>
+        <div class="col">
+            <h5 class="text-center">Training plan name:</h5>
+            <h6 th:text="${trainingPlan.name}" class="text-center" style="color: grey"></h6>
+        </div>
+        <div class="col">
+            <h5 class="text-center">Training plan type:</h5>
+            <h6 th:text="${trainingPlan.trainingPlanType}" class="text-center" style="color: grey"></h6>
+        </div>
+    </div>
+    <div class="progress-chart" style="display: table-cell">
+        <div>
+            <h3>Progress chart</h3>
+            <div>
+                <div class="progress-chart-info-div">
+                    <span th:text="Weight" title="Your weight"></span>
+                    <div>
+                        <i class="fas fa-hand-point-right"></i>
+                        <input type="text" th:value="*{customer.progressChart.weight}" placeholder="Weight" readonly>
+                    </div>
+                </div>
+                <div class="progress-chart-info-div">
+                    <span th:text="Height" title="Your height"></span>
+                    <div>
+                        <i class="fas fa-hand-point-right"></i>
+                        <input type="text" th:value="*{customer.progressChart.height}" placeholder="Height" readonly>
+                    </div>
+                </div>
+                <div class="progress-chart-info-div">
+                    <span th:text="BMI" title="Your BMI"></span>
+                    <div>
+                        <i class="fas fa-hand-point-right"></i>
+                        <input type="text" th:value="*{customer.progressChart.BMI}" placeholder="BMI" readonly>
+                    </div>
+                </div>
+                <div class="progress-chart-info-div">
+                    <span th:text="Chest" title="Your chest"></span>
+                    <div>
+                        <i class="fas fa-hand-point-right"></i>
+                        <input type="text" th:value="*{customer.progressChart.chest}" placeholder="Chest" readonly>
+                    </div>
+                </div>
+                <div class="progress-chart-info-div">
+                    <span th:text="Waist" title="Your waist"></span>
+                    <div>
+                        <i class="fas fa-hand-point-right"></i>
+                        <input type="text" th:value="*{customer.progressChart.waist}" placeholder="Waist" readonly>
+                    </div>
+                </div>
+                <div class="progress-chart-info-div">
+                    <span th:text="Biceps" title="Your biceps"> </span>
+                    <div>
+                        <i class="fas fa-hand-point-right"></i>
+                        <input type="text" th:value="*{customer.progressChart.biceps}" placeholder="Biceps" readonly>
+                    </div>
+                </div>
+                <div class="progress-chart-info-div">
+                    <span th:text="Thigh" title="Your thigh"></span>
+                    <div>
+                        <i class="fas fa-hand-point-right"></i>
+                        <input type="text" th:value="*{customer.progressChart.thigh}" placeholder="Thigh" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+<th:block th:insert="~{fragments/scripts}"></th:block>
+</body>
+</html>

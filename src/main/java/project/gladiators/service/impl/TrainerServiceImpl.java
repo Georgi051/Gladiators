@@ -15,12 +15,15 @@ import project.gladiators.repository.TrainerRepository;
 import project.gladiators.service.RoleService;
 import project.gladiators.service.TrainerService;
 import project.gladiators.service.UserService;
+import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static project.gladiators.constants.ExceptionMessages.TRAINER_NOT_FOUND;
@@ -112,6 +115,13 @@ public class TrainerServiceImpl implements TrainerService {
         TrainerServiceModel trainerServiceModel = this.modelMapper
                 .map(trainer, TrainerServiceModel.class);
         return trainerServiceModel;
+    }
+
+    @Override
+    public TrainerServiceModel findByUserName(String name) {
+        Trainer trainer = this.trainerRepository.findTrainerByUser_Username(name)
+                .orElseThrow(() -> new TrainerNotFoundException(TRAINER_NOT_FOUND));
+        return this.modelMapper.map(trainer, TrainerServiceModel.class);
     }
 
 }

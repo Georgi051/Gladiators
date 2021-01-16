@@ -24,6 +24,7 @@ import project.gladiators.web.viewModels.SubCategoryViewModel;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -58,8 +59,8 @@ public class ProductController extends BaseController{
         modelAndView.addObject("product", new ProductAddBindingModel());
         modelAndView.addObject("subCategories", this.subCategoryService.allSubCategories().stream()
                 .map(subCategoryServiceModel -> this.modelMapper.map(subCategoryServiceModel, SubCategoryViewModel.class))
+                .sorted(Comparator.comparing(SubCategoryViewModel::getName))
                 .collect(Collectors.toList()));
-
         return super.view("/product/product-add",modelAndView);
     }
 

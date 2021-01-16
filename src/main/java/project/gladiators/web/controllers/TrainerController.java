@@ -26,6 +26,7 @@ import java.security.Principal;
 import java.time.DayOfWeek;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -47,7 +48,9 @@ public class TrainerController extends BaseController {
     private final AddTrainingPlanToCustomerValidator addTrainingPlanToCustomerValidator;
 
     @Autowired
-    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CustomerService customerService, TrainingPlanService trainingPlanService, WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator, AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator, AddTrainingPlanToCustomerValidator addTrainingPlanToCustomerValidator) {
+    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CustomerService customerService, TrainingPlanService trainingPlanService,
+                             WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator,
+                             AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator, AddTrainingPlanToCustomerValidator addTrainingPlanToCustomerValidator) {
         this.trainerService = trainerService;
         this.exerciseService = exerciseService;
         this.muscleService = muscleService;
@@ -267,6 +270,26 @@ public class TrainerController extends BaseController {
         }
 
         return super.redirect("/trainers/add-training-plan-to-customer");
+    }
+
+    @GetMapping("/all-customers")
+    @PreAuthorize("hasRole('TRAINER_CONFIRMED')")
+    @PageTitle("All customers")
+    public ModelAndView allCustomersForTrainer(ModelAndView modelAndView,Principal principal){
+        Set<CustomerServiceModel> customers = this.trainerService.findByUserName(principal.getName()).getCustomers();
+        modelAndView.addObject("customersInfo",customers);
+        return super.view("/trainer/all-customers",modelAndView);
+    }
+
+    @GetMapping("/customer-details/{id}")
+    @PreAuthorize("hasRole('TRAINER_CONFIRMED')")
+    @PageTitle("Customer details")
+    public ModelAndView customerDetails(@PathVariable String id,ModelAndView modelAndView){
+        CustomerServiceModel customer = this.customerService.findCustomerById(id);
+        modelAndView.addObject("customer",customer);
+        modelAndView.addObject("trainingPlan",this.trainingPlanService.findByCustomer(customer));
+        int a = 5;
+        return super.view("/trainer/customer-details",modelAndView);
     }
 
     private void createWorkout(@ModelAttribute("workout") @Valid WorkoutAddBindingModel workoutAddBindingModel, RedirectAttributes redirectAttributes, WorkoutServiceModel workoutServiceModel) {

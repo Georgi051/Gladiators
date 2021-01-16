@@ -18,6 +18,7 @@ import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,8 +75,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerServiceModel findCustomerById(String id) {
-        return this.modelMapper
+        Customer customer = this.customerRepository.findFirstById(id);
+        CustomerServiceModel customerServiceModel = this.modelMapper
                 .map(this.customerRepository.findFirstById(id), CustomerServiceModel.class);
+        if(customer.getUser().getDateOfBirth() != null){
+            int age = Period.between(customer.getUser().getDateOfBirth(), LocalDate.now()).getYears();
+            customerServiceModel.getUser().setAge(age);
+        }else{
+            customerServiceModel.getUser().setAge(0);
+        }
+        return customerServiceModel;
     }
 
     @Override
