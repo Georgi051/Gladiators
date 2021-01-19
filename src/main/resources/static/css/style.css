@@ -367,7 +367,6 @@
 
 /* Index page css */
 .footer-basic {
-    padding: 40px 0;
     background-color: #ffffff;
     color: black;
 }
@@ -1465,6 +1464,22 @@ form .form-group {
     padding-bottom: 0;
 }
 
+.shop .footer-basic {
+    background:none;
+}
+
+.shop footer {
+    padding-top: 250px;
+}
+
+.shop .footer-basic .social a{
+    background: white;
+}
+
+.shop .footer-basic .list-inline .list-inline-item a {
+    color:white;
+}
+
 .nav-shop {
     display: flex;
 }
@@ -1929,6 +1944,35 @@ label.star:before {
     opacity: 0.75;
 }
 
+.home-content {
+    background: url("https://res.cloudinary.com/gladiators/image/upload/v1610283278/Pull_Up_Alt1-1440x900_vrx0h4.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.home-content nav {
+    background: none;
+}
+
+.home-content .footer-basic {
+    background: none;
+}
+
+.home-content .navigation-clean-button.navbar-light .navbar-nav .nav-link {
+    color: white;
+}
+
+.home-content .navigation-clean-button.navbar-light .navbar-nav .nav-link:hover{
+    color: bisque !important;
+}
+
+.home-content nav .navbar-brand {
+    color: white;
+}
+
+.home-content .footer-basic .list-inline .list-inline-item a {
+    color: white;
+}
+
 .training-plan-content {
     display: flex;
     justify-content: center;
@@ -1959,4 +2003,13 @@ label.star:before {
     height: 225px;
     border-radius: 50%;
 }
+body > nav > div.dropdown.border.rounded > i.fas.fa-circle {
+    color: red;
+    position: fixed;
+    font-size: 0.6em;
+}
 
+body > nav > div.dropdown.border.rounded > i.fas.fa-envelope {
+    font-size: 1.6em;
+    margin-right: 12px;
+}

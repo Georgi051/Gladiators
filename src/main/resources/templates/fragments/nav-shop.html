@@ -27,7 +27,7 @@
                 </ul>
             </span>
 
-        <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
+        <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')">
             <div class="dropdown">
                 <a class="nav-link active dropdown-toggle" href="#" role="button" id="cartDropdown"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cart</a>
@@ -45,6 +45,10 @@
 
         <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
              class="dropdown  border rounded" style="margin-right: 30px;">
+            <th:block th:if="${unreadMessages == true}">
+                <i class="fas fa-circle"></i>
+                <i class="fas fa-envelope"></i>
+            </th:block>
             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
                sec:authentication="name">
             </a>

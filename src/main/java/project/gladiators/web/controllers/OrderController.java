@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
@@ -65,6 +66,14 @@ public class OrderController extends BaseController {
         OrderViewModel orderViewModel = this.mapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
         modelAndView.addObject("order", orderViewModel);
         return super.view("order/order-details", modelAndView);
+    }
+
+    @GetMapping("/changeStatus/{id}")
+    @PageTitle("All Orders")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    public ModelAndView changeOrderStatus(@PathVariable String id){
+        this.orderService.changeOrderStatus(id);
+        return super.redirect("/orders/all");
     }
 
 }

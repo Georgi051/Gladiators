@@ -19,19 +19,28 @@ public class HomeServiceImpl implements HomeService {
     private final CustomerService customerService;
     private final TrainingPlanService trainingPlanService;
     private final CustomerTrainingPlanInfoService customerTrainingPlanInfoService;
+    private final MessageService messageService;
     private final static int TRAINING_PLAN_DURATION_DAYS = 28;
 
     @Autowired
-    public HomeServiceImpl(UserService userService, CustomerService customerService, TrainingPlanService trainingPlanService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService) {
+    public HomeServiceImpl(UserService userService, CustomerService customerService, TrainingPlanService trainingPlanService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService, MessageService messageService) {
         this.userService = userService;
         this.customerService = customerService;
         this.trainingPlanService = trainingPlanService;
         this.customerTrainingPlanInfoService = customerTrainingPlanInfoService;
+        this.messageService = messageService;
     }
 
     public ModelAndView mvcService(String name, ModelAndView modelAndView) {
         UserServiceModel user = this.userService.findUserByUsername(name);
         CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
+        if(messageService.getSortedMessagesByUserId(user.getId()) != null){
+            messageService.getSortedMessagesByUserId(user.getId()).forEach(messageServiceModel -> {
+                if(messageServiceModel.isUnread()){
+                    modelAndView.addObject("unreadMessages", true);
+                }
+            });
+        }
 
         if (customer != null) {
             modelAndView.addObject("customer", customer);

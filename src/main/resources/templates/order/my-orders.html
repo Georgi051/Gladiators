@@ -13,17 +13,18 @@
         <thead>
         <tr class="row mx-auto">
             <th class="col-md-1 text-center">#</th>
-            <th class="col-md-3 text-center">Customer</th>
+            <th class="col-md-2 text-center">Customer</th>
             <th class="col-md-3 text-center">Date</th>
             <th class="col-md-2 text-center">Total Price</th>
-            <th class="col-md-3 text-center">Actions</th>
+            <th class="col-md-2 text-center">Actions</th>
+            <th class="col-md-2 text-center">Status</th>
         </tr>
         </thead>
         <tbody>
         <th:block th:each="order, iter : ${orders}" th:object="${order}">
             <tr class="row mx-auto">
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
+                <td class="col-md-2 text-center" th:text="*{customer.username}"></td>
                 <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
                 <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
                 <td class="col-md-2 text-center mx-auto">
@@ -31,6 +32,7 @@
                        <a th:href="@{/orders/details/{id}(id=*{id})}" class="btn btn-info">Products</a>
                     </div>
                 </td>
+                <td class="col-md-2 text-center mx-auto" style="font-weight: bold" th:classappend="${order.orderStatus.name() == 'PENDING' ? 'text-primary' : 'text-success'}" th:text="*{orderStatus}"></td>
             </tr>
         </th:block>
         </tbody>

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.exceptions.OrderNotFoundException;
 import project.gladiators.model.entities.Order;
+import project.gladiators.model.enums.OrderStatus;
 import project.gladiators.repository.OrderRepository;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
@@ -12,10 +13,13 @@ import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceM
 import project.gladiators.service.serviceModels.OrderServiceModel;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static project.gladiators.constants.ExceptionMessages.ORDER_NOT_FOUND;
+import static project.gladiators.model.enums.OrderStatus.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -41,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(OrderServiceModel orderServiceModel, String name) {
         this.productService.sellProduct(orderServiceModel.getProducts());
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
+        order.setOrderStatus(PENDING);
         order.getProducts().forEach(product ->{
             if (product.getProduct().getName().equals("Training plan")){
                 CustomerServiceModel customer = customerService.findCustomerByUser(userService.findUserByUsername(name));
@@ -57,8 +62,14 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
                 .collect(Collectors.toList());
-
-        return orderServiceModels;
+        return orderServiceModels.stream().filter
+                (orderServiceModel ->
+                        orderServiceModel.getProducts().size() == 1 &&
+                                !orderServiceModel.getProducts().get(0)
+                                        .getProduct().getName().equals("Training plan")
+                                || orderServiceModel.getProducts().size() > 1)
+                .sorted(Comparator.comparing(OrderServiceModel::getMadeOn))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -67,7 +78,13 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .map(o -> modelMapper.map(o, OrderServiceModel.class))
                 .collect(Collectors.toList());
-        return order;
+        return order.stream().filter
+                (orderServiceModel ->
+                        orderServiceModel.getProducts().size() == 1 &&
+                                !orderServiceModel.getProducts().get(0)
+                                        .getProduct().getName().equals("Training plan")
+                                || orderServiceModel.getProducts().size() > 1)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -81,5 +98,19 @@ public class OrderServiceImpl implements OrderService {
             }
         });
         return modelMapper.map(order, OrderServiceModel.class);
+    }
+
+    @Override
+    public void changeOrderStatus(String id) {
+
+        Order order = this.orderRepository.findById(id)
+                .orElse(null);
+        if(order.getOrderStatus().equals(PENDING)){
+            order.setOrderStatus(ACTIVE);
+        }else if(order.getOrderStatus().equals(ACTIVE)){
+            order.setOrderStatus(FINISHED);
+        }
+
+        this.orderRepository.save(order);
     }
 }

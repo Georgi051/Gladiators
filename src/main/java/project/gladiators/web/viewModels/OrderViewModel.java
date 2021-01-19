@@ -3,6 +3,7 @@ package project.gladiators.web.viewModels;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.gladiators.model.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,4 +17,5 @@ public class OrderViewModel extends BaseViewModel {
     private UserViewModel customer;
     private BigDecimal totalPrice;
     private LocalDateTime madeOn;
+    private OrderStatus orderStatus;
 }

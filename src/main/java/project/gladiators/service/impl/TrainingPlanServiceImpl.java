@@ -115,7 +115,8 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
         TrainingPlan trainingPlan = trainingPlanRepository.findByName(name);
         Customer findCustomerById = this.modelMapper.map(customerService.findCustomerById(id), Customer.class);
 
-        CustomerTrainingPlanInfo customerTrainingPlanInfo = this.customerTrainingPlanInfoRepository.findByCustomer_Id(id);
+        CustomerTrainingPlanInfo customerTrainingPlanInfo = this.customerTrainingPlanInfoRepository.findByCustomer_Id(id)
+                .orElse(null);
         if (customerTrainingPlanInfo == null) {
             if(this.trainingPlanRepository.getByCustomers(findCustomerById) == null) {
                 trainingPlan.getCustomers().add(findCustomerById);

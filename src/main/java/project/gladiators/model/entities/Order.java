@@ -3,6 +3,7 @@ package project.gladiators.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.gladiators.model.enums.OrderStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -31,5 +32,9 @@ public class Order extends BaseEntity {
 
     @Column
     private BigDecimal totalPrice;
+
+    @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
 }

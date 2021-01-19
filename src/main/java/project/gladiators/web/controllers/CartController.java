@@ -56,10 +56,14 @@ public class CartController extends BaseController {
     @PageTitle("Cart Details")
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session , Principal principal) {
         CustomerServiceModel customerServiceModel = customerService.findCustomerByUser(userService.findUserByUsername(principal.getName()));
+        if(customerServiceModel != null){
+
         CustomerTrainingPlanInfoServiceModel customerTrainingPlan = this.customerTrainingPlanInfoService.findByCustomer(customerServiceModel);
 
         if (customerTrainingPlan != null && !customerTrainingPlan.isPaid()){
             this.cartService.addItemToCart(productService.findByName("Training plan").getId(),1,this.cartService.retrieveCart(session),customerServiceModel);
+        }
+
         }
         modelAndView.addObject("totalPrice", this.cartService.calcTotal(session));
         return super.view("cart/cart-details", modelAndView);

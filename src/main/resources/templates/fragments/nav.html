@@ -42,9 +42,12 @@
                 </div>
             </div>
 
-
         <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
-             class="dropdown  border rounded" style="margin-right: 30px;">
+             class="dropdown  border rounded" style="margin-right: 30px; display: flex">
+            <th:block th:if="${unreadMessages == true}">
+                <i class="fas fa-circle"></i>
+                <i class="fas fa-envelope"></i>
+            </th:block>
             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"
                sec:authentication="name">
             </a>

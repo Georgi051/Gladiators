@@ -31,7 +31,8 @@ public class CustomerTrainingPlanInfoServiceImpl implements CustomerTrainingPlan
     @Override
     public CustomerTrainingPlanInfoServiceModel findByCustomer(CustomerServiceModel customer) {
         CustomerTrainingPlanInfo customerTrainingPlanInfo =
-                this.customerTrainingPlanInfoRepository.findByCustomer_Id(customer.getId());
+                this.customerTrainingPlanInfoRepository.findByCustomer_Id(customer.getId())
+                .orElse(null);
         if(customerTrainingPlanInfo != null){
             CustomerTrainingPlanInfoServiceModel customerTrainingPlanInfoServiceModel = this
                     .modelMapper.map(customerTrainingPlanInfo, CustomerTrainingPlanInfoServiceModel.class);
@@ -49,7 +50,7 @@ public class CustomerTrainingPlanInfoServiceImpl implements CustomerTrainingPlan
 
     @Override
     public void customerPaidTrainingPlan(CustomerServiceModel customer) {
-        CustomerTrainingPlanInfo customerTrainingPlan = customerTrainingPlanInfoRepository.findByCustomer_Id(customer.getId());
+        CustomerTrainingPlanInfo customerTrainingPlan = customerTrainingPlanInfoRepository.findByCustomer_Id(customer.getId()).orElse(null);
         customerTrainingPlan.setPaid(true);
         customerTrainingPlanInfoRepository.save(customerTrainingPlan);
     }

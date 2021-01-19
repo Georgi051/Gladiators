@@ -10,33 +10,114 @@
 <th:block th:insert="~{fragments/nav-moderator-panel}">
 </th:block>
 <main class="mt-3">
-    <h1 class="text-center text-dark">Orders</h1>
+    <h1 class="text-center text-dark">Pending Orders</h1>
     <hr class="hr-2 bg-dark w-75">
     <table class="table table-hover w-75 mx-auto">
         <thead>
         <tr class="row mx-auto">
-            <th class="col-md-1 text-center">#</th>
             <th class="col-md-3 text-center">Customer</th>
             <th class="col-md-3 text-center">Date</th>
             <th class="col-md-2 text-center">Total Price</th>
-            <th class="col-md-3 text-center">Actions</th>
+            <th class="col-md-4 text-center">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="order, iter : ${orders}" th:object="${order}">
-            <tr class="row mx-auto">
-                <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
-                <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
-                <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
-                <td class="col-md-2 text-center mx-auto">
-                    <div class="text-center">
-                        <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
-                            <a th:href="@{/orders/details/{id}(id=*{id})}" class="btn btn-info">Products</a>
-                        </th:block>
-                    </div>
-                </td>
-            </tr>
+        <th:block th:each="order : ${orders}" th:object="${order}">
+            <th:block th:if="*{orderStatus.name() == 'PENDING'}">
+                <tr class="row mx-auto">
+                    <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
+                    <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
+                    <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
+                    <td class="col-md-2 text-center mx-auto">
+                        <div class="text-center">
+                            <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                                <a th:href="@{/orders/details/{id}(id=*{id})}" class="btn btn-info">Products</a>
+                            </th:block>
+                        </div>
+                    </td>
+                    <td class="col-md-2 text-center mx-auto">
+                        <div class="text-center">
+                            <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                                <a th:href="@{/orders/changeStatus/{id}(id=*{id})}" class="btn btn-success">Activate</a>
+                            </th:block>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+
+        </th:block>
+        </tbody>
+    </table>
+    <hr class="hr-2 bg-dark">
+
+    <h1 class="text-center text-dark">Active Orders</h1>
+    <hr class="hr-2 bg-dark w-75">
+    <table class="table table-hover w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-3 text-center">Customer</th>
+            <th class="col-md-3 text-center">Date</th>
+            <th class="col-md-2 text-center">Total Price</th>
+            <th class="col-md-4 text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="order : ${orders}" th:object="${order}">
+            <th:block  th:if="*{orderStatus.name() == 'ACTIVE'}">
+                <tr class="row mx-auto">
+                    <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
+                    <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
+                    <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
+                    <td class="col-md-2 text-center mx-auto">
+                        <div class="text-center">
+                            <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                                <a th:href="@{/orders/details/{id}(id=*{id})}" class="btn btn-info">Products</a>
+                            </th:block>
+                        </div>
+                    </td>
+                    <td class="col-md-2 text-center mx-auto">
+                        <div class="text-center">
+                            <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                                <a th:href="@{/orders/changeStatus/{id}(id=*{id})}" class="btn btn-danger">Finish</a>
+                            </th:block>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+
+        </th:block>
+        </tbody>
+    </table>
+    <hr class="hr-2 bg-dark">
+
+    <h1 class="text-center text-dark">Finished Orders</h1>
+    <hr class="hr-2 bg-dark w-75">
+    <table class="table table-hover w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-3 text-center">Customer</th>
+            <th class="col-md-3 text-center">Date</th>
+            <th class="col-md-2 text-center">Total Price</th>
+            <th class="col-md-4 text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="order : ${orders}" th:object="${order}">
+            <th:block th:if="*{orderStatus.name() == 'FINISHED'}">
+                <tr class="row mx-auto">
+                    <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
+                    <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
+                    <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
+                    <td class="col-md-2 text-center mx-auto">
+                        <div class="text-center">
+                            <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                                <a th:href="@{/orders/details/{id}(id=*{id})}" class="btn btn-info">Products</a>
+                            </th:block>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+
         </th:block>
         </tbody>
     </table>

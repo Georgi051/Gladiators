@@ -86,7 +86,7 @@ public class PayPalController extends BaseController {
                 return super.redirect("/");
             }
         } catch (PayPalRESTException e) {
-            redirectAttributes.addFlashAttribute("statusMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("statusMessage", e.getDetails().getMessage());
             redirectAttributes.addFlashAttribute("statusCode", "error");
             return super.redirect("/");
         }
