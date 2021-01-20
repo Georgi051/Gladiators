@@ -28,41 +28,47 @@ public class AddProductValidator implements org.springframework.validation.Valid
 
         ProductAddBindingModel productAddBindingModel = (ProductAddBindingModel) o;
 
-        if(productAddBindingModel.getName().length() < 3){
-            errors.rejectValue("name", PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS,
-                    PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS);
+        if (productRepository.findByName(productAddBindingModel.getName()) != null) {
+            errors.rejectValue("name", PRODUCT_NAME_ALREADY_EXIST,
+                    PRODUCT_NAME_ALREADY_EXIST);
+            if (productAddBindingModel.getName().length() < 3) {
+                errors.rejectValue("name", PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS,
+                        PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS);
+            }
         }
-        if(productAddBindingModel.getManufacturerName().length() < 3){
+
+        if (errors.hasErrors()) {
+            return;
+        }
+
+        if (productAddBindingModel.getManufacturerName().length() < 3) {
             errors.rejectValue("manufacturerName", MANUFACTURER_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS,
                     MANUFACTURER_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS);
         }
-        if(productAddBindingModel.getDescription().length() < 30 ||
-                productAddBindingModel.getDescription().length() > 1000){
+        if (productAddBindingModel.getDescription().length() < 30 ||
+                productAddBindingModel.getDescription().length() > 1000) {
             errors.rejectValue("description", PRODUCT_DESCRIPTION_LENGTH,
                     PRODUCT_DESCRIPTION_LENGTH);
         }
 
-        if(productAddBindingModel.getPrice() == null){
+        if (productAddBindingModel.getPrice() == null) {
             errors.rejectValue("price", PRICE_CANNOT_BE_NULL,
                     PRICE_CANNOT_BE_NULL);
-        }else{
-            if(productAddBindingModel.getPrice().compareTo(BigDecimal.ZERO) <= 0){
+        } else {
+            if (productAddBindingModel.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
                 errors.rejectValue("price", PRICE_CANNOT_BE_NEGATIVE_OR_ZERO,
                         PRICE_CANNOT_BE_NEGATIVE_OR_ZERO);
             }
         }
-        if(productAddBindingModel.getQuantity() == null){
+        if (productAddBindingModel.getQuantity() == null) {
             errors.rejectValue("quantity", QUANTITY_CANNOT_BE_EMPTY,
                     QUANTITY_CANNOT_BE_EMPTY);
-        }else {
-            if(productAddBindingModel.getQuantity() < 1){
+        } else {
+            if (productAddBindingModel.getQuantity() < 1) {
                 errors.rejectValue("quantity", QUANTITY_CANNOT_BE_NEGATIVE,
                         QUANTITY_CANNOT_BE_NEGATIVE);
             }
         }
 
-        if(errors.hasErrors()){
-            return;
-        }
     }
 }

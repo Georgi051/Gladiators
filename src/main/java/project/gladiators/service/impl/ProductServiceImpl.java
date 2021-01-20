@@ -4,9 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import project.gladiators.exceptions.ProductDeleteException;
 import project.gladiators.exceptions.ProductNotFoundException;
-import project.gladiators.model.entities.Category;
 import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.Review;
 import project.gladiators.model.entities.SubCategory;
@@ -20,11 +18,9 @@ import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.ReviewServiceModel;
 import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static project.gladiators.constants.ExceptionMessages.PRODUCT_NOT_FOUND;

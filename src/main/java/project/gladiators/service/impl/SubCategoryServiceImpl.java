@@ -1,13 +1,11 @@
 package project.gladiators.service.impl;
 
-import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import project.gladiators.exceptions.SubCategoryNotFoundException;
 import project.gladiators.model.entities.SubCategory;
 import project.gladiators.repository.SubCategoryRepository;
 import project.gladiators.service.SubCategoryService;
-import project.gladiators.service.serviceModels.CategoryServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 

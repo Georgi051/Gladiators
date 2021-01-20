@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static project.gladiators.constants.ExceptionMessages.ARTICLE_NOT_FOUND;
+
 @Service
 public class ArticleServiceImpl implements ArticleService {
     private ArticleRepository articleRepository;
@@ -42,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleServiceModel findArticleById(String id) {
         Article article = this.articleRepository.findById(id)
-                .orElseThrow(() -> new ArticleNotFoundException(ExceptionMessages.ARTICLE_NOT_FOUND));
+                .orElseThrow(() -> new ArticleNotFoundException(ARTICLE_NOT_FOUND));
         ArticleServiceModel articleServiceModel = this.modelMapper
                 .map(article, ArticleServiceModel.class);
         articleServiceModel.setUserServiceModel(this.modelMapper

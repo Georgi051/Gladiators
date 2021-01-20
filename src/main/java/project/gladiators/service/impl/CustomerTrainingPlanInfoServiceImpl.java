@@ -2,6 +2,7 @@ package project.gladiators.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import project.gladiators.exceptions.CustomerNotFoundException;
 import project.gladiators.model.entities.Customer;
 import project.gladiators.model.entities.CustomerTrainingPlanInfo;
 import project.gladiators.model.entities.TrainingPlan;
@@ -12,6 +13,8 @@ import project.gladiators.service.CustomerTrainingPlanInfoService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceModel;
 import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
+
+import static project.gladiators.constants.ExceptionMessages.CUSTOMER_NOT_FOUND;
 
 @Service
 public class CustomerTrainingPlanInfoServiceImpl implements CustomerTrainingPlanInfoService {

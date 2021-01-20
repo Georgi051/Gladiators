@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import project.gladiators.exceptions.CustomerNotFoundException;
 import project.gladiators.model.bindingModels.ProgressChartEditBindingModel;
 import project.gladiators.model.entities.Customer;
 import project.gladiators.model.entities.ProgressChart;
@@ -21,6 +22,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static project.gladiators.constants.ExceptionMessages.CUSTOMER_NOT_FOUND;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -75,11 +78,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerServiceModel findCustomerById(String id) {
-        Customer customer = this.customerRepository.findFirstById(id);
+
         CustomerServiceModel customerServiceModel = this.modelMapper
                 .map(this.customerRepository.findFirstById(id), CustomerServiceModel.class);
-        if(customer.getUser().getDateOfBirth() != null){
-            int age = Period.between(customer.getUser().getDateOfBirth(), LocalDate.now()).getYears();
+        if(customerServiceModel.getUser().getDateOfBirth() != null){
+            int age = Period.between(customerServiceModel.getUser().getDateOfBirth(), LocalDate.now()).getYears();
             customerServiceModel.getUser().setAge(age);
         }else{
             customerServiceModel.getUser().setAge(0);
@@ -91,7 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void editProgressChart(CustomerServiceModel customer, ProgressChartEditBindingModel progressChartEditBindingModel) {
 
         Customer customerEntity = this.customerRepository.findById(customer.getId())
-                .orElse(null);
+                .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND));
         customerEntity.getProgressChart().setWeight(progressChartEditBindingModel.getWeight());
         customerEntity.getProgressChart().setHeight(progressChartEditBindingModel.getHeight());
         double bmi = customerEntity.getProgressChart().getWeight()/Math.pow(customerEntity.getProgressChart().getHeight()/100,2);

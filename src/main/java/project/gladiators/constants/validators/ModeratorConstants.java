@@ -12,6 +12,7 @@ public class ModeratorConstants {
     public final static String SUBCATEGORY_NAME_LENGTH = "The subcategory must be between 3 and 20 characters!";
      /*PRODUCT ADD CONSTANTS*/
     public final static String PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS = "Product name cannot be less than 3 symbols!";
+    public final static String PRODUCT_NAME_ALREADY_EXIST = "Product with that name already exist!";
     public final static String MANUFACTURER_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS = "Manufacturer name cannot be less than 3 symbols!";
     public final static String PRODUCT_DESCRIPTION_LENGTH = "The description must be between 30 and 1000 characters!";
     public final static String PRICE_CANNOT_BE_NEGATIVE_OR_ZERO = "Price can not be negative or zero!";

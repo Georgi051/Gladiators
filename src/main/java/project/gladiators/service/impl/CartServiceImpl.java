@@ -59,8 +59,7 @@ public class CartServiceImpl implements CartService {
         OfferServiceModel offerServiceModel = this.offerService
                 .findByProductId(id);
         if (quantity > product.getQuantity()) {
-            throw new MaxProductQuantityInCartException(
-                    MAX_PRODUCT_QUANTITY);
+            throw new MaxProductQuantityInCartException(MAX_PRODUCT_QUANTITY);
         }
         OrderProductViewModel orderProductViewModel = new OrderProductViewModel();
         orderProductViewModel.setProduct(product);

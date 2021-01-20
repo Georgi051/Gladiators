@@ -5,15 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.exceptions.OrderNotFoundException;
 import project.gladiators.model.entities.Order;
-import project.gladiators.model.enums.OrderStatus;
 import project.gladiators.repository.OrderRepository;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
-import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceModel;
 import project.gladiators.service.serviceModels.OrderServiceModel;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;

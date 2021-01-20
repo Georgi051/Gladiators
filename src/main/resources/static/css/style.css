@@ -1469,7 +1469,7 @@ form .form-group {
 }
 
 .shop footer {
-    padding-top: 250px;
+    margin-top: 350px;
 }
 
 .shop .footer-basic .social a{
@@ -2012,4 +2012,8 @@ body > nav > div.dropdown.border.rounded > i.fas.fa-circle {
 body > nav > div.dropdown.border.rounded > i.fas.fa-envelope {
     font-size: 1.6em;
     margin-right: 12px;
+}
+
+.home-content .navbar-brand:hover{
+     color: bisque !important;
 }

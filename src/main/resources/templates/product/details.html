@@ -24,13 +24,13 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" th:if="${product.name != 'Training plan'}">
             <div class="col col-md-12 text-center mt-3">
                 <h6 th:text="'Manufacturer name: ' + ${product.manufacturerName}"></h6>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" th:if="${product.name != 'Training plan'}">
             <div class="col col-md-12 text-center mt-3">
                 <h6 th:text="'Quantity: ' + ${product.quantity}"></h6>
             </div>
