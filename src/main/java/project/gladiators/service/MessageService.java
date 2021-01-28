@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface MessageService {
 
-    List<MessageServiceModel> findAllByUserId(String id);
-
     MessageServiceModel findById(String id);
 
     void changeStatusToRead(MessageServiceModel messageServiceModel);

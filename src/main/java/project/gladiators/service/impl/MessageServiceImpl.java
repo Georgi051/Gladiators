@@ -78,16 +78,20 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageViewModel> getSortedMessagesByUserId(String id) {
-        List<MessageServiceModel> messages = this.findAllByUserId(id);
-
+        User user = this.userRepository.findById(id).orElse(null);
+        List<Message> messages = this.messageRepository.
+                findAllByMessageTo(user);
         List<MessageViewModel> messageViewModels = new ArrayList<>();
         messages
-                .forEach(messageServiceModel -> {
-                    MessageViewModel messageViewModel = this.modelMapper
-                            .map(messageServiceModel, MessageViewModel.class);
+                .forEach(message -> {
+                    MessageViewModel messageViewModel = new MessageViewModel();
+                    messageViewModel.setTimeSent(message.getTimeSent());
+                    messageViewModel.setIdOfSender(message.getMessageFrom().getId());
+                    messageViewModel.setTitle(message.getTitle());
+                    messageViewModel.setId(message.getId());
                     messageViewModel.setMessageFrom(String.format
-                            ("%s %s", messageServiceModel.getMessageFrom().getFirstName(),
-                                    messageServiceModel.getMessageFrom().getLastName()));
+                            ("%s %s", message.getMessageFrom().getFirstName(),
+                                    message.getMessageFrom().getLastName()));
                     messageViewModels.add(messageViewModel);
                 });
 
@@ -96,23 +100,6 @@ public class MessageServiceImpl implements MessageService {
 
         return sortedMessages;
 
-    }
-
-    @Override
-    public List<MessageServiceModel> findAllByUserId(String id) {
-
-        List<MessageServiceModel> messages = new ArrayList<>();
-        User user = this.userRepository.findById(id).orElse(null);
-        this.messageRepository
-                .findAllByMessageTo(user).stream()
-                .forEach(message -> {
-                    MessageServiceModel messageServiceModel = this.modelMapper
-                            .map(message, MessageServiceModel.class);
-                    messageServiceModel.setMessageFrom(this.modelMapper
-                            .map(message.getMessageFrom(), UserServiceModel.class));
-                    messages.add(messageServiceModel);
-                });
-        return messages;
     }
 
     @Override
@@ -138,7 +125,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void deleteMessageById(String id) {
-
         Message message = this.messageRepository.findById(id).orElse(null);
 
         if (message != null) {

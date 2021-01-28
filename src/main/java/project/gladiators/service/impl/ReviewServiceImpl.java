@@ -112,8 +112,8 @@ public class ReviewServiceImpl implements ReviewService {
                 fiveStar++;
             }
         }
-        double result= (5.0 * fiveStar + 4.0 * fourStar + 3.0 * threeStar + 2.0 * twoStar + oneStar) / stars.size();
-        return result;
+
+        return (5.0 * fiveStar + 4.0 * fourStar + 3.0 * threeStar + 2.0 * twoStar + oneStar) / stars.size();
     }
 
 }

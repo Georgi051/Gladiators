@@ -25,11 +25,11 @@ public class ArticleInitialization implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (articleRepository.count() == 0) {
-            User user = userRepository.findAll().get(0);
-            Article article = new Article("Test", "This is a test article.Everything is working..maybe", LocalDateTime.now(), "https://cdn.pixabay.com/photo/2014/09/25/23/36/man-461195_1280.jpg"
-                    , user);
-            articleRepository.save(article);
-        }
+//        if (articleRepository.count() == 0) {
+//            User user = userRepository.findAll().get(0);
+//            Article article = new Article("Test", "This is a test article.Everything is working..maybe", LocalDateTime.now(), "https://cdn.pixabay.com/photo/2014/09/25/23/36/man-461195_1280.jpg"
+//                    , user);
+//            articleRepository.save(article);
+//        }
     }
 }

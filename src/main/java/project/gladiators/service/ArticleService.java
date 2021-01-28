@@ -14,5 +14,5 @@ public interface ArticleService {
 
     void deleteById(String id);
 
-    ArticleServiceModel registerArticle(ArticleServiceModel articleServiceModel, String username, MultipartFile image) throws IOException;
+    void registerArticle(ArticleServiceModel articleServiceModel, String username, MultipartFile image) throws IOException;
 }

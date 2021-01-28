@@ -11,16 +11,16 @@ import java.util.List;
 
 public interface TrainingPlanService {
 
-    void addTrainingPlan(TrainingPlanServiceModel trainingPlanServiceModel, Principal principal);
+    void addTrainingPlan(TrainingPlanServiceModel trainingPlanServiceModel, String username);
 
     TrainingPlanServiceModel findById(String id);
 
     void addWorkoutsToTrainingPlanByDay(TrainingPlanBindingModel trainingPlanBindingModel,
-                                        HttpSession httpSession, Principal principal);
+                                        HttpSession httpSession, String username);
 
     List<TrainingPlanServiceModel> findAll();
 
-    boolean addTrainingPlanToCustomer(String id, String name, String trainerName, LocalDate startedOn);
+    boolean addTrainingPlanToCustomer(String customerId, String trainingPlanName, String trainerName, LocalDate startedOn);
 
     TrainingPlanServiceModel findByCustomer(CustomerServiceModel customerServiceModel);
 }

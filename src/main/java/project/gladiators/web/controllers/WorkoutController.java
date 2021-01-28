@@ -51,7 +51,7 @@ public class WorkoutController extends BaseController{
                                                      HttpSession httpSession, Principal principal
                                                  ){
 
-        this.trainingPlanService.addWorkoutsToTrainingPlanByDay(trainingPlanBindingModel, httpSession, principal);
+        this.trainingPlanService.addWorkoutsToTrainingPlanByDay(trainingPlanBindingModel, httpSession, principal.getName());
         redirectAttributes.addFlashAttribute("statusMessage", "You created training plan successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
 

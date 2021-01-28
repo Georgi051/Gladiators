@@ -2003,6 +2003,7 @@ label.star:before {
     height: 225px;
     border-radius: 50%;
 }
+
 body > nav > div.dropdown.border.rounded > i.fas.fa-circle {
     color: red;
     position: fixed;

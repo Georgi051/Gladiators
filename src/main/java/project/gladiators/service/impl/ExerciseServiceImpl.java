@@ -39,13 +39,13 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void addExercise(ExerciseServiceModel exerciseServiceModel, MultipartFile exerciseImage) throws IOException {
-        if (this.exerciseRepository.findByName(exerciseServiceModel.getName()).isPresent()) {
-            return;
+        if (!this.exerciseRepository.findByName(exerciseServiceModel.getName()).isPresent()) {
+
+            String image = exerciseImage.isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" :
+                    this.cloudinaryService.uploadImageToCurrentFolder(exerciseImage, "exercises");
+            Exercise exercise = this.modelMapper.map(exerciseServiceModel, Exercise.class);
+            exercise.setImageUrl(image);
+            this.exerciseRepository.saveAndFlush(exercise);
         }
-        String image = exerciseImage.isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg" :
-                this.cloudinaryService.uploadImageToCurrentFolder(exerciseImage, "exercises");
-        Exercise exercise = this.modelMapper.map(exerciseServiceModel, Exercise.class);
-        exercise.setImageUrl(image);
-        this.exerciseRepository.saveAndFlush(exercise);
     }
 }

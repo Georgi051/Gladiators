@@ -122,6 +122,7 @@ public class UserServiceImpl implements UserService {
         }else{
             userViewModel.setAge(0);
         }
+
         UserServiceModel userServiceModel = this.modelMapper
                 .map(userViewModel, UserServiceModel.class);
         return this.modelMapper
@@ -369,8 +370,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel findUserByUsername(String username) {
+        User user = this.userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        return this.modelMapper.map(userRepository.findUserByUsername(username).get(),UserServiceModel.class);
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 
     @Override
