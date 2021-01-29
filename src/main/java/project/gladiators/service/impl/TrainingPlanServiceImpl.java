@@ -47,10 +47,10 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     }
 
     @Override
-    public void addTrainingPlan(TrainingPlanServiceModel trainingPlanServiceModel, Principal principal) {
+    public void addTrainingPlan(TrainingPlanServiceModel trainingPlanServiceModel, String username) {
 
         Trainer trainer = this.trainerRepository
-                .findTrainerByUser_Username(principal.getName())
+                .findTrainerByUser_Username(username)
                 .orElse(null);
 
         TrainingPlan trainingPlan = this.modelMapper
@@ -66,14 +66,15 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
 
     @Override
     public TrainingPlanServiceModel findById(String id) {
+        TrainingPlan trainingPlan = this.trainingPlanRepository
+                .findById(id).orElseThrow(() -> new TrainerNotFoundException("No such trainer exists!"));
         return this.modelMapper
-                .map(this.trainingPlanRepository
-                .findById(id), TrainingPlanServiceModel.class);
+                .map(trainingPlan, TrainingPlanServiceModel.class);
     }
 
     @Override
     public void addWorkoutsToTrainingPlanByDay(TrainingPlanBindingModel trainingPlanBindingModel,
-                                               HttpSession httpSession, Principal principal) {
+                                               HttpSession httpSession, String username) {
 
         TrainingPlanBindingModel trainingPlan = (TrainingPlanBindingModel) httpSession.getAttribute("trainingPlan");
         TrainingPlanServiceModel trainingPlanServiceModel = this.modelMapper
@@ -97,25 +98,25 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
             trainingPlanServiceModel.getWorkouts().get(i).setWorkout(workoutServiceModel);
             dayOfWeek = dayOfWeek.plus(1);
         }
-        this.addTrainingPlan(trainingPlanServiceModel, principal);
-
+        this.addTrainingPlan(trainingPlanServiceModel, username);
 
     }
 
     @Override
     public List<TrainingPlanServiceModel> findAll() {
-        return this.trainingPlanRepository.findAll().stream()
+        List<TrainingPlan> trainingPlans = this.trainingPlanRepository.findAll();
+        return trainingPlans.stream()
                 .map(trainingPlan -> this.modelMapper.map(trainingPlan,TrainingPlanServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public boolean addTrainingPlanToCustomer(String id, String name, String trainerName,
+    public boolean addTrainingPlanToCustomer(String customerId, String trainingPlanName, String trainerName,
                                              LocalDate startedOn) {
-        TrainingPlan trainingPlan = trainingPlanRepository.findByName(name);
-        Customer findCustomerById = this.modelMapper.map(customerService.findCustomerById(id), Customer.class);
+        TrainingPlan trainingPlan = trainingPlanRepository.findByName(trainingPlanName);
+        Customer findCustomerById = this.modelMapper.map(customerService.findCustomerById(customerId), Customer.class);
 
-        CustomerTrainingPlanInfo customerTrainingPlanInfo = this.customerTrainingPlanInfoRepository.findByCustomer_Id(id)
+        CustomerTrainingPlanInfo customerTrainingPlanInfo = this.customerTrainingPlanInfoRepository.findByCustomer_Id(customerId)
                 .orElse(null);
         if (customerTrainingPlanInfo == null) {
             if(this.trainingPlanRepository.getByCustomers(findCustomerById) == null) {

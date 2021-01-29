@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
+
     private final WorkoutRepository workoutRepository;
     private final WorkoutExerciseInfoService workoutExerciseInfoService;
     private final ModelMapper modelMapper;
@@ -82,7 +83,6 @@ public class WorkoutServiceImpl implements WorkoutService {
         currentWorkout.setWorkoutExerciseInfos(workoutExerciseInfos);
 
         trainingPlan.getWorkout().add(currentWorkout.getName());
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package project.gladiators.integration;
+package project.gladiators.integrational;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +26,6 @@ import project.gladiators.repository.ProgressChartRepository;
 import project.gladiators.repository.RoleRepository;
 import project.gladiators.repository.UserRepository;
 import project.gladiators.service.CustomerService;
-import project.gladiators.service.RoleService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.ProgressChartServiceModel;
 import project.gladiators.service.serviceModels.RoleServiceModel;

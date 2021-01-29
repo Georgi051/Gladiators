@@ -1,4 +1,4 @@
-package project.gladiators.integration;
+package project.gladiators.integrational;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import project.gladiators.model.entities.Logger;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
-import project.gladiators.model.enums.Action;
 import project.gladiators.repository.LoggerRepository;
 import project.gladiators.service.LoggerService;
 import project.gladiators.service.serviceModels.AdminLogServiceModel;

@@ -87,10 +87,8 @@ public class ProductServiceImpl implements ProductService {
     public void editProduct(String id, ProductServiceModel model, MultipartFile productImage) throws IOException {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND));
-        String imageUrl = null;
-        if (!productImage.getOriginalFilename().equals("")) {
-            imageUrl = this.cloudinaryService.uploadImageToCurrentFolder(productImage, "products");
-        }
+        String imageUrl = productImage.isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg"
+                : this.cloudinaryService.uploadImageToCurrentFolder(productImage, "products");
         if (imageUrl != null) {
             product.setImageUrl(imageUrl);
         }
@@ -107,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
                     this.offerRepository.save(o);
                 });
 
-        this.modelMapper.map(this.productRepository.saveAndFlush(product), ProductServiceModel.class);
+         this.productRepository.saveAndFlush(product);
     }
 
     @Override
@@ -142,6 +140,7 @@ public class ProductServiceImpl implements ProductService {
         Product currentProduct = this.modelMapper.map(product, Product.class);
         currentProduct.getReviews().add(this.modelMapper.map(review, Review.class));
         this.productRepository.save(currentProduct);
+        
     }
 
     @Override

@@ -128,7 +128,7 @@ public class CartServiceImpl implements CartService {
         }
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
 
-        for (ShoppingCartViewModel item : shoppingCartViewModels) {
+        for (ShoppingCartViewModel item : shoppingCartViewModels) {   
             OrderProductServiceModel orderProductServiceModel =
                     this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
             orderProductServiceModel.getProduct().setBuyingProductsQuantity(item.getQuantity());

@@ -333,7 +333,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel findUserByUsername(String username) {
-        User user = userRepository.findUserByUsername(username)
+        User user = this.userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
         return this.modelMapper.map(user, UserServiceModel.class);

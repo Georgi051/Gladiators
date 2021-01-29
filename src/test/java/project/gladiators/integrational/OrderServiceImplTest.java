@@ -1,4 +1,4 @@
-package project.gladiators.integration;
+package project.gladiators.integrational;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

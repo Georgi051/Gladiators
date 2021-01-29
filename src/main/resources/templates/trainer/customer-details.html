@@ -6,7 +6,7 @@
 <body>
 <th:block th:insert="~{fragments/nav}"></th:block>
 <h1 class="text-center" th:text="*{customer.user.username}"></h1>
-<div class="container text-center customer-details">
+<div class="container text-center" style="margin-right: -70px">
     <div style="display: table-cell; justify-content:  space-around">
         <div class="row">
             <div class="col">
@@ -36,7 +36,7 @@
             <h6 th:text="${trainingPlan.trainingPlanType}" class="text-center" style="color: grey"></h6>
         </div>
     </div>
-    <div class="progress-chart" style="margin-top: 50px">
+    <div class="progress-chart" style="display: table-cell">
         <div>
             <h3>Progress chart</h3>
             <div>

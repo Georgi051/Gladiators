@@ -58,14 +58,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleServiceModel registerArticle(ArticleServiceModel articleServiceModel, String username, MultipartFile articleImage) throws IOException {
+    public void registerArticle(ArticleServiceModel articleServiceModel, String username, MultipartFile articleImage) throws IOException {
         UserServiceModel user = userService.findUserByUsername(username);
         String imageUrl = articleImage.isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg"
                 : this.cloudinaryService.uploadImageToCurrentFolder(articleImage, "articles");
         articleServiceModel.setUserServiceModel(user);
         articleServiceModel.setAddedOn(LocalDateTime.now());
         articleServiceModel.setImageUrl(imageUrl);
-        Article article = articleRepository.save(this.modelMapper.map(articleServiceModel, Article.class));
-        return this.modelMapper.map(article, ArticleServiceModel.class);
+        articleRepository.save(this.modelMapper.map(articleServiceModel, Article.class));
     }
 }
