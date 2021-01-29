@@ -52,20 +52,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
                 .collect(Collectors.toList());
     }
 
-
-    @Override
-    public List<SubCategoryServiceModel> findAll() {
-
-        List<SubCategoryServiceModel> subCategoryServiceModels = new ArrayList<>();
-
-        this.subCategoryRepository.findAll()
-                .forEach(subCategory -> {
-                    subCategoryServiceModels.add(this.modelMapper
-                    .map(subCategory, SubCategoryServiceModel.class));
-                });
-        return subCategoryServiceModels;
-    }
-
     @Override
     public SubCategoryServiceModel findById(String id) {
 

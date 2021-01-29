@@ -94,7 +94,7 @@ public class ProductController extends BaseController{
                 .map(productServiceModel,
                 ProductViewModel.class));
 
-        RatingServiceModel ratingServiceModel = this.reviewService.RatingServiceModel(id);
+        RatingServiceModel ratingServiceModel = this.reviewService.productRating(id);
         RatingViewModel ratingViewModel = this.modelMapper.map(ratingServiceModel, RatingViewModel.class);
         List<ReviewViewModel> reviewViewModels = this.reviewService.findAllReviewByProductId(id)
                 .stream().map(p -> this.modelMapper.map(p,ReviewViewModel.class)).collect(Collectors.toList());

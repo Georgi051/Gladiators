@@ -44,35 +44,36 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewServiceModel addReview(String description, int stars, String userName, ProductServiceModel productServiceModel) {
         UserServiceModel client = userService.findUserByUsername(userName);
         Product product = modelMapper.map(productServiceModel, Product.class);
-        ReviewServiceModel reviewServiceModel = new ReviewServiceModel();
-        if (reviewRepository.findByUserIdAndProductId(client.getId(),product.getId()) == null &&
-        !description.equals("")){
+        ReviewServiceModel reviewServiceModel;
+        if (reviewRepository.findByUserIdAndProductId(client.getId(), product.getId()) == null &&
+                !description.equals("")) {
             Review review = new Review();
             review.setDescription(description);
             review.setReviewDate(LocalDateTime.now());
             review.setUser(this.modelMapper.map(client, User.class));
             review.setProduct(product);
             review.setStars(stars);
-            productService.addReviewToCurrentProduct(productServiceModel,this.modelMapper.map(review,ReviewServiceModel.class)
-            );
+            productService.addReviewToCurrentProduct(productServiceModel, this.modelMapper.map(review, ReviewServiceModel.class));
             this.reviewRepository.save(review);
+            reviewServiceModel = this.modelMapper.map(review, ReviewServiceModel.class);
             reviewServiceModel.setDescription(NEW_COMMENT);
-        }else {
-             reviewServiceModel.setDescription(ALREADY_COMMENT);
+        } else {
+            reviewServiceModel = new ReviewServiceModel();
+            reviewServiceModel.setDescription(ALREADY_COMMENT);
         }
         return reviewServiceModel;
     }
 
     @Override
-    public List<ReviewServiceModel> findAllReviewByProductId(String id){
+    public List<ReviewServiceModel> findAllReviewByProductId(String id) {
         return this.reviewRepository.findAllByProductId(id)
                 .stream()
-                .map(r -> this.modelMapper.map(r,ReviewServiceModel.class))
+                .map(r -> this.modelMapper.map(r, ReviewServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public RatingServiceModel RatingServiceModel(String id) {
+    public RatingServiceModel productRating(String id) {
         List<Integer> starsList = new ArrayList<>();
 
         reviewRepository.findAllByProductId(id).forEach(r -> {
@@ -82,10 +83,10 @@ public class ReviewServiceImpl implements ReviewService {
 
         RatingServiceModel ratingServiceModel = new RatingServiceModel();
 
-        if (ratingCounting > 0 && starsList.size() > 0){
+        if (ratingCounting > 0 && starsList.size() > 0) {
             ratingServiceModel.setRating(ratingCounting);
             ratingServiceModel.setVotes(starsList.size());
-        }else {
+        } else {
             ratingServiceModel.setRating(0);
             ratingServiceModel.setVotes(0);
         }
@@ -93,26 +94,26 @@ public class ReviewServiceImpl implements ReviewService {
         return ratingServiceModel;
     }
 
-    private double ratingCounting(List<Integer> stars){
+    private double ratingCounting(List<Integer> stars) {
         int oneStar = 0;
         int twoStar = 0;
         int threeStar = 0;
         int fourStar = 0;
         int fiveStar = 0;
         for (Integer star : stars) {
-            if (star == 1){
+            if (star == 1) {
                 oneStar++;
-            }else if (star == 2){
+            } else if (star == 2) {
                 twoStar++;
-            }else if (star == 3){
+            } else if (star == 3) {
                 threeStar++;
-            }else if (star == 4){
+            } else if (star == 4) {
                 fourStar++;
-            }else if (star == 5){
+            } else if (star == 5) {
                 fiveStar++;
             }
         }
-        double result= (5.0 * fiveStar + 4.0 * fourStar + 3.0 * threeStar + 2.0 * twoStar + oneStar) / stars.size();
+        double result = (5.0 * fiveStar + 4.0 * fourStar + 3.0 * threeStar + 2.0 * twoStar + oneStar) / stars.size();
         return result;
     }
 

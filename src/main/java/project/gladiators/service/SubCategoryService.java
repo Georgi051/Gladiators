@@ -7,8 +7,6 @@ import java.util.List;
 public interface SubCategoryService {
     List<SubCategoryServiceModel> allSubCategories();
 
-    List<SubCategoryServiceModel> findAll();
-
     SubCategoryServiceModel findById(String id);
 
     void seedSubCategory(SubCategoryServiceModel subCategoryServiceModel);

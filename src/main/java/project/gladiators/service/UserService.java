@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface UserService  extends UserDetailsService {
 
-    UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel model);
+    UserServiceModel registerUser(UserServiceModel userServiceModel);
 
 
     List<UserServiceModel> getAllUsers();
@@ -37,14 +37,11 @@ public interface UserService  extends UserDetailsService {
 
     void changeProfilePicture(UserServiceModel userServiceModel, MultipartFile image) throws IOException;
 
-
     void updateUser(UserServiceModel userServiceModel);
 
     void confirmTrainer(String username, UserServiceModel userServiceModel, MultipartFile profilePicture) throws IOException;
 
     void changeUserRole(String id, RoleChangeBindingModel roleChangeBindingModel);
-
-    User getUser(String verificationToken);
 
     void saveRegisteredUser(User user);
 

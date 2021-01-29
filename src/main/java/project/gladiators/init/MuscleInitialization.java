@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 @Component
-@Order(value = 3)
+@Order(value = 2)
 public class MuscleInitialization implements CommandLineRunner {
     private MuscleRepository muscleRepository;
     private Gson gson;

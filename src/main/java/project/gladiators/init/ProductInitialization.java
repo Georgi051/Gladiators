@@ -9,7 +9,7 @@ import project.gladiators.repository.ProductRepository;
 import java.math.BigDecimal;
 
 @Component
-@Order(value = 9)
+@Order(value = 6)
 public class ProductInitialization implements CommandLineRunner {
     private ProductRepository productRepository;
 

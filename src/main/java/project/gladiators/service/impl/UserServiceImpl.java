@@ -44,39 +44,28 @@ import static project.gladiators.constants.ExceptionMessages.USER_NOT_FOUND;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final MuscleService muscleService;
-    private final ExerciseService exerciseService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final WorkoutService workoutService;
     private final VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, WorkoutService workoutService, RoleService roleService, MuscleService muscleService, ExerciseService exerciseService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, VerificationTokenRepository tokenRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, VerificationTokenRepository tokenRepository) {
 
         this.userRepository = userRepository;
         this.roleService = roleService;
-        this.muscleService = muscleService;
-        this.exerciseService = exerciseService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.workoutService = workoutService;
         this.tokenRepository = tokenRepository;
     }
 
-        //todo security context holder refresh
+    //todo security context holder refresh
 
     @Override
-    public UserServiceModel registerUser(UserServiceModel userServiceModel, UserRegisterBindingModel regUser) {
-
-        if (!regUser.getPassword().equals(regUser.getConfirmPassword())) {
-            return null;
-        }
+    public UserServiceModel registerUser(UserServiceModel userServiceModel) {
 
         if (this.userRepository.count() == 0) {
-
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.ROOT)));
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority((RoleConstants.ADMIN)));
@@ -90,8 +79,8 @@ public class UserServiceImpl implements UserService {
         User user = this.modelMapper.map(userServiceModel, User.class);
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
         user.setRegisteredOn(LocalDateTime.now());
-
-        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        this.userRepository.saveAndFlush(user);
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 
     @Override
@@ -99,13 +88,8 @@ public class UserServiceImpl implements UserService {
         List<UserServiceModel> users = this.userRepository
                 .findAll()
                 .stream()
-                .map(user -> {
-                    UserServiceModel userServiceModel =
-                            this.modelMapper
-                                    .map(user, UserServiceModel.class);
-                    return userServiceModel;
-                }).collect(Collectors.toList());
-
+                .map(user -> this.modelMapper.map(user, UserServiceModel.class))
+                .collect(Collectors.toList());
         return users;
     }
 
@@ -114,71 +98,66 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        UserViewModel userViewModel = this.modelMapper.map
-                (user, UserViewModel.class);
-        if(user.getDateOfBirth() != null){
+        UserServiceModel userServiceModel = this.modelMapper.map
+                (user, UserServiceModel.class);
+        if (user.getDateOfBirth() != null) {
             int age = Period.between(user.getDateOfBirth(), LocalDate.now()).getYears();
-            userViewModel.setAge(age);
-        }else{
-            userViewModel.setAge(0);
+            userServiceModel.setAge(age);
+        } else {
+            userServiceModel.setAge(0);
         }
-        UserServiceModel userServiceModel = this.modelMapper
-                .map(userViewModel, UserServiceModel.class);
+
         return this.modelMapper
-                .map(userViewModel, UserServiceModel.class);
+                .map(userServiceModel, UserServiceModel.class);
     }
 
     @Override
     public void addRoleToUser(UserServiceModel userServiceModel, RoleServiceModel roleServiceModel) {
         User user = this.userRepository
-                .findUserByUsername(userServiceModel.getUsername()).orElse(null);
+                .findUserByUsername(userServiceModel.getUsername())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        if (user != null) {
-            boolean isCustomer = false;
-            for (Role authority : user.getAuthorities()) {
-                if (authority.getAuthority().equals(RoleConstants.CUSTOMER)) {
-                    isCustomer = true;
+        boolean isCustomer = user.getAuthorities()
+                .stream().anyMatch(role -> role.getAuthority().equals(RoleConstants.CUSTOMER));
+
+        user.getAuthorities().clear();
+        if (isCustomer) {
+            switch (roleServiceModel.getAuthority()) {
+                case RoleConstants.USER:
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
                     break;
-                }
+                case RoleConstants.MODERATOR:
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
+                    break;
+                case RoleConstants.ADMIN:
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
+                    break;
+                case RoleConstants.ROLE_ADMIN_AND_MODERATOR:
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
+                    break;
             }
-            user.getAuthorities().clear();
-            if(isCustomer){
-                switch (roleServiceModel.getAuthority()) {
-                    case RoleConstants.USER:
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                        .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
-                        break;
-                    case RoleConstants.MODERATOR:
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
-                        break;
-                    case RoleConstants.ADMIN:
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
-                        break;
-                    case RoleConstants.ROLE_ADMIN_AND_MODERATOR:
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class));
-                        break;
-                }
-            }else{
-                switch (roleServiceModel.getAuthority()) {
+        } else {
+            switch (roleServiceModel.getAuthority()) {
                 case RoleConstants.USER:
                     user.getAuthorities().add(this.modelMapper
                             .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
@@ -195,25 +174,24 @@ public class UserServiceImpl implements UserService {
                     user.getAuthorities().add(this.modelMapper
                             .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
                     break;
-                    case RoleConstants.ROLE_ADMIN_AND_MODERATOR:
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
-                        user.getAuthorities().add(this.modelMapper
-                                .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
-                        break;
+                case RoleConstants.ROLE_ADMIN_AND_MODERATOR:
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.USER), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.ADMIN), Role.class));
+                    user.getAuthorities().add(this.modelMapper
+                            .map(roleService.findByAuthority(RoleConstants.MODERATOR), Role.class));
+                    break;
             }
-            }
-            this.userRepository.save(user);
         }
+        this.userRepository.save(user);
     }
 
     @Override
     public void addUserAnotherData(User user, String firstName, String lastName, LocalDate dateOfBirth, String gender, MultipartFile image) throws IOException {
         Role customer = this.modelMapper.map(roleService.findByAuthority(RoleConstants.CUSTOMER), Role.class);
 
-        sessionDynamicRoleChange(customer,null);
+        sessionDynamicRoleChange(customer, null);
         user.getAuthorities().add(customer);
         setUserCredentials(user, firstName, lastName, dateOfBirth, gender, image);
         this.userRepository.save(user);
@@ -231,24 +209,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUserProfile(UserServiceModel userServiceModel) {
         User user = userRepository.findUserByUsername(userServiceModel.getUsername())
-                .orElse(null);
-        if(user != null){
-            user.setFirstName(userServiceModel.getFirstName());
-            user.setLastName(userServiceModel.getLastName());
-            this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
-        }
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+
+        user.setFirstName(userServiceModel.getFirstName());
+        user.setLastName(userServiceModel.getLastName());
+        this.userRepository.saveAndFlush(user);
+        this.modelMapper.map(user, UserServiceModel.class);
     }
 
     @Override
     public void changeUserPassword(UserEditBindingModel userEditBindingModel) {
-
         User user = userRepository.findUserByUsername(userEditBindingModel.getUsername())
-                .orElse(null);
-        if(user != null){
-
-            user.setPassword(bCryptPasswordEncoder.encode(userEditBindingModel.getPassword()));
-            this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
-        }
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        user.setPassword(bCryptPasswordEncoder.encode(userEditBindingModel.getPassword()));
+        this.userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -265,7 +239,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
-        sessionDynamicRoleChange(trainerConfirmed ,trainerUnconfirmed);
+        sessionDynamicRoleChange(trainerConfirmed, trainerUnconfirmed);
         user.getAuthorities().add(trainerConfirmed);
         user.getAuthorities().remove(trainerUnconfirmed);
 
@@ -278,18 +252,10 @@ public class UserServiceImpl implements UserService {
         UserServiceModel user = this.findById(id);
         RoleServiceModel role = new RoleServiceModel();
         role.setAuthority(roleChangeBindingModel.getRole());
-        if(role.getAuthority() != null){
+        if (role.getAuthority() != null) {
             this.addRoleToUser(user, role);
         }
 
-    }
-
-
-    @Override
-    public User getUser(String verificationToken) {
-
-        User user = tokenRepository.findByToken(verificationToken).getUser();
-        return user;
     }
 
     @Override
@@ -299,7 +265,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createVerificationToken(User user, String token) {
-
         VerificationToken myToken = new VerificationToken(user, token);
         tokenRepository.save(myToken);
     }
@@ -312,12 +277,12 @@ public class UserServiceImpl implements UserService {
     private void sessionDynamicRoleChange(Role addRole, Role removeRole) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
-        if (addRole != null && removeRole != null){
+        if (addRole != null && removeRole != null) {
             updatedAuthorities.add(addRole);
             updatedAuthorities.remove(removeRole);
-        }else if (addRole != null){
+        } else if (addRole != null) {
             updatedAuthorities.add(addRole);
-        }else if (removeRole != null){
+        } else if (removeRole != null) {
             updatedAuthorities.remove(removeRole);
         }
         Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal()
@@ -328,12 +293,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeProfilePicture(UserServiceModel userServiceModel, MultipartFile image) throws IOException {
         User user = userRepository.findUserByUsername(userServiceModel.getUsername())
-                .orElse(null);
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        if(user != null) {
-            setProfilePicture(image, user);
-            this.userRepository.save(user);
-        }
+        setProfilePicture(image, user);
+        this.userRepository.save(user);
     }
 
     private void setProfilePicture(MultipartFile image, User user) throws IOException {
@@ -341,11 +304,11 @@ public class UserServiceImpl implements UserService {
             Cloudinary cloudinary = new Cloudinary();
             String defaultImg;
             String saveDefImg;
-            if(user.getGender().equals(Gender.MALE)){
-                 defaultImg = cloudinary.url().cloudName("gladiators")
+            if (user.getGender().equals(Gender.MALE)) {
+                defaultImg = cloudinary.url().cloudName("gladiators")
                         .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1599468350/profile-pictures/profile_quok32_qsbjk2.jpg");
-                 saveDefImg = defaultImg.substring(10, 115);
-            }else{
+                saveDefImg = defaultImg.substring(10, 115);
+            } else {
                 defaultImg = cloudinary.url().cloudName("gladiators")
                         .imageTag("https://res.cloudinary.com/gladiators/image/upload/v1599468317/profile-pictures/girlDefaultPic_o9foxm_uiss3t.jpg");
                 saveDefImg = defaultImg.substring(10, 122);
@@ -358,7 +321,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void banUser(String id) {
-        User user = this.userRepository.findById(id).orElse(null);
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
         user.getAuthorities().clear();
         RoleServiceModel role = this.roleService.findByAuthority(RoleConstants.BANNED);
         user.getAuthorities().add(this.modelMapper
@@ -369,8 +333,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel findUserByUsername(String username) {
+        User user = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        return this.modelMapper.map(userRepository.findUserByUsername(username).get(),UserServiceModel.class);
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 
     @Override

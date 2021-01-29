@@ -101,7 +101,8 @@ public class OrderServiceImpl implements OrderService {
     public void changeOrderStatus(String id) {
 
         Order order = this.orderRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND));
+
         if(order.getOrderStatus().equals(PENDING)){
             order.setOrderStatus(ACTIVE);
         }else if(order.getOrderStatus().equals(ACTIVE)){

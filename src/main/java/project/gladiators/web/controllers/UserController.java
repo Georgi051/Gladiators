@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.events.OnRegistrationCompleteEvent;
 import project.gladiators.exceptions.UserNotFoundException;
-import project.gladiators.exceptions.WrongPasswordException;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
 import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.User;
@@ -68,7 +67,7 @@ public class UserController extends BaseController {
     @PageTitle("Register")
     public ModelAndView register(@ModelAttribute(name = "model") UserRegisterBindingModel model, ModelAndView modelAndView) {
         modelAndView.addObject("model", model);
-        return super.view("register",modelAndView);
+        return super.view("register", modelAndView);
     }
 
     @PostMapping("/register")
@@ -84,7 +83,7 @@ public class UserController extends BaseController {
         }
 
         UserServiceModel userServiceModel =
-                this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class), model);
+                this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class));
 
         String appUrl = request.getContextPath();
         User user = this.modelMapper
@@ -92,9 +91,6 @@ public class UserController extends BaseController {
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,
                 request.getLocale(), appUrl));
 
-        if (userServiceModel == null) {
-            return super.view("register");
-        }
         redirectAttributes.addFlashAttribute("statusMessage", "Please check your email to verify your account");
         redirectAttributes.addFlashAttribute("statusCode", "successful");
         return super.redirect("/users/register");
@@ -141,7 +137,7 @@ public class UserController extends BaseController {
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("User management")
-    public ModelAndView getAllUsers(Model model){
+    public ModelAndView getAllUsers(Model model) {
 
         model.addAttribute("users", this.userService.getAllUsers());
         return super.view("admin/all-users");
@@ -150,11 +146,11 @@ public class UserController extends BaseController {
     @GetMapping("/")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("User Profile")
-    public ModelAndView userProfile(@RequestParam("id") String id){
+    public ModelAndView userProfile(@RequestParam("id") String id) {
 
         return super.view("user/profile-page",
                 new ModelAndView().addObject("user", this.modelMapper
-                .map(this.userService.findById(id), UserViewModel.class)));
+                        .map(this.userService.findById(id), UserViewModel.class)));
     }
 
     @GetMapping("/edit")
@@ -178,11 +174,11 @@ public class UserController extends BaseController {
     @PageTitle("Edit User")
     public ModelAndView editProfile(@RequestParam("id") String id,
                                     @Valid @ModelAttribute(name = "userEditBindingModel")
-                                                UserEditBindingModel userEditBindingModel,
+                                            UserEditBindingModel userEditBindingModel,
                                     BindingResult bindingResult,
-                                    ModelAndView modelAndView){
+                                    ModelAndView modelAndView) {
         userEditValidator.validate(userEditBindingModel, bindingResult);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return view("user/edit-user", modelAndView);
         }
@@ -197,12 +193,12 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Edit User")
     public ModelAndView getChangePassword(@RequestParam("id") String id,
-                                 ModelAndView modelAndView,
-                                 @ModelAttribute(name = "userEditBindingModel")
-                                         UserEditBindingModel userEditBindingModel) throws UserNotFoundException {
+                                          ModelAndView modelAndView,
+                                          @ModelAttribute(name = "userEditBindingModel")
+                                                  UserEditBindingModel userEditBindingModel) throws UserNotFoundException {
 
         UserViewModel userViewModel = this.modelMapper
-        .map(this.userService.findById(id), UserViewModel.class);
+                .map(this.userService.findById(id), UserViewModel.class);
         userEditBindingModel = modelMapper.map(userViewModel, UserEditBindingModel.class);
         modelAndView.addObject("userEditBindingModel", userEditBindingModel);
         modelAndView.setViewName("user/change-password");
@@ -214,22 +210,17 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Edit User")
     public ModelAndView changePassword(@RequestParam("id") String id,
-                                    @Valid @ModelAttribute(name = "userEditBindingModel")
-                                            UserEditBindingModel userEditBindingModel,
-                                    BindingResult bindingResult,
-                                    ModelAndView modelAndView){
+                                       @Valid @ModelAttribute(name = "userEditBindingModel")
+                                               UserEditBindingModel userEditBindingModel,
+                                       BindingResult bindingResult,
+                                       ModelAndView modelAndView) {
 
         userChangePasswordValidator.validate(userEditBindingModel, bindingResult);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return view("user/change-password", modelAndView);
         }
-        try{
-            this.userService.changeUserPassword(userEditBindingModel);
-        }catch (WrongPasswordException ex){
-            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
-            return view("user/change-password", modelAndView);
-        }
+        this.userService.changeUserPassword(userEditBindingModel);
         return super.redirect(String.format("/users/?id=%s", id));
     }
 
@@ -237,9 +228,9 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Edit User")
     public ModelAndView changePicture(@ModelAttribute(name = "userEditBindingModel")
-                                                   UserEditBindingModel userEditBindingModel,
-                                       ModelAndView modelAndView
-                                ) throws UserNotFoundException {
+                                              UserEditBindingModel userEditBindingModel,
+                                      ModelAndView modelAndView
+    ) throws UserNotFoundException {
         modelAndView.addObject("userEditBindingModel", userEditBindingModel);
         return super.view("user/change-profilePicture", modelAndView);
     }
@@ -249,12 +240,12 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Edit User")
     public ModelAndView changeProfilePicture(@RequestParam("id") String id,
-                                    @Valid @ModelAttribute(name = "userEditBindingModel")
-                                            UserEditBindingModel userEditBindingModel,
-                                    BindingResult bindingResult,
-                                    ModelAndView modelAndView) throws IOException {
+                                             @Valid @ModelAttribute(name = "userEditBindingModel")
+                                                     UserEditBindingModel userEditBindingModel,
+                                             BindingResult bindingResult,
+                                             ModelAndView modelAndView) throws IOException {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return view("user/change-profilePicture", modelAndView);
         }
@@ -266,7 +257,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/inbox/")
     @PageTitle("Your Messages")
-    public ModelAndView inbox(@RequestParam("id") String id, ModelAndView modelAndView){
+    public ModelAndView inbox(@RequestParam("id") String id, ModelAndView modelAndView) {
 
         modelAndView.addObject("messages", this.messageService.getSortedMessagesByUserId(id));
         return super.view("user/inbox", modelAndView);

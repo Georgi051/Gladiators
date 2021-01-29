@@ -12,6 +12,6 @@ public interface ReviewService {
 
     List<ReviewServiceModel> findAllReviewByProductId(String id);
 
-    RatingServiceModel RatingServiceModel(String id);
+    RatingServiceModel productRating(String id);
 
 }

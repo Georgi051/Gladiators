@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-@Order(value = 4)
+@Order(value = 3)
 public class ExerciseInitialization implements CommandLineRunner {
     private ExerciseRepository exerciseRepository;
     private Gson gson;

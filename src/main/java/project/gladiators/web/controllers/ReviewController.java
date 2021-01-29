@@ -43,7 +43,7 @@ public class ReviewController extends BaseController{
 
         ReviewServiceModel reviewServiceModel = this.reviewService.addReview(commentAddBindingModel.getDescription(),
                         commentAddBindingModel.getStars(), principal.getName(), productById);
-        RatingViewModel ratingViewModel = this.modelMapper.map(this.reviewService.RatingServiceModel(id), RatingViewModel.class);
+        RatingViewModel ratingViewModel = this.modelMapper.map(this.reviewService.productRating(id), RatingViewModel.class);
         List<ReviewViewModel> reviewViewModels = this.reviewService.findAllReviewByProductId(id)
                 .stream().map(p -> this.modelMapper.map(p,ReviewViewModel.class)).collect(Collectors.toList());
         modelAndView.addObject("product",product);

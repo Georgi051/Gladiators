@@ -17,7 +17,7 @@ import java.io.FileReader;
 import java.util.*;
 
 @Component
-@Order(value = 8)
+@Order(value = 5)
 public class CategoryInitialization implements CommandLineRunner {
     private CategoryRepository categoryRepository;
     private SubCategoryRepository subCategoryRepository;

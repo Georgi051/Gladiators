@@ -2,7 +2,6 @@ package project.gladiators.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.exceptions.CustomerNotFoundException;
@@ -15,6 +14,7 @@ import project.gladiators.repository.ProgressChartRepository;
 import project.gladiators.service.CustomerService;
 import project.gladiators.service.UserService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.ProgressChartServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
@@ -41,10 +41,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void registerCustomer(CustomerServiceModel customerServiceModel, MultipartFile imageUrl) throws IOException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public void registerCustomer(CustomerServiceModel customerServiceModel, MultipartFile imageUrl, User user) throws IOException {
+
         if (this.customerRepository.findCustomerByUser(user) == null){
-            Customer customer = this.modelMapper.map(customerServiceModel,Customer.class);
+            Customer customer = new Customer();
+            customer.setWeight(customerServiceModel.getWeight());
+            customer.setHeight(customerServiceModel.getHeight());
             customer.setUser(user);
             customer.setProgressChart(new ProgressChart());
             customer.getProgressChart().setProgressDate(LocalDate.now());
@@ -91,18 +93,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void editProgressChart(CustomerServiceModel customer, ProgressChartEditBindingModel progressChartEditBindingModel) {
+    public void editProgressChart(CustomerServiceModel customer, ProgressChartServiceModel progressChartServiceModel) {
 
         Customer customerEntity = this.customerRepository.findById(customer.getId())
                 .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND));
-        customerEntity.getProgressChart().setWeight(progressChartEditBindingModel.getWeight());
-        customerEntity.getProgressChart().setHeight(progressChartEditBindingModel.getHeight());
+        customerEntity.getProgressChart().setWeight(progressChartServiceModel.getWeight());
+        customerEntity.getProgressChart().setHeight(progressChartServiceModel.getHeight());
         double bmi = customerEntity.getProgressChart().getWeight()/Math.pow(customerEntity.getProgressChart().getHeight()/100,2);
         customerEntity.getProgressChart().setBMI(bmi);
-        customerEntity.getProgressChart().setBiceps(progressChartEditBindingModel.getBiceps());
-        customerEntity.getProgressChart().setChest(progressChartEditBindingModel.getChest());
-        customerEntity.getProgressChart().setWaist(progressChartEditBindingModel.getWaist());
-        customerEntity.getProgressChart().setThigh(progressChartEditBindingModel.getThigh());
+        customerEntity.getProgressChart().setBiceps(progressChartServiceModel.getBiceps());
+        customerEntity.getProgressChart().setChest(progressChartServiceModel.getChest());
+        customerEntity.getProgressChart().setWaist(progressChartServiceModel.getWaist());
+        customerEntity.getProgressChart().setThigh(progressChartServiceModel.getThigh());
         customerEntity.getProgressChart().setProgressDate(LocalDate.now());
         customerEntity.getProgressChart().setChanged(true);
         this.progressChartRepository.saveAndFlush(customerEntity.getProgressChart());

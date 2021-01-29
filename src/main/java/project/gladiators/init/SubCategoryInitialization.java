@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 @Component
-@Order(value = 7)
+@Order(value = 4)
 public class SubCategoryInitialization implements CommandLineRunner {
    private SubCategoryRepository subCategoryRepository;
     private Gson gson;

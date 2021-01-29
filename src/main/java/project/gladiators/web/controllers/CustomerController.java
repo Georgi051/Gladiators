@@ -3,6 +3,7 @@ package project.gladiators.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.gladiators.model.bindingModels.CustomerRegisterBindingModel;
+import project.gladiators.model.entities.User;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.ProgressChartServiceModel;
 import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.validators.customer.CustomerRegistrationValidator;
@@ -75,7 +78,9 @@ public class CustomerController extends BaseController{
             return super.view("customer/customer-registration", modelAndView);
         }
 
-        this.customerService.registerCustomer(this.modelMapper.map(customer,CustomerServiceModel.class),customer.getImageUrl());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        this.customerService.registerCustomer(this.modelMapper.map(customer,CustomerServiceModel.class),customer.getImageUrl(),user);
         return super.redirect("/home");
     }
 
@@ -109,7 +114,7 @@ public class CustomerController extends BaseController{
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         CustomerServiceModel customer = this.customerService.findCustomerByUser(userServiceModel);
 
-        customerService.editProgressChart(customer, progressChartEditBindingModel);
+        customerService.editProgressChart(customer, this.modelMapper.map(progressChartEditBindingModel, ProgressChartServiceModel.class));
         return super.redirect("/");
 
     }
