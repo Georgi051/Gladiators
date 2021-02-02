@@ -8,6 +8,11 @@
 <th:block th:insert="~{fragments/nav-moderator-panel}">
 </th:block>
 <body>
+<div class="row align-items-center mt-5" th:if="${statusMessage}">
+    <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
+         th:text="${statusMessage}">
+    </div>
+</div>
 <div class="container mt-5">
 
     <h2 class="text-center text-dark">All Products</h2>

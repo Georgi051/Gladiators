@@ -21,8 +21,4 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(titleInterceptor);
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/about").setViewName("about");
-    }
 }

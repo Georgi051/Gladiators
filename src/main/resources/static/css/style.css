@@ -1544,6 +1544,7 @@ form .form-group {
 
 .product-article img {
     height: 160px;
+    max-width: 150px;
 }
 
 .no-products {
@@ -1989,6 +1990,10 @@ label.star:before {
     flex: none;
 }
 
+.team-member h4 {
+    color: black;
+}
+
 .change-role {
     display: flex;
 }
@@ -2004,15 +2009,18 @@ label.star:before {
     border-radius: 50%;
 }
 
-body > nav > div.dropdown.border.rounded > i.fas.fa-circle {
+body > nav > div.dropdown.border.rounded > i.fas.fa-circle,
+body > nav> div > div.dropdown.border.rounded > i.fas.fa-circle{
     color: red;
     position: fixed;
     font-size: 0.6em;
 }
 
-body > nav > div.dropdown.border.rounded > i.fas.fa-envelope {
+body > nav > div.dropdown.border.rounded > i.fas.fa-envelope,
+body > nav > div > div.dropdown.border.rounded > i.fas.fa-envelope{
     font-size: 1.6em;
     margin-right: 12px;
+    color: antiquewhite;
 }
 
 .home-content .navbar-brand:hover{

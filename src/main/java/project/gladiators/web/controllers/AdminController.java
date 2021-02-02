@@ -41,7 +41,6 @@ public class AdminController extends BaseController {
     @PageTitle("User management")
     public ModelAndView userRoles(Principal principal) {
 
-
         List<UserServiceModel> users = filteredUsers(principal);
         return super.view("/admin/user-management", new ModelAndView().
                 addObject("users", users));
@@ -90,7 +89,6 @@ public class AdminController extends BaseController {
     @Admin
     public ModelAndView addTrainer(@RequestParam String username, @RequestParam("option") Action action,
                                    RedirectAttributes redirectAttributes) {
-        System.out.println();
 
         try {
             trainerService.changeTrainerStatus(username, action);

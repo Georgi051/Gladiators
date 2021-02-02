@@ -89,6 +89,7 @@ public class MessageServiceImpl implements MessageService {
                     messageViewModel.setIdOfSender(message.getMessageFrom().getId());
                     messageViewModel.setTitle(message.getTitle());
                     messageViewModel.setId(message.getId());
+                    messageViewModel.setUnread(message.isUnread());
                     messageViewModel.setMessageFrom(String.format
                             ("%s %s", message.getMessageFrom().getFirstName(),
                                     message.getMessageFrom().getLastName()));

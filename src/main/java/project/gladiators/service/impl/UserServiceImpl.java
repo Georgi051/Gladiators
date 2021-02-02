@@ -60,8 +60,6 @@ public class UserServiceImpl implements UserService {
         this.tokenRepository = tokenRepository;
     }
 
-    //todo security context holder refresh
-
     @Override
     public UserServiceModel registerUser(UserServiceModel userServiceModel) {
 
@@ -79,6 +77,7 @@ public class UserServiceImpl implements UserService {
         User user = this.modelMapper.map(userServiceModel, User.class);
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
         user.setRegisteredOn(LocalDateTime.now());
+        user.setEnabled(false);
         this.userRepository.saveAndFlush(user);
         return this.modelMapper.map(user, UserServiceModel.class);
     }

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class WorkoutExerciseInfoServiceTest {
+public class WorkoutExerciseInfoServiceImplTest {
 
     WorkoutExerciseInfo workoutExerciseInfo;
     WorkoutExerciseInfo workoutExerciseInfo2;

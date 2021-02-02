@@ -57,6 +57,7 @@ public class SubCategoryController extends BaseController {
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView addCategory(ModelAndView modelAndView) {
         modelAndView.addObject("subCategory", new SubCategoryBindingModel());
+        modelAndView.addObject("categories", categoryService.allCategories());
         return super.view("/subCategory/subCategory-add", modelAndView);
     }
 
@@ -69,6 +70,7 @@ public class SubCategoryController extends BaseController {
         subCategoryValidator.validate(subCategoryBindingModel,result);
         if (result.hasErrors()) {
             modelAndView.addObject("subCategory", subCategoryBindingModel);
+            modelAndView.addObject("categories", categoryService.allCategories());
             return super.view("/subCategory/subCategory-add", modelAndView);
         }
 

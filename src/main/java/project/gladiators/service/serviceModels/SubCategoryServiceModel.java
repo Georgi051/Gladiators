@@ -14,4 +14,5 @@ public class SubCategoryServiceModel  extends BaseServiceModel{
     private String name;
     private boolean isEmpty;
     private Set<ProductServiceModel> products;
+    private CategoryServiceModel category;
 }

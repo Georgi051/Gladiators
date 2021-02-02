@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class MessageServiceTest {
+public class MessageServiceImplTest {
 
     Message message;
     User messageTo;

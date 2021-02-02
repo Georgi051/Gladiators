@@ -75,6 +75,7 @@ public class ProductController extends BaseController{
             modelAndView.addObject("product", productBindingModel);
             modelAndView.addObject("subCategories", this.subCategoryService.allSubCategories().stream()
                     .map(subCategoryServiceModel -> this.modelMapper.map(subCategoryServiceModel, SubCategoryViewModel.class))
+                    .sorted(Comparator.comparing(SubCategoryViewModel::getName))
                     .collect(Collectors.toList()));
             return super.view("/product/product-add", modelAndView);
         }

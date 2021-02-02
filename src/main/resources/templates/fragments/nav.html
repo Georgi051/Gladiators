@@ -28,9 +28,9 @@
                 <a class="nav-link" th:href="@{/customers/registration}">Customer registration</a>
             </th:div>
 
-            <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
+            <div sec:authorize="isAuthenticated() && hasAnyRole('ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
             <div class="dropdown">
-                <a class="nav-link active dropdown-toggle" href="#" role="button" id="cartDropdown"
+                <a class="nav-link active dropdown-toggle" sec:authorize="!hasRole('ROOT')" href="#" role="button" id="cartDropdown"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cart</a>
                 <div class="dropdown-menu" aria-labelledby="cartDropdown">
                     <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">
@@ -44,7 +44,7 @@
 
         <div sec:authorize="isAuthenticated() && hasAnyRole('ROOT','ADMIN','MODERATOR','CUSTOMER','TRAINER_CONFIRMED')"
              class="dropdown  border rounded" style="margin-right: 30px; display: flex">
-            <th:block th:if="${unreadMessages == true}">
+            <th:block th:if="${#session.getAttribute('unreadMessages')}">
                 <i class="fas fa-circle"></i>
                 <i class="fas fa-envelope"></i>
             </th:block>
@@ -54,7 +54,7 @@
             <div class="dropdown-menu" role="menu">
                 <a class="dropdown-item" role="presentation"
                    th:href="@{/users/inbox/(id=${#authentication.getPrincipal().getId()})}">Inbox</a>
-                <a class="dropdown-item" role="presentation"
+                <a class="dropdown-item" role="presentation" sec:authorize="!hasRole('ROOT')"
                    th:href="@{/users/(id=${#authentication.getPrincipal().getId()})}">Profile</a>
                 <a class="dropdown-item" role="presentation"
                    th:href="@{/orders/my}">My Orders</a>

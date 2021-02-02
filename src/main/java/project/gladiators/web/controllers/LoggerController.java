@@ -31,7 +31,6 @@ public class LoggerController extends BaseController {
     @PageTitle("Logger")
     @PreAuthorize("hasRole('ROOT')")
     public ModelAndView addCategory(ModelAndView modelAndView) {
-        List<AdminLogServiceModel> all = loggerService.findAll();
         modelAndView.addObject("logs",loggerService.findAll().stream()
         .map(adminLogServiceModel -> this.modelMapper.map(adminLogServiceModel, AdminLogViewModel.class))
         .collect(Collectors.toList()));

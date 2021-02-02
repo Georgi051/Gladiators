@@ -76,27 +76,4 @@ public class OfferServiceImpl implements OfferService {
        return null;
     }
 
-    @Scheduled(fixedRate = 604800000)
-    private void generateOffers() {
-        this.offerRepository.deleteAll();
-        List<ProductServiceModel> products = this.productService.allProducts()
-                .stream().filter(productServiceModel -> !productServiceModel.isDeleted())
-                .collect(Collectors.toList());
-
-        if (products.isEmpty()) { return; }
-
-        Random random = new Random();
-        List<Offer> offers = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Offer offer = new Offer();
-            offer.setProduct(this.modelMapper.map(products.get(random.nextInt(products.size())), Product.class));
-            offer.setPrice(offer.getProduct().getPrice().multiply(new BigDecimal(0.8)));
-
-            if (offers.stream().filter(o -> o.getProduct().getId().equals(offer.getProduct().getId())).count() == 0) {
-                offers.add(offer);
-            }
-        }
-
-        this.offerRepository.saveAll(offers);
-    }
 }

@@ -24,7 +24,8 @@
        </div>
        <div class="col">
            <h5 class="text-center">Full name:</h5>
-           <h6 th:text="|${user.firstName} ${user.LastName}|" class="text-center"></h6>
+           <h6 th:if="${user.firstName != null}" th:text="|${user.firstName} ${user.LastName}|" class="text-center"></h6>
+           <h6 th:if="${user.firstName == null}" class="text-center"></h6>
        </div>
        <div class="col">
            <h5 class="text-center">Age:</h5>

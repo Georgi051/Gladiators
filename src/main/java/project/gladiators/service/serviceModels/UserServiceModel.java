@@ -28,6 +28,7 @@ public class UserServiceModel extends BaseServiceModel{
     private int age;
     private List<MessageServiceModel> messages;
     private Set<RoleServiceModel> authorities;
+    private boolean enabled;
 
 
     @Override

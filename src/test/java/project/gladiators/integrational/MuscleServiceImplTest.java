@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class MuscleServiceTest {
+public class MuscleServiceImplTest {
 
     Muscle muscle;
     Muscle muscle2;

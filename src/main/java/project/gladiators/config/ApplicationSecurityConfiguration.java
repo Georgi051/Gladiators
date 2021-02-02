@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,6 +32,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
                 .antMatchers("/trainers/confirmation").hasRole("TRAINER_UNCONFIRMED")
                 .antMatchers("/trainers/**").hasRole("TRAINER_CONFIRMED")
+                .antMatchers("/cart/**").hasAnyRole("CUSTOMER", "TRAINER_CONFIRMED", "MODERATOR", "ADMIN", "ADMIN_AND_MODERATOR", "ROOT")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

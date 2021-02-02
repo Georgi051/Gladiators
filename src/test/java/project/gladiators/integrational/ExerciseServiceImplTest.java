@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ExerciseServiceTest {
+public class ExerciseServiceImplTest {
 
     Exercise exercise;
     Exercise exercise1;

@@ -49,7 +49,7 @@ import static project.gladiators.constants.RoleConstants.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class TrainerServiceTest {
+public class TrainerServiceImplTest {
 
     Trainer trainer;
     User user;

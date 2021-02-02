@@ -1,7 +1,6 @@
 package project.gladiators.web.controllers;
 
 
-import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
@@ -43,21 +42,19 @@ public class UserController extends BaseController {
     private final UserRegisterValidator userRegisterValidator;
     private final UserEditValidator userEditValidator;
     private final UserChangePasswordValidator userChangePasswordValidator;
-    private final Gson gson;
     private final ApplicationEventPublisher eventPublisher;
     private final MessageSource messages;
 
     public UserController(ModelMapper modelMapper, UserService userService,
                           MessageService messageService, UserRegisterValidator userRegisterValidator,
                           UserEditValidator userEditValidator, UserChangePasswordValidator userChangePasswordValidator,
-                          Gson gson, ApplicationEventPublisher eventPublisher, MessageSource messages) {
+                          ApplicationEventPublisher eventPublisher, MessageSource messages) {
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.messageService = messageService;
         this.userRegisterValidator = userRegisterValidator;
         this.userEditValidator = userEditValidator;
         this.userChangePasswordValidator = userChangePasswordValidator;
-        this.gson = gson;
         this.eventPublisher = eventPublisher;
         this.messages = messages;
     }
@@ -144,7 +141,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("!hasRole('ROLE_ROOT')")
     @PageTitle("User Profile")
     public ModelAndView userProfile(@RequestParam("id") String id) {
 

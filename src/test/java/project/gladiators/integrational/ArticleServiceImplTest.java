@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ArticleServiceTest{
+public class ArticleServiceImplTest {
 
     Article article;
     Article article1;

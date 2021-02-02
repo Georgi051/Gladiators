@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.service.HomeService;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Controller
@@ -30,9 +31,15 @@ public class HomeController extends BaseController {
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Home")
-    public ModelAndView getHome(Principal principal, ModelAndView modelAndView) {
-        ModelAndView view = homeService.mvcService(principal.getName(), modelAndView);
+    public ModelAndView getHome(Principal principal, ModelAndView modelAndView, HttpSession session) {
+        ModelAndView view = homeService.mvcService(principal.getName(), modelAndView, session);
         return super.view("home", view);
+    }
+
+    @GetMapping("/about")
+    @PageTitle("About us")
+    public ModelAndView getAbout(){
+        return super.view("about");
     }
 
 }

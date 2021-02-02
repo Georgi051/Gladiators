@@ -60,7 +60,7 @@ public class PayPalController extends BaseController {
 
             e.printStackTrace();
         }
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @GetMapping("/cancel")
@@ -83,14 +83,14 @@ public class PayPalController extends BaseController {
                 redirectAttributes.addFlashAttribute("statusMessage", SUCCESSFUL_MASSAGE);
                 redirectAttributes.addFlashAttribute("statusCode", "successful");
                 session.removeAttribute(SHOPPING_CART);
-                return super.redirect("/");
+                return super.redirect("/home");
             }
         } catch (PayPalRESTException e) {
             redirectAttributes.addFlashAttribute("statusMessage", e.getDetails().getMessage());
             redirectAttributes.addFlashAttribute("statusCode", "error");
-            return super.redirect("/");
+            return super.redirect("/home");
         }
-        return super.redirect("/");
+        return super.redirect("/home");
     }
 
 }

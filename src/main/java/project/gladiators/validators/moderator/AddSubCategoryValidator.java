@@ -4,6 +4,7 @@ import org.springframework.validation.Errors;
 import project.gladiators.annotations.Validator;
 import project.gladiators.model.bindingModels.SubCategoryBindingModel;
 
+import static project.gladiators.constants.validators.ModeratorConstants.CATEGORY_CANNOT_BE_EMPTY;
 import static project.gladiators.constants.validators.ModeratorConstants.SUBCATEGORY_NAME_LENGTH;
 
 @Validator
@@ -20,6 +21,11 @@ public class AddSubCategoryValidator implements org.springframework.validation.V
         if (subCategoryBindingModel.getName().length() < 3 ||
                 subCategoryBindingModel.getName().length() > 20){
             errors.rejectValue("name",SUBCATEGORY_NAME_LENGTH,SUBCATEGORY_NAME_LENGTH);
+        }
+
+        if(subCategoryBindingModel.getCategory() == null){
+            errors.rejectValue("category", CATEGORY_CANNOT_BE_EMPTY,
+                    CATEGORY_CANNOT_BE_EMPTY);
         }
     }
 }

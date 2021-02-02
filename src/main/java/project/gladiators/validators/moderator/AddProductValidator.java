@@ -31,15 +31,17 @@ public class AddProductValidator implements org.springframework.validation.Valid
         if (productRepository.findByName(productAddBindingModel.getName()) != null) {
             errors.rejectValue("name", PRODUCT_NAME_ALREADY_EXIST,
                     PRODUCT_NAME_ALREADY_EXIST);
-            if (productAddBindingModel.getName().length() < 3) {
-                errors.rejectValue("name", PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS,
-                        PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS);
-            }
         }
 
         if (errors.hasErrors()) {
             return;
         }
+
+        if (productAddBindingModel.getName().length() < 3) {
+            errors.rejectValue("name", PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS,
+                    PRODUCT_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS);
+        }
+
 
         if (productAddBindingModel.getManufacturerName().length() < 3) {
             errors.rejectValue("manufacturerName", MANUFACTURER_NAME_LENGTH_MUST_BE_MORE_THAN_3_SYMBOLS,

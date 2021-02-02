@@ -17,6 +17,6 @@ public class MessageViewModel extends BaseViewModel{
       private String imageOfSender;
       private String idOfSender;
       private String message;
-      private boolean unread;
+      private boolean isUnread;
       private LocalDateTime timeSent;
 }

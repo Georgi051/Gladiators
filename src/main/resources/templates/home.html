@@ -6,7 +6,6 @@
 </head>
 <body class="home-content">
 <th:block th:insert="~{fragments/nav}">
-
 </th:block>
 
 <th:block sec:authorize="hasRole('ROLE_BANNED')">
@@ -19,6 +18,7 @@
     <h5 class="text-primary text-lg-center">Your trainer have made a training plan for you. To activate it go to this <a th:href="@{/cart/details}" style="text-decoration: none;border-bottom: 1px solid">page</a></h5>
 </th:block>
 
+
 <div class="col-12 alert alert-warning  text-center" sec:authorize="hasRole('TRAINER_UNCONFIRMED')">
     You are registered as a trainer!
     Please fill the <a th:href="@{/trainers/confirmation}">form</a> to continue
@@ -26,12 +26,10 @@
 <div class="row align-items-center mt-5" th:if="${statusMessage}">
     <div class="col-12 alert  text-center" th:classappend="${statusCode =='error'?'alert-danger':'alert-success'}"
          th:text="${statusMessage}">
-
     </div>
-
 </div>
-
 <div class="container">
+
     <div class="home-row">
         <div>
             <!-- TRAINING PLAN -->

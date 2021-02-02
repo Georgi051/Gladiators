@@ -43,7 +43,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+public class ProductServiceImplTest {
 
     Product product;
     SubCategory subCategory;

@@ -9,9 +9,12 @@ import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceModel;
 import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.web.viewModels.MessageViewModel;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Service
 public class HomeServiceImpl implements HomeService {
@@ -31,13 +34,13 @@ public class HomeServiceImpl implements HomeService {
         this.messageService = messageService;
     }
 
-    public ModelAndView mvcService(String name, ModelAndView modelAndView) {
+    public ModelAndView mvcService(String name, ModelAndView modelAndView, HttpSession session) {
         UserServiceModel user = this.userService.findUserByUsername(name);
         CustomerServiceModel customer = this.customerService.findCustomerByUser(user);
         if(messageService.getSortedMessagesByUserId(user.getId()) != null){
             messageService.getSortedMessagesByUserId(user.getId()).forEach(messageServiceModel -> {
                 if(messageServiceModel.isUnread()){
-                    modelAndView.addObject("unreadMessages", true);
+                    session.setAttribute("unreadMessages", true);
                 }
             });
         }

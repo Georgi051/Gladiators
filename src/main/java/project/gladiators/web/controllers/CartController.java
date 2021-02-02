@@ -37,7 +37,6 @@ public class CartController extends BaseController {
     }
 
     @PostMapping("/add-product")
-    @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session,
                                          ModelAndView modelAndView) {
 
@@ -52,7 +51,6 @@ public class CartController extends BaseController {
     }
 
     @GetMapping("/details")
-    @PreAuthorize("isAuthenticated()")
     @PageTitle("Cart Details")
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session , Principal principal) {
         CustomerServiceModel customerServiceModel = customerService.findCustomerByUser(userService.findUserByUsername(principal.getName()));
@@ -71,14 +69,12 @@ public class CartController extends BaseController {
 
     @PostMapping("/remove-product")
     @PageTitle("Cart Details")
-    @PreAuthorize("isAuthenticated()")
     public ModelAndView removeFromCartConfirm(String id, HttpSession session) {
         this.cartService.removeItemFromCart(id,session);
         return super.redirect("/cart/details");
     }
 
     @GetMapping("/checkout")
-    @PreAuthorize("isAuthenticated()")
     @PageTitle("Order Details")
     public ModelAndView getCheckout(HttpSession session, ModelAndView modelAndView,
                                     Principal principal){

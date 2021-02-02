@@ -25,4 +25,5 @@ public class SubCategory extends BaseEntity{
     @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();
 
+
 }

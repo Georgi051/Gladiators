@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class CartServiceTest {
+public class CartServiceImplTest {
 
     Product product;
     Customer customer;

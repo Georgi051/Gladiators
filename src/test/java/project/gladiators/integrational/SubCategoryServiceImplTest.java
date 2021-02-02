@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import project.gladiators.exceptions.SubCategoryNotFoundException;
+import project.gladiators.model.entities.Category;
 import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.SubCategory;
+import project.gladiators.repository.CategoryRepository;
 import project.gladiators.repository.SubCategoryRepository;
 import project.gladiators.service.SubCategoryService;
 import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -37,12 +40,16 @@ class SubCategoryServiceImplTest {
     @MockBean
     SubCategoryRepository subCategoryRepository;
 
+    @MockBean
+    CategoryRepository categoryRepository;
+
     @Autowired
     ModelMapper modelMapper;
 
     private SubCategory subCategory;
     private SubCategoryServiceModel subCategoryServiceModel;
     private Product product;
+    private Category category;
 
     @BeforeEach
     void setUp() {
@@ -58,12 +65,20 @@ class SubCategoryServiceImplTest {
         subCategory.setEmpty(true);
         subCategory.setProducts(Set.of(product));
 
+        category = new Category();
+        category.setId("1");
+        category.setName("Proteins");
+        category.setSubCategories(new ArrayList<>());
+
         subCategoryServiceModel = new SubCategoryServiceModel();
         subCategoryServiceModel.setName("BCCA new formula");
     }
 
     @Test
     void testSeedSubCategoryShouldSaveSubCategoryCorrect() {
+        when(categoryRepository.findById("1"))
+                .thenReturn(Optional.of(category));
+
         SubCategoryServiceModel subCategoryServiceModel =
                 this.modelMapper.map(subCategory, SubCategoryServiceModel.class);
         this.subCategoryService.seedSubCategory(subCategoryServiceModel);

@@ -25,6 +25,14 @@
             <input type="text" th:field="*{name}" class="form-control text-center" id="add-category-name" name="name">
             <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
         </div>
+        <div class="form-group">
+            <label for="category">Choose Category</label>
+            <select multiple class="form-control" th:field="*{category}" id="category">
+                <option class="form-check" th:each="category : ${categories}" th:value="${category.id}"
+                        th:text="${category.name}">
+            </select>
+            <small class="text-danger" th:each="error : ${#fields.errors('category')}" th:text="${error}"></small>
+        </div>
         <button type="submit" class="btn btn-primary ">Submit</button>
     </form>
 
