@@ -1,7 +1,8 @@
-# Gladiators
-Gladiators is monolithic arhitecture application. 
+# :muscle: Gladiators
+Gladiators is monolithic arhitecture application. Our main focus is to combine fitness shop with custom training plans for our clients with personal trainers.
 
-# Build with:
+
+# :hammer_and_wrench: Build with:
 - Java 14
 - Spring Boot 2.3.3
 - Maven 
@@ -51,5 +52,7 @@ Gladiators is monolithic arhitecture application.
    In our shop you can buy different products from different categories. You can rate and comment the products. Each category has subcategories in it and if a subcategory doesn't have products it will not be shown in the shop. Every week we have offers for different products. They are choosen randomly and are discounted by 20%.
    
 # Summary
-  If you have any questions or you found any bugs we will be glad to send us message on gladiatorsfitnessapp@gmail.com :)
+:email:
+  If you have any questions or you found any bugs we will be glad to send us message on gladiatorsfitnessapp@gmail.com :neckbeard:
+  If you like our application please give us star :star:
    
