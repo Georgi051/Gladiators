@@ -25,7 +25,7 @@ Gladiators is monolithic arhitecture application. Our main focus is to combine f
 - Bootstrap
 - JavaScript
 
-# Functionality
+# :wrench: Functionality
 - Register
    When you register you must confirm it by email verification. This is done by generating verification token which is valid 24 hours.
    
@@ -52,7 +52,7 @@ Gladiators is monolithic arhitecture application. Our main focus is to combine f
    In our shop you can buy different products from different categories. You can rate and comment the products. Each category has subcategories in it and if a subcategory doesn't have products it will not be shown in the shop. Every week we have offers for different products. They are choosen randomly and are discounted by 20%.
    
 # Summary
-:email:
-  If you have any questions or you found any bugs we will be glad to send us message on gladiatorsfitnessapp@gmail.com :neckbeard:
-  If you like our application please give us star :star:
+
+-  If you have any questions or you found any bugs we will be glad to send us message on :email: gladiatorsfitnessapp@gmail.com :neckbeard:
+-  If you like our application please give us star :star:
    
