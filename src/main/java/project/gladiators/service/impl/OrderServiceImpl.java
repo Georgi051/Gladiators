@@ -4,10 +4,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.gladiators.exceptions.OrderNotFoundException;
+import project.gladiators.model.entities.Delivery;
 import project.gladiators.model.entities.Order;
+import project.gladiators.repository.DeliveryRepository;
 import project.gladiators.repository.OrderRepository;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
+import project.gladiators.service.serviceModels.DeliveryServiceModel;
 import project.gladiators.service.serviceModels.OrderServiceModel;
 
 import javax.transaction.Transactional;
@@ -24,22 +27,24 @@ public class OrderServiceImpl implements OrderService {
     private final ModelMapper modelMapper;
     private final ProductService productService;
     private final UserService userService;
+    private final DeliveryRepository deliveryRepository;
     private final CustomerService customerService;
     private final CustomerTrainingPlanInfoService customerTrainingPlanInfoService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ProductService productService, UserService userService, CustomerService customerService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ProductService productService, UserService userService, DeliveryRepository deliveryRepository, CustomerService customerService, CustomerTrainingPlanInfoService customerTrainingPlanInfoService) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
         this.productService = productService;
         this.userService = userService;
+        this.deliveryRepository = deliveryRepository;
         this.customerService = customerService;
         this.customerTrainingPlanInfoService = customerTrainingPlanInfoService;
     }
 
     @Override
     @Transactional
-    public void createOrder(OrderServiceModel orderServiceModel, String name) {
+    public void createOrder(OrderServiceModel orderServiceModel, String name, DeliveryServiceModel deliveryServiceModel) {
         this.productService.sellProduct(orderServiceModel.getProducts());
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
         order.setOrderStatus(PENDING);
@@ -49,6 +54,10 @@ public class OrderServiceImpl implements OrderService {
                 customerTrainingPlanInfoService.customerPaidTrainingPlan(customer);
             }
         });
+
+        Delivery delivery =
+                this.deliveryRepository.saveAndFlush(this.modelMapper.map(deliveryServiceModel, Delivery.class));
+        order.setDelivery(delivery);
         this.orderRepository.saveAndFlush(order);
     }
 

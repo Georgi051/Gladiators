@@ -8,7 +8,7 @@
 </th:block>
 <main class="mt-3">
     <h1 class="text-center text-dark">Order Details</h1>
-    <hr class="hr-2 bg-dark w-75">
+    <hr class="hr-2 bg-dark w-50">
     <table class="table table-hover w-50 mx-auto">
         <thead>
         <tr class="row">
@@ -21,7 +21,7 @@
         <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">
             <tr class="row">
                 <td class="col-md-5 text-center" th:text="*{product.product.name}"></td>
-                <td class="col-md-4 text-center" th:text="*{product.price}" ></td>
+                <td class="col-md-4 text-center" th:text="|*{product.price} $|" ></td>
                 <td class="col-md-3 text-center" th:text="|*{quantity} pc.|"></td>
             </tr>
         </th:block>
@@ -29,9 +29,83 @@
     </table>
     <hr class="hr-2 bg-dark">
     <div class="text-center">
-        <h3 th:text="|Total: ${totalPrice}|"></h3>
+        <h3 th:text="|Total: ${totalPrice} $|"></h3>
     </div>
-    <form th:action="@{/payment/pay}" th:method="post">
+
+    <form th:action="@{/payment/pay}" th:object="${delivery}" th:method="post" >
+
+        <div class="body-details" >
+            <div class="wrapper">
+                <div class="container-details">
+                    <div class="form-details" >
+                        <h1 class="h1-details">
+                            <i class="fas fa-shipping-fast"></i>
+                            Shipping Details
+                        </h1>
+                        <div class="info">
+                            <div>
+                                <label for="f-name">First name</label>
+                                <input type="text"  th:field="*{firstName}" name="firstName" id="f-name"  >
+                                <small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
+                            </div>
+                            <div>
+                                <label for="l-name">Last name</label>
+                                <input type="text"  th:field="*{lastName}" name="lastName" id="l-name">
+                                <small class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+                            </div>
+                        </div>
+                        <div class="address">
+                            <label for="address">Address</label>
+                            <input type="text" th:field="*{address}" placeholder="Add street and street number"  name="address" id="address" >
+                            <small class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>
+                        </div>
+
+                        <div class="info">
+                            <div>
+                                <label for="neighborhood">Neighborhood</label>
+                                <input type="text"  th:field="*{neighborhood}" name="neighborhood" id="neighborhood" >
+                                <small class="text-danger" th:if="${#fields.hasErrors('neighborhood')}" th:errors="*{neighborhood}"></small>
+                            </div>
+                            <div>
+                                <label for="email">Email</label>
+                                <input type="text" th:field="*{email}"  name="email" id="email" >
+                                <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                            </div>
+                        </div>
+
+                        <div class="address-info">
+                            <div>
+                                <label for="city">City</label>
+                                <input type="text"  th:field="*{city}" name="city" id="city"  >
+                                <small class="text-danger" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></small>
+                            </div>
+                            <div>
+                                <label for="zip">Zip</label>
+                                <input type="number"  th:field="*{zip}"  name="zip" id="zip" >
+                                <small class="text-danger" th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></small>
+                            </div>
+                            <div>
+                                <label for="phone-number">Phone number</label>
+                                <input type="text" pattern="0[0-9]{10,19}" placeholder="088********" oninput="setCustomValidity('Phone length must be 10 or 11 digits like a example and ' +
+                                 'cannot use white spaces at the beginning, between, or at the end of number')" th:field="*{phoneNumber}"  name="phoneNumber" id="phone-number">
+                                <small class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top: 5%">
+                        <label style="color: orange" class="font-weight-bold">Pay method</label>
+                        <div>
+                            <input checked type="radio" name="payMethod" th:value="cash" />Cash
+
+                            <input type="radio" name="payMethod" th:value="paypal" />PayPal
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-success">Confirm</button>
         </div>

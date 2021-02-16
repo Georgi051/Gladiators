@@ -1,10 +1,8 @@
-package project.gladiators.integrational;
+package project.gladiators.integrational.services;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.MultipartFile;
-import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.InvalidChangeTrainerStatusException;
 import project.gladiators.exceptions.TrainerNotFoundException;
 import project.gladiators.model.entities.Role;
@@ -29,13 +26,11 @@ import project.gladiators.repository.UserRepository;
 import project.gladiators.service.RoleService;
 import project.gladiators.service.TrainerService;
 import project.gladiators.service.UserService;
-import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

@@ -1,14 +1,16 @@
 package project.gladiators.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.gladiators.annotations.PageTitle;
 import project.gladiators.exceptions.MaxProductQuantityInCartException;
+import project.gladiators.model.bindingModels.DeliveryBindingModel;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
 import project.gladiators.service.serviceModels.CustomerTrainingPlanInfoServiceModel;
@@ -16,6 +18,10 @@ import project.gladiators.service.serviceModels.OrderServiceModel;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.List;
+
+import static project.gladiators.constants.ShoppingCartConstants.NO_PRODUCT;
+import static project.gladiators.constants.ShoppingCartConstants.SHOPPING_CART;
 
 
 @Controller
@@ -76,9 +82,15 @@ public class CartController extends BaseController {
 
     @GetMapping("/checkout")
     @PageTitle("Order Details")
-    public ModelAndView getCheckout(HttpSession session, ModelAndView modelAndView,
-                                    Principal principal){
-
+    public ModelAndView getCheckout(@ModelAttribute(name = "delivery") DeliveryBindingModel delivery, HttpSession session, ModelAndView modelAndView,
+                                    Principal principal, RedirectAttributes redirectAttributes){
+        List<String> shoppingCard = (List<String>) session.getAttribute(SHOPPING_CART);
+        if (shoppingCard.size() == 0){
+            redirectAttributes.addFlashAttribute("statusMessage", NO_PRODUCT);
+            redirectAttributes.addFlashAttribute("statusCode", "error");
+            return super.redirect("/home");
+        }
+        modelAndView.addObject("delivery", delivery);
         modelAndView.addObject("totalPrice", this.cartService.calcTotal(session));
         OrderServiceModel orderServiceModel = this.cartService.prepareOrder(session,principal.getName());
         modelAndView.addObject("order", orderServiceModel);

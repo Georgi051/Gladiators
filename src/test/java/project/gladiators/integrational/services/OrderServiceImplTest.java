@@ -1,4 +1,4 @@
-package project.gladiators.integrational;
+package project.gladiators.integrational.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,10 +15,7 @@ import project.gladiators.model.entities.*;
 import project.gladiators.model.enums.OrderStatus;
 import project.gladiators.repository.*;
 import project.gladiators.service.*;
-import project.gladiators.service.serviceModels.OrderProductServiceModel;
-import project.gladiators.service.serviceModels.OrderServiceModel;
-import project.gladiators.service.serviceModels.ProductServiceModel;
-import project.gladiators.service.serviceModels.UserServiceModel;
+import project.gladiators.service.serviceModels.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +52,9 @@ class OrderServiceImplTest {
     CustomerRepository customerRepository;
 
     @MockBean
+    DeliveryRepository deliveryRepository;
+
+    @MockBean
     CustomerTrainingPlanInfoRepository customerTrainingPlanInfoRepository;
 
     @Autowired
@@ -72,6 +72,7 @@ class OrderServiceImplTest {
     private OrderServiceModel orderServiceModel;
     private UserServiceModel userServiceModel;
     private ProductServiceModel productServiceModel;
+    private DeliveryServiceModel deliveryServiceModel;
     private User user;
     private Customer customer;
     private CustomerTrainingPlanInfo customerTrainingPlanInfo;
@@ -105,6 +106,15 @@ class OrderServiceImplTest {
 
         user = this.modelMapper.map(userServiceModel, User.class);
 
+
+        deliveryServiceModel = new DeliveryServiceModel();
+        deliveryServiceModel.setFirstName("TestFirstName");
+        deliveryServiceModel.setLastName("TestLastName");
+        deliveryServiceModel.setPhoneNumber("0884556633");
+        deliveryServiceModel.setAddress("Address");
+        deliveryServiceModel.setZip(1000);
+        deliveryServiceModel.setPayMethod("cash");
+
         customer = new Customer();
         customer.setId("1");
         customer.setUser(user);
@@ -122,6 +132,11 @@ class OrderServiceImplTest {
         product.setQuantity(5);
         product.setBuyingCounter(0);
 
+        Delivery delivery = this.modelMapper.map(deliveryServiceModel,Delivery.class);
+
+        when(deliveryRepository.saveAndFlush(any(Delivery.class)))
+                .thenReturn(delivery);
+
         when(productRepository.save(any(Product.class)))
                 .thenReturn(product);
 
@@ -137,7 +152,7 @@ class OrderServiceImplTest {
         when(this.userRepository.findUserByUsername(any(String.class)))
                 .thenReturn(Optional.of(user));
 
-        this.orderService.createOrder(orderServiceModel, "testUserName");
+        this.orderService.createOrder(orderServiceModel, "testUserName", deliveryServiceModel);
 
         verify(this.orderRepository).saveAndFlush(any());
     }
@@ -151,12 +166,16 @@ class OrderServiceImplTest {
         when(productRepository.save(any(Product.class)))
                 .thenReturn(product);
 
+        Delivery delivery = this.modelMapper.map(deliveryServiceModel,Delivery.class);
+        when(deliveryRepository.saveAndFlush(any(Delivery.class)))
+                .thenReturn(delivery);
+
         when(this.productRepository.findById("1"))
                 .thenReturn(Optional.of(product));
 
         orderServiceModel.getProducts().get(0).getProduct().setName("productName");
 
-        this.orderService.createOrder(orderServiceModel, "testUserName");
+        this.orderService.createOrder(orderServiceModel, "testUserName", deliveryServiceModel);
 
         verify(this.orderRepository).saveAndFlush(any());
     }

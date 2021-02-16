@@ -1,10 +1,8 @@
-package project.gladiators.integrational;
+package project.gladiators.integrational.services;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +14,9 @@ import project.gladiators.model.enums.TrainingPlanType;
 import project.gladiators.repository.*;
 import project.gladiators.service.TrainingPlanService;
 import project.gladiators.service.serviceModels.CustomerServiceModel;
-import project.gladiators.service.serviceModels.TrainerServiceModel;
 import project.gladiators.service.serviceModels.TrainingPlanServiceModel;
 
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;

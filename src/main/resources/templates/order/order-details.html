@@ -30,7 +30,7 @@
                 </a>
                </td>
                 <td class="col-md-2 text-center" th:text="*{product.name}"></td>
-                <td class="col-md-2 text-center" th:text="${product.price}"></td>
+                <td class="col-md-2 text-center" th:text="${product.price} + ' $'"></td>
                 <td class="col-md-2 text-center" th:text="${product.quantity}"></td>
                 <td class="col-md-3 text-center mx-auto" th:text="*{product.description}"></td>
             </tr>

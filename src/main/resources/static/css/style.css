@@ -2026,3 +2026,101 @@ body > nav > div > div.dropdown.border.rounded > i.fas.fa-envelope{
 .home-content .navbar-brand:hover{
      color: bisque !important;
 }
+
+
+.body-details {
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper {
+    margin-top: 5%;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    font-family: "Arimo", sans-serif;
+    background-color: gray;
+    -webkit-box-shadow: 9px 13px 25px 0px rgba(0, 0, 0, 0.18);
+    -moz-box-shadow: 9px 13px 25px 0px rgba(0, 0, 0, 0.18);
+    box-shadow: 9px 13px 25px 0px rgba(0, 0, 0, 0.18);
+    animation: slideUp 2000ms ease;
+}
+
+.container-details {
+    width: 80%;
+    padding: 5% 10%;
+}
+
+.h1-details {
+    align-self: center;
+}
+
+.form-details {
+    width: 100%;
+}
+
+.form-details input {
+    width: 100%;
+    min-height: 25px;
+    border: 0;
+    font-size: 1rem;
+    letter-spacing: .15rem;
+    font-family: "Arimo", serif;
+    margin-top: 5px;
+    color: black;
+    border-radius: 4px;
+}
+
+.form-details label {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: orange;
+}
+
+.form-details h1 {
+    font-size: 24px;
+    line-height: 10px;
+    color: orange;
+    letter-spacing: 1px;
+}
+
+.address {
+    width: 100%;
+}
+
+.form-details h1:nth-of-type(2) {
+    margin-top: 10%;
+}
+
+.info {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+}
+
+.info div:nth-child(1) {
+    margin-right: 5%;
+}
+
+.address-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address-info div:nth-child(1),
+.address-info div:nth-child(2){
+    margin-right: 5%;
+}
+
+body > main > form > div.button-holder.d-flex.justify-content-center {
+    margin-top: 15px;
+}
+body > main > form > div.body-details > div > div > div:nth-child(2) > div{
+    font-weight: 700;
+}
+
+
+
+
+

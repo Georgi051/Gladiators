@@ -27,7 +27,7 @@
                 <tr class="row mx-auto">
                     <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
                     <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
-                    <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
+                    <td class="col-md-2 text-center" th:text="|*{totalPrice} $|"></td>
                     <td class="col-md-2 text-center mx-auto">
                         <div class="text-center">
                             <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
@@ -67,7 +67,7 @@
                 <tr class="row mx-auto">
                     <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
                     <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
-                    <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
+                    <td class="col-md-2 text-center" th:text="|*{totalPrice} $|"></td>
                     <td class="col-md-2 text-center mx-auto">
                         <div class="text-center">
                             <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
@@ -107,7 +107,7 @@
                 <tr class="row mx-auto">
                     <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
                     <td class="col-md-3 text-center" th:text="*{#temporals.format(madeOn, 'dd-MM-yyyy HH:mm') }"></td>
-                    <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
+                    <td class="col-md-2 text-center" th:text="|*{totalPrice} $|"></td>
                     <td class="col-md-2 text-center mx-auto">
                         <div class="text-center">
                             <th:block sec:authorize="hasRole('ROLE_MODERATOR')">

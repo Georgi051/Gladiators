@@ -51,15 +51,15 @@
         <th:block th:if="${offerPrice != null}">
             <div class="row">
                 <div class="col col-md-12 text-center mt-5">
-                    <h6 class="product-old-price" th:text="'Old price: ' + ${product.price}"></h6>
-                    <h4 th:text="'New price: ' + ${offerPrice}"></h4>
+                    <h6 class="product-old-price" th:text="'Old price: ' + ${product.price} + ' $'"></h6>
+                    <h4 th:text="'New price: ' + ${offerPrice}  + ' $'"></h4>
                 </div>
             </div>
         </th:block>
         <th:block th:if="${offerPrice == null}">
             <div class="row">
                 <div class="col col-md-12 text-center mt-5">
-                    <h4 th:text="'Price: ' + ${product.price}"></h4>
+                    <h4 th:text="'Price: ' + ${product.price} + ' $'"></h4>
                 </div>
             </div>
         </th:block>
