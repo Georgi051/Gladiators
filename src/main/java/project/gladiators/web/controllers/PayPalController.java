@@ -84,7 +84,6 @@ public class PayPalController extends BaseController {
         OrderServiceModel orderServiceModel = this.cartService.prepareOrder(session, principal.getName());
         this.orderService.createOrder(orderServiceModel,principal.getName(), deliveryServiceModel);
         session.removeAttribute(SHOPPING_CART);
-        
     }
         return super.redirect("/home");
     }
