@@ -25,7 +25,5 @@ public interface ProductService {
 
     void restoreProduct(String id);
 
-    void addReviewToCurrentProduct(ProductServiceModel product, ReviewServiceModel review);
-
     ProductServiceModel findByName(String name);
 }

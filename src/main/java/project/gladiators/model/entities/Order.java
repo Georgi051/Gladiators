@@ -37,7 +37,6 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private Delivery delivery;
 }
-

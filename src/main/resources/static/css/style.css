@@ -1482,6 +1482,7 @@ form .form-group {
 
 .nav-shop {
     display: flex;
+    margin-left: 30px;
 }
 
 .nav-shop ul {
@@ -1527,8 +1528,13 @@ form .form-group {
 .products {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
     padding: 0;
+    position: relative;
+    margin-top: 20px;
+    max-width: 70%;
+    margin-left: 250px;
+
 }
 .product-article {
     background: #BA8B00;
@@ -2027,7 +2033,90 @@ body > nav > div > div.dropdown.border.rounded > i.fas.fa-envelope{
      color: bisque !important;
 }
 
+.sorting-and-filters {
+    width: 19%;
+    position: absolute;
+    top: 86px;
+    color: white;
+    border: 1px solid white;
+    padding-top: 10px;
+    font-weight: bold;
+    font-family: 'ABeeZee', serif;
+    padding-left: 10px;
+}
 
+.sorting-and-filters article {
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display:flex;
+}
+
+.search-bar input{
+    width: 85%;
+    margin-left: 10px;
+    border-radius: 8px;
+}
+
+.sorting select{
+    width: 70%;
+    border-radius: 8px;
+}
+
+.filters-span {
+    border-bottom: 2px solid white;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+body > section > article.filters > div > span{
+    margin-bottom: 10px;
+    border-bottom: 2px solid white;
+    display: flex;
+    justify-content: center;
+}
+
+.price-input {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 5px;
+}
+
+.price-input input {
+    width: 25%;
+    border: none;
+}
+
+.filters > div:nth-child(3) > ul li {
+    margin-left: 30px;
+    margin-bottom: 5px;
+}
+
+.search-bar button {
+    background: none;
+    border: none;
+    color: white;
+}
+
+.filter-button {
+    display: flex;
+    margin: 0 auto 20px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'ABeeZee', serif;
+    font-weight: 700;
+}
+
+.filter-button:hover {
+    background: #846d1c;
+    color: white;
+}
+
+.manufacturers-filter {
+    margin-left: 10%;
+}
 .body-details {
     display: flex;
     justify-content: center;
@@ -2119,8 +2208,5 @@ body > main > form > div.button-holder.d-flex.justify-content-center {
 body > main > form > div.body-details > div > div > div:nth-child(2) > div{
     font-weight: 700;
 }
-
-
-
 
 

@@ -5,8 +5,9 @@ import org.springframework.stereotype.Repository;
 import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.SubCategory;
 
+import javax.persistence.NamedQuery;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product,String> {
     Product findByName(String name);
-
 }

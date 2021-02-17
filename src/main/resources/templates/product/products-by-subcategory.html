@@ -8,7 +8,54 @@
 <body class="shop">
 
 <th:block th:insert="~{fragments/nav-categories}"></th:block>
-<div class="container mt-5">
+
+<div>
+    <section class="sorting-and-filters">
+        <article class="search-bar">
+            <span>Search:</span>
+            <div>
+                <label for="search"></label>
+                <input type="text" id="search" name="search">
+            </div>
+
+            <button th:onclick="searchByText()"><i class="fas fa-search"></i></button>
+        </article>
+        <article class="sorting">
+            <span>Sort by:</span>
+            <select th:onchange="sortProducts()" id="sort-select">
+                <option value="alphabeticallyAscending">A-Z ascending</option>
+                <option value="alphabeticallyDescending">A-Z descending</option>
+                <option value="priceAscending">Price ascending</option>
+                <option value="priceDescending">Price descending</option>
+                <option value="byMostPopular">By most popular</option>
+            </select>
+        </article>
+        <article class="filters">
+            <span class="filters-span">Filters</span>
+            <div>
+                <span>Price</span>
+                <div class="price-input">
+                    <span>Higher than:</span>
+                    <label for="minPrice"></label>
+                    <input id="minPrice" type="number" th:min="0">
+                </div>
+                <div class="price-input">
+                    <span>Lower than:</span>
+                    <label for="maxPrice"></label>
+                    <input id="maxPrice" type="number" th:min="1">
+                </div>
+                <button class="filter-button" th:onclick="filterByHigherAndLowerPrice()">Filter</button>
+            </div>
+            <div class="manufacturers-filter">
+                <span>Manufacturer</span>
+                <div th:onchange="filterByManufacturers()" id="manufacturers" th:each="manufacturer : ${manufacturers}" th:object="${manufacturer}">
+                    <label th:for="${manufacturer}">
+                        <input class="custom-checkbox" type="checkbox" th:id="${manufacturer}" th:text="${manufacturer}" th:value="${manufacturer}">
+                    </label>
+                </div>
+            </div>
+        </article>
+    </section>
 
         <tbody>
         <th:block th:if="${products.size() == 0}">
@@ -17,7 +64,7 @@
             </div>
         </th:block>
 
-        <section class="products">
+        <section class="products" id="products">
         <th:block th:each="product: ${products}" th:object="${product}">
                 <article class="product-article">
                     <img th:src="${product.imageUrl}" alt="">
@@ -25,11 +72,11 @@
 
                         <th:block th:each="offer: ${offers}" th:object="${product}">
                             <th:block th:if="${product.name} == ${offer.product.name}">
-                                <span class="product-old-price" th:text="${product.price}"></span>
                                 <span th:text="${offer.price} + ' $'"></span>
+                                <span th:text="${offer.price}"></span>
                             </th:block>
                         </th:block>
-                        <span th:text="${product.price} + ' $'"></span>
+                       <span th:text="${product.price} + ' $'"></span>
                         <a th:href="@{/products/details/{id}(id=${product.id})}">Details</a>
 
                 </article>

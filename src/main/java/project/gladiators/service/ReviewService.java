@@ -14,4 +14,5 @@ public interface ReviewService {
 
     RatingServiceModel productRating(String id);
 
+    void addReviewToCurrentProduct(ProductServiceModel product, ReviewServiceModel review);
 }

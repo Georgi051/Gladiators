@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductViewModel extends BaseViewModel {
+public class Product extends BaseViewModel {
     private String name;
     private String manufacturerName;
     private BigDecimal price;

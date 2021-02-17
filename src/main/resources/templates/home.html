@@ -12,7 +12,7 @@
     <h5 class="text-danger text-lg-center">You are banned!</h5>
 </th:block>
 <th:block th:if="${customer != null && progressChart.changed == false}">
-    <h5 class="text-primary text-lg-center">We didn't check any progress! If you have progress please enter your new values in the progress chart!</h5>
+    <h5 class="text-primary text-lg-center" th:text="#{home.progressChart}">We didn't check any progress! If you have progress please enter your new values in the progress chart!</h5>
 </th:block>
 <th:block th:if="${paid == false}">
     <h5 class="text-primary text-lg-center">Your trainer have made a training plan for you. To activate it go to this <a th:href="@{/cart/details}" style="text-decoration: none;border-bottom: 1px solid">page</a></h5>

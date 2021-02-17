@@ -1,6 +1,7 @@
 package project.gladiators.web.rest;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/workouts")
 public class WorkoutRestController {
 
     private final WorkoutService workoutService;
@@ -22,17 +23,15 @@ public class WorkoutRestController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/workouts/all")
-    public List<Workout> getAllWorkouts(){
+    @GetMapping("/all")
+    public ResponseEntity<List<Workout>> getAllWorkouts(){
 
-        List<Workout> workouts = workoutService.findAll()
+        return ResponseEntity.ok(workoutService.findAll()
                 .stream()
                 .map(workoutServiceModel -> {
                     Workout workout = this.modelMapper
                             .map(workoutServiceModel, Workout.class);
                     return workout;
-                }).collect(Collectors.toList());
-
-        return workouts;
+                }).collect(Collectors.toList()));
     }
 }

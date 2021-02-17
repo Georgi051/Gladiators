@@ -1,7 +1,9 @@
 package project.gladiators.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,8 +25,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/css/**", "/js/**", "/fonts/**", "/img/**").permitAll()
-                .antMatchers("/articles", "/articles/*", "/about", "/trainers","/shop", "/api/categories/*", "/subcategories/*",
-                        "/products/details/*", "/top-offers").permitAll()
+                .antMatchers("/articles", "/articles/*", "/about", "/trainers","/shop", "/api/categories/all", "/subcategories/*",
+                        "/products/details/*", "/top-offers", "/api/products/all", "/api/offers/all", "/api/exercises/all").permitAll()
                 .antMatchers("/", "/users/login", "/users/register", "/users/registrationConfirm").anonymous()
                 .antMatchers("/articles/delete/**").hasAnyRole("MODERATOR", "ROOT")
                 .antMatchers("/products/**").hasAnyRole("MODERATOR","ROOT")
@@ -56,4 +58,5 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         repository.setSessionAttributeName("_csrf");
         return repository;
     }
+
 }

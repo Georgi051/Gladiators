@@ -17,7 +17,7 @@ import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.RatingServiceModel;
 import project.gladiators.validators.moderator.AddProductValidator;
 import project.gladiators.validators.moderator.EditProductValidator;
-import project.gladiators.web.viewModels.ProductViewModel;
+import project.gladiators.web.viewModels.Product;
 import project.gladiators.web.viewModels.RatingViewModel;
 import project.gladiators.web.viewModels.ReviewViewModel;
 import project.gladiators.web.viewModels.SubCategoryViewModel;
@@ -93,7 +93,7 @@ public class ProductController extends BaseController{
                 .findProductById(id);
         modelAndView.addObject("product", this.modelMapper
                 .map(productServiceModel,
-                ProductViewModel.class));
+                Product.class));
 
         RatingServiceModel ratingServiceModel = this.reviewService.productRating(id);
         RatingViewModel ratingViewModel = this.modelMapper.map(ratingServiceModel, RatingViewModel.class);
@@ -138,7 +138,7 @@ public class ProductController extends BaseController{
     @PageTitle("Delete Product")
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView deleteProduct(@PathVariable String id, ModelAndView modelAndView){
-        ProductViewModel product = mapProductDetails(id);
+        Product product = mapProductDetails(id);
         modelAndView.addObject("product", product);
         modelAndView.addObject("productId", id);
         return super.view("/product/delete-product", modelAndView);
@@ -152,7 +152,7 @@ public class ProductController extends BaseController{
             this.productService.deleteProduct(id);
         }catch (Exception ex) {
             modelAndView.addObject("error", ex.getMessage());
-            ProductViewModel product = mapProductDetails(id);
+            Product product = mapProductDetails(id);
             modelAndView.addObject("product", product);
             modelAndView.addObject("productId", id);
             return super.view("product/delete-product", modelAndView);
@@ -165,7 +165,7 @@ public class ProductController extends BaseController{
     @PageTitle("Restore Product")
     @PreAuthorize("hasRole('MODERATOR')")
     public ModelAndView restoreProduct(@PathVariable String id, ModelAndView modelAndView){
-        ProductViewModel product = mapProductDetails(id);
+        Product product = mapProductDetails(id);
         modelAndView.addObject("product", product);
         modelAndView.addObject("productId", id);
         return super.view("/product/restore-product", modelAndView);
@@ -179,7 +179,7 @@ public class ProductController extends BaseController{
             this.productService.restoreProduct(id);
         }catch (Exception ex) {
             modelAndView.addObject("error", ex.getMessage());
-            ProductViewModel product = mapProductDetails(id);
+            Product product = mapProductDetails(id);
             modelAndView.addObject("product", product);
             modelAndView.addObject("productId", id);
             return super.view("product/restore-product", modelAndView);
@@ -190,19 +190,21 @@ public class ProductController extends BaseController{
 
     @GetMapping("/all")
     @PageTitle("All Products")
-    public ModelAndView allProduct(ModelAndView modelAndView) {
+    public ModelAndView allProducts(ModelAndView modelAndView) {
         modelAndView.addObject("products", this.productService.allProducts().stream()
                 .filter(product -> !product.isDeleted())
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class)).collect(Collectors.toList()));
+                .map(p -> this.modelMapper.map(p, Product.class)).collect(Collectors.toList()));
         modelAndView.addObject("deletedProducts", this.productService
-        .allProducts().stream().filter(ProductServiceModel::isDeleted)
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .allProducts().stream().filter(ProductServiceModel::isDeleted)
+                .map(p -> this.modelMapper.map(p, Product.class))
                 .collect(Collectors.toList()));
         return super.view("/product/all-products", modelAndView);
+
     }
 
-    private ProductViewModel mapProductDetails(String id) {
-        return this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class);
+
+    private Product mapProductDetails(String id) {
+        return this.modelMapper.map(this.productService.findProductById(id), Product.class);
     }
 
 }

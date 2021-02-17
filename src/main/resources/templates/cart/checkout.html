@@ -21,7 +21,7 @@
         <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">
             <tr class="row">
                 <td class="col-md-5 text-center" th:text="*{product.product.name}"></td>
-                <td class="col-md-4 text-center" th:text="|*{product.price} $|" ></td>
+                <td class="col-md-4 text-center" th:text="|*{product.price}$|" ></td>
                 <td class="col-md-3 text-center" th:text="|*{quantity} pc.|"></td>
             </tr>
         </th:block>
@@ -29,9 +29,8 @@
     </table>
     <hr class="hr-2 bg-dark">
     <div class="text-center">
-        <h3 th:text="|Total: ${totalPrice} $|"></h3>
+        <h3 th:text="|Total: ${totalPrice}$|"></h3>
     </div>
-
     <form th:action="@{/payment/pay}" th:object="${delivery}" th:method="post" >
 
         <div class="body-details" >
@@ -86,8 +85,7 @@
                             </div>
                             <div>
                                 <label for="phone-number">Phone number</label>
-                                <input type="text" pattern="0[0-9]{10,19}" placeholder="088********" oninput="setCustomValidity('Phone length must be 10 or 11 digits like a example and ' +
-                                 'cannot use white spaces at the beginning, between, or at the end of number')" th:field="*{phoneNumber}"  name="phoneNumber" id="phone-number">
+                                <input type="text" th:field="*{phoneNumber}"  name="phoneNumber" id="phone-number">
                                 <small class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></small>
                             </div>
                         </div>
@@ -105,7 +103,7 @@
                 </div>
             </div>
         </div>
-
+    <form th:action="@{/payment/pay}" th:method="post">
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-success">Confirm</button>
         </div>

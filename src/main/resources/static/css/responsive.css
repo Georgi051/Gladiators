@@ -45,6 +45,7 @@
 }
 
 @media all and (max-width: 500px){
+
     body > nav > div.container {
         margin-right: 46%;
     }
@@ -52,7 +53,6 @@
     .form-details h1 {
         font-size: 0.7em !important;
     }
-
 }
 
 @media all and (max-width: 640px) {
@@ -216,7 +216,6 @@
     .form-details h1 {
         font-size: 1em !important;
     }
-
 }
 @media all and (max-width: 768px) {
     .navigation-clean-button .navbar-nav .show .dropdown-menu .dropdown-item {
@@ -290,7 +289,18 @@
     body > nav > div.dropdown.border.rounded {
         margin-right: 15px;
     }
-
+    .sorting-and-filters {
+        position: revert;
+        display: flex;
+        flex-direction: column;
+        margin: 10px auto;
+        width: 50%;
+    }
+    .products {
+        position: inherit;
+        margin-top: 20px;
+        max-width: 150px;
+    }
 }
 
 @media all and (max-width: 992px) {
@@ -328,7 +338,6 @@
     .form-details h1 {
         font-size: 1.4em !important;
     }
-
 }
 
 @media all and (max-width:1200px) {
@@ -339,5 +348,13 @@
     .training-plan-article, .progress-chart {
         margin-bottom: 5px;
     }
+    .nav-shop{
+        margin-left: 200px;
+    }
 }
 
+@media all and (max-width:1000px) {
+    .nav-shop{
+        margin-left: 0px;
+    }
+}

@@ -12,7 +12,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.entities.Offer;
 import project.gladiators.model.entities.Product;
-import project.gladiators.model.entities.Review;
 import project.gladiators.model.entities.SubCategory;
 import project.gladiators.repository.OfferRepository;
 import project.gladiators.repository.ProductRepository;
@@ -21,7 +20,6 @@ import project.gladiators.repository.SubCategoryRepository;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.serviceModels.OrderProductServiceModel;
 import project.gladiators.service.serviceModels.ProductServiceModel;
-import project.gladiators.service.serviceModels.ReviewServiceModel;
 import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 
 import java.io.IOException;
@@ -217,23 +215,6 @@ public class ProductServiceImplTest {
         assertFalse(testProduct.isDeleted());
     }
 
-    @Test
-    public void addReviewToCurrentProduct_shouldAddReviews(){
-
-        when(productRepository.findById("1"))
-                .thenReturn(Optional.of(product));
-        Review review = new Review();
-        review.setId("1");
-        review.setStars(5);
-        when(reviewRepository.save(any(Review.class)))
-                .thenReturn(review);
-        productService.addReviewToCurrentProduct(this.modelMapper
-        .map(product, ProductServiceModel.class), modelMapper.map(review, ReviewServiceModel.class));
-
-        when(productRepository.save(any()))
-                .thenReturn(product);
-
-    }
 
     @Test
     public void findByName_shouldReturnCorrectProduct(){
@@ -279,4 +260,13 @@ public class ProductServiceImplTest {
         assertEquals(0, product.getQuantity());
     }
 
+    @Test
+    public void allProducts_shouldReturnCollectionOfAllProducts(){
+        when(this.productRepository.findAll())
+                .thenReturn(List.of(product));
+
+        List<ProductServiceModel> productServiceModels = productService.allProducts();
+
+        assertEquals(1, productServiceModels.size());
+    }
 }

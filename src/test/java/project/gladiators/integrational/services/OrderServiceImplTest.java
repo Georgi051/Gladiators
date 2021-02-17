@@ -71,8 +71,8 @@ class OrderServiceImplTest {
 
     private OrderServiceModel orderServiceModel;
     private UserServiceModel userServiceModel;
-    private ProductServiceModel productServiceModel;
     private DeliveryServiceModel deliveryServiceModel;
+    private ProductServiceModel productServiceModel;
     private User user;
     private Customer customer;
     private CustomerTrainingPlanInfo customerTrainingPlanInfo;
@@ -105,7 +105,6 @@ class OrderServiceImplTest {
         orderServiceModel.setOrderStatus(OrderStatus.PENDING);
 
         user = this.modelMapper.map(userServiceModel, User.class);
-
 
         deliveryServiceModel = new DeliveryServiceModel();
         deliveryServiceModel.setFirstName("TestFirstName");
@@ -152,7 +151,8 @@ class OrderServiceImplTest {
         when(this.userRepository.findUserByUsername(any(String.class)))
                 .thenReturn(Optional.of(user));
 
-        this.orderService.createOrder(orderServiceModel, "testUserName", deliveryServiceModel);
+        this.orderService.createOrder(orderServiceModel, "testUserName",
+                deliveryServiceModel);
 
         verify(this.orderRepository).saveAndFlush(any());
     }

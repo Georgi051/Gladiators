@@ -10,6 +10,7 @@ import project.gladiators.model.entities.Review;
 import project.gladiators.model.entities.SubCategory;
 import project.gladiators.repository.OfferRepository;
 import project.gladiators.repository.ProductRepository;
+import project.gladiators.repository.ReviewRepository;
 import project.gladiators.repository.SubCategoryRepository;
 import project.gladiators.service.CloudinaryService;
 import project.gladiators.service.ProductService;
@@ -32,6 +33,7 @@ public class ProductServiceImpl implements ProductService {
     private final OfferRepository offerRepository;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
+
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, SubCategoryRepository subCategoryRepository, OfferRepository offerRepository, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
@@ -72,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductServiceModel> allProducts() {
         return this.productRepository.findAll().stream()
+                .filter(product -> !product.getName().equals("Training plan"))
                 .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
                 .collect(Collectors.toList());
     }
@@ -135,13 +138,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    @Override
-    public void addReviewToCurrentProduct(ProductServiceModel product, ReviewServiceModel review) {
-        Product currentProduct = this.modelMapper.map(product, Product.class);
-        currentProduct.getReviews().add(this.modelMapper.map(review, Review.class));
-        this.productRepository.save(currentProduct);
-        
-    }
 
     @Override
     public ProductServiceModel findByName(String name) {

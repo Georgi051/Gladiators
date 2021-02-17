@@ -27,14 +27,12 @@ import java.util.List;
 public class ArticleController extends BaseController {
 
     private final ArticleService articleService;
-    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final AddArticleValidator addArticleValidator;
 
     @Autowired
-    public ArticleController(ArticleService articleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, AddArticleValidator addArticleValidator) {
+    public ArticleController(ArticleService articleService, ModelMapper modelMapper, AddArticleValidator addArticleValidator) {
         this.articleService = articleService;
-        this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.addArticleValidator = addArticleValidator;
     }
@@ -87,7 +85,6 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("/delete/{id}")
-    @ResponseBody
     public ModelAndView deleteSpecificArticle(@PathVariable String id){
         articleService.deleteById(id);
         return super.redirect("/articles");

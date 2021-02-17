@@ -2,6 +2,7 @@ package project.gladiators.web.rest;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/exercises")
 public class ExerciseRestController extends BaseController {
 
     private final ExerciseService exerciseService;
@@ -29,18 +30,17 @@ public class ExerciseRestController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/exercises/all")
-    public Set<Exercise> getAllExercises(){
+    @GetMapping("/all")
+    public ResponseEntity<Set<Exercise>> getAllExercises(){
 
-        Set<Exercise> exercises = this.exerciseService
+        return ResponseEntity.ok(this.exerciseService
                 .findAll()
                 .stream()
                 .map(exerciseServiceModel -> {
                     Exercise exercise = this.modelMapper
                             .map(exerciseServiceModel, Exercise.class);
                     return exercise;
-                }).collect(Collectors.toSet());
-        return exercises;
+                }).collect(Collectors.toSet()));
 
     }
 

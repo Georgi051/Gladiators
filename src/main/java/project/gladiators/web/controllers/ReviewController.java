@@ -13,7 +13,7 @@ import project.gladiators.service.ReviewService;
 import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.ReviewServiceModel;
 import project.gladiators.web.viewModels.CommentViewModel;
-import project.gladiators.web.viewModels.ProductViewModel;
+import project.gladiators.web.viewModels.Product;
 import project.gladiators.web.viewModels.RatingViewModel;
 import project.gladiators.web.viewModels.ReviewViewModel;
 
@@ -39,7 +39,7 @@ public class ReviewController extends BaseController{
     public ModelAndView addProduct(@ModelAttribute(name = "comment") CommentAddBindingModel commentAddBindingModel ,
                                    Principal principal, String id, ModelAndView modelAndView) {
         ProductServiceModel productById = this.productService.findProductById(id);
-        ProductViewModel product = this.modelMapper.map(productById, ProductViewModel.class);
+        Product product = this.modelMapper.map(productById, Product.class);
 
         ReviewServiceModel reviewServiceModel = this.reviewService.addReview(commentAddBindingModel.getDescription(),
                         commentAddBindingModel.getStars(), principal.getName(), productById);

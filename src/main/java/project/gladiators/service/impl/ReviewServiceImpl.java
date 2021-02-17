@@ -53,8 +53,7 @@ public class ReviewServiceImpl implements ReviewService {
             review.setUser(this.modelMapper.map(client, User.class));
             review.setProduct(product);
             review.setStars(stars);
-            productService.addReviewToCurrentProduct(productServiceModel, this.modelMapper.map(review, ReviewServiceModel.class));
-            this.reviewRepository.save(review);
+            addReviewToCurrentProduct(productServiceModel, this.modelMapper.map(review, ReviewServiceModel.class));
             reviewServiceModel = this.modelMapper.map(review, ReviewServiceModel.class);
             reviewServiceModel.setDescription(NEW_COMMENT);
         } else {
@@ -70,6 +69,17 @@ public class ReviewServiceImpl implements ReviewService {
                 .stream()
                 .map(r -> this.modelMapper.map(r, ReviewServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public void addReviewToCurrentProduct(ProductServiceModel product, ReviewServiceModel review) {
+        Product currentProduct = this.modelMapper.map(product, Product.class);
+        Review newReview = this.modelMapper.map(review, Review.class);
+        newReview.setProduct(currentProduct);
+        newReview.getProduct().getReviews().add(newReview);
+        this.reviewRepository.save(newReview);
+
     }
 
     @Override

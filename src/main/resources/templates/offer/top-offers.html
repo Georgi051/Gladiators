@@ -23,6 +23,7 @@
                 <img th:src="${offer.product.imageUrl}" alt="">
                 <span th:text="${offer.product.name}"></span>
                 <span class="product-old-price" th:text="${offer.product.price} + ' $'"></span>
+                <span class="product-offer-price" th:text="${offer.price}"></span>
                 <span class="product-offer-price" th:text="${offer.price} + ' $'"></span>
                 <a class="offer-button" th:href="@{/products/details/{id}(id=${offer.product.id})}">Details</a>
             </article>

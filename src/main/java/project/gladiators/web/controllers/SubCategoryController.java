@@ -12,13 +12,18 @@ import project.gladiators.model.bindingModels.SubCategoryBindingModel;
 import project.gladiators.service.CategoryService;
 import project.gladiators.service.OfferService;
 import project.gladiators.service.SubCategoryService;
+import project.gladiators.service.serviceModels.ProductServiceModel;
 import project.gladiators.service.serviceModels.SubCategoryServiceModel;
 import project.gladiators.validators.moderator.AddSubCategoryValidator;
 import project.gladiators.web.viewModels.CategoryViewModel;
+import project.gladiators.web.viewModels.Product;
 import project.gladiators.web.viewModels.SubCategoryViewModel;
 
 import javax.validation.Valid;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,11 +49,18 @@ public class SubCategoryController extends BaseController {
                                                    ModelAndView modelAndView) {
 
         SubCategoryServiceModel subCategory = this.subCategoryService.findById(id);
-        modelAndView.addObject("products", subCategory.getProducts()
-        .stream().filter(productServiceModel -> !productServiceModel.isDeleted()).collect(Collectors.toList()));
+
+        List<ProductServiceModel> products = subCategory.getProducts()
+                .stream().filter(productServiceModel -> !productServiceModel.isDeleted()).collect(Collectors.toList());
+        modelAndView.addObject("products", products);
         modelAndView.addObject("categories", this.categoryService.allCategories().stream()
                 .map(c -> this.modelMapper.map(c, CategoryViewModel.class)).collect(Collectors.toList()));
         modelAndView.addObject("offers", this.offerService.findAllOffers());
+        Set<String> manufacturers = new LinkedHashSet<>();
+        products.forEach(product -> {
+            manufacturers.add(product.getManufacturerName());
+        });
+        modelAndView.addObject("manufacturers", manufacturers);
         return view("product/products-by-subcategory", modelAndView);
     }
 

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RatingServiceModel extends BaseServiceModel {
+public class RatingServiceModel {
     private double rating;
     private int votes;
 }

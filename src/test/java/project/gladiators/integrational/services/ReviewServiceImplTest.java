@@ -141,6 +141,24 @@ class ReviewServiceImplTest {
         Assertions.assertEquals(ALREADY_COMMENT, reviewServiceModel.getDescription());
     }
 
+        @Test
+        public void addReviewToCurrentProduct_shouldAddReviews(){
+        Product product = modelMapper.map(productServiceModel, Product.class);
+        when(productRepository.findById("1"))
+                .thenReturn(Optional.of(product));
+        Review review = new Review();
+        review.setId("1");
+        review.setStars(5);
+        when(reviewRepository.save(any(Review.class)))
+                .thenReturn(review);
+        reviewService.addReviewToCurrentProduct(this.modelMapper
+        .map(product, ProductServiceModel.class), modelMapper.map(review, ReviewServiceModel.class));
+
+        when(productRepository.save(any()))
+                .thenReturn(product);
+
+    }
+
     @Test
     void testFindAllReviewByProductIdShouldReturnCorrectResult() {
         when(this.reviewRepository.findAllByProductId(productServiceModel.getId()))

@@ -26,7 +26,7 @@
                     <th class="col-md-2 text-center"><img th:src="*{product.product.imageUrl}" alt="Product" height="75" width="75"></th>
                     <td class="col-md-3 text-center" th:text="*{product.product.name}"></td>
                     <td class="col-md-2 text-center" th:text="|*{product.product.description}...|"></td>
-                    <td class="col-md-2 text-center" th:text="|*{product.price} $|" ></td>
+                    <td class="col-md-2 text-center" th:text="|*{product.price}$|" ></td>
                     <td class="col-md-1 text-center" th:text="|*{quantity} pc.|"></td>
                     <td class="col-md-2 text-center">
                         <form th:action="@{/cart/remove-product}" th:method="post">
@@ -42,7 +42,7 @@
         </table>
         <hr class="hr-2 bg-dark">
         <div class="text-center">
-            <h3 th:text="|Total: ${totalPrice} $|"></h3>
+            <h3 th:text="|Total: ${totalPrice}$|"></h3>
         </div>
         <form th:action="@{/cart/checkout}" th:method="get">
             <div class="button-holder d-flex justify-content-center">
