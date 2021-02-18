@@ -106,7 +106,7 @@ function productsAppend(products) {
                     }
                 });
                 let price = document.createElement('span');
-                price.textContent = product.price + ' $';
+                price.textContent = product.price.toFixed(2) + ' $';
                 article.appendChild(price);
                 let a = document.createElement('a');
                 a.href = "/products/details/" + product.id;

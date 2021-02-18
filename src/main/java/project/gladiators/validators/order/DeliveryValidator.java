@@ -84,5 +84,9 @@ public class DeliveryValidator  implements org.springframework.validation.Valida
                     INVALID_ZIP_CODE_LENGTH);
         }
 
+        if(!deliveryBindingModel.getPhoneNumber().matches("0[0-9]{9,19}")){
+            errors.rejectValue("phoneNumber",INVALID_PHONE_NUMBER,INVALID_PHONE_NUMBER);
+        }
+        
     }
 }

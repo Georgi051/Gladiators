@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import project.gladiators.model.entities.Product;
 import project.gladiators.model.entities.Review;
 import project.gladiators.model.entities.User;
+import project.gladiators.repository.ProductRepository;
 import project.gladiators.repository.ReviewRepository;
 import project.gladiators.service.ProductService;
 import project.gladiators.service.ReviewService;
@@ -27,14 +28,16 @@ import static project.gladiators.constants.UserMassages.NEW_COMMENT;
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProductService productService;
+    private final ProductRepository productRepository;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ProductService productService, UserService userService, ModelMapper modelMapper) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ProductService productService, ProductRepository productRepository, UserService userService, ModelMapper modelMapper) {
         this.reviewRepository = reviewRepository;
         this.productService = productService;
+        this.productRepository = productRepository;
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
@@ -79,7 +82,7 @@ public class ReviewServiceImpl implements ReviewService {
         newReview.setProduct(currentProduct);
         newReview.getProduct().getReviews().add(newReview);
         this.reviewRepository.save(newReview);
-
+        this.productRepository.save(currentProduct);
     }
 
     @Override

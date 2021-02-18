@@ -9,4 +9,5 @@ public class DeliveryConstants {
     public final static String CITY_CANNOT_BE_LESS_THAN_ONE_CHARACTER = "Please add your city";
     public final static String INVALID_CITY_LENGTH = "Invalid city length";
     public final static String INVALID_ZIP_CODE_LENGTH = "Invalid zip code length";
+    public final static String INVALID_PHONE_NUMBER= "Wrong phone number length or using white spaces at the beginning, between, or at the end of number";
 }

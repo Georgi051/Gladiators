@@ -21,7 +21,7 @@
         <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">
             <tr class="row">
                 <td class="col-md-5 text-center" th:text="*{product.product.name}"></td>
-                <td class="col-md-4 text-center" th:text="|*{product.price}$|" ></td>
+                <td class="col-md-4 text-center" th:text="|*{product.price} $|" ></td>
                 <td class="col-md-3 text-center" th:text="|*{quantity} pc.|"></td>
             </tr>
         </th:block>
@@ -29,7 +29,7 @@
     </table>
     <hr class="hr-2 bg-dark">
     <div class="text-center">
-        <h3 th:text="|Total: ${totalPrice}$|"></h3>
+        <h3 th:text="|Total: ${totalPrice} $|"></h3>
     </div>
     <form th:action="@{/payment/pay}" th:object="${delivery}" th:method="post" >
 
@@ -80,7 +80,7 @@
                             </div>
                             <div>
                                 <label for="zip">Zip</label>
-                                <input type="number"  th:field="*{zip}"  name="zip" id="zip" >
+                                <input type="number" required="1000" th:field="*{zip}"  name="zip" id="zip" >
                                 <small class="text-danger" th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></small>
                             </div>
                             <div>
