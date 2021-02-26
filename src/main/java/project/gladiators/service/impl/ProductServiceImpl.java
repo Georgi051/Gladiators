@@ -51,7 +51,6 @@ public class ProductServiceImpl implements ProductService {
             String imageUrl = productImage.isEmpty() ? "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg"
                     : this.cloudinaryService.uploadImageToCurrentFolder(productImage, "products");
             product.setBuyingCounter(0);
-            product.setReviews(null);
             product.setImageUrl(imageUrl);
             product.setDeleted(false);
             SubCategoryServiceModel subCategoryServiceModel = productServiceModel

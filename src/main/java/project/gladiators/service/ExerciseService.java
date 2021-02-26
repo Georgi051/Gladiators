@@ -11,5 +11,5 @@ public interface ExerciseService {
 
     List<ExerciseServiceModel> findAll();
 
-    void addExercise(ExerciseServiceModel exerciseServiceModel, MultipartFile imageUrl) throws IOException;
+    void addExercise(ExerciseServiceModel exerciseServiceModel);
 }

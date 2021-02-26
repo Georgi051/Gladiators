@@ -140,7 +140,7 @@ public class MessageServiceImplTest {
     public void getMessageInfo_shouldReturnMessageInfo(){
         when(messageRepository.findById("1"))
                 .thenReturn(Optional.of(message));
-        MessageViewModel messageViewModel = messageService.getMessageInfo("1");
+        MessageViewModel messageViewModel = messageService.getMessageInfo("1", null);
         assertEquals("Test", messageViewModel.getTitle());
 
     }

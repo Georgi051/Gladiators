@@ -71,7 +71,7 @@
         <th:block th:each="product: ${products}" th:object="${product}">
             <article class="product-article">
                 <img th:src="${product.imageUrl}" alt="">
-                <span th:text="${product.name}"></span>
+                <span style="max-width: 90px" th:text="${product.name}"></span>
 
                 <th:block th:each="offer: ${offers}" th:object="${product}">
                     <th:block th:if="${product.name} == ${offer.product.name}">

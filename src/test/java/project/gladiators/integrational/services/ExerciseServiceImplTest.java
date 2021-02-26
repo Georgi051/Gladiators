@@ -65,13 +65,10 @@ public class ExerciseServiceImplTest {
     @Test
     public void addExercise_shouldAddExerciseInRepo() throws IOException {
 
-        MultipartFile multipartFile = new MockMultipartFile("picture",
-                "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg",
-                IMAGE_JPEG.getMimeType(), (byte[]) null);
         ExerciseServiceModel exerciseServiceModel = modelMapper
                 .map(exercise, ExerciseServiceModel.class);
 
-        exerciseService.addExercise(exerciseServiceModel, multipartFile);
+        exerciseService.addExercise(exerciseServiceModel);
 
         verify(exerciseRepository).saveAndFlush(any(Exercise.class));
     }

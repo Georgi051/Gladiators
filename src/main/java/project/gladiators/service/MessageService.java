@@ -5,6 +5,7 @@ import project.gladiators.service.serviceModels.MessageServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.web.viewModels.MessageViewModel;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface MessageService {
@@ -17,7 +18,7 @@ public interface MessageService {
 
     void sendMessage(UserServiceModel messageFrom, String id, String message, String title);
 
-    MessageViewModel getMessageInfo(String id);
+    MessageViewModel getMessageInfo(String id, HttpSession httpSession);
 
     List<MessageViewModel> getSortedMessagesByUserId(String id);
 }

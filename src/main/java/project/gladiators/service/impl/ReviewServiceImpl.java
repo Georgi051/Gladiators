@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static project.gladiators.constants.UserMassages.ALREADY_COMMENT;
-import static project.gladiators.constants.UserMassages.NEW_COMMENT;
+import static project.gladiators.constants.UserMessages.ALREADY_COMMENT;
+import static project.gladiators.constants.UserMessages.NEW_COMMENT;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -80,9 +80,7 @@ public class ReviewServiceImpl implements ReviewService {
         Product currentProduct = this.modelMapper.map(product, Product.class);
         Review newReview = this.modelMapper.map(review, Review.class);
         newReview.setProduct(currentProduct);
-        newReview.getProduct().getReviews().add(newReview);
         this.reviewRepository.save(newReview);
-        this.productRepository.save(currentProduct);
     }
 
     @Override

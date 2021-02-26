@@ -95,9 +95,18 @@
                     <div style="margin-top: 5%">
                         <label style="color: orange" class="font-weight-bold">Pay method</label>
                         <div>
-                            <input checked type="radio" name="payMethod" th:value="cash" />Cash
+                            <th:block th:if="${hasTrainingPlan == true && order.products.size() == 1}">
+                                <input type="radio" name="payMethod" th:value="paypal" />PayPal
+                            </th:block>
+                            <th:block th:if="${hasTrainingPlan == true && order.products.size() > 1}">
+                                <input checked type="radio" name="payMethod" th:value="cash" />Cash
+                                <input type="radio" name="payMethod" th:value="paypal" />PayPal
+                            </th:block>
+                            <th:block th:if="${hasTrainingPlan == false}">
+                                <input checked type="radio" name="payMethod" th:value="cash" />Cash
+                                <input type="radio" name="payMethod" th:value="paypal" />PayPal
+                            </th:block>
 
-                            <input type="radio" name="payMethod" th:value="paypal" />PayPal
                         </div>
                     </div>
                 </div>

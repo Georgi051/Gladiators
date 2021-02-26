@@ -37,6 +37,7 @@ public class TrainerController extends BaseController {
     private final ExerciseService exerciseService;
     private final MuscleService muscleService;
     private final CustomerService customerService;
+    private final UserService userService;
     private final TrainingPlanService trainingPlanService;
     private final WorkoutService workoutService;
     private final WorkoutExerciseInfoService workoutExerciseInfoService;
@@ -48,13 +49,14 @@ public class TrainerController extends BaseController {
     private final AddTrainingPlanToCustomerValidator addTrainingPlanToCustomerValidator;
 
     @Autowired
-    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CustomerService customerService, TrainingPlanService trainingPlanService,
+    public TrainerController(TrainerService trainerService, ExerciseService exerciseService, MuscleService muscleService, CustomerService customerService, UserService userService, TrainingPlanService trainingPlanService,
                              WorkoutService workoutService, WorkoutExerciseInfoService workoutExerciseInfoService, ModelMapper modelMapper, AddExerciseValidator addExerciseValidator, AddWorkoutValidator addWorkoutValidator,
                              AddTrainingPlanValidator addTrainingPlanValidator, TrainerRegisterValidator trainerRegisterValidator, AddTrainingPlanToCustomerValidator addTrainingPlanToCustomerValidator) {
         this.trainerService = trainerService;
         this.exerciseService = exerciseService;
         this.muscleService = muscleService;
         this.customerService = customerService;
+        this.userService = userService;
         this.trainingPlanService = trainingPlanService;
         this.workoutService = workoutService;
         this.workoutExerciseInfoService = workoutExerciseInfoService;
@@ -69,7 +71,7 @@ public class TrainerController extends BaseController {
     @PreAuthorize("hasRole('TRAINER_UNCONFIRMED')")
     @GetMapping("/confirmation")
     @PageTitle("Trainer confirmation")
-    public ModelAndView confirm(ModelAndView modelAndView) {
+    public ModelAndView confirm(ModelAndView modelAndView, Principal principal) {
         modelAndView.addObject("trainer", new TrainerRegisterBindingModel());
         return super.view("/trainer/trainer-confirm", modelAndView);
     }
@@ -124,7 +126,7 @@ public class TrainerController extends BaseController {
     @PostMapping("/add-exercise")
     @PageTitle("Add exercise")
     public ModelAndView addExercise(@Valid @ModelAttribute(name = "exercise") ExerciseAddBindingModel exerciseAddBindingModel, BindingResult result,
-                                    RedirectAttributes redirectAttributes) throws IOException {
+                                    RedirectAttributes redirectAttributes) {
         addExerciseValidator.validate(exerciseAddBindingModel, result);
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
@@ -137,7 +139,7 @@ public class TrainerController extends BaseController {
             return super.view("/trainer/exercise-add", modelAndView);
         }
         ExerciseServiceModel exerciseServiceModel = this.modelMapper.map(exerciseAddBindingModel, ExerciseServiceModel.class);
-        this.exerciseService.addExercise(exerciseServiceModel, exerciseAddBindingModel.getImageUrl());
+        this.exerciseService.addExercise(exerciseServiceModel);
 
         redirectAttributes.addFlashAttribute("statusMessage", "You created exercise successful");
         redirectAttributes.addFlashAttribute("statusCode", "successful");

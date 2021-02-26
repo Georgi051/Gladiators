@@ -31,5 +31,4 @@ public class Customer extends BaseEntity{
     @OneToOne
     private User user;
 
-
 }

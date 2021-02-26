@@ -18,7 +18,7 @@ public class RolesInitialization implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (roleRepository.count() == 0) {
             this.roleRepository.save(new Role("ROLE_ROOT"));
             this.roleRepository.save(new Role("ROLE_ADMIN"));

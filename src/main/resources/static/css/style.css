@@ -1482,20 +1482,20 @@ form .form-group {
 
 .nav-shop {
     display: flex;
-    margin-left: 30px;
 }
 
 .nav-shop ul {
     display: flex;
     margin: 0 auto;
     background: #BA8B00;
+    align-items: flex-end;
 }
-
 
 .nav-shop ul li a {
     margin-right: 10px;
     color: white;
     border-bottom: 2px solid white;
+    max-width: fit-content;
 }
 
 .navbar img {
@@ -2036,7 +2036,6 @@ body > nav > div > div.dropdown.border.rounded > i.fas.fa-envelope{
 .sorting-and-filters {
     width: 19%;
     position: absolute;
-    top: 86px;
     color: white;
     border: 1px solid white;
     padding-top: 10px;

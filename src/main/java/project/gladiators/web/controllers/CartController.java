@@ -19,6 +19,7 @@ import project.gladiators.service.serviceModels.OrderServiceModel;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static project.gladiators.constants.ShoppingCartConstants.NO_PRODUCT;
 import static project.gladiators.constants.ShoppingCartConstants.SHOPPING_CART;
@@ -94,8 +95,21 @@ public class CartController extends BaseController {
         modelAndView.addObject("totalPrice", this.cartService.calcTotal(session));
         OrderServiceModel orderServiceModel = this.cartService.prepareOrder(session,principal.getName());
         modelAndView.addObject("order", orderServiceModel);
+        boolean hasTrainingPlan = checkForTrainingPlan(orderServiceModel);
+        modelAndView.addObject("hasTrainingPlan", hasTrainingPlan);
         return super.view("cart/checkout", modelAndView);
 
+    }
+
+    private boolean checkForTrainingPlan(OrderServiceModel orderServiceModel) {
+        AtomicBoolean containsTrainingPlan = new AtomicBoolean(false);
+        orderServiceModel.getProducts().forEach(orderProductServiceModel -> {
+               if(orderProductServiceModel.getProduct().getName().equals("Training plan")){
+                   containsTrainingPlan.set(true);
+               }
+                }
+        );
+        return containsTrainingPlan.get();
     }
 
 }

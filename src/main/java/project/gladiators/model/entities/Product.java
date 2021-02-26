@@ -38,9 +38,6 @@ public class Product extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.REMOVE},fetch = FetchType.EAGER)
-    private List<Review> reviews;
-
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 

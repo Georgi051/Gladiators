@@ -12,6 +12,7 @@ import project.gladiators.service.serviceModels.MessageServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.web.viewModels.MessageViewModel;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -56,8 +57,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public MessageViewModel getMessageInfo(String id) {
+    public MessageViewModel getMessageInfo(String id, HttpSession httpSession) {
 
+        httpSession.setAttribute("unreadMessages", false);
         MessageServiceModel messageServiceModel = this.findById(id);
 
         this.changeStatusToRead(messageServiceModel);

@@ -30,8 +30,8 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static project.gladiators.constants.UserMassages.ALREADY_COMMENT;
-import static project.gladiators.constants.UserMassages.NEW_COMMENT;
+import static project.gladiators.constants.UserMessages.ALREADY_COMMENT;
+import static project.gladiators.constants.UserMessages.NEW_COMMENT;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)

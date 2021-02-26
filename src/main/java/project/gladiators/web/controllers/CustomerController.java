@@ -58,7 +58,7 @@ public class CustomerController extends BaseController{
 
 
     @GetMapping("/registration")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("!hasRole('ROLE_CUSTOMER')")
     @PageTitle("Customer Registration")
     public ModelAndView registration(@ModelAttribute(name = "customer") CustomerRegisterBindingModel customer, ModelAndView modelAndView) {
         modelAndView.addObject("customer", customer);

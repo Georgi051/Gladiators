@@ -18,7 +18,6 @@ public class ExerciseAddBindingModel {
 
     private String name;
     private String description;
-    private MultipartFile imageUrl;
     @NotEmpty(message = "You must select one or more muscle.")
     private Set<Muscle> muscles;
 }

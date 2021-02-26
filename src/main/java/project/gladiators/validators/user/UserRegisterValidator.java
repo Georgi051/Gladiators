@@ -48,7 +48,7 @@ public class UserRegisterValidator implements org.springframework.validation.Val
             errors.rejectValue("password", PASSWORD_CANNOT_BE_EMPTY,
                     PASSWORD_CANNOT_BE_EMPTY);
         }else {
-            Pattern pattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}\\S+$");
+            Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*_#?&])[A-Za-z\\d@$!%*#?&]{6,}$");
             if(!pattern.matcher(userRegisterBindingModel.getPassword()).matches()){
                 errors.rejectValue("password", PASSWORD_NOT_VALID,
                         PASSWORD_NOT_VALID);

@@ -70,7 +70,6 @@ public class ProductServiceImplTest {
         product.setDeleted(false);
         product.setQuantity(20);
         product.setBuyingCounter(0);
-        product.setReviews(new ArrayList<>());
         multipartFile =  new MockMultipartFile("picture",
                 "https://res.cloudinary.com/gladiators/image/upload/v1599061356/No-image-found_vtfx1x.jpg",
                 IMAGE_JPEG.getMimeType(), (byte[]) null);

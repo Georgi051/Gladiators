@@ -12,6 +12,7 @@ import project.gladiators.service.serviceModels.MessageServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 import project.gladiators.validators.customer.SendMessageValidator;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -32,9 +33,9 @@ public class MessageController extends BaseController{
     @GetMapping("/")
     @PageTitle("Message")
     public ModelAndView messageInfo(@RequestParam("id") String id,
-                                    ModelAndView modelAndView){
+                                    ModelAndView modelAndView, HttpSession httpSession){
 
-        modelAndView.addObject("message", this.messageService.getMessageInfo(id));
+        modelAndView.addObject("message", this.messageService.getMessageInfo(id, httpSession));
         return super.view("user/message-info", modelAndView);
     }
 

@@ -49,12 +49,6 @@
                    th:text="${error}"></small>
         </div>
 
-        <div class="form-group">
-            <label for="imageUrl">Upload exercise image</label>
-            <input th:field="*{imageUrl}" type="file" class="form-control" id="imageUrl">
-            <small class="text-danger" th:errors="*{imageUrl}"></small>
-        </div>
-
         <button type="submit" class="btn btn-primary ">Submit</button>
     </form>
 </div>
