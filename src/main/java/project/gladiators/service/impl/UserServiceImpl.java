@@ -16,25 +16,18 @@ import project.gladiators.constants.RoleConstants;
 import project.gladiators.exceptions.UserNotFoundException;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
-import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.Role;
 import project.gladiators.model.entities.User;
-import project.gladiators.model.entities.VerificationToken;
 import project.gladiators.model.enums.Gender;
 import project.gladiators.repository.UserRepository;
-import project.gladiators.repository.VerificationTokenRepository;
 import project.gladiators.service.*;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
-import project.gladiators.web.viewModels.UserViewModel;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,17 +40,15 @@ public class UserServiceImpl implements UserService {
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final VerificationTokenRepository tokenRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, VerificationTokenRepository tokenRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, CloudinaryService cloudinaryService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
 
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -77,7 +68,6 @@ public class UserServiceImpl implements UserService {
         User user = this.modelMapper.map(userServiceModel, User.class);
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
         user.setRegisteredOn(LocalDateTime.now());
-        user.setEnabled(false);
         this.userRepository.saveAndFlush(user);
         return this.modelMapper.map(user, UserServiceModel.class);
     }
@@ -260,17 +250,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveRegisteredUser(User user) {
         this.userRepository.save(user);
-    }
-
-    @Override
-    public void createVerificationToken(User user, String token) {
-        VerificationToken myToken = new VerificationToken(user, token);
-        tokenRepository.save(myToken);
-    }
-
-    @Override
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return tokenRepository.findByToken(VerificationToken);
     }
 
     private void sessionDynamicRoleChange(Role addRole, Role removeRole) {

@@ -54,9 +54,6 @@ public class User extends BaseEntity implements UserDetails {
             ,inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
     private Set<Role> authorities;
 
-    @Column(name = "enabled")
-    private boolean enabled;
-
     public User() {
         super();
     }
@@ -82,7 +79,7 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return true;
     }
 
     @Override

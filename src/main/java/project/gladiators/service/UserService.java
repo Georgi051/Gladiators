@@ -4,9 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 import project.gladiators.model.bindingModels.RoleChangeBindingModel;
 import project.gladiators.model.bindingModels.UserEditBindingModel;
-import project.gladiators.model.bindingModels.UserRegisterBindingModel;
 import project.gladiators.model.entities.User;
-import project.gladiators.model.entities.VerificationToken;
 import project.gladiators.service.serviceModels.RoleServiceModel;
 import project.gladiators.service.serviceModels.UserServiceModel;
 
@@ -44,9 +42,5 @@ public interface UserService  extends UserDetailsService {
     void changeUserRole(String id, RoleChangeBindingModel roleChangeBindingModel);
 
     void saveRegisteredUser(User user);
-
-    void createVerificationToken(User user, String token);
-
-    VerificationToken getVerificationToken(String VerificationToken);
 
 }
